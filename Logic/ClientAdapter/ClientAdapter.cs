@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Logic.ClientAdapter
 {
-    class ClientAdapter
+    public class ClientAdapter
     {
 
         public void GetStudies(int userID)
