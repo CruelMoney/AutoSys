@@ -1,7 +1,8 @@
-﻿using StorageManagement.Data;
-using System.Linq;
+﻿using System.Linq;
+using BibliographyParser;
+using Logic.Data;
 
-namespace BibliographyParser
+namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
     /// Default <see cref="IItemChecker"/> implementation for when no custom checker is specified.

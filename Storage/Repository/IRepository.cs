@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Repository
+namespace Storage.Repository
 {
     public interface IRepository<T> where T : IEntity
     {

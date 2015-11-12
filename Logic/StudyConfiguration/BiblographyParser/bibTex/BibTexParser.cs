@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using StorageManagement.Data;
+using BibliographyParser;
+using Logic.Data;
 
-namespace BibliographyParser.BibTex
+
+namespace Logic.StudyConfiguration.BiblographyParser.bibTex
+
 {
     /// <summary>
     /// Parses text containing bibliographic data in BibTex format into a collection of bibliography <see cref="Item"/> objects.

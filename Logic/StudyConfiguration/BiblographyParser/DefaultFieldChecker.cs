@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using BibliographyParser;
 
-namespace BibliographyParser
+namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
     /// Default <see cref="IFieldChecker"/> implementation. Matches all strings that do not contain newlines.

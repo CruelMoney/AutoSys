@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 
-namespace Repository
+namespace Storage.Repository
 {
     public class Document : IEntity
     {

@@ -1,4 +1,4 @@
-﻿namespace Repository
+﻿namespace Storage.Repository
 {
     public interface IEntity
     {
