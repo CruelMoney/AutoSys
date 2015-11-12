@@ -73,6 +73,9 @@
     <Compile Include="StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\ItemValidator.cs" />
+    <Compile Include="TaskManagement\TaskDeliver.cs" />
+    <Compile Include="TaskManagement\TaskGenerator.cs" />
+    <Compile Include="TaskManagement\TaskRequester.cs" />
     <Compile Include="TeamCRUD\TeamManagement.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,9 +83,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ClientAdapter\" />
     <Folder Include="StudyOverview\" />
-    <Folder Include="TaskManagement\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
