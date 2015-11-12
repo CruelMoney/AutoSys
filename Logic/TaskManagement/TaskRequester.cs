@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Logic.TaskManagement
 {
-    class TaskRequester
+    public class TaskRequester
     {
+        public TaskRequester(TaskGenerator generator)
+        {
+            
+        }
+
     }
 }
