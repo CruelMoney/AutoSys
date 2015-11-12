@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
+using Storage.Repository;
 
-namespace Storage.Repository
+namespace Logic.Data
 {
     public class User : IEntity
     {
