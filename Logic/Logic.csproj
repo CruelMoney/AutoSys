@@ -81,6 +81,7 @@
     <Compile Include="TaskManagement\TaskGenerator.cs" />
     <Compile Include="TaskManagement\TaskRequester.cs" />
     <Compile Include="TeamCRUD\TeamManagement.cs" />
+    <Compile Include="TeamCRUD\UserManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
