@@ -7,7 +7,7 @@ using Logic.StorageManagement;
 
 namespace Logic.TeamCRUD
 {
-    class TeamManagement
+    public class TeamManagement
     {
         TeamSaver _teamSaver;
 
