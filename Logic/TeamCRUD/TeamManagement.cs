@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic.TeamCRUD
 {
-    class TeamManagement
+    public class TeamManagement
     {
         public TeamManagement()
         {

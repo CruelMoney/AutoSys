@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    class ClientAdapter
+    public class ClientAdapter
     {
 
         public void GetStudies(int userID)
