@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientAdapter\ClientFacade.cs" />
+    <Compile Include="ClientAdapter\ClientAdapter.cs" />
     <Compile Include="Data\Item.cs" />
     <Compile Include="Data\StudyDataContext.cs" />
     <Compile Include="Program.cs" />
