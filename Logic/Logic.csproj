@@ -80,6 +80,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClientAdapter\" />
     <Folder Include="StudyOverview\" />
     <Folder Include="TaskManagement\" />
   </ItemGroup>
