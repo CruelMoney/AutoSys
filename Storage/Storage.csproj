@@ -65,8 +65,6 @@
     <Compile Include="Repository\IEntity.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IStock.cs" />
-    <Compile Include="Repository\Study.cs" />
-    <Compile Include="Repository\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
