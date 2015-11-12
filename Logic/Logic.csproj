@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientAdapter\ClientFacade.cs" />
     <Compile Include="Data\Item.cs" />
     <Compile Include="Data\StudyDataContext.cs" />
     <Compile Include="Program.cs" />
@@ -80,6 +79,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClientAdapter\" />
     <Folder Include="StudyOverview\" />
     <Folder Include="TaskManagement\" />
   </ItemGroup>
