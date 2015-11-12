@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientAdapter\ClientAdapter.cs" />
+    <Compile Include="Data\Phase.cs" />
     <Compile Include="Data\Item.cs" />
     <Compile Include="Data\Study.cs" />
     <Compile Include="Data\StudyDataContext.cs" />
