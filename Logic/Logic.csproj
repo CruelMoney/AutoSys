@@ -60,6 +60,7 @@
     <Compile Include="StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\ItemValidator.cs" />
+    <Compile Include="TeamCRUD\TeamManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -67,7 +68,6 @@
   <ItemGroup>
     <Folder Include="StudyOverview\" />
     <Folder Include="TaskManagement\" />
-    <Folder Include="TeamCRUD\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
