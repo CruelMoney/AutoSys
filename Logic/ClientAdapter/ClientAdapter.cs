@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Logic
+namespace Logic.ClientAdapter
 {
-    class ClientAdapter
+    public class ClientAdapter
     {
 
         public void GetStudies(int userID)

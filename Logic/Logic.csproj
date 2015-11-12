@@ -77,6 +77,9 @@
     <Compile Include="StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\ItemValidator.cs" />
+    <Compile Include="TaskManagement\TaskDeliver.cs" />
+    <Compile Include="TaskManagement\TaskGenerator.cs" />
+    <Compile Include="TaskManagement\TaskRequester.cs" />
     <Compile Include="TeamCRUD\TeamManagement.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StudyOverview\" />
-    <Folder Include="TaskManagement\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Storage\Storage.csproj">

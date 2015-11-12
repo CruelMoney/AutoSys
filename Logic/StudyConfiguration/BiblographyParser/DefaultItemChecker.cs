@@ -8,7 +8,7 @@ namespace Logic.StudyConfiguration.BiblographyParser
     /// Default <see cref="IItemChecker"/> implementation for when no custom checker is specified.
     /// When all fields contained by the item are valid, the item is valid.
     /// </summary>
-    class DefaultItemChecker : IItemChecker
+    public class DefaultItemChecker : IItemChecker
     {
         readonly FieldValidator _validator = new FieldValidator();
 

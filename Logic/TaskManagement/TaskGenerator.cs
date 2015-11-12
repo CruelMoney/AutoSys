@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic
+namespace Logic.TaskManagement
 {
-    public class Program
+    class TaskGenerator
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }
