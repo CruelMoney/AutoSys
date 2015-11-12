@@ -1,8 +1,6 @@
-﻿using Repository;
-using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 
-namespace Repository
+namespace Storage.Repository
 {
     public class Study : IEntity
     {

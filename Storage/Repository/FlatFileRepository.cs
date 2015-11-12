@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Repository
+namespace Storage.Repository
 {
     public class FlatFileInventory<T> : IRepository<T> where T : IEntity
     {

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 
-namespace Repository
+namespace Storage.Repository
 {
     public class User : IEntity
     {

@@ -1,5 +1,6 @@
 ﻿using StorageManagement.Data;
 using System.Collections.Generic;
+using Logic.StudyConfiguration.BiblographyParser;
 
 namespace BibliographyParser
 {

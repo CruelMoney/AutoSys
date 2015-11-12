@@ -1,6 +1,8 @@
-﻿using StorageManagement.Data;
+﻿
 
-namespace BibliographyParser
+using Logic.Data;
+
+namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
     /// Interface for field checkers.

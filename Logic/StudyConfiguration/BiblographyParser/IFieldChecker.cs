@@ -1,4 +1,4 @@
-﻿namespace BibliographyParser
+﻿namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
     /// Interface for field checkers.
