@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StorageManagement
 {
-    public class StudyRequester
+     class StudyRequester
     {
     }
 }
