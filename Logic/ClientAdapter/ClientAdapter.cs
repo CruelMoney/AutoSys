@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientFacade
+namespace Logic
 {
-    class ClientAdaptor
+    class ClientAdapter
     {
 
         public void GetStudies(int userID)
