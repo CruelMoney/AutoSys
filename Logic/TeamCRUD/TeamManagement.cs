@@ -10,34 +10,34 @@ namespace Logic.TeamCRUD
 {
     public class TeamManagement
     {
-        TeamManager _teamManager;
+        TeamStorageManager _teamStorageManager;
 
         public TeamManagement()
         {
-            _teamManager = new TeamManager();
+            _teamStorageManager = new TeamStorageManager();
         }
 
         public void CreateTeam()
         {
-            //_teamManager.CreateTeam();
+            //_teamStorageManager.CreateTeam();
             throw new NotImplementedException();
         }
 
         public void UpdateTeam()
         {
-            //_teamManager.UpdateTeam();
+            //_teamStorageManager.UpdateTeam();
             throw new NotImplementedException();
         }
 
         public void GetTeam()
         {
-            //_teamManager.GetTeam();
+            //_teamStorageManager.GetTeam();
             throw new NotImplementedException();
         }
 
         public void DeleteTeam()
         {
-            //_teamManager.RemoveTeam();
+            //_teamStorageManager.RemoveTeam();
             throw new NotImplementedException();
         }
 

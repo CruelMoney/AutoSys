@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Logic.StorageManagement
 {
-    public class StudyManager
+    public class StudyStorageManager
     {
         IRepository _studyRepo;
-        public StudyManager()
+        public StudyStorageManager()
         {
         }
 
-        public StudyManager(IRepository repo)
+        public StudyStorageManager(IRepository repo)
         {
             _studyRepo = repo;
         }
