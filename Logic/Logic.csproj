@@ -60,7 +60,15 @@
     <Compile Include="Data\Criteria.cs" />
     <Compile Include="Data\Phase.cs" />
     <Compile Include="Data\Item.cs" />
+    <Compile Include="Data\StoredData\StoredCriteria.cs" />
+    <Compile Include="Data\StoredData\StoredItem.cs" />
+    <Compile Include="Data\StoredData\StoredPhase.cs" />
+    <Compile Include="Data\StoredData\StoredStudy.cs" />
+    <Compile Include="Data\StoredData\StoredTask.cs" />
+    <Compile Include="Data\StoredData\StoredTeam.cs" />
+    <Compile Include="Data\StoredData\StoredUser.cs" />
     <Compile Include="Data\Study.cs" />
+    <Compile Include="Data\StudyDataContextcs.cs" />
     <Compile Include="Data\Task.cs" />
     <Compile Include="Data\Team.cs" />
     <Compile Include="Data\User.cs" />
@@ -89,7 +97,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\StoredData\" />
     <Folder Include="StudyOverview\" />
   </ItemGroup>
   <ItemGroup>
