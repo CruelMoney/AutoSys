@@ -1,4 +1,4 @@
-﻿using StorageManagement.Data;
+﻿using Logic.Data;
 using System.Collections.Generic;
 using Logic.StudyConfiguration.BiblographyParser;
 
