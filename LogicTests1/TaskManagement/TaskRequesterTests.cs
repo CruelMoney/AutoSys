@@ -1,24 +1,18 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Logic.Data;
+using Logic.TaskManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Data.Tests
+namespace Logic.TaskManagement.Tests
 {
     [TestClass()]
-    public class TeamTests
+    public class TaskRequesterTests
     {
         [TestMethod()]
-        public void AddUserTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void RemoveUserTest()
+        public void TaskRequesterTest()
         {
             throw new NotImplementedException();
         }

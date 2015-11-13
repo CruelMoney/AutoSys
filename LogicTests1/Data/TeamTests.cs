@@ -1,42 +1,42 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Storage.Repository;
+using Logic.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Storage.Repository.Tests
+namespace Logic.Data.Tests
 {
     [TestClass()]
-    public class FlatFileInventoryTests
+    public class TeamTests
     {
         [TestMethod()]
-        public void DisposeTest()
+        public void CreateTeamTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void ReadTest()
+        public void AddUserTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void ReadTest1()
+        public void RemoveUserTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void CreateTest()
+        public void UpdateTeamTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void UpdateTest()
+        public void RetrieveTeamTest()
         {
             throw new NotImplementedException();
         }
