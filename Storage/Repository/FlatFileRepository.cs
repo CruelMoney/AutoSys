@@ -1,55 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Storage.Repository
 {
-    public class FlatFileInventory<T> : IRepository<T> where T : IEntity
+    public class FlatFileInventory<T> : IRepository where T : IEntity
     {
-
-        public FlatFileInventory(string filename)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Create(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Read(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> Read()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool Load()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Dispose()
         {
             throw new NotImplementedException();
         }
 
+        public IQueryable<T1> Read<T1>() where T1 : class, IEntity
+        {
+            throw new NotImplementedException();
+        }
+
+        public T1 Read<T1>(int id) where T1 : class, IEntity
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create<T1>(T1 entity) where T1 : class, IEntity
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update<T1>(T1 entity) where T1 : class, IEntity
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete<T1>(T1 entity) where T1 : class, IEntity
+        {
+            throw new NotImplementedException();
+        }
     }
 }

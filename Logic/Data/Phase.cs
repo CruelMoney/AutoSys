@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Data
 {
-    class Phase
+    public class Phase
     {
         public List<Task> TasksToDo { get; set; }
         public List<Task> Finishedtask { get; set; }
@@ -15,7 +15,10 @@ namespace Logic.Data
         {
             ReviewPhase,
             ValidatePhase
-         }
+        }
+
+        public void doSomething() {
+        }
 
 
      }

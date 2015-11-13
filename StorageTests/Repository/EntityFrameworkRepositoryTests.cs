@@ -18,6 +18,12 @@ namespace Storage.Repository.Tests
         }
 
         [TestMethod()]
+        public void EntityFrameworkRepositoryTest1()
+        {
+            throw new NotImplementedException();
+        }
+
+        [TestMethod()]
         public void CreateTest()
         {
             throw new NotImplementedException();
@@ -25,12 +31,6 @@ namespace Storage.Repository.Tests
 
         [TestMethod()]
         public void DeleteTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void DisposeTest()
         {
             throw new NotImplementedException();
         }
@@ -49,6 +49,12 @@ namespace Storage.Repository.Tests
 
         [TestMethod()]
         public void UpdateTest()
+        {
+            throw new NotImplementedException();
+        }
+
+        [TestMethod()]
+        public void DisposeTest()
         {
             throw new NotImplementedException();
         }

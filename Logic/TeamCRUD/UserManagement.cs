@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Logic.TeamCRUD
 {
-    class UserManagement
+    public class UserManagement
     {
         public void CreateUser()
         {

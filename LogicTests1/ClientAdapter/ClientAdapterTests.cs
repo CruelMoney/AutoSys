@@ -1,48 +1,54 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Storage.Repository;
+using Logic.ClientAdapter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Storage.Repository.Tests
+namespace Logic.ClientAdapter.Tests
 {
     [TestClass()]
-    public class FlatFileInventoryTests
+    public class ClientAdapterTests
     {
         [TestMethod()]
-        public void DisposeTest()
+        public void GetStudiesTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void ReadTest()
+        public void GetTasksTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void ReadTest1()
+        public void GetStudyOverviewTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void CreateTest()
+        public void DeliverTaskTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void UpdateTest()
+        public void GetResourceTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void DeleteTest()
+        public void GetReviewableTaskIDsTest()
+        {
+            throw new NotImplementedException();
+        }
+
+        [TestMethod()]
+        public void GetReviewableTasksTest()
         {
             throw new NotImplementedException();
         }
