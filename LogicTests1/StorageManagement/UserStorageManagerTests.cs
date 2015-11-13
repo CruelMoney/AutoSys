@@ -5,29 +5,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+using Storage.Repository;
 
 namespace Logic.StorageManagement.Tests
 {
     [TestClass()]
     public class UserStorageManagerTests
     {
+        // Dictionary<int, StoredUser> _users;
+        Mock<IRepository> mockUserRepo;
+        int id = 1;
+
+        [TestInitialize]
+        public void InitializeRepo()
+        {
+            id = 1;
+            // _users = new Dictionary<int, StoredUser>();
+            mockUserRepo = new Mock<IRepository>();
+
+            // Read item
+            // Read items
+            // Create 
+            // Update
+            // Delete
+
+        }
+
+        /// <summary>
+        /// Tests if a user has been added to the mock repo
+        /// </summary>
+
         [TestMethod()]
-        public void UserManagerTest()
+        public void AddUserTest()
         {
             throw new NotImplementedException();
         }
 
-        [TestMethod()]
-        public void UserManagerTest1()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void CreateUserTest()
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Tests if a user has been removed to the mock repo
+        /// </summary>
 
         [TestMethod()]
         public void RemoveUserTest()
@@ -35,20 +52,13 @@ namespace Logic.StorageManagement.Tests
             throw new NotImplementedException();
         }
 
-        [TestMethod()]
-        public void UpdateUserTest()
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Tests if an exception is thrown if one tries to remove a user, while
+        /// there are no users to remove
+        /// </summary>
 
         [TestMethod()]
-        public void SearchUsersTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void GetUserTest()
+        public void NoUserToRemoveTest()
         {
             throw new NotImplementedException();
         }

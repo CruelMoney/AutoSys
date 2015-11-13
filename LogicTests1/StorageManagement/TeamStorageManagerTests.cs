@@ -5,29 +5,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+using Storage.Repository;
 
 namespace Logic.StorageManagement.Tests
 {
     [TestClass()]
     public class TeamStorageManagerTests
     {
+        // Dictionary<int, StoredTeam> _teams;
+        Mock<IRepository> mockTeamRepo;
+        int id = 1;
+
+        [TestInitialize]
+        public void InitializeRepo()
+        {
+            id = 1;
+            // _teams = new Dictionary<int, StoredTeam>();
+            mockTeamRepo = new Mock<IRepository>();
+
+            // Read item
+            // Read items
+            // Create 
+            // Update
+            // Delete
+
+        }
+
+        /// <summary>
+        /// Tests if a team has been added to the mock repo
+        /// </summary>
+
         [TestMethod()]
-        public void TeamManagerTest()
+        public void AddTeamTest()
         {
             throw new NotImplementedException();
         }
 
-        [TestMethod()]
-        public void TeamManagerTest1()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void CreateTeamTest()
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Tests if a team has been removed to the mock repo
+        /// </summary>
 
         [TestMethod()]
         public void RemoveTeamTest()
@@ -35,26 +52,13 @@ namespace Logic.StorageManagement.Tests
             throw new NotImplementedException();
         }
 
-        [TestMethod()]
-        public void UpdateTeamTest()
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Tests if an exception is thrown if one tries to remove a team, while
+        /// there are no teams to remove
+        /// </summary>
 
         [TestMethod()]
-        public void TeamExistsByNameTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void SearchTeamsTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void GetTeamTest()
+        public void NoTeamToRemoveTest()
         {
             throw new NotImplementedException();
         }
