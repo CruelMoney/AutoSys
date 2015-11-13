@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Logic.StorageManagement.Tests
 {
     [TestClass()]
-    public class UserManagerTests
+    public class UserStorageManagerTests
     {
         [TestMethod()]
         public void UserManagerTest()

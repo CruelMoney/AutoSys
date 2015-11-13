@@ -58,10 +58,10 @@
     <Compile Include="Data\TeamTests.cs" />
     <Compile Include="ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StorageManagement\StudyManagerTests.cs" />
-    <Compile Include="StorageManagement\TaskManagerTests.cs" />
-    <Compile Include="StorageManagement\TeamManagerTests.cs" />
-    <Compile Include="StorageManagement\UserManagerTests.cs" />
+    <Compile Include="StorageManagement\StudyStorageManagerTests.cs" />
+    <Compile Include="StorageManagement\TaskStorageManagerTests.cs" />
+    <Compile Include="StorageManagement\TeamStorageManagerTests.cs" />
+    <Compile Include="StorageManagement\UserStorageManagerTests.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\DefaultFieldCheckerTests.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\DefaultItemCheckerTests.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\FieldValidatorTests.cs" />

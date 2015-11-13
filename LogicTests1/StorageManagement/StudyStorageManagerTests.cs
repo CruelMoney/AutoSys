@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 namespace Logic.StorageManagement.Tests
 {
     [TestClass()]
-    public class TaskManagerTests
+    public class StudyStorageManagerTests
     {
         [TestMethod()]
-        public void TaskManagerTest()
+        public void StudyManagerTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void TaskManagerTest1()
+        public void StudyManagerTest1()
         {
             throw new NotImplementedException();
         }
