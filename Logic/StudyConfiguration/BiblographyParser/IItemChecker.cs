@@ -5,7 +5,7 @@ using Logic.Data;
 namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
-    /// Interface for field checkers.
+    /// Interface for Field checkers.
     /// </summary>
     public interface IItemChecker
     {

@@ -1,4 +1,4 @@
-﻿using StorageManagement.Data;
+﻿using Logic.Data;
 using System.Collections.Generic;
 using Logic.StudyConfiguration.BiblographyParser;
 
@@ -16,7 +16,7 @@ namespace BibliographyParser
         /// Constructs a new ItemValidator.
         /// </summary>
         /// <param name="checkers">
-        /// A dictionary of field checkers per item type.
+        /// A dictionary of Field checkers per item type.
         /// If a checker for an item type is not specified, <see cref="DefaultFieldChecker"/> is used.
         /// </param>
         public ItemValidator(Dictionary<Item.ItemType, IItemChecker> checkers = null)

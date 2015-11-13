@@ -1,15 +1,15 @@
 ﻿namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
-    /// Interface for field checkers.
+    /// Interface for Field checkers.
     /// </summary>
     public interface IFieldChecker
     {
         /// <summary>
-        /// Checks whether a specified field is valid.
+        /// Checks whether a specified Field is valid.
         /// </summary>
-        /// <param name="field">The field to validate.</param>
-        /// <returns>true when the specified field is valid; false otherwise.</returns>
+        /// <param name="field">The Field to validate.</param>
+        /// <returns>true when the specified Field is valid; false otherwise.</returns>
         bool Validate(string field);
     }
 }

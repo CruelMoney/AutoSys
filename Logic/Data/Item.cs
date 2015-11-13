@@ -8,7 +8,7 @@ namespace Logic.Data
     public class Item
     {
         /// <summary>
-        ///     Type of a field associated to a bibliographic item.
+        ///     Type of a Field associated to a bibliographic item.
         /// </summary>
         public enum FieldType
         {

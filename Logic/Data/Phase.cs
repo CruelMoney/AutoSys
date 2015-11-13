@@ -8,8 +8,12 @@ namespace Logic.Data
 {
     public class Phase
     {
-        public List<Task> TasksToDo { get; set; }
-        public List<Task> Finishedtask { get; set; }
+
+
+        public Criteria PhaseCriteria;
+        public Dictionary<User, List<Task>> userTasks { get; set; }
+        public List<Task> finishedtask { get; set; }
+        public List<Task> conflictingTask { get; set; }
         public Boolean isFinished { get; set; }
         public enum PhaseType
         {
@@ -17,8 +21,8 @@ namespace Logic.Data
             ValidatePhase
         }
 
-        public void doSomething() {
-        }
+    
+       
 
 
      }

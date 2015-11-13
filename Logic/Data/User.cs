@@ -10,9 +10,11 @@ namespace Logic.Data
         public string MetaData { get; set; }
     }
 
-    public class UserContext : DbContext
+        public enum Role
     {
-        public DbSet<User> users { get; set; }
+            Reviewer,
+            Validator
+        }
     }
 
 }

@@ -11,7 +11,11 @@ namespace Logic.Data
     {
         public int Id { get; set; }
         public User AssociatedUser { get; set; }
-        public Boolean TaskDone { get; set; }
+        public bool TaskDone { get; set; }
+        public Item AssociatedItem { get; set; }
+        public KeyValuePair<Item.FieldType, string> FieldToFillOut { get; set; }
+
+
 
     }
 }

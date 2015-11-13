@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using Storage.Repository;
 using System;
+using System.Collections.Generic;
 
 namespace Logic.Data
 {
@@ -9,24 +10,10 @@ namespace Logic.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public Team AssociatedTeam { get; set; }
-
-        public void SetInclusionCriteria() //Idea for method
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetExclusionCriteria() //Idea for method
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    
-
-
-    public class StudyContext : DbContext
-    {
-        public DbSet<Study> studies { get; set; }
+        public List<Phase> StudyPhases { get; set; } 
+        public List<Criteria>  StudyCriteria { get; set; }
+        public List<Item> StudyData { get; set; }
+        public Dictionary<User, User.Role> Users { get; set; }
     }
 
 }
