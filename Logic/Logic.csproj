@@ -76,8 +76,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StorageManagement\StudyRequester.cs" />
     <Compile Include="StorageManagement\StudySaver.cs" />
+    <Compile Include="StorageManagement\TaskRequester.cs" />
     <Compile Include="StorageManagement\TaskSaver.cs" />
+    <Compile Include="StorageManagement\TeamRequester.cs" />
     <Compile Include="StorageManagement\TeamSaver.cs" />
+    <Compile Include="StorageManagement\UserRequester.cs" />
+    <Compile Include="StorageManagement\UserSaver.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\bibTex\BibTexParser.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\DefaultFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\DefaultItemChecker.cs" />

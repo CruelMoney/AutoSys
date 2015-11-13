@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.StorageManagement;
+using Logic.Data;
 
 namespace Logic.TeamCRUD
 {
     public class TeamManagement
     {
         TeamSaver _teamSaver;
+        TeamRequester _teamRequester;
 
         public TeamManagement()
         {
+            _teamRequester = new TeamRequester();
             _teamSaver = new TeamSaver();
         }
 
@@ -21,9 +24,11 @@ namespace Logic.TeamCRUD
             _teamSaver = teamSaver;
         }
 
-        public void CreateTeam()
+        public void CreateTeam(String TeamName, IEnumerable<User> UserList, String MetaData)
         {
-            throw new NotImplementedException();
+            if(_teamRequester.g)
+            var TeamToSend = new Team(TeamName, UserList, MetaData);
+
         }
 
         public void AddUserToTeam()

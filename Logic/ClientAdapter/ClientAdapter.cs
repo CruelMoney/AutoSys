@@ -5,7 +5,7 @@ namespace Logic.ClientAdapter
 {
     public class ClientAdapter
     {
-
+         
         public void GetStudies(int userID)
         {
             //retrieves all the studyIDs a user belongs to.
