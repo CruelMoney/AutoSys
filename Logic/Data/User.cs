@@ -7,6 +7,7 @@ namespace Logic.Data
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string MetaData { get; set; }
     }
 
     public class UserContext : DbContext
