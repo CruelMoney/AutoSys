@@ -53,7 +53,7 @@ namespace Logic.StudyConfiguration.BiblographyParser.bibTex
             {
                 try
                 {
-                    // Get the BibTex item and associated field values.
+                    // Get the BibTex item and associated Field values.
                     string key = match.Groups[2].Value;
                     Item.ItemType type = (Item.ItemType)Enum.Parse(typeof(Item.ItemType), match.Groups[1].Value, true);
                     Dictionary<Item.FieldType, string> fields = ParseItem(match.Groups[3].Value);
@@ -84,12 +84,12 @@ namespace Logic.StudyConfiguration.BiblographyParser.bibTex
             // Collection to store the BibTex items.
             var items = new Dictionary<Item.FieldType, string>();
 
-            // Iterate over every field.
+            // Iterate over every Field.
             foreach (Match match in matchCollection)
             {
                 try
                 {
-                    // Get the field type and value.
+                    // Get the Field type and value.
                     var key = (Item.FieldType)Enum.Parse(typeof(Item.FieldType), match.Groups[1].Value, true);
                     var value = match.Groups[2].Value;
 
@@ -97,7 +97,7 @@ namespace Logic.StudyConfiguration.BiblographyParser.bibTex
                 }
                 catch (ArgumentException e)
                 {   
-                    throw new InvalidDataException(String.Format("The field type {0} is not known by the parser", match.Groups[1].Value), e);
+                    throw new InvalidDataException(String.Format("The Field type {0} is not known by the parser", match.Groups[1].Value), e);
                 }
             }
 

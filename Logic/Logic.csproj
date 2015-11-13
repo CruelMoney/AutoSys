@@ -57,10 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientAdapter\ClientAdapter.cs" />
+    <Compile Include="Data\Criteria.cs" />
     <Compile Include="Data\Phase.cs" />
     <Compile Include="Data\Item.cs" />
     <Compile Include="Data\Study.cs" />
-    <Compile Include="Data\StudyDataContext.cs" />
     <Compile Include="Data\Task.cs" />
     <Compile Include="Data\Team.cs" />
     <Compile Include="Data\User.cs" />
@@ -89,6 +89,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\StoredData\" />
     <Folder Include="StudyOverview\" />
   </ItemGroup>
   <ItemGroup>

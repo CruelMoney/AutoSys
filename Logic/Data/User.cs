@@ -7,11 +7,12 @@ namespace Logic.Data
     {
         public int Id { get; set; }
         public string Name { get; set; }
-    }
 
-    public class UserContext : DbContext
-    {
-        public DbSet<User> users { get; set; }
+        public enum Role
+        {
+            Reviewer,
+            Validator
+        }
     }
 
 }
