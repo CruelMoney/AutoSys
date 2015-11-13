@@ -71,6 +71,7 @@
     <Compile Include="Data\StudyDataContextcs.cs" />
     <Compile Include="Data\Task.cs" />
     <Compile Include="Data\Team.cs" />
+    <Compile Include="Data\TeamDataContext.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
