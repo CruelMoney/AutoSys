@@ -8,14 +8,14 @@ using Storage.Repository;
 
 namespace Logic.StorageManagement
 {
-    public class TeamManager 
+    public class TeamStorageManager 
     {
         IRepository _teamRepo;
-        public TeamManager()
+        public TeamStorageManager()
         {
         }
         
-        public TeamManager(IRepository repo)
+        public TeamStorageManager(IRepository repo)
         {
             _teamRepo = repo;
         }

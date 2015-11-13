@@ -75,10 +75,10 @@
     <Compile Include="Data\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StorageManagement\StudyManager.cs" />
-    <Compile Include="StorageManagement\TaskManager.cs" />
-    <Compile Include="StorageManagement\TeamManager.cs" />
-    <Compile Include="StorageManagement\UserManager.cs" />
+    <Compile Include="StorageManagement\StudyStorageManager.cs" />
+    <Compile Include="StorageManagement\TaskStorageManager.cs" />
+    <Compile Include="StorageManagement\TeamStorageManager.cs" />
+    <Compile Include="StorageManagement\UserStorageManager.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\bibTex\BibTexParser.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\DefaultFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\DefaultItemChecker.cs" />

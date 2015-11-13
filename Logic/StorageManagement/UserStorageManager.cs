@@ -8,14 +8,14 @@ using Storage.Repository;
 
 namespace Logic.StorageManagement
 {
-    class UserManager
+    public class UserStorageManager
     {
         IRepository _userRepo;
-        public UserManager()
+        public UserStorageManager()
         {
         }
 
-        public UserManager(IRepository repo)
+        public UserStorageManager(IRepository repo)
         {
             _userRepo = repo;
         }

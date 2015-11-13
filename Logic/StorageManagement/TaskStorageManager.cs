@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Logic.StorageManagement
 {
-    class TaskManager
+    public class TaskStorageManager
     {
         IRepository _taskRepo;
-        public TaskManager()
+        public TaskStorageManager()
         {
         }
 
-        public TaskManager(IRepository repo)
+        public TaskStorageManager(IRepository repo)
         {
             _taskRepo = repo;
         }
