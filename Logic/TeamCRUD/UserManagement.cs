@@ -9,34 +9,32 @@ namespace Logic.TeamCRUD
 {
     public class UserManagement
     {
-        UserSaver _userSaver;
-        UserRequester _userRequester;
+        UserManager _userManager;
         public UserManagement()
         {
-            _userSaver = new UserSaver();
-            _userRequester = new UserRequester();
+            _userManager = new UserManager();
         }
         public void CreateUser() 
         {
-            //_userSaver.CreateUser();
+            //_userManager.CreateUser();
             throw new NotImplementedException();
         }
 
         public void UpdateUser()
         {
-            //_userSaver.UpdateUser();
+            //_userManager.UpdateUser();
             throw new NotImplementedException();
         }
 
         public void GetUser()
         {
-            //_userRequester.GetUser();
+            //_userManager.GetUser();
             throw new NotImplementedException();
         }
 
         public void DeleteUser()
         {
-            //_userSaver.RemoveUser();
+            //_userManager.RemoveUser();
             throw new NotImplementedException();
         }
     }
