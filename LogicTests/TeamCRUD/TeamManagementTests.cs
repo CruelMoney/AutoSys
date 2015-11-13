@@ -1,60 +1,60 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Storage.Repository;
+using Logic.TeamCRUD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Storage.Repository.Tests
+namespace Logic.TeamCRUD.Tests
 {
     [TestClass()]
-    public class EntityFrameworkRepositoryTests
+    public class TeamManagementTests
     {
         [TestMethod()]
-        public void EntityFrameworkRepositoryTest()
+        public void TeamManagementTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void EntityFrameworkRepositoryTest1()
+        public void TeamManagementTest1()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void CreateTest()
+        public void CreateTeamTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void DeleteTest()
+        public void AddUserToTeamTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void ReadTest()
+        public void RemoveUserFromTeamTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void ReadTest1()
+        public void UpdateTeamTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void UpdateTest()
+        public void RetrieveTeamTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void DisposeTest()
+        public void DeleteTeamTest()
         {
             throw new NotImplementedException();
         }

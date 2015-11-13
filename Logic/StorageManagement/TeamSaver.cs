@@ -9,4 +9,5 @@ namespace Logic.StorageManagement
     public class TeamSaver
     {
     }
+   
 }

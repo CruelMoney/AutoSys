@@ -7,7 +7,7 @@ using Storage.Repository;
 
 namespace Logic.Data
 {
-    class Task : IEntity
+    public class Task : IEntity
     {
         public int Id { get; set; }
         public User AssociatedUser { get; set; }
