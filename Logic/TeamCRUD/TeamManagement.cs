@@ -19,38 +19,27 @@ namespace Logic.TeamCRUD
             _teamSaver = new TeamSaver();
         }
 
-        public TeamManagement(TeamSaver teamSaver)
-        {
-            _teamSaver = teamSaver;
-        }
-
         public void CreateTeam()
         {
-            throw new NotImplementedException();
-        }
-
-        public void AddUserToTeam()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveUserFromTeam()
-        {
+            //_teamSaver.CreateTeam();
             throw new NotImplementedException();
         }
 
         public void UpdateTeam()
         {
+            //_teamSaver.UpdateTeam();
             throw new NotImplementedException();
         }
 
-        public void RetrieveTeam()
+        public void GetTeam()
         {
+            //_teamRequester.GetTeam();
             throw new NotImplementedException();
         }
 
         public void DeleteTeam()
         {
+            //_teamSaver.RemoveTeam();
             throw new NotImplementedException();
         }
 
