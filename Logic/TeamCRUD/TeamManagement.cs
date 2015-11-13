@@ -24,11 +24,9 @@ namespace Logic.TeamCRUD
             _teamSaver = teamSaver;
         }
 
-        public void CreateTeam(String TeamName, IEnumerable<User> UserList, String MetaData)
+        public void CreateTeam()
         {
-            if(_teamRequester.g)
-            var TeamToSend = new Team(TeamName, UserList, MetaData);
-
+            throw new NotImplementedException();
         }
 
         public void AddUserToTeam()
