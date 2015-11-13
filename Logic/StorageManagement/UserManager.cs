@@ -8,7 +8,7 @@ using Storage.Repository;
 
 namespace Logic.StorageManagement
 {
-    class UserManager
+    public class UserManager
     {
         IRepository _userRepo;
         public UserManager()

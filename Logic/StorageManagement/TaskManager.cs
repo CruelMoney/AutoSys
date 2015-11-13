@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Logic.StorageManagement
 {
-    class TaskManager
+    public class TaskManager
     {
         IRepository _taskRepo;
         public TaskManager()
