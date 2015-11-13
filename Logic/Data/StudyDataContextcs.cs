@@ -8,8 +8,6 @@ namespace Logic.Data
     public class StudyDataContextcs : DbContext, IDbContext
     {
         public DbSet<StoredStudy> Studies { get; set; }
-        public DbSet<StoredTeam> Teams { get; set; }
-        public DbSet<StoredUser> Users { get; set; }
         public DbSet<StoredPhase> Phases { get; set; }
         public DbSet<StoredTask> Tasks { get; set; }
         public DbSet<StoredCriteria> Criterias { get; set; }

@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Logic.Data; 
+using Logic.Data;
+using Storage.Repository;
 
 namespace Logic.StorageManagement
 {
-    class UserSaver
+    class UserManager
     {
+        IRepository _userRepo;
+        public UserManager()
+        {
+        }
+
+        public UserManager(IRepository repo)
+        {
+            _userRepo = repo;
+        }
+
         public void CreateUser(String UserName, String MetaData)
         {
             throw new NotImplementedException();
@@ -21,5 +32,14 @@ namespace Logic.StorageManagement
         {
             throw new NotImplementedException();
         }
+        public IEnumerable<User> SearchUsers(String TeamName)
+        {
+            throw new NotImplementedException();
+        }
+        public User GetUser(int UserID)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
