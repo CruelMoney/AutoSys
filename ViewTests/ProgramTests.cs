@@ -1,24 +1,18 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Logic.TeamCRUD;
+using View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.TeamCRUD.Tests
+namespace View.Tests
 {
     [TestClass()]
-    public class UserManagementTests
+    public class ProgramTests
     {
         [TestMethod()]
-        public void CreateUserTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void DeleteUserTest()
+        public void MainTest()
         {
             throw new NotImplementedException();
         }
