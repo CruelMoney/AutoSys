@@ -14,6 +14,11 @@ namespace Logic.TeamCRUD
         {
             _userStorageManager = new UserStorageManager();
         }
+
+        public UserManagement(UserStorageManager storageManager)
+        {
+            _userStorageManager = storageManager;
+        }
         public void CreateUser() 
         {
             //_userStorageManager.CreateUser();

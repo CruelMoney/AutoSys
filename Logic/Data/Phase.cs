@@ -11,9 +11,9 @@ namespace Logic.Data
 
 
         public Criteria PhaseCriteria;
-        public Dictionary<User, List<Task>> userTasks { get; set; }
-        public List<Task> finishedtask { get; set; }
-        public List<Task> conflictingTask { get; set; }
+        public Dictionary<User, List<UserTask>> userTasks { get; set; }
+        public List<UserTask> finishedtask { get; set; }
+        public List<UserTask> conflictingTask { get; set; }
         public Boolean isFinished { get; set; }
         public enum PhaseType
         {

@@ -69,7 +69,7 @@
     <Compile Include="Data\StoredData\StoredUser.cs" />
     <Compile Include="Data\Study.cs" />
     <Compile Include="Data\StudyDataContextcs.cs" />
-    <Compile Include="Data\Task.cs" />
+    <Compile Include="Data\UserTask.cs" />
     <Compile Include="Data\Team.cs" />
     <Compile Include="Data\TeamDataContext.cs" />
     <Compile Include="Data\User.cs" />
@@ -87,6 +87,7 @@
     <Compile Include="StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\ItemValidator.cs" />
+    <Compile Include="TaskManagement\TaskController.cs" />
     <Compile Include="TaskManagement\TaskDeliver.cs" />
     <Compile Include="TaskManagement\TaskGenerator.cs" />
     <Compile Include="TaskManagement\TaskRequester.cs" />

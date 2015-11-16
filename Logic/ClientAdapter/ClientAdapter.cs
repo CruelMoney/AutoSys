@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logic.Data;
+using Logic.StorageManagement;
+using Logic.TaskManagement;
+using Logic.TeamCRUD;
+using Storage.Repository;
 
 namespace Logic.ClientAdapter
 {
     public class ClientAdapter
     {
+
+        private TaskController _taskController;
+        private TeamManagement _teamManagement;
+        private UserManagement _userManagement;
          
         public void GetStudies(int userID)
         {
+          
             //retrieves all the studyIDs a user belongs to.
             throw new NotImplementedException();
         }
