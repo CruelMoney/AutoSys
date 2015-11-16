@@ -1,9 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
 using Storage.Repository;
-using System;
-using System.Collections.Generic;
 
-namespace Logic.Data
+namespace Logic.Model
 {
     public class Study : IEntity
     {

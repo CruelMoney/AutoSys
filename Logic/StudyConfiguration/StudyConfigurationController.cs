@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BibliographyParser;
-using Logic.Data;
+using Logic.Model;
 using Logic.StorageManagement;
 using Logic.StudyConfiguration.BiblographyParser.bibTex;
 

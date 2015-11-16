@@ -1,6 +1,6 @@
 ﻿using Storage.Repository;
 
-namespace Logic.Data.StoredData
+namespace Logic.Model.StoredData
 {
     public class StoredPhase:IEntity
     {

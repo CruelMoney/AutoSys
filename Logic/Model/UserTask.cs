@@ -1,12 +1,9 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Logic.Model.StoredData;
 using Storage.Repository;
 
-namespace Logic.Data
+namespace Logic.Model
 {
     public class UserTask : IEntity
     {

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic.Data.StoredData;
+﻿using System.Data.Entity;
+using Logic.Model.StoredData;
 using Storage.Repository;
 
-namespace Logic.Data
+namespace Logic.Model
 {
     public class TeamDataContext:DbContext,IDbContext
     {

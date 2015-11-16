@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using BibliographyParser;
-using Logic.Data;
+using Logic.Model;
 
 
 namespace Logic.StudyConfiguration.BiblographyParser.bibTex

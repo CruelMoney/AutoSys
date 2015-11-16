@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Storage.Repository;
+﻿using Storage.Repository;
 
-namespace Logic.Data
+namespace Logic.Model.StoredData
 {
     /// <summary>
     ///     This class defines a bibliographic item.

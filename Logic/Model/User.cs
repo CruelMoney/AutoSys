@@ -1,7 +1,4 @@
-﻿using System.Data.Entity;
-using Storage.Repository;
-
-namespace Logic.Data
+﻿namespace Logic.Model
 {
     public class User
     {

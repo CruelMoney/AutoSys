@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
-using Logic.Data.StoredData;
+using Logic.Model.StoredData;
 using Storage.Repository;
 
-namespace Logic.Data
+namespace Logic.Model
 {
     //TODO we have to figure out we store the things 
     public class StudyDataContextcs : DbContext, IDbContext
