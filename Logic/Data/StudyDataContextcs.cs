@@ -13,6 +13,5 @@ namespace Logic.Data
         public DbSet<StoredCriteria> Criterias { get; set; }
         public DbSet<StoredItem> Items { get; set; }
 
-
     }
 }
