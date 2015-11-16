@@ -12,7 +12,5 @@ namespace Logic.Data
         public DbSet<StoredTask> Tasks { get; set; }
         public DbSet<StoredCriteria> Criterias { get; set; }
         public DbSet<StoredItem> Items { get; set; }
-
-
     }
 }

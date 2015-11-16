@@ -60,13 +60,11 @@
     <Compile Include="Data\Criteria.cs" />
     <Compile Include="Data\Phase.cs" />
     <Compile Include="Data\Item.cs" />
-    <Compile Include="Data\StoredData\StoredCriteria.cs" />
     <Compile Include="Data\StoredData\StoredItem.cs" />
     <Compile Include="Data\StoredData\StoredPhase.cs" />
     <Compile Include="Data\StoredData\StoredStudy.cs" />
     <Compile Include="Data\StoredData\StoredTask.cs" />
     <Compile Include="Data\StoredData\StoredTeam.cs" />
-    <Compile Include="Data\StoredData\StoredUser.cs" />
     <Compile Include="Data\Study.cs" />
     <Compile Include="Data\StudyDataContextcs.cs" />
     <Compile Include="Data\UserTask.cs" />
@@ -87,6 +85,7 @@
     <Compile Include="StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\ItemValidator.cs" />
+    <Compile Include="StudyConfiguration\StudyConfigurationController.cs" />
     <Compile Include="TaskManagement\TaskController.cs" />
     <Compile Include="TaskManagement\TaskDeliver.cs" />
     <Compile Include="TaskManagement\TaskGenerator.cs" />

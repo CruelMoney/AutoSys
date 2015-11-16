@@ -9,5 +9,9 @@ namespace Logic.Data
     public class StoredItem:IEntity
     {
         public int Id { get; set; }
+        public void Update(Item dataItem)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

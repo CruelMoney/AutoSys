@@ -10,6 +10,9 @@ namespace Logic.Data
     public class StoredTask : IEntity
     {
         public int Id { get; set; }
-     
+        public void Update()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
