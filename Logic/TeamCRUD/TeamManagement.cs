@@ -17,6 +17,11 @@ namespace Logic.TeamCRUD
             _teamStorageManager = new TeamStorageManager();
         }
 
+        public TeamManagement(TeamStorageManager storageManager)
+        {
+            _teamStorageManager = storageManager;
+        }
+
         public void CreateTeam()
         {
             //_teamStorageManager.CreateTeam();

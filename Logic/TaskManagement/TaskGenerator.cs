@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.Data;
+using Logic.StorageManagement;
 using Storage;
 using Storage.Repository;
 
@@ -12,15 +13,18 @@ namespace Logic.TaskManagement
 {
     public class TaskGenerator
     {
-        private readonly IRepository _repository;
-        private readonly User _user;
-        private readonly Study _study;
 
-        public TaskGenerator(IRepository repo, Study study, User user)
+        Study _study;
+
+        public TaskGenerator(Study study)
         {
-            _repository = repo;
             _study = study;
-            _user = user;
         }
+
+        public void generateTasks()
+        {
+            
+        }
+
     }
 }
