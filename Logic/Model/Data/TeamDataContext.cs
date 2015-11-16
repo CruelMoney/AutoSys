@@ -1,8 +1,7 @@
 ﻿using System.Data.Entity;
-using Logic.Model.StoredData;
 using Storage.Repository;
 
-namespace Logic.Model
+namespace Logic.Model.Data
 {
     public class TeamDataContext:DbContext,IDbContext
     {

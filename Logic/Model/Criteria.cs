@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Logic.Model
 {
@@ -15,6 +16,7 @@ namespace Logic.Model
         public Rule CriteriaRule;
         public KeyValuePair<Item.ItemType, string> Field;
 
+
         public Criteria(Item.ItemType fieldType, Rule criteriaRule, string field)
         {
             CriteriaRule = criteriaRule;
@@ -25,6 +27,7 @@ namespace Logic.Model
         //TODO implement using the rules
         public bool FieldMeetsRule(string field)
         {
+            throw new NotImplementedException();
             return field == Field.Value;
         }
     }

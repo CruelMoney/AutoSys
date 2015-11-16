@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Logic.Model.StoredData;
+using Logic.Model.Data;
 using Storage.Repository;
 
 namespace Logic.Model
