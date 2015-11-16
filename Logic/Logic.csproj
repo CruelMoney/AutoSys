@@ -48,6 +48,20 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,7 +71,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientAdapter\ClientAdapter.cs" />
+    <Compile Include="ClientAdapter\TeamApiController.cs" />
+    <Compile Include="ClientAdapter\UserApiController.cs" />
     <Compile Include="Data\Criteria.cs" />
+    <Compile Include="Data\DTO\ItemDto.cs" />
+    <Compile Include="Data\DTO\StudyDto.cs" />
+    <Compile Include="Data\DTO\TaskDto.cs" />
+    <Compile Include="Data\DTO\TeamDto.cs" />
+    <Compile Include="Data\DTO\UserDto.cs" />
     <Compile Include="Data\Phase.cs" />
     <Compile Include="Data\Item.cs" />
     <Compile Include="Data\StoredData\StoredItem.cs" />
@@ -99,9 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StudyOverview\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Storage\Storage.csproj">
