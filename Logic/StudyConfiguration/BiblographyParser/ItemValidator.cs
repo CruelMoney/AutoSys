@@ -1,5 +1,5 @@
-﻿using Logic.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Logic.Model;
 using Logic.StudyConfiguration.BiblographyParser;
 
 namespace BibliographyParser

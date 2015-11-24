@@ -6,9 +6,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Logic.Data.DTO;
-using Logic.Data;
 using System.Collections.Generic;
+using Logic.Model;
+using Logic.Model.DTO;
 
 namespace Logic.ClientAdapter
 {

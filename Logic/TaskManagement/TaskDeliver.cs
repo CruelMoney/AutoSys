@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Logic.Data;
+using Logic.Model;
 using Logic.StorageManagement;
 
 namespace Logic.TaskManagement

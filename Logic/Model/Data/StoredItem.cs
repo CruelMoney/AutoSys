@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Storage.Repository;
+﻿using Storage.Repository;
 
-namespace Logic.Data
+namespace Logic.Model.Data
 {
     /// <summary>
     ///     This class defines a bibliographic item.
@@ -9,5 +8,9 @@ namespace Logic.Data
     public class StoredItem:IEntity
     {
         public int Id { get; set; }
+        public void Update(Item dataItem)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
