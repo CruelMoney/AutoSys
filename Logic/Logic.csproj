@@ -81,6 +81,7 @@
     <Compile Include="Model\Data\StoredDataField.cs" />
     <Compile Include="Model\Data\StoredResource.cs" />
     <Compile Include="Model\Data\StoredStageOverview.cs" />
+    <Compile Include="Model\Data\StoredStudy.cs" />
     <Compile Include="Model\Data\StoredStudyOverview.cs" />
     <Compile Include="Model\Data\StoredTaskRequest.cs" />
     <Compile Include="Model\Data\StoredTaskSubmission.cs" />

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Logic.Model.DTO;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
@@ -18,7 +19,7 @@ namespace Logic.StorageManagement
             _studyRepo = repo;
         }
 
-        public Study saveStudy(string name, Team team, List<Item> studyDatay)
+        public StoredStudy saveStudy(string name, Team team, List<Item> studyDatay)
         {
             
             var newStudy = new Study() { Name = name, AssociatedTeam = team, StudyData = studyDatay };
