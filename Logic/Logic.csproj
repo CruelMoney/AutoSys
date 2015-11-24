@@ -75,7 +75,15 @@
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Model\Criteria.cs" />
+    <Compile Include="Model\Data\StoredTaskSubmission.cs" />
     <Compile Include="Model\Data\StoredConflictingData.cs" />
+    <Compile Include="Model\Data\StoredDataField.cs" />
+    <Compile Include="Model\Data\StoredResource.cs" />
+    <Compile Include="Model\Data\StoredStageOverview.cs" />
+    <Compile Include="Model\Data\StoredStudyOverview.cs" />
+    <Compile Include="Model\Data\StoredTaskRequest.cs" />
+    <Compile Include="Model\Data\StoredTeam.cs" />
+    <Compile Include="Model\Data\StoredUser.cs" />
     <Compile Include="Model\DTO\ConflictingData.cs" />
     <Compile Include="Model\DTO\DataField.cs" />
     <Compile Include="Model\DTO\Resource.cs" />
