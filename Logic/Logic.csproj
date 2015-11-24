@@ -76,6 +76,7 @@
     <Compile Include="Controllers\StudyController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Model\Criteria.cs" />
     <Compile Include="Model\Data\StoredConflictingData.cs" />
     <Compile Include="Model\Data\StoredDataField.cs" />
     <Compile Include="Model\Data\StoredResource.cs" />
