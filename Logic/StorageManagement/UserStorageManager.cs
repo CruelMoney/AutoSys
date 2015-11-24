@@ -17,25 +17,39 @@ namespace Logic.StorageManagement
             _userRepo = repo;
         }
 
-        public void CreateUser(string UserName, string MetaData)
+        public void SaveUser(User UserToSave)
         {
             throw new NotImplementedException();
+            //var StoredUserToSave = new StoredUser(UserToSave);
+            //_userRepo.Create<StoredUser>(StoredUserToSave);
         }
-        public void RemoveUser(int UserID)
+
+        public void RemoveUser(int UserWithIDToDelete)
         {
             throw new NotImplementedException();
+            //var StoredUserToDelete = new StoredUser(UserToDelete);
+            _userRepo.Delete<StoredUser>(_userRepo.Read<StoredUser>(UserWithIDToDelete));
         }
+
         public void UpdateUser(int UserID, String UpdatedName, String UpdatedMetaData)
         {
             throw new NotImplementedException();
+            //var StoredUserToUpdate = new StoredUser(UserToUpdate);
+            //_userRepo.Update<StoredUser>(StoredUserToUpdate);
         }
-        public IEnumerable<User> SearchUsers(String TeamName)
+
+        public IEnumerable<User> SearchUsers(String UserName)
         {
             throw new NotImplementedException();
+            //foreach(StoredUser u in (_userRepo.Read<StoredUser>()){
+            //    yield u.Name.equals(UserName);                        
+            //}
         }
+
         public User GetUser(int UserID)
         {
             throw new NotImplementedException();
+            //_userRepo.Read<StoredUser>(UserID);
         }
 
     }

@@ -19,28 +19,30 @@ namespace Logic.TeamCRUD
         {
             _userStorageManager = storageManager;
         }
-        public void CreateUser() 
+        public void CreateUser(string UserName, string MetaData)
         {
-            //_userStorageManager.CreateUser();
             throw new NotImplementedException();
+            //_userStorageManager.SaveUser(new User()); Opret ny User
         }
-
-        public void UpdateUser()
+        public void RemoveUser(int UserID)
         {
-            //_userStorageManager.UpdateUser();
             throw new NotImplementedException();
+            _userStorageManager.RemoveUser(UserID);
         }
-
-        public void GetUser()
+        public void UpdateUser(int UserID, String UpdatedName, String UpdatedMetaData)
         {
-            //_userStorageManager.GetUser();
             throw new NotImplementedException();
+            //_userStorageManager.RemoveUser(new User()); fjern bruger skabt af det man ved
         }
-
-        public void DeleteUser()
+        public IEnumerable<User> SearchUsers(String UserName)
         {
-            //_userStorageManager.RemoveUser();
             throw new NotImplementedException();
+            _userStorageManager.SearchUsers(UserName);
+        }
+        public User GetUser(int UserID)
+        {
+            throw new NotImplementedException();
+            _userStorageManager.GetUser(UserID);
         }
     }
 }
