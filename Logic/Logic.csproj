@@ -48,6 +48,20 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,22 +71,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientAdapter\ClientAdapter.cs" />
-    <Compile Include="Data\Criteria.cs" />
-    <Compile Include="Data\Phase.cs" />
-    <Compile Include="Data\Item.cs" />
-    <Compile Include="Data\StoredData\StoredCriteria.cs" />
-    <Compile Include="Data\StoredData\StoredItem.cs" />
-    <Compile Include="Data\StoredData\StoredPhase.cs" />
-    <Compile Include="Data\StoredData\StoredStudy.cs" />
-    <Compile Include="Data\StoredData\StoredTask.cs" />
-    <Compile Include="Data\StoredData\StoredTeam.cs" />
-    <Compile Include="Data\StoredData\StoredUser.cs" />
-    <Compile Include="Data\Study.cs" />
-    <Compile Include="Data\StudyDataContextcs.cs" />
-    <Compile Include="Data\UserTask.cs" />
-    <Compile Include="Data\Team.cs" />
-    <Compile Include="Data\TeamDataContext.cs" />
-    <Compile Include="Data\User.cs" />
+    <Compile Include="ClientAdapter\TeamApiController.cs" />
+    <Compile Include="ClientAdapter\UserApiController.cs" />
+    <Compile Include="Model\Criteria.cs" />
+    <Compile Include="Model\DTO\ItemDto.cs" />
+    <Compile Include="Model\DTO\StudyDto.cs" />
+    <Compile Include="Model\DTO\TaskDto.cs" />
+    <Compile Include="Model\DTO\TeamDto.cs" />
+    <Compile Include="Model\DTO\UserDto.cs" />
+    <Compile Include="Model\Phase.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\Data\StoredItem.cs" />
+    <Compile Include="Model\Data\StoredPhase.cs" />
+    <Compile Include="Model\Data\StoredStudy.cs" />
+    <Compile Include="Model\Data\StoredTask.cs" />
+    <Compile Include="Model\Data\StoredTeam.cs" />
+    <Compile Include="Model\Study.cs" />
+    <Compile Include="Model\Data\StudyDataContextcs.cs" />
+    <Compile Include="Model\UserTask.cs" />
+    <Compile Include="Model\Team.cs" />
+    <Compile Include="Model\Data\TeamDataContext.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StorageManagement\StudyStorageManager.cs" />
@@ -87,6 +106,7 @@
     <Compile Include="StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\ItemValidator.cs" />
+    <Compile Include="StudyConfiguration\StudyConfigurationController.cs" />
     <Compile Include="TaskManagement\TaskController.cs" />
     <Compile Include="TaskManagement\TaskDeliver.cs" />
     <Compile Include="TaskManagement\TaskGenerator.cs" />
@@ -100,9 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="StudyOverview\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Storage\Storage.csproj">

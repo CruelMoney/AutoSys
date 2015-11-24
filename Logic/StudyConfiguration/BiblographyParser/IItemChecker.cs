@@ -1,6 +1,6 @@
 ﻿
 
-using Logic.Data;
+using Logic.Model;
 
 namespace Logic.StudyConfiguration.BiblographyParser
 {

@@ -5,7 +5,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Logic.Data;
+using Logic.Model;
+using Logic.Model.Data;
 using Logic.TaskManagement;
 
 namespace Logic.StorageManagement

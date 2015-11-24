@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Logic.Data
+namespace Logic.Model
 {
     /// <summary>
     ///     This class defines a bibliographic item.

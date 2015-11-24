@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logic.Model;
 using Logic.StudyConfiguration.BiblographyParser;
-using Logic.Data;
 
 namespace BibliographyParser
 {
