@@ -23,6 +23,6 @@ namespace Logic.Model.DTO
         /// An overview of the state of the different stages in the study.
         /// </summary>
         [Required]
-        public StageOverview[] Stages { get; set; }
+        public PhaseOverview[] Phases { get; set; }
     }
 }

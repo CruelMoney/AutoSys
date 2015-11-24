@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
+using Logic.Model.DTO;
 using Storage.Repository;
 
 namespace Logic.StorageManagement
