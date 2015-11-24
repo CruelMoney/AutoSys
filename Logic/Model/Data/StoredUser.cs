@@ -5,6 +5,7 @@ namespace Logic.Model.Data
 {
     public class StoredUser : User, IEntity
     {
+
    
     }
 }
