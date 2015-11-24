@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Logic.Model.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace Logic.Model.DTO
 {
@@ -7,6 +8,18 @@ namespace Logic.Model.DTO
     /// </summary>
     public class Team
     {
+        public Team(StoredTeam GivenTeam)
+        {
+            this.Id = GivenTeam.Id;
+            this.Name = GivenTeam.Name;
+            this.Metadata = GivenTeam.Metadata;
+            this.UserIDs = GivenTeam.UserIDs;
+        }
+
+        public Team()
+        {
+        }
+
         /// <summary>
         /// A unique identifier for the team.
         /// </summary>

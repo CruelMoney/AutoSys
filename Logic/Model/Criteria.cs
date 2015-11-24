@@ -24,8 +24,8 @@ namespace Logic.Model
 
         public bool CriteriaIsMet( DataField _Field)
         {
-
-
+           
+                
             if (_Field.FieldType == DataField.DataType.Enumeration)
             {
                 return _Field.TypeInfo.First().Equals(_Field.Data.First());

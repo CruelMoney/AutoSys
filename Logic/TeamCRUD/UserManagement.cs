@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Logic.StorageManagement;
 using Logic.Model.DTO;
 
-namespace Logic.TeamCRUD
+namespace Logic.UserCRUD
 {
     public class UserManagement
     {
@@ -20,30 +20,36 @@ namespace Logic.TeamCRUD
         {
             _userStorageManager = storageManager;
         }
-        public void CreateUser(string UserName, string MetaData)
+        public void CreateUser(String UserName, String MetaData)
         {
-            throw new NotImplementedException();
-            //_userStorageManager.SaveUser(new User()); Opret ny User
+            var UserToAdd = new User();
+            UserToAdd.Name = UserName;
+            UserToAdd.Metadata = MetaData;
+
+            _userStorageManager.SaveUser(UserToAdd);
         }
+
         public void RemoveUser(int UserID)
         {
-            throw new NotImplementedException();
             _userStorageManager.RemoveUser(UserID);
         }
+
         public void UpdateUser(int UserID, String UpdatedName, String UpdatedMetaData)
         {
-            throw new NotImplementedException();
-            //_userStorageManager.RemoveUser(new User()); fjern bruger skabt af det man ved
+            var UserToUpdate = _userStorageManager.GetUser(UserID);         //gets the user to save unupdated fields.
+            UserToUpdate.Name = UpdatedName;
+            UserToUpdate.Metadata = UpdatedMetaData;
+            _userStorageManager.UpdateUser(UserToUpdate);
         }
+
         public IEnumerable<User> SearchUsers(String UserName)
         {
-            throw new NotImplementedException();
-            _userStorageManager.SearchUsers(UserName);
+            return _userStorageManager.SearchUsers(UserName);
         }
+
         public User GetUser(int UserID)
         {
-            throw new NotImplementedException();
-            _userStorageManager.GetUser(UserID);
+            return _userStorageManager.GetUser(UserID);
         }
     }
 }

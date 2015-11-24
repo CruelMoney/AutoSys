@@ -7,13 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
 using Logic.TaskManagement;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
     public class TaskStorageManager : IObservable<TaskRequester>
     {
         IRepository _taskRepo;
-        public IEnumerable<StoredTask> Tasks => _taskRepo.Read<StoredTask>().Include("User");
+        public IEnumerable<StoredTaskRequest> Tasks => _taskRepo.Read<StoredTaskRequest>().Include("User");
 
         public TaskStorageManager()
         {
@@ -29,12 +30,12 @@ namespace Logic.StorageManagement
             throw new NotImplementedException();
         }
 
-        public void SaveTask(StoredTask task)
+        public void SaveTask(StoredTaskRequest task)
         {
             _taskRepo.Create(task);
         }
 
-        public StoredTask FindStoredTask(UserTask task)
+        public StoredTaskRequest FindStoredTask(UserTask task)
         {
             return _taskRepo.Read<StoredTask>().ToList().First(g => g.Id.Equals(task.Id));
         }
