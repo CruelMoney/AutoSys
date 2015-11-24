@@ -91,7 +91,7 @@
     <Compile Include="Model\Data\StoredTask.cs" />
     <Compile Include="Model\Data\StoredTeam.cs" />
     <Compile Include="Model\Study.cs" />
-    <Compile Include="Model\Data\StudyDataContextcs.cs" />
+    <Compile Include="Model\Data\StudyDataContext.cs" />
     <Compile Include="Model\UserTask.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\Data\TeamDataContext.cs" />
