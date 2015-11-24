@@ -7,7 +7,7 @@ using Storage.Repository;
 
 namespace Logic.ClientAdapter
 {
-    public class ClientAdapter
+    public class StudyController
     {
 
         private TaskController _taskController;
