@@ -46,7 +46,6 @@ namespace Logic.StorageManagement
         }
 
 
-
         public User GetUser(int UserID)
         {
             return new User(_userRepo.Read<StoredUser>(UserID));

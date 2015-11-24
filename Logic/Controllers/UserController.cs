@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
+using Logic.StorageManagement;
 
 namespace Logic.Controllers
 {
@@ -18,6 +19,9 @@ namespace Logic.Controllers
         /// <param name="name">Search for users which match the specified name.</param>
         public IEnumerable<User> Get(string name = "")
         {
+            UserStorageManager manager = new UserStorageManager();
+            manager.SearchUsers(name);
+
             // GET: api/User
             // GET: api/User?name=alice
             throw new NotImplementedException();
@@ -29,6 +33,9 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the user to retrieve.</param>
         public User Get(int id)
         {
+            UserStorageManager manager = new UserStorageManager();
+            manager.GetUser(id);
+
             // GET: api/User/5
             throw new NotImplementedException();
         }
