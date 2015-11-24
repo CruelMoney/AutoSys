@@ -4,7 +4,7 @@ using Storage.Repository;
 namespace Logic.Model.Data
 {
     //TODO we have to figure out we store the things 
-    public class StudyDataContextcs : DbContext, IDbContext
+    public class StudyDataContext : DbContext, IDbContext
     {
         public DbSet<StoredStudy> Studies { get; set; }
         public DbSet<StoredPhase> Phases { get; set; }

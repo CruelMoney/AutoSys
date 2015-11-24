@@ -70,10 +70,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Interfaces\IStudyController.cs" />
+    <Compile Include="Controllers\Interfaces\ITeamController.cs" />
+    <Compile Include="Controllers\Interfaces\IUserController.cs" />
     <Compile Include="Controllers\StudyController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Model\Criteria.cs" />
+    <Compile Include="Model\Data\StoredTaskSubmission.cs" />
+    <Compile Include="Model\Data\StoredConflictingData.cs" />
+    <Compile Include="Model\Data\StoredDataField.cs" />
+    <Compile Include="Model\Data\StoredResource.cs" />
+    <Compile Include="Model\Data\StoredPhaseOverview.cs" />
+    <Compile Include="Model\Data\StoredStudyOverview.cs" />
+    <Compile Include="Model\Data\StoredTaskRequest.cs" />
+    <Compile Include="Model\Data\StoredTeam.cs" />
+    <Compile Include="Model\Data\StoredUser.cs" />
     <Compile Include="Model\DTO\ConflictingData.cs" />
     <Compile Include="Model\DTO\DataField.cs" />
     <Compile Include="Model\DTO\Resource.cs" />
@@ -85,13 +97,8 @@
     <Compile Include="Model\DTO\User.cs" />
     <Compile Include="Model\Phase.cs" />
     <Compile Include="Model\Item.cs" />
-    <Compile Include="Model\Data\StoredItem.cs" />
-    <Compile Include="Model\Data\StoredPhase.cs" />
-    <Compile Include="Model\Data\StoredStudy.cs" />
-    <Compile Include="Model\Data\StoredTask.cs" />
-    <Compile Include="Model\Data\StoredTeam.cs" />
     <Compile Include="Model\Study.cs" />
-    <Compile Include="Model\Data\StudyDataContextcs.cs" />
+    <Compile Include="Model\Data\StudyDataContext.cs" />
     <Compile Include="Model\UserTask.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\Data\TeamDataContext.cs" />

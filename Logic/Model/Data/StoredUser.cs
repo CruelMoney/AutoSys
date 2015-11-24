@@ -8,8 +8,8 @@ using Storage.Repository;
 
 namespace Logic.Model.Data
 {
-    public class StoredTeam : Team, IEntity
+    public class StoredUser : User, IEntity
     {
-        public int Id {get; set;}
+        public int Id { get; set; }
     }
 }
