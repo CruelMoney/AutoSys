@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.StorageManagement;
+using Logic.Model.DTO;
 
 namespace Logic.TeamCRUD
 {
