@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
+using Logic.Model.DTO;
 
 namespace Logic.TaskManagement
 {
@@ -24,14 +25,14 @@ namespace Logic.TaskManagement
             _taskRequester = new TaskRequester();
         }
 
-        public void deliverTask(UserTask task)
+        public void deliverTask(TaskSubmission task)
         {
             _taskDeliver.DeliverTask(task);
         }
 
-        public void getTaskForUser(User user, Study study)
+        public TaskRequest GetTasksForUser(User user, Study study)
         {
-            _taskRequester.GetTaskForUser(user, study);
+            
         }
     }
 }

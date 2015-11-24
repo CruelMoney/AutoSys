@@ -18,6 +18,7 @@ namespace Logic.Model
         }
 
        
+        public DataField Field { get; set; }
 
         public CriteriaType _CriteriaType { get; set; } 
 

@@ -5,6 +5,6 @@ namespace Logic.Model.Data
 {
     public class StoredTaskRequest : TaskRequest, IEntity
     {
-        public int Id { get; set; }
+     
     }
 }

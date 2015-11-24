@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
+using Logic.TaskManagement;
 
 namespace Logic.Controllers
 {
@@ -12,6 +13,9 @@ namespace Logic.Controllers
     [RoutePrefix("api/Study")]
     internal class StudyController : ApiController, IStudyController
     {
+
+        TaskController _taskController = new TaskController();
+
         /// <summary>
         /// Retrieve an overview of the specified study.
         /// </summary>
@@ -36,6 +40,7 @@ namespace Logic.Controllers
         public IEnumerable<TaskRequest> GetTasks(int id, int userId, int count = 1, TaskRequest.Filter filter = TaskRequest.Filter.Remaining, TaskRequest.Type type = TaskRequest.Type.Both)
         {
             // GET: api/Study/4/Task?userId=5&count=1&filter=Remaining&type=Review
+           
             throw new NotImplementedException();
         }
 
@@ -64,7 +69,7 @@ namespace Logic.Controllers
         public TaskRequest GetTask(int id, int taskId)
         {
             // GET: api/Study/4/Task/5
-            throw new NotImplementedException();
+           
         }
 
         /// <summary>

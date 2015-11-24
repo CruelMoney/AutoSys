@@ -20,7 +20,7 @@ namespace Logic.Model.DTO
         public int[] UserIds { get; set; }
 
         /// <summary>
-        /// An overview of the state of the different stages in the study.
+        /// An overview of the state of the different Stages in the study.
         /// </summary>
         [Required]
         public StageOverview[] Phases { get; set; }

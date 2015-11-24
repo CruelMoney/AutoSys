@@ -9,7 +9,7 @@ namespace Logic.Controllers
     /// <summary>
     /// Controller to access and modify teams.
     /// </summary>
-    public class TeamController : ApiController, ITeamController
+    internal class TeamController : ApiController, ITeamController
     {
         /// <summary>
         /// Get all teams.

@@ -11,8 +11,7 @@ namespace Logic.TaskManagement
     public class TaskDeliver
     {
         private TaskStorageManager _storageManager;
-
-    
+        
 
         public TaskDeliver(TaskStorageManager storageManager)
         {

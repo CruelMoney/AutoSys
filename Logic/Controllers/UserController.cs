@@ -10,7 +10,7 @@ namespace Logic.Controllers
     /// Controller to access and modify users.
     /// </summary>
     [RoutePrefix("api/User")]
-    public class UserController : ApiController, IUserController
+    internal class UserController : ApiController, IUserController
     {
         /// <summary>
         /// Get all users.

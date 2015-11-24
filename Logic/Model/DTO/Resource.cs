@@ -4,7 +4,7 @@ using Logic.Controllers;
 namespace Logic.Model.DTO
 {
     /// <summary>
-    /// Describes a resource data field.
+    /// Describes a resource data Field.
     /// </summary>
     public class Resource
     {
