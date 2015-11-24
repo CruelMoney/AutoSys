@@ -1,27 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
 
-namespace Logic.Controllers
+namespace Logic.Controllers.Interfaces
 {
-    /// <summary>
-    /// Controller to access information about a study.
-    /// </summary>
-    [RoutePrefix("api/Study")]
-    internal class StudyController : ApiController, IStudyController
+   
+    public interface IStudyController
     {
         /// <summary>
         /// Retrieve an overview of the specified study.
         /// </summary>
         /// <param name="id">The ID of the study for which to retrieve an overview.</param>
         [Route("{id}/Overview")]
-        public StudyOverview GetOverview(int id)
-        {
-            // GET: api/Study/5/Overview
-            throw new NotImplementedException();
-        }
+        StudyOverview GetOverview(int id);
 
         /// <summary>
         /// Get requested tasks for a specific user of a given study. By default, the first remaining (still to be completed) task is retrieved.
@@ -33,11 +25,7 @@ namespace Logic.Controllers
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
         [Route("{id}/Task")]
-        public IEnumerable<TaskRequest> GetTasks(int id, int userId, int count = 1, TaskRequest.Filter filter = TaskRequest.Filter.Remaining, TaskRequest.Type type = TaskRequest.Type.Both)
-        {
-            // GET: api/Study/4/Task?userId=5&count=1&filter=Remaining&type=Review
-            throw new NotImplementedException();
-        }
+        IEnumerable<TaskRequest> GetTasks(int id, int userId, int count = 1, TaskRequest.Filter filter = TaskRequest.Filter.Remaining, TaskRequest.Type type = TaskRequest.Type.Both);
 
         /// <summary>
         /// Get requested task IDs for a specific user of a given study. By default, delivered but still editable task IDs are returned.
@@ -48,11 +36,8 @@ namespace Logic.Controllers
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
         [Route("{id}/TaskIDs")]
-        public IEnumerable<int> GetTaskIDs(int id, int userId, TaskRequest.Filter filter = TaskRequest.Filter.Editable, TaskRequest.Type type = TaskRequest.Type.Both)
-        {
-            // GET: api/Study/4/TaskIDs?userId=5&filter=Editable
-            throw new NotImplementedException();
-        }
+        IEnumerable<int> GetTaskIDs(int id, int userId, TaskRequest.Filter filter = TaskRequest.Filter.Editable,
+            TaskRequest.Type type = TaskRequest.Type.Both);
 
         /// <summary>
         /// Get a requested task with a specific ID.
@@ -61,11 +46,7 @@ namespace Logic.Controllers
         /// <param name="taskId"></param>
         /// <returns></returns>
         [Route("{id}/Task/{taskId}")]
-        public TaskRequest GetTask(int id, int taskId)
-        {
-            // GET: api/Study/4/Task/5
-            throw new NotImplementedException();
-        }
+        TaskRequest GetTask(int id, int taskId);
 
         /// <summary>
         /// Deliver a finished task.
@@ -77,11 +58,7 @@ namespace Logic.Controllers
         /// <param name="taskId">The ID of the task.</param>
         /// <param name="task">The completed task.</param>
         [Route("{id}/Task/{taskId}")]
-        public IHttpActionResult PostTask(int id, int taskId, [FromBody]TaskSubmission task)
-        {
-            // POST: api/Study/4/Task/5
-            throw new NotImplementedException();
-        }
+        IHttpActionResult PostTask(int id, int taskId, [FromBody] TaskSubmission task);
 
         /// <summary>
         /// Returns the resource with the specified ID.
@@ -90,10 +67,6 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the study this resource is part of.</param>
         /// <param name="resourceId">The ID of the requested resource.</param>
         [Route("{id}/Resource/{resourceId}")]
-        public IHttpActionResult GetResource(int id, int resourceId)
-        {
-            // GET: api/Study/4/Resource/5
-            throw new NotImplementedException();
-        }
+        IHttpActionResult GetResource(int id, int resourceId);
     }
 }
