@@ -70,15 +70,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientAdapter\StudyController.cs" />
-    <Compile Include="ClientAdapter\TeamController.cs" />
-    <Compile Include="ClientAdapter\UserController.cs" />
+    <Compile Include="Controllers\StudyController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Model\Criteria.cs" />
-    <Compile Include="Model\DTO\ItemDto.cs" />
-    <Compile Include="Model\DTO\StudyDto.cs" />
-    <Compile Include="Model\DTO\TaskDto.cs" />
-    <Compile Include="Model\DTO\TeamDto.cs" />
-    <Compile Include="Model\DTO\UserDto.cs" />
+    <Compile Include="Model\DTO\ConflictingData.cs" />
+    <Compile Include="Model\DTO\DataField.cs" />
+    <Compile Include="Model\DTO\Resource.cs" />
+    <Compile Include="Model\DTO\StageOverview.cs" />
+    <Compile Include="Model\DTO\StudyOverview.cs" />
+    <Compile Include="Model\DTO\TaskRequest.cs" />
+    <Compile Include="Model\DTO\TaskSubmission.cs" />
+    <Compile Include="Model\DTO\Team.cs" />
+    <Compile Include="Model\DTO\User.cs" />
     <Compile Include="Model\Phase.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Data\StoredItem.cs" />
