@@ -7,34 +7,36 @@ using BibliographyParser;
 using Logic.Model;
 using Logic.StorageManagement;
 using Logic.StudyConfiguration.BiblographyParser.bibTex;
+using Logic.Model.DTO;
+using Logic.Model.Data;
 
 namespace Logic.StudyConfiguration
 {
     public class StudyConfigurationController
     {
-        private StudyStorageManager _storageManager;
-        private TeamStorageManager _teamManager;
+        private StudyStorageManager _studyStorageManager;
+        private TeamStorageManager _teamStorageManager;
         private BibTexParser _parser = new BibTexParser(new ItemValidator());
 
 
         public StudyConfigurationController()
         {
-            _storageManager = new StudyStorageManager();
-            _teamManager = new TeamStorageManager();
+            _studyStorageManager = new StudyStorageManager();
+            _teamStorageManager = new TeamStorageManager();
         }
 
         public StudyConfigurationController(StudyStorageManager storageManager, TeamStorageManager teamManager)
         {
-            _teamManager = teamManager;
-            _storageManager = storageManager;
+            _teamStorageManager = teamManager;
+            _studyStorageManager = storageManager;
         }
 
 
-        public Study NewStudy(string name, Team team, string studyData)
+        public StoredStudy NewStudy(string name, Team team, string studyData)
         {
             var data = ParseData(studyData);
            
-            var newStudy = _storageManager.saveStudy(name, team, data);
+            var newStudy = _studyStorageManager.saveStudy(name, team, data);
             return newStudy;
         }
 
