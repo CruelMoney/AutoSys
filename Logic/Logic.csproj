@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Interfaces\IStudyController.cs" />
+    <Compile Include="Controllers\Interfaces\ITeamController.cs" />
+    <Compile Include="Controllers\Interfaces\IUserController.cs" />
     <Compile Include="Controllers\StudyController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UserController.cs" />
