@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Logic.Model.DTO;
 using Storage.Repository;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
@@ -19,37 +20,36 @@ namespace Logic.StorageManagement
 
         public void SaveUser(User UserToSave)
         {
-            throw new NotImplementedException();
-            //var StoredUserToSave = new StoredUser(UserToSave);
-            //_userRepo.Create<StoredUser>(StoredUserToSave);
+            var StoredUserToSave = new StoredUser(UserToSave);
+            _userRepo.Create(StoredUserToSave);
         }
 
         public void RemoveUser(int UserWithIDToDelete)
         {
-            throw new NotImplementedException();
-            //var StoredUserToDelete = new StoredUser(UserToDelete);
-            _userRepo.Delete<StoredUser>(_userRepo.Read<StoredUser>(UserWithIDToDelete));
+            _userRepo.Delete(_userRepo.Read<StoredUser>(UserWithIDToDelete));
         }
 
-        public void UpdateUser(int UserID, String UpdatedName, String UpdatedMetaData)
+        public void UpdateUser(User UserToUpdate)
         {
-            throw new NotImplementedException();
-            //var StoredUserToUpdate = new StoredUser(UserToUpdate);
-            //_userRepo.Update<StoredUser>(StoredUserToUpdate);
+            var StoredUserToUpdate = new StoredUser(UserToUpdate);
+            _userRepo.Update<StoredUser>(StoredUserToUpdate);
         }
 
         public IEnumerable<User> SearchUsers(String UserName)
         {
-            throw new NotImplementedException();
-            //foreach(StoredUser u in (_userRepo.Read<StoredUser>()){
-            //    yield u.Name.equals(UserName);                        
-            //}
+            foreach (StoredUser t in (_userRepo.Read<StoredUser>()))
+                if (t.Name.Contains(UserName.ToLower()))
+                {
+                    yield return new User(t);
+                }
+            yield break;
         }
+
+
 
         public User GetUser(int UserID)
         {
-            throw new NotImplementedException();
-            //_userRepo.Read<StoredUser>(UserID);
+            return new User(_userRepo.Read<StoredUser>(UserID));
         }
 
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Logic.Model;
 using Logic.Model.DTO;
 using Storage.Repository;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
@@ -22,37 +23,36 @@ namespace Logic.StorageManagement
         }
         public void SaveTeam(Team TeamToSave)
         {
-            throw new NotImplementedException();
-            //var StoredTeamToSave = new StoredTeam(TeamToSave);
-            //_teamRepo.Create<StoredTeam>(StoredTeamToSave);
+            var StoredTeamToSave = new StoredTeam(TeamToSave);
+            _teamRepo.Create(StoredTeamToSave);
         }
 
         public void RemoveTeam(int TeamWithIDToDelete)
         {
-            throw new NotImplementedException();
-            //var StoredTeamToDelete = new StoredTeam(TeamToDelete);
-            _teamRepo.Delete<StoredTeam>(_teamRepo.Read<StoredTeam>(TeamWithIDToDelete));
+            _teamRepo.Delete(_teamRepo.Read<StoredTeam>(TeamWithIDToDelete));
         }
 
-        public void UpdateTeam(int TeamID, String UpdatedName, String UpdatedMetaData)
-        {
-            throw new NotImplementedException();
-            //var StoredTeamToUpdate = new StoredTeam(TeamToUpdate);
-            //_teamRepo.Update<StoredTeam>(StoredTeamToUpdate);
+        public void UpdateTeam(Team TeamToUpdate)
+        { 
+            var StoredTeamToUpdate = new StoredTeam(TeamToUpdate);
+            _teamRepo.Update<StoredTeam>(StoredTeamToUpdate);
         }
 
         public IEnumerable<Team> SearchTeams(String TeamName)
         {
-            throw new NotImplementedException();
-            //foreach(StoredTeam t in (_teamRepo.Read<StoredTeam>()){
-            //    yield t.Name.equals(TeamName);                        
-            //}
+            foreach(StoredTeam t in (_teamRepo.Read<StoredTeam>()))
+                if (t.Name.Contains(TeamName.ToLower()))
+                {
+                    yield return new Team(t);
+                }
+            yield break;
         }
+            
+        
 
         public Team GetTeam(int TeamID)
         {
-            throw new NotImplementedException();
-            _teamRepo.Read<StoredTeam>(TeamID);
+            return new Team(_teamRepo.Read<StoredTeam>(TeamID));
         }
 
     }
