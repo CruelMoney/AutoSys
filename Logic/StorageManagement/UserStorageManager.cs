@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic.Model;
+using Logic.Model.DTO;
 using Storage.Repository;
 
 namespace Logic.StorageManagement
@@ -20,7 +17,7 @@ namespace Logic.StorageManagement
             _userRepo = repo;
         }
 
-        public void CreateUser(String UserName, String MetaData)
+        public void CreateUser(string UserName, string MetaData)
         {
             throw new NotImplementedException();
         }

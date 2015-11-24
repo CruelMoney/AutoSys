@@ -6,15 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
-using Logic.Model.Data;
 using Logic.TaskManagement;
 
 namespace Logic.StorageManagement
 {
     public class TaskStorageManager : IObservable<TaskRequester>
     {
-
-       
         IRepository _taskRepo;
         public IEnumerable<StoredTask> Tasks => _taskRepo.Read<StoredTask>().Include("User");
 

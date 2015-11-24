@@ -1,7 +1,6 @@
-﻿using Logic.Model.DTO;
-using Storage.Repository;
+﻿using Storage.Repository;
 
-namespace Logic.Model.Data
+namespace Storage.Data
 {
     public class StoredTaskSubmission : TaskSubmission, IEntity
     {

@@ -1,12 +1,7 @@
 ﻿using Storage.Repository;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic.Model;
-using Logic.Model.Data;
+using Logic.Model.DTO;
 
 namespace Logic.StorageManagement
 {
