@@ -77,7 +77,7 @@
     <Compile Include="Model\DTO\ConflictingData.cs" />
     <Compile Include="Model\DTO\DataField.cs" />
     <Compile Include="Model\DTO\Resource.cs" />
-    <Compile Include="Model\DTO\StageOverview.cs" />
+    <Compile Include="Model\DTO\PhaseOverview.cs" />
     <Compile Include="Model\DTO\StudyOverview.cs" />
     <Compile Include="Model\DTO\TaskRequest.cs" />
     <Compile Include="Model\DTO\TaskSubmission.cs" />
