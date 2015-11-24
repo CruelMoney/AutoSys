@@ -3,7 +3,7 @@ using Storage.Repository;
 
 namespace Logic.Model.Data
 {
-    public class StoredStageOverview : StageOverview, IEntity
+    public class StoredPhaseOverview : PhaseOverview, IEntity
     {
         public int Id { get; set; }
     }

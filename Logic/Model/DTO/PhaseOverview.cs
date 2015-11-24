@@ -6,7 +6,7 @@ namespace Logic.Model.DTO
     /// <summary>
     /// The overview of a stage within a <see cref="StudyOverview"/>.
     /// </summary>
-    public class StageOverview
+    public class PhaseOverview
     {
         /// <summary>
         /// An optional short name describing the key point of interest of this stage.
