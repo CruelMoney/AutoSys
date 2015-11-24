@@ -22,34 +22,37 @@ namespace Logic.TeamCRUD
             _teamStorageManager = storageManager;
         }
 
-        public void CreateTeam(String TeamName, IEnumerable<User> UserList, String MetaData)
+        public void CreateTeam(String TeamName, int[] UserIDList, String MetaData)
         {
-            throw new NotImplementedException();
-            //_teamStorageManager.SaveTeam(new Model.DTO.Team()) Opret team.
+            var TeamToAdd = new Team();
+            TeamToAdd.Name = TeamName;
+            TeamToAdd.UserIDs = UserIDList;
+            TeamToAdd.Metadata = MetaData;
+
+            _teamStorageManager.SaveTeam(TeamToAdd);
         }
 
         public void RemoveTeam(int TeamID)
         {
-            throw new NotImplementedException();
             _teamStorageManager.RemoveTeam(TeamID);
         }
 
         public void UpdateTeam(int TeamID, String UpdatedName, String UpdatedMetaData)
         {
-            throw new NotImplementedException();
-            //_teamStorageManager.UpdateTeam(new Team()) opret team med samme id og nyt data
+            var TeamToUpdate = _teamStorageManager.GetTeam(TeamID);         //gets the team to save unupdated fields.
+            TeamToUpdate.Name = UpdatedName;
+            TeamToUpdate.Metadata = UpdatedMetaData;
+            _teamStorageManager.UpdateTeam(TeamToUpdate);
         }
 
         public IEnumerable<Team> SearchTeams(String TeamName)
         {
-            throw new NotImplementedException();
-            _teamStorageManager.SearchTeams(TeamName);
+            return _teamStorageManager.SearchTeams(TeamName);
         }
 
         public Team GetTeam(int TeamID)
         {
-            throw new NotImplementedException();
-            _teamStorageManager.GetTeam(TeamID);
+            return _teamStorageManager.GetTeam(TeamID);
         }
 
     }
