@@ -21,27 +21,33 @@ namespace Logic.TeamCRUD
             _teamStorageManager = storageManager;
         }
 
-        public void CreateTeam()
+        public void CreateTeam(String TeamName, IEnumerable<User> UserList, String MetaData)
         {
-            //_teamStorageManager.CreateTeam();
             throw new NotImplementedException();
         }
 
-        public void UpdateTeam()
+        public void RemoveTeam(int TeamID)
         {
-            //_teamStorageManager.UpdateTeam();
             throw new NotImplementedException();
         }
 
-        public void GetTeam()
+        public void UpdateTeam(int TeamID, String UpdatedName, String UpdatedMetaData)
         {
-            //_teamStorageManager.GetTeam();
             throw new NotImplementedException();
         }
 
-        public void DeleteTeam()
+        public Boolean TeamExistsByName(String TeamName)
         {
-            //_teamStorageManager.RemoveTeam();
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Team> SearchTeams(String TeamName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Team GetTeam(int TeamID)
+        {
             throw new NotImplementedException();
         }
 

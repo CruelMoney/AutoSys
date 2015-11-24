@@ -19,9 +19,10 @@ namespace Logic.StorageManagement
         {
             _teamRepo = repo;
         }
-        public void CreateTeam(String TeamName, IEnumerable<User> UserList, String MetaData)
+        public void SaveTeam(Team TeamToSave)
         {
             throw new NotImplementedException();
+            
         }
 
         public void RemoveTeam(int TeamID)
