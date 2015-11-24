@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Http;
 using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
+using Logic.StorageManagement;
 
 namespace Logic.Controllers
 {
@@ -19,6 +20,10 @@ namespace Logic.Controllers
         {
             // GET: api/Team
             // GET: api/Team?name=untouchables
+
+            TeamStorageManager man = new TeamStorageManager();
+            man.SearchTeams(name);
+
             throw new NotImplementedException();
         }
 
@@ -28,6 +33,9 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the team to retrieve.</param>
         public Team Get(int id)
         {
+            TeamStorageManager man = new TeamStorageManager();
+            man.GetTeam(id);
+
             // GET: api/Team/5
             throw new NotImplementedException();
         }

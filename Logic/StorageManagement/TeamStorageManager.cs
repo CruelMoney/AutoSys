@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Logic.Model;
 using Logic.Model.DTO;
 using Storage.Repository;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
