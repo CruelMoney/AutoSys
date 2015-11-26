@@ -14,10 +14,10 @@ namespace Logic.TaskManagement
         private TaskGenerator _taskGenerator;
         private TaskStorageManager _storageManager;
         private readonly User _user;
-        private readonly Study _study;
+        private readonly StudyLogic _study;
 
 
-        public TaskRequester(TaskStorageManager storageManager, User user, Study study, TaskGenerator taskGenerator)
+        public TaskRequester(TaskStorageManager storageManager, User user, StudyLogic study, TaskGenerator taskGenerator)
         {
             _storageManager = storageManager;
             _user = user;
@@ -30,12 +30,12 @@ namespace Logic.TaskManagement
         {
             _storageManager = new TaskStorageManager();
             _user = new User();
-            _study = new Study();
+            _study = new StudyLogic();
             _taskGenerator = new TaskGenerator(_study);
             _storageManager.Subscribe(this as IObserver<TaskRequester>);
         }
 
-        public void GetTaskForUser(User user, Study study)
+        public void GetTaskForUser(User user, StudyLogic study)
         {
 
             throw new NotImplementedException();

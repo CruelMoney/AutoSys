@@ -4,10 +4,10 @@ using Logic.Model;
 namespace BibliographyParser
 {
     /// <summary>
-    /// Parses text containing bibliographic data into a collection of bibliography <see cref="Item"/> objects.
+    /// Parses text containing bibliographic data into a collection of bibliography <see cref="ItemLogic"/> objects.
     /// </summary>
     public interface IBibliographyParser
     {
-        List<Item> Parse(string data);
+        List<ItemLogic> Parse(string data);
     }
 }

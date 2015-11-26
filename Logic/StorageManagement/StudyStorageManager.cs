@@ -20,7 +20,7 @@ namespace Logic.StorageManagement
             _studyRepo = repo;
         }
 
-        public StoredStudy saveStudy(string name, Team team, List<Item> studyData)
+        public StoredStudy saveStudy(string name, Team team, List<ItemLogic> studyData)
         {
             
             var newStudy = new StoredStudy() { Name = name, Team = team, studyData = studyData };     

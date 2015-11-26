@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Logic.Model
 {
-    public class User : IEntity
+    public class TeamLogic : IEntity
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get;  set}
+        public int UserId { get; set; }
+        public virtual List<UserLogic> Users { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace Logic.TaskManagement
   
         }
 
-        public TaskRequest GetTasksForUser(User user, Study study)
+        public TaskRequest GetTasksForUser(User user, StudyLogic study)
         {
             throw new NotImplementedException();
         }
