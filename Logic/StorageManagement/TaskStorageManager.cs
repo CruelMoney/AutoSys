@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
 using Logic.TaskManagement;
-using Logic.Model.Data;
 using Logic.Model.DTO;
 
 namespace Logic.StorageManagement
@@ -15,7 +14,7 @@ namespace Logic.StorageManagement
     public class TaskStorageManager : IObservable<TaskRequester>
     {
         IRepository _taskRepo;
-        public IEnumerable<StoredTask> Tasks => _taskRepo.Read<StoredTask>().Include("User");
+        public IEnumerable<TaskLogic> Tasks => _taskRepo.Read<TaskLogic>().Include("User");
 
         public TaskStorageManager()
         {
@@ -31,12 +30,12 @@ namespace Logic.StorageManagement
             throw new NotImplementedException();
         }
 
-        public void CreateTask(StoredTask task)
+        public void CreateTask(TaskLogic task)
         {
             _taskRepo.Create(task);
         }
 
-        public void UpdateTask(StoredTask task)
+        public void UpdateTask(TaskLogic task)
         {
             _taskRepo.Update(task);
         }
@@ -46,9 +45,9 @@ namespace Logic.StorageManagement
             throw new NotImplementedException();
         }
 
-        public StoredTask FindStoredTask(TaskRequest task)
+        public TaskLogic FindTaskLogic(TaskRequest task)
         {
-            return _taskRepo.Read<StoredTask>().ToList().First(g => g.Id.Equals(task.Id));
+            return _taskRepo.Read<TaskLogic>().ToList().First(g => g.Id.Equals(task.Id));
         }
     }
 }

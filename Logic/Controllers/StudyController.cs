@@ -4,6 +4,7 @@ using System.Web.Http;
 using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
 using Logic.StorageManagement;
+using Logic.TaskManagement;
 
 namespace Logic.Controllers
 {

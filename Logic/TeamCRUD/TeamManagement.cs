@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Logic.StorageManagement;
 using Logic.Model.DTO;
+using Logic.Model;
 
 namespace Logic.TeamCRUD
 {
@@ -45,12 +46,12 @@ namespace Logic.TeamCRUD
             _teamStorageManager.UpdateTeam(TeamToUpdate);
         }
 
-        public IEnumerable<Team> SearchTeams(String TeamName)
+        public IEnumerable<TeamLogic> SearchTeams(String TeamName)
         {
             return _teamStorageManager.SearchTeams(TeamName);
         }
 
-        public Team GetTeam(int TeamID)
+        public TeamLogic GetTeam(int TeamID)
         {
             return _teamStorageManager.GetTeam(TeamID);
         }

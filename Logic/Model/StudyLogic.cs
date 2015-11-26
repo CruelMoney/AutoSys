@@ -11,7 +11,6 @@ namespace Logic.Model
         public bool IsFinished { get; set; }
         public int TeamId { get; set; }
         public virtual TeamLogic Team { get; set; }
-        public int StageId { get; set; }
         public virtual List<StageLogic> Stages { get; set; }
         public int ItemId { get; set; }
         public virtual List<ItemLogic> Items { get; set; } // where to place?
