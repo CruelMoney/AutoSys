@@ -11,23 +11,17 @@ namespace Logic.TaskManagement
 {
     public class TaskDeliver
     {
-        private TaskStorageManager _storageManager;
         
-
-        public TaskDeliver(TaskStorageManager storageManager)
-        {
-            _storageManager = storageManager;
-        }
+        
 
         public TaskDeliver()
         {
-            _storageManager = new TaskStorageManager();
         }
 
-        public void DeliverTask(TaskRequest taskToDeliver)
+        public TaskRequest DeliverTask(TaskSubmission taskToDeliver)
         {
-            var task = _storageManager.FindStoredTask(taskToDeliver);
-            _storageManager.UpdateTask(task); 
+            //konverter tasksubmission til taskrequest og send tilbage
+            throw new NotImplementedException();
         }
 
 
