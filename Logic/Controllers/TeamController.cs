@@ -21,8 +21,8 @@ namespace Logic.Controllers
             // GET: api/Team
             // GET: api/Team?name=untouchables
 
-            TeamStorageManager man = new TeamStorageManager();
-            man.SearchTeams(name);
+            TeamStorageManager manager = new TeamStorageManager();
+            manager.SearchTeams(name);
 
             throw new NotImplementedException();
         }
@@ -33,8 +33,8 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the team to retrieve.</param>
         public Team Get(int id)
         {
-            TeamStorageManager man = new TeamStorageManager();
-            man.GetTeam(id);
+            TeamStorageManager manager = new TeamStorageManager();
+            manager.GetTeam(id);
 
             // GET: api/Team/5
             throw new NotImplementedException();
