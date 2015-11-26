@@ -19,8 +19,7 @@ namespace Logic.StorageManagement.Tests
         Mock<IRepository> mockStudyRepo;
         Dictionary<int, StudyLogic> _storedStudies;
         int id = 1;
-        TeamLogic _testTeam = new TeamLogic();
-        List<ItemLogic> _testList = new List<ItemLogic>();
+        StudyLogic _testStudy = new StudyLogic() { Id = 1, CurrentStage = 1, IsFinished = false, ItemId = 1, Items = new List<ItemLogic>(), Stages = new List<StageLogic>(), Team = new TeamLogic(), TeamId = 1 };
 
         [TestInitialize]
         public void InitializeRepo()
@@ -69,11 +68,11 @@ namespace Logic.StorageManagement.Tests
         public void AddStudyTest()
         {
             StudyStorageManager TestManager = new StudyStorageManager(mockStudyRepo.Object);
-            var TestStudy = TestManager.saveStudy("TestStudy", _testTeam, _testList);
+            var SavedTestStudy = TestManager.saveStudy(_testStudy);
             Assert.AreEqual(1, _storedStudies.Values.ToList().Count);
-            Assert.AreEqual(TestStudy.Name, "TestStudy");
-            Assert.AreEqual(TestStudy.Team, _testTeam);
-            Assert.AreEqual(TestStudy.studyData, _testList);
+            Assert.AreEqual(SavedTestStudy.Id, 1);
+            Assert.AreEqual(SavedTestStudy.Team, _testStudy.Team);
+            Assert.AreEqual(SavedTestStudy.Items, _testStudy.Items);
             throw new NotImplementedException();
         }
 

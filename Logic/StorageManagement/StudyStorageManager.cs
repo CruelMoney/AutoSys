@@ -9,7 +9,6 @@ namespace Logic.StorageManagement
     public class StudyStorageManager
     {
         IRepository _studyRepo;
-        public IEnumerable<StudyLogic> Tasks => _studyRepo.Read<StudyLogic>();
         public StudyStorageManager()
         {
         }
@@ -21,10 +20,8 @@ namespace Logic.StorageManagement
 
         public StudyLogic saveStudy(StudyLogic study)
         {
-
-            var newStudy = study;  
-            _studyRepo.Create(newStudy);
-            return newStudy;
+            _studyRepo.Create(study);
+            return study;
         }
 
         //public List<Study>
