@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Storage.Repository;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement.Tests
 {
@@ -15,6 +16,7 @@ namespace Logic.StorageManagement.Tests
     {
         // Dictionary<int, StoredStudy> _studies;
         Mock<IRepository> mockStudyRepo;
+        Dictionary<int, StoredStudy> _storedStudies;
         int id = 1;
 
         [TestInitialize]
@@ -23,12 +25,36 @@ namespace Logic.StorageManagement.Tests
             id = 1;
             // _studies = new Dictionary<int, StoredStudy>();
             mockStudyRepo = new Mock<IRepository>();
+            _storedStudies = new Dictionary<int, StoredStudy>();
 
             // Read item
+            mockStudyRepo.Setup(r => r.Read<StoredStudy>(It.IsAny<int>())).Returns<int, StoredStudy>((id, stud) => _storedStudies.First(e => e.Key == id).Value);
+
             // Read items
+            mockStudyRepo.Setup(r => r.Read<StoredStudy>()).Returns(_storedStudies.Values.AsQueryable());
+
             // Create 
+            mockStudyRepo.Setup(r => r.Create<StoredStudy>(It.IsAny<StoredStudy>())).Callback<StoredStudy>(study =>
+            {
+                int nextId = id++;
+                study.Id = nextId;
+                _storedStudies.Add(nextId, study);
+            });
+
             // Update
+            mockStudyRepo.Setup(r => r.Update<StoredStudy>(It.IsAny<StoredStudy>())).Callback<StoredStudy>(study =>
+            {
+                if (_storedStudies.ContainsKey(study.Id))
+                {
+                    _storedStudies[study.Id] = study;
+                }
+            });
+
             // Delete
+            mockStudyRepo.Setup(r => r.Delete<StoredStudy>(It.IsAny<StoredStudy>())).Callback<StoredStudy>(study =>
+            {
+                _storedStudies.Remove(study.Id);
+            });
 
         }
 
@@ -39,11 +65,13 @@ namespace Logic.StorageManagement.Tests
         [TestMethod()]
         public void AddStudyTest()
         {
+            StudyStorageManager TestManager = new StudyStorageManager(mockStudyRepo.Object);
+            var TestStudy = TestManager.saveStudy("team1", new Model.DTO.Team())
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Tests if a study has been removed to the mock repo
+        /// Tests if a study has been removed from the mock repo
         /// </summary>
 
         [TestMethod()]
