@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Logic.Model.DTO;
 using Storage.Repository;
 using Logic.Model.Data;
+using Logic.Model;
 
 namespace Logic.StorageManagement
 {
@@ -20,35 +21,35 @@ namespace Logic.StorageManagement
 
         public void SaveUser(User UserToSave)
         {
-            var StoredUserToSave = new StoredUser(UserToSave);
-            _userRepo.Create(StoredUserToSave);
+            var UserLogicToSave = new UserLogic(UserToSave);
+            _userRepo.Create(UserLogicToSave);
         }
 
         public void RemoveUser(int UserWithIDToDelete)
         {
-            _userRepo.Delete(_userRepo.Read<StoredUser>(UserWithIDToDelete));
+            _userRepo.Delete(_userRepo.Read<UserLogic>(UserWithIDToDelete));
         }
 
         public void UpdateUser(User UserToUpdate)
         {
-            var StoredUserToUpdate = new StoredUser(UserToUpdate);
-            _userRepo.Update<StoredUser>(StoredUserToUpdate);
+            var UserLogicToUpdate = new UserLogic(UserToUpdate);
+            _userRepo.Update<UserLogic>(UserLogicToUpdate);
         }
 
-        public IEnumerable<User> SearchUsers(String UserName)
+        public IEnumerable<UserLogic> SearchUsers(String UserName)
         {
-            foreach (StoredUser t in (_userRepo.Read<StoredUser>()))
+            foreach (UserLogic u in (_userRepo.Read<UserLogic>()))
                 if (t.Name.Contains(UserName.ToLower()))
                 {
-                    yield return new User(t);
+                    yield return u;
                 }
             yield break;
         }
 
 
-        public User GetUser(int UserID)
+        public UserLogic GetUser(int UserID)
         {
-            return new User(_userRepo.Read<StoredUser>(UserID));
+            return _userRepo.Read<UserLogic>(UserID);
         }
 
     }

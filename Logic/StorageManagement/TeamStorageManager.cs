@@ -15,7 +15,7 @@ namespace Logic.StorageManagement
         IRepository _teamRepo;
         public TeamStorageManager()
         {
-            _teamRepo = new EntityFrameworkRepository<TContext>();
+            _teamRepo = new EntityFrameworkRepository<StudyDataContext>();
         }
         
         public TeamStorageManager(IRepository repo)
@@ -25,36 +25,36 @@ namespace Logic.StorageManagement
 
         public void SaveTeam(Team TeamToSave)
         {
-            var StoredTeamToSave = new StoredTeam(TeamToSave);
-            _teamRepo.Create(StoredTeamToSave);
+            var TeamLogicToSave = new TeamLogic(TeamToSave);
+            _teamRepo.Create(TeamLogicToSave);
         }
 
         public void RemoveTeam(int TeamWithIDToDelete)
         {
-            _teamRepo.Delete(_teamRepo.Read<StoredTeam>(TeamWithIDToDelete));
+            _teamRepo.Delete(_teamRepo.Read<TeamLogic>(TeamWithIDToDelete));
         }
 
         public void UpdateTeam(Team TeamToUpdate)
         { 
-            var StoredTeamToUpdate = new StoredTeam(TeamToUpdate);
-            _teamRepo.Update<StoredTeam>(StoredTeamToUpdate);
+            var TeamLogicToUpdate = new TeamLogic(TeamToUpdate);
+            _teamRepo.Update<TeamLogic>(TeamLogicToUpdate);
         }
 
-        public IEnumerable<Team> SearchTeams(String TeamName)
+        public IEnumerable<TeamLogic> SearchTeams(String TeamName)
         {
-            foreach(StoredTeam t in (_teamRepo.Read<StoredTeam>()))
+            foreach(TeamLogic t in (_teamRepo.Read<TeamLogic>()))
                 if (t.Name.Contains(TeamName.ToLower()))
                 {
-                    yield return new Team(t);
+                    yield return t ;
                 }
             yield break;
         }
             
         
 
-        public Team GetTeam(int TeamID)
+        public TeamLogic GetTeam(int TeamID)
         {
-            return new Team(_teamRepo.Read<StoredTeam>(TeamID));
+            return _teamRepo.Read<TeamLogic>(TeamID);
         }
 
     }
