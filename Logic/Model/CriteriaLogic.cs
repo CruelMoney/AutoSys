@@ -24,6 +24,8 @@ namespace Logic.Model
             Exists
         }
 
+        public virtual StageLogic Stage { get; set; } // reference to Stage (many to one)
+
         public int Id { get; set; }
 
         /// <summary>

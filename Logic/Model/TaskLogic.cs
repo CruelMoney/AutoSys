@@ -39,6 +39,7 @@ namespace Logic.Model
             Done
         }
 
+        public virtual StageLogic Stage { get; set; } // reference to Stage (many to one)
 
         /// <summary>
         /// A unique identifier for the task.
