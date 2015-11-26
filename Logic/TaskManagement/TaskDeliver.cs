@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
 using Logic.StorageManagement;
+using Logic.Model.DTO;
 
 namespace Logic.TaskManagement
 {
@@ -23,10 +24,10 @@ namespace Logic.TaskManagement
             _storageManager = new TaskStorageManager();
         }
 
-        public void DeliverTask(UserTask taskToDeliver)
+        public void DeliverTask(TaskRequest taskToDeliver)
         {
             var task = _storageManager.FindStoredTask(taskToDeliver);
-            _storageManager.SaveTask(task); 
+            _storageManager.UpdateTask(task); 
         }
 
 

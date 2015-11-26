@@ -28,7 +28,7 @@ namespace Logic.StorageManagement
             return newStudy;
         }
 
-        public List<Study>
+        //public List<Study>
 
     }
 }
