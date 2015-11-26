@@ -1,15 +1,11 @@
-﻿using Logic.Model.DTO;
+﻿using System;
+using Logic.Model.DTO;
 using Storage.Repository;
 
 namespace Logic.Model.Data
 {
-    public class StoredUser : User, IEntity
+    public class StoredUser : IEntity
     {
-        public StoredUser(User GivenUser)
-        {
-            this.Id = GivenUser.Id;
-            this.Name = GivenUser.Name;
-            this.Metadata = GivenUser.Metadata;
-        }
+        public int Id { get; set; }
     }
 }
