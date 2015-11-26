@@ -15,6 +15,7 @@ namespace Logic.StorageManagement
         IRepository _teamRepo;
         public TeamStorageManager()
         {
+            _teamRepo = new EntityFrameworkRepository<TContext>();
         }
         
         public TeamStorageManager(IRepository repo)

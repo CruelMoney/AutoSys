@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
 using Logic.Model.DTO;
+using Logic.StorageManagement;
 
 namespace Logic.TaskManagement
 {
@@ -12,17 +13,20 @@ namespace Logic.TaskManagement
     {
         private readonly TaskDeliver _taskDeliver;
         private TaskRequester _taskRequester;
+        private TaskStorageManager _storageManager;
 
-        public TaskController(TaskDeliver taskDeliver, TaskRequester taskRequester)
+        public TaskController(TaskDeliver taskDeliver, TaskRequester taskRequester, TaskStorageManager taskStorage)
         {
             _taskDeliver = taskDeliver;
             _taskRequester = taskRequester;
+            _storageManager = taskStorage;
         }
 
         public TaskController()
         {
             _taskDeliver = new TaskDeliver();
             _taskRequester = new TaskRequester();
+            _storageManager = new TaskStorageManager();
         }
 
         public void deliverTask(TaskSubmission task)

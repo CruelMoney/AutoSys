@@ -77,14 +77,11 @@
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Model\Criteria.cs" />
-    <Compile Include="Model\Data\StoredConflictingData.cs" />
     <Compile Include="Model\Data\StoredDataField.cs" />
     <Compile Include="Model\Data\StoredResource.cs" />
-    <Compile Include="Model\Data\StoredStageOverview.cs" />
+    <Compile Include="Model\Data\StoredStage.cs" />
     <Compile Include="Model\Data\StoredStudy.cs" />
-    <Compile Include="Model\Data\StoredStudyOverview.cs" />
-    <Compile Include="Model\Data\StoredTaskRequest.cs" />
-    <Compile Include="Model\Data\StoredTaskSubmission.cs" />
+    <Compile Include="Model\Data\StoredTask.cs" />
     <Compile Include="Model\Data\StoredTeam.cs" />
     <Compile Include="Model\Data\StoredUser.cs" />
     <Compile Include="Model\Data\StudyDataContext.cs" />
@@ -101,6 +98,10 @@
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Stage.cs" />
     <Compile Include="Model\Study.cs" />
+    <Compile Include="Model\StudyDataContext.cs" />
+    <Compile Include="Model\Task.cs" />
+    <Compile Include="Model\Team.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StorageManagement\StudyStorageManager.cs" />
