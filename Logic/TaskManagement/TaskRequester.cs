@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
 using Logic.StorageManagement;
+using Logic.Model.DTO;
 
 namespace Logic.TaskManagement
 {

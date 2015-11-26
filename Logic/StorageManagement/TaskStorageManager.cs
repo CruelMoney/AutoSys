@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Logic.Model;
 using Logic.TaskManagement;
 using Logic.Model.Data;
+using Logic.Model.DTO;
 
 namespace Logic.StorageManagement
 {
@@ -30,14 +31,24 @@ namespace Logic.StorageManagement
             throw new NotImplementedException();
         }
 
-        public void SaveTask(StoredTaskRequest task)
+        public void CreateTask(StoredTaskRequest task)
         {
             _taskRepo.Create(task);
         }
 
-        public StoredTaskRequest FindStoredTask(UserTask task)
+        public void UpdateTask(StoredTaskRequest task)
         {
-            return _taskRepo.Read<StoredTask>().ToList().First(g => g.Id.Equals(task.Id));
+            _taskRepo.Update(task);
+        }
+
+        public IEnumerable<TaskRequest> GetTasksForUser(int userID) //ikke sikkert det skal være her
+        {
+            throw new NotImplementedException();
+        }
+
+        public StoredTaskRequest FindStoredTask(TaskRequest task)
+        {
+            return _taskRepo.Read<StoredTaskRequest>().ToList().First(g => g.Id.Equals(task.Id));
         }
     }
 }
