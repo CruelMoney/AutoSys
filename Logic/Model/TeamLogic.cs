@@ -12,8 +12,10 @@ namespace Logic.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int[] UserIDs { get; set; }
-        public String Metadata { get; set; }
+        public int[] UserIDs { get; set; } // skal det her være der? what to do
+        public virtual List<StudyLogic> Studies { get;  set;}  // reference til Study (one to many)
+        public virtual List<UserLogic> Users { get; set; }     // reference til Users (one to many)
+        public string Metadata { get; set; }
 
         public TeamLogic(Team team)
         {

@@ -12,7 +12,9 @@ namespace Logic.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public TeamLogic TeamLogic { get; set; } // reference til Team (many to one)
         public String Metadata { get; set; }
+
 
         public UserLogic(User user)
         {

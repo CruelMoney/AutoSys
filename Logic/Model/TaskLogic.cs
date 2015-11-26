@@ -10,6 +10,7 @@ namespace Logic.Model
 {
     public class TaskLogic : IEntity
     {
+
         /// <summary>
         /// Defines whether the requested tasks are reviewing tasks, conflict tasks, or any task.
         /// </summary>
@@ -39,6 +40,7 @@ namespace Logic.Model
             Done
         }
 
+        public virtual StageLogic Stage { get; set; } // reference to Stage (many to one)
 
         /// <summary>
         /// A unique identifier for the task.
@@ -58,11 +60,11 @@ namespace Logic.Model
         /// <summary>
         /// A list of data fields which are to be shown to the user, but are not editable.
         /// </summary>
-        public DataField[] VisibleFields { get; set; }
+        public DataFieldLogic[] VisibleFieldsLogic { get; set; }
 
         /// <summary>
         /// A list of requested data fields which need to be filled out as part of the task.
         /// </summary>
-        public DataField[] RequestedFields { get; set; }
+        public DataFieldLogic[] RequestedFieldsLogic { get; set; }
     }
 }

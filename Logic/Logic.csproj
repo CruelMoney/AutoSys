@@ -77,6 +77,7 @@
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Model\CriteriaLogic.cs" />
+    <Compile Include="Model\DataFieldLogic.cs" />
     <Compile Include="Model\DTO\ConflictingData.cs" />
     <Compile Include="Model\DTO\DataField.cs" />
     <Compile Include="Model\DTO\Resource.cs" />

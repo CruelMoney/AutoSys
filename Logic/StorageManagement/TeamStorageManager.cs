@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Logic.Model;
+using Logic.Model.Data;
 using Logic.Model.DTO;
 using Storage.Repository;
 
@@ -24,8 +25,8 @@ namespace Logic.StorageManagement
 
         public void SaveTeam(Team TeamToSave)
         {
-            var TeamLogicToSave = new TeamLogic(TeamToSave);
-            _teamRepo.Create(TeamLogicToSave);
+            var TeamToSave = new TeamLogic(TeamToSave);
+            _teamRepo.Create(TeamToSave);
         }
 
         public void RemoveTeam(int TeamWithIDToDelete)
