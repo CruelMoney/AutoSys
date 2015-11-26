@@ -15,6 +15,5 @@ namespace Logic.Model
         public virtual List<CriteriaLogic> Criteria { get; set; }
         public int TaskId { get; set; }
         public virtual List<TaskLogic> Tasks { get; set; }
-
     }
 }

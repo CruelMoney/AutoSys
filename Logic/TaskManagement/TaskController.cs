@@ -7,26 +7,28 @@ using Logic.Model;
 using Logic.Model.DTO;
 using Logic.StorageManagement;
 
+
 namespace Logic.TaskManagement
 {
     public class TaskController
     {
         private readonly TaskDeliver _taskDeliver;
         private TaskRequester _taskRequester;
-        private TaskStorageManager _storageManager;
+        private StudyStorageManager _studyStorageManager;
 
-        public TaskController(TaskDeliver taskDeliver, TaskRequester taskRequester, TaskStorageManager taskStorage)
+        public TaskController(TaskDeliver taskDeliver, TaskRequester taskRequester, StudyStorageManager taskStorage)
         {
             _taskDeliver = taskDeliver;
             _taskRequester = taskRequester;
-            _storageManager = taskStorage;
+            _studyStorageManager = taskStorage;
+            
         }
 
         public TaskController()
         {
             _taskDeliver = new TaskDeliver();
             _taskRequester = new TaskRequester();
-            _storageManager = new TaskStorageManager();
+            _studyStorageManager = new StudyStorageManager();
         }
 
         public void deliverTask(TaskSubmission task)
@@ -36,9 +38,19 @@ namespace Logic.TaskManagement
   
         }
 
-        public TaskRequest GetTasksForUser(User user, StudyLogic study)
+        public TaskRequest GetTasksForUser(int id, int userId, int count, TaskRequest.Filter filter, TaskRequest.Type type)
         {
-            throw new NotImplementedException();
+            var study = _studyStorageManager.GetStudy(id);
+            StageLogic currentStageLogic;
+            foreach(var stage in study.Stages)
+            {
+                if (stage.Id == study.CurrentStage)
+                {
+                    currentStageLogic = stage;
+                }
+            }
+            currentStageLogic.Tasks
+           
         }
     }
 }
