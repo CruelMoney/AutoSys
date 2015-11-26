@@ -79,7 +79,7 @@ namespace Logic.Model
         /// </summary>
         public readonly ItemType Type;
 
-        public ItemLogic(ItemType type, Dictionary<FieldType, string> fields)
+        public ItemLogic(ItemType type, IDictionary<FieldType, string> fields)
         {
             Type = type;
             Fields = new Dictionary<FieldType, string>(fields);

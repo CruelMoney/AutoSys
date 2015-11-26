@@ -50,12 +50,7 @@ namespace Logic.TeamCRUD.Tests
         [TestMethod()]
         public void RetrieveTeamTest()
         {
-            var TeamManager = new TeamManagement();
-            int[] UserIDs = new int[] { 1, 2, 3, 4 };
-            TeamManager.CreateTeam("SuperTeam", UserIDs, "some metadata");
-            Assert.AreSame(TeamManager.GetTeam(0).UserIDs, UserIDs);
-            Assert.AreSame(TeamManager.GetTeam(0).Name, "SuperTeam");
-            Assert.AreSame(TeamManager.GetTeam(0).Metadata, "some metadata");
+            throw new NotImplementedException();
         }
 
         [TestMethod()]

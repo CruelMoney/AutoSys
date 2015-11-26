@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
-using Logic.StorageManagement;
+using Logic.TeamCRUD;
 
 namespace Logic.Controllers
 {
@@ -13,18 +14,17 @@ namespace Logic.Controllers
     [RoutePrefix("api/User")]
     internal class UserController : ApiController, IUserController
     {
+        private readonly UserManager _manager = new UserManager();
+
         /// <summary>
         /// Get all users.
         /// </summary>
         /// <param name="name">Search for users which match the specified name.</param>
         public IEnumerable<User> Get(string name = "")
         {
-            UserStorageManager manager = new UserStorageManager();
-            manager.SearchUsers(name);
-
             // GET: api/User
             // GET: api/User?name=alice
-            throw new NotImplementedException();
+            return _manager.SearchUsers(name);
         }
 
         /// <summary>
@@ -33,11 +33,8 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the user to retrieve.</param>
         public User Get(int id)
         {
-            UserStorageManager manager = new UserStorageManager();
-            manager.GetUser(id);
-
             // GET: api/User/5
-            throw new NotImplementedException();
+            return _manager.GetUser(id);
         }
 
         /// <summary>
@@ -59,7 +56,14 @@ namespace Logic.Controllers
         public IHttpActionResult Post([FromBody]User user)
         {
             // POST: api/User
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            user.Id = _manager.CreateUser(user);
+
+            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
         }
 
         /// <summary>
@@ -70,7 +74,26 @@ namespace Logic.Controllers
         public IHttpActionResult Put(int id, [FromBody]User user)
         {
             // PUT: api/User/5
-            throw new NotImplementedException();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //Is the user id always entered?
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+
+            var updated =  _manager.UpdateUser(id, user);
+
+            if (!updated)
+            {
+                return NotFound();
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);           
         }
 
         /// <summary>
@@ -81,7 +104,15 @@ namespace Logic.Controllers
         public IHttpActionResult Delete(int id)
         {
             // DELETE: api/User/5
-            throw new NotImplementedException();
+            var deleted = _manager.RemoveUser(id);
+
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+
         }
     }
 }

@@ -22,13 +22,7 @@ namespace Logic.TaskManagement
         public IEnumerable<TaskRequest> GenerateTasks(StudyLogic study, StageLogic stage)
         {
             throw new NotImplementedException();
-            if (stage.StageType == TaskRequest.Type.Review)
-            {
-                foreach (var item in study.Items)
-                {
-                   ///create task
-                }
-            }
+           
         }
 
     }

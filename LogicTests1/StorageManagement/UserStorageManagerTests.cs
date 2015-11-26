@@ -14,7 +14,7 @@ namespace Logic.StorageManagement.Tests
     public class UserStorageManagerTests
     {
         // Dictionary<int, StoredUser> _users;
-        Mock<IRepository> mockUserRepo;
+        Mock<IGenericRepository> mockUserRepo;
         int id = 1;
 
         [TestInitialize]
@@ -22,7 +22,7 @@ namespace Logic.StorageManagement.Tests
         {
             id = 1;
             // _users = new Dictionary<int, StoredUser>();
-            mockUserRepo = new Mock<IRepository>();
+            mockUserRepo = new Mock<IGenericRepository>();
 
             // Read item
             // Read items

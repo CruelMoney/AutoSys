@@ -30,10 +30,7 @@ namespace Logic.StudyConfiguration
 
         public StudyLogic NewStudy(string name, Team team, string studyData)
         {
-            var data = ParseData(studyData);
-           
-            var newStudy = _studyStorageManager.saveStudy(name, team, data);
-            return newStudy;
+            throw new NotImplementedException();
         }
 
 

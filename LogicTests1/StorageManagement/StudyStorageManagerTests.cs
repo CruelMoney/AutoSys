@@ -16,17 +16,17 @@ namespace Logic.StorageManagement.Tests
     public class StudyStorageManagerTests
     {
         // Dictionary<int, StudyLogic> _studies;
-        Mock<IRepository> mockStudyRepo;
+        Mock<IGenericRepository> mockStudyRepo;
         Dictionary<int, StudyLogic> _storedStudies;
         int id = 1;
-        StudyLogic _testStudy = new StudyLogic() { Id = 1, CurrentStage = 1, IsFinished = false, ItemId = 1, Items = new List<ItemLogic>(), Stages = new List<StageLogic>(), Team = new TeamLogic(), TeamId = 1 };
+        StudyLogic _testStudy = new StudyLogic() { Id = 1, CurrentStage = 1, IsFinished = false, Items = new List<ItemLogic>(), Stages = new List<StageLogic>(), Team = new TeamLogic(), TeamId = 1 };
 
         [TestInitialize]
         public void InitializeRepo()
         {
             id = 1;
             // _studies = new Dictionary<int, StudyLogic>();
-            mockStudyRepo = new Mock<IRepository>();
+            mockStudyRepo = new Mock<IGenericRepository>();
             _storedStudies = new Dictionary<int, StudyLogic>();
 
             // Read item
