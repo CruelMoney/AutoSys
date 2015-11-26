@@ -73,7 +73,7 @@ namespace Logic.Model
                 case DataField.DataType.Resource:
                     return CheckResource(data);
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("Criteria not having datatype ");
             }
         }
 

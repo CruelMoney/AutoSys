@@ -8,18 +8,7 @@ namespace Logic.Model.DTO
     /// </summary>
     public class Team
     {
-        public Team(StoredTeam GivenTeam)
-        {
-            this.Id = GivenTeam.Id;
-            this.Name = GivenTeam.Name;
-            this.Metadata = GivenTeam.Metadata;
-            this.UserIDs = GivenTeam.UserIDs;
-        }
-
-        public Team()
-        {
-        }
-
+        
         /// <summary>
         /// A unique identifier for the team.
         /// </summary>

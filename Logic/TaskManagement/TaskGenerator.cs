@@ -26,10 +26,7 @@ namespace Logic.TaskManagement
             {
                 foreach (var item in study.Items)
                 {
-                    var task = new TaskRequest {TaskType = TaskRequest.Type.Review};
-                    var dataField = stage.Criteria.Field;
-                    task.RequestedFields[1] = dataField;
-                    yield return task;
+                   ///create task
                 }
             }
         }
