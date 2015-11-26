@@ -21,6 +21,7 @@ namespace Logic.StorageManagement
         {
             _teamRepo = repo;
         }
+
         public void SaveTeam(Team TeamToSave)
         {
             var StoredTeamToSave = new StoredTeam(TeamToSave);
