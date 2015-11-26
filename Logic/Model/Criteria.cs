@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Logic.Model.DTO;
 using Newtonsoft.Json.Bson;
+using Storage.Repository;
 
 namespace Logic.Model
 {
-    public class Criteria
+    public class Criteria : IEntity
     {    
         public enum CriteriaType
         {
@@ -22,6 +23,8 @@ namespace Logic.Model
             IsYear,
             Exists
         }
+
+        public int Id { get; set; }
 
         /// <summary>
         /// A name for the criteria.
@@ -70,7 +73,7 @@ namespace Logic.Model
                 case DataField.DataType.Resource:
                     return CheckResource(data);
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("Criteria not having datatype ");
             }
         }
 

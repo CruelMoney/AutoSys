@@ -8,17 +8,7 @@ namespace Logic.Model.DTO
     /// </summary>
     public class User
     {
-        public User(StoredUser GivenUser)
-        {
-            this.Id = GivenUser.Id;
-            this.Name = GivenUser.Name;
-            this.Metadata = GivenUser.Metadata;
-        }
-
-        public User()
-        {
-        }
-
+        
         /// <summary>
         /// A unique identifier for the user.
         /// </summary>

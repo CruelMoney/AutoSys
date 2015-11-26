@@ -98,6 +98,10 @@
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Stage.cs" />
     <Compile Include="Model\Study.cs" />
+    <Compile Include="Model\StudyDataContext.cs" />
+    <Compile Include="Model\Task.cs" />
+    <Compile Include="Model\Team.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StorageManagement\StudyStorageManager.cs" />

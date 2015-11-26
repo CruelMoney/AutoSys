@@ -33,7 +33,7 @@ namespace Logic.TaskManagement
         {
             //TaskDeliver skal have kode til at ændre en submitted task til dens tilsvarende requested task, den kalder på
             // taskdeliver, som ændrer, returnerer den nye (og færdige) udgave af taskrequest. den sendes med koden herunder.
-            _taskDeliver.DeliverTask(task);
+  
         }
 
         public TaskRequest GetTasksForUser(User user, Study study)
