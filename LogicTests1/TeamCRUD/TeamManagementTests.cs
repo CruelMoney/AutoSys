@@ -50,7 +50,12 @@ namespace Logic.TeamCRUD.Tests
         [TestMethod()]
         public void RetrieveTeamTest()
         {
-            throw new NotImplementedException();
+            var TeamManager = new TeamManagement();
+            int[] UserIDs = new int[] { 1, 2, 3, 4 };
+            TeamManager.CreateTeam("SuperTeam", UserIDs, "some metadata");
+            Assert.AreEqual(TeamManager.GetTeam(1).UserIDs, UserIDs);
+            Assert.AreEqual(TeamManager.GetTeam(1).Name, "SuperTeam");
+            Assert.AreEqual(TeamManager.GetTeam(1).Metadata, "some metadata");
         }
 
         [TestMethod()]
