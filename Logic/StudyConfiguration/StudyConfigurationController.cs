@@ -5,7 +5,6 @@ using Logic.Model;
 using Logic.StorageManagement;
 using Logic.StudyConfiguration.BiblographyParser.bibTex;
 using Logic.Model.DTO;
-using Logic.Model.Data;
 
 namespace Logic.StudyConfiguration
 {
@@ -29,7 +28,7 @@ namespace Logic.StudyConfiguration
         }
 
 
-        public StoredStudy NewStudy(string name, Team team, string studyData)
+        public StudyLogic NewStudy(string name, Team team, string studyData)
         {
             var data = ParseData(studyData);
            

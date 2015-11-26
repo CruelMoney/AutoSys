@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Logic.Model.DTO;
-using Logic.Model.Data;
 using Logic.Model;
 
 namespace Logic.StorageManagement
@@ -10,7 +9,7 @@ namespace Logic.StorageManagement
     public class StudyStorageManager
     {
         IRepository _studyRepo;
-        public IEnumerable<StoredStudy> Tasks => _studyRepo.Read<StoredStudy>();
+        public IEnumerable<StudyLogic> Tasks => _studyRepo.Read<StudyLogic>();
         public StudyStorageManager()
         {
         }
