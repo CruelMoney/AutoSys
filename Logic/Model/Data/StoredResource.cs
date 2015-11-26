@@ -3,7 +3,7 @@ using Storage.Repository;
 
 namespace Logic.Model.Data
 {
-    public class ResourceField : Resource, IEntity
+    public class ResourceField : IEntity
     {
         public int Id { get; set; }
     }

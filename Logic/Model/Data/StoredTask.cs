@@ -3,8 +3,9 @@ using Storage.Repository;
 
 namespace Logic.Model.Data
 {
-    public class StoredTaskRequest : TaskRequest, IEntity
+
+    public class StoredTask : IEntity
     {
-     
+        public int Id { get; set; }
     }
 }
