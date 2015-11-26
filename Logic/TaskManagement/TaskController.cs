@@ -49,7 +49,17 @@ namespace Logic.TaskManagement
                     currentStageLogic = stage;
                 }
             }
-            currentStageLogic.Tasks
+            var users = study.Team.Users;
+            UserLogic currentUser;
+            foreach(var user in users)
+            {
+                if (user.Id == userId)
+                {
+                    currentUser = user;
+                }
+            }
+            List<TaskLogic> tasks;
+            currentStageLogic.UserTasks.TryGetValue(currentUser, out tasks);
            
         }
     }
