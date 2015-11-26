@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Moq;
 using Storage.Repository;
 using Logic.Model.Data;
+using Logic.Model;
+using Logic.Model.DTO;
 
 namespace Logic.StorageManagement.Tests
 {
@@ -18,6 +20,8 @@ namespace Logic.StorageManagement.Tests
         Mock<IRepository> mockStudyRepo;
         Dictionary<int, StoredStudy> _storedStudies;
         int id = 1;
+        Team _testTeam = new Team();
+        List<Item> _testList = new List<Item>();
 
         [TestInitialize]
         public void InitializeRepo()
@@ -66,7 +70,11 @@ namespace Logic.StorageManagement.Tests
         public void AddStudyTest()
         {
             StudyStorageManager TestManager = new StudyStorageManager(mockStudyRepo.Object);
-            var TestStudy = TestManager.saveStudy("team1", new Model.DTO.Team())
+            var TestStudy = TestManager.saveStudy("TestStudy", _testTeam, _testList);
+            Assert.AreEqual(1, _storedStudies.Values.ToList().Count);
+            Assert.AreEqual(TestStudy.Name, "TestStudy");
+            Assert.AreEqual(TestStudy.Team, _testTeam);
+            Assert.AreEqual(TestStudy.studyData, _testList);
             throw new NotImplementedException();
         }
 

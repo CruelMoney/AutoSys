@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 namespace Logic.Model.Data
 {
-    public class StoredStudy : Study,  IEntity
+    public class StoredStudy : StudyLogic,  IEntity
     {
         public int Id { get; set; }
+        public string Name { get; set; }
+        public List<Item> studyData { get; set; }
     }
 }

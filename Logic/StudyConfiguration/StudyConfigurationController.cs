@@ -39,7 +39,7 @@ namespace Logic.StudyConfiguration
 
 
 
-        private List<Item> ParseData(string studyData)
+        private List<ItemLogic> ParseData(string studyData)
         {
             throw new NotImplementedException();
             return _parser.Parse(studyData);
