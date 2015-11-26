@@ -13,14 +13,18 @@ namespace Logic.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public int[] UserIDs { get; set; }
-        public String MetaData { get; set; }
+        public String Metadata { get; set; }
 
         public TeamLogic(Team team)
         {
             this.Id = team.Id;
             this.Name = team.Name;
             this.UserIDs = team.UserIDs;
-            this.MetaData = team.Metadata;
+            this.Metadata = team.Metadata;
+        }
+        public TeamLogic()
+        {
+
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using Logic.Model.Data;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Logic.Model.DTO
 {

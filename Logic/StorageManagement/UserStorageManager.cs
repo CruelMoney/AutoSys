@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Logic.Model.DTO;
 using Storage.Repository;
-using Logic.Model.Data;
 using Logic.Model;
 
 namespace Logic.StorageManagement
@@ -39,7 +38,7 @@ namespace Logic.StorageManagement
         public IEnumerable<UserLogic> SearchUsers(String UserName)
         {
             foreach (UserLogic u in (_userRepo.Read<UserLogic>()))
-                if (t.Name.Contains(UserName.ToLower()))
+                if (u.Name.Contains(UserName.ToLower()))
                 {
                     yield return u;
                 }

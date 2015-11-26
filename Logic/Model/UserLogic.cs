@@ -12,13 +12,17 @@ namespace Logic.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public String MetaData { get; set; }
+        public String Metadata { get; set; }
 
         public UserLogic(User user)
         {
             this.Id = user.Id;
             this.Name = user.Name;
-            this.MetaData = user.Metadata;
+            this.Metadata = user.Metadata;
+        }
+        public UserLogic()
+        {
+
         }
     }
 }
