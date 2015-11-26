@@ -89,7 +89,7 @@
     <Compile Include="Model\ItemLogic.cs" />
     <Compile Include="Model\StageLogic.cs" />
     <Compile Include="Model\StudyLogic.cs" />
-    <Compile Include="Model\StudyDataContext.cs" />
+    <Compile Include="Model\Data\StudyDataContext.cs" />
     <Compile Include="Model\TaskLogic.cs" />
     <Compile Include="Model\TeamLogic.cs" />
     <Compile Include="Model\UserLogic.cs" />
@@ -120,7 +120,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\Data\" />
     <Folder Include="StudyOverview\" />
   </ItemGroup>
   <ItemGroup>
