@@ -40,6 +40,7 @@ namespace Logic.TaskManagement
 
         public TaskRequest GetTasksForUser(int id, int userId, int count, TaskRequest.Filter filter, TaskRequest.Type type)
         {
+
             var study = _studyStorageManager.GetStudy(id);
             StageLogic currentStageLogic;
             foreach(var stage in study.Stages)
@@ -59,8 +60,10 @@ namespace Logic.TaskManagement
                 }
             }
             List<TaskLogic> tasks;
-            currentStageLogic.UserTasks.TryGetValue(currentUser, out tasks);
-           
+
+
+            throw new NotImplementedException();
+
         }
     }
 }
