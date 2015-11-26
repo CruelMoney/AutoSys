@@ -10,17 +10,17 @@ namespace LogicTests1.Model
     public class CriteriaTests
     {
 
-        Criteria testCriteria1;
-        Criteria testCriteria2;
-        Criteria testCriteria3;
-        Criteria testCriteria4;
-        Criteria testCriteria5;
+        CriteriaLogic testCriteria1;
+        CriteriaLogic testCriteria2;
+        CriteriaLogic testCriteria3;
+        CriteriaLogic testCriteria4;
+        CriteriaLogic testCriteria5;
         DataField testDataField;
 
         [TestInitialize]
         public void setup()
         {
-            testCriteria1 = new Criteria()
+            testCriteria1 = new CriteriaLogic()
             {
                 Name = "testCriteria",
                 Description = "this is a test Criteria"
@@ -34,7 +34,7 @@ namespace LogicTests1.Model
         public void CheckResourceExists()
         {
             //Arrange
-            testCriteria1.Rule = Criteria.CriteriaType.Exists;
+            testCriteria1.Rule = CriteriaLogic.CriteriaType.Exists;
             testCriteria1.DataType = DataField.DataType.Resource;
 
             var data = new string[1];
@@ -54,7 +54,7 @@ namespace LogicTests1.Model
         public void CheckFlags_Contains_Excact()
         {
             //Arrange
-            testCriteria1.Rule = Criteria.CriteriaType.Contains;
+            testCriteria1.Rule = CriteriaLogic.CriteriaType.Contains;
             testCriteria1.DataType = DataField.DataType.Flags;
 
             string[] expectedData = new string[3]

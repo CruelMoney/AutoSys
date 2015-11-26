@@ -15,7 +15,7 @@ namespace Logic.StorageManagement.Tests
     [TestClass()]
     public class StudyStorageManagerTests
     {
-        // Dictionary<int, StoredStudy> _studies;
+        // Dictionary<int, StudyLogic> _studies;
         Mock<IRepository> mockStudyRepo;
         Dictionary<int, StudyLogic> _storedStudies;
         int id = 1;
@@ -25,7 +25,7 @@ namespace Logic.StorageManagement.Tests
         public void InitializeRepo()
         {
             id = 1;
-            // _studies = new Dictionary<int, StoredStudy>();
+            // _studies = new Dictionary<int, StudyLogic>();
             mockStudyRepo = new Mock<IRepository>();
             _storedStudies = new Dictionary<int, StudyLogic>();
 
