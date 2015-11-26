@@ -10,6 +10,7 @@ namespace Logic.Model
 {
     public class TaskLogic : IEntity
     {
+
         /// <summary>
         /// Defines whether the requested tasks are reviewing tasks, conflict tasks, or any task.
         /// </summary>
