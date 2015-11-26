@@ -77,15 +77,6 @@
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Model\CriteriaLogic.cs" />
-    <Compile Include="Model\Data\StoredDataField.cs" />
-    <Compile Include="Model\Data\StoredResource.cs" />
-    <Compile Include="Model\Data\StoredStage.cs" />
-    <Compile Include="Model\Data\StoredStudy.cs" />
-    <Compile Include="Model\Data\StoredTask.cs" />
-    <Compile Include="Model\Data\StoredTeam.cs" />
-    <Compile Include="Model\Data\StoredUser.cs" />
-    <Compile Include="Model\Data\StudyDataContext.cs" />
-    <Compile Include="Model\Data\TeamDataContext.cs" />
     <Compile Include="Model\DTO\ConflictingData.cs" />
     <Compile Include="Model\DTO\DataField.cs" />
     <Compile Include="Model\DTO\Resource.cs" />
@@ -129,6 +120,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Model\Data\" />
     <Folder Include="StudyOverview\" />
   </ItemGroup>
   <ItemGroup>
