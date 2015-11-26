@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Logic.Model
 {
-    public class Task : IEntity
+    public class UserLogic : IEntity
     {
         public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

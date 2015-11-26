@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Logic.Model.Data
 {
-    public class StoredStudy : Study,  IEntity
+    public class StoredStudy : StudyLogic,  IEntity
     {
         public int Id { get; set; }
     }

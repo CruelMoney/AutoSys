@@ -10,7 +10,7 @@ using Storage.Repository;
 
 namespace Logic.Model
 {
-    public class Criteria : IEntity
+    public class CriteriaLogic : IEntity
     {    
         public enum CriteriaType
         {
