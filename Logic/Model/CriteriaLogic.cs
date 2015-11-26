@@ -77,7 +77,7 @@ namespace Logic.Model
             }
         }
 
-        ///TODO Maybe check if the source is avaliable. Don't know excactly how sources work.
+        //TODO Maybe check if the source is avaliable. Don't know excactly how sources work.
         private bool CheckResource(DataField data)
         {
             switch (Rule)
@@ -114,10 +114,6 @@ namespace Logic.Model
             {
                 case CriteriaType.Equals:
                     return DataMatch.SequenceEqual(data.Data);
-                case CriteriaType.LargerThan:
-                    return data.Data.Length > DataMatch.Length;
-                case CriteriaType.SmallerThan:
-                    return data.Data.Length < DataMatch.Length;
                 case CriteriaType.Exists:
                     return data.Data.Any();
                 default:
@@ -129,7 +125,7 @@ namespace Logic.Model
         {
             switch (Rule)
             {
-                case CriteriaType.Equals:
+               case CriteriaType.Equals:
                     return DataMatch.SequenceEqual(data.Data);
                default:
                     throw new ArgumentOutOfRangeException("The criteria rule doesn't match the dataType");
