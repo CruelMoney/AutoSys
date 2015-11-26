@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Model
+namespace Logic.Model.Data
 {
     public class StudyDataContext : DbContext, IDbContext
     {
