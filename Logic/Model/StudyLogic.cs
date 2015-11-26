@@ -6,6 +6,7 @@ namespace Logic.Model
 {
     public class StudyLogic : IEntity
     {
+        public string Name { get; set; }
         public int Id { get; set; }
         public int CurrentStage { get; set; }
         public bool IsFinished { get; set; }

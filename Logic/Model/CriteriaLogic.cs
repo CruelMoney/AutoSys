@@ -41,13 +41,13 @@ namespace Logic.Model
         /// <summary>
         /// The type of data this criteria holds.
         /// </summary>
-        public DataField.DataType DataType { get; set; }
+        public DataFieldLogic.DataType DataType { get; set; }
 
         /// <summary>
         /// The data the rule is checked against. 
         /// The data this Field holds depends on the data type.
-        /// For all but <see cref="DataField.DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).
-        /// For DataField it can contain several flags that is checked in regards to the rule. 
+        /// For all but <see cref="Logic.Model.DTO.DataFieldLogic.DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).
+        /// For DataFieldLogic it can contain several flags that is checked in regards to the rule. 
         /// </summary>
         public string[] DataMatch { get; set; }
 
@@ -57,22 +57,22 @@ namespace Logic.Model
         public CriteriaType Rule { get; set; }
 
         /// <summary>
-        /// Takes a <see cref="DataField" /> and checks the Datafields data against the criterias DataMatch using the defined rule. 
+        /// Takes a <see cref="Logic.Model.DTO.DataField" /> and checks the Datafields data against the criterias DataMatch using the defined rule. 
         /// </summary>
         /// <param name="data">The data to check if meets the rule.</param>
-        public bool CriteriaIsMet(DataField data)
+        public bool CriteriaIsMet(DataFieldLogic data)
         {
             switch (data.FieldType)
             {
-                case DataField.DataType.String:
+                case DataFieldLogic.DataType.String:
                     return CheckString(data);
-                case DataField.DataType.Boolean:
+                case DataFieldLogic.DataType.Boolean:
                     return CheckBool(data);
-                case DataField.DataType.Enumeration:
+                case DataFieldLogic.DataType.Enumeration:
                     return CheckEnum(data);
-                case DataField.DataType.Flags:
+                case DataFieldLogic.DataType.Flags:
                     return CheckFlags(data);
-                case DataField.DataType.Resource:
+                case DataFieldLogic.DataType.Resource:
                     return CheckResource(data);
                 default:
                     throw new ArgumentOutOfRangeException("Criteria not having datatype ");
@@ -80,7 +80,7 @@ namespace Logic.Model
         }
 
         //TODO Maybe check if the source is avaliable. Don't know excactly how sources work.
-        private bool CheckResource(DataField data)
+        private bool CheckResource(DataFieldLogic data)
         {
             switch (Rule)
             {
@@ -91,7 +91,7 @@ namespace Logic.Model
             }
         }
 
-        private bool CheckFlags(DataField data)
+        private bool CheckFlags(DataFieldLogic data)
         {
             switch (Rule)
             {
@@ -110,7 +110,7 @@ namespace Logic.Model
             }
         }
 
-        private bool CheckEnum(DataField data)
+        private bool CheckEnum(DataFieldLogic data)
         {
             switch (Rule)
             {
@@ -123,7 +123,7 @@ namespace Logic.Model
             }
         }
 
-        private bool CheckBool(DataField data)
+        private bool CheckBool(DataFieldLogic data)
         {
             switch (Rule)
             {
@@ -134,7 +134,7 @@ namespace Logic.Model
             }
         }
 
-        private bool CheckString(DataField data)
+        private bool CheckString(DataFieldLogic data)
         {
             int a;
             int b;

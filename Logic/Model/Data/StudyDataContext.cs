@@ -17,6 +17,7 @@ namespace Logic.Model.Data
         public DbSet<CriteriaLogic> Criteria { get; set; }
         public DbSet<TaskLogic> Tasks { get; set; }
         public DbSet<ItemLogic> Items { get; set; }
+        public DbSet<DataFieldLogic> DataFields { get; set; }
     }
     
 }

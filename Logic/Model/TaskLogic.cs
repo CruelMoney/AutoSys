@@ -60,11 +60,11 @@ namespace Logic.Model
         /// <summary>
         /// A list of data fields which are to be shown to the user, but are not editable.
         /// </summary>
-        public DataField[] VisibleFields { get; set; }
+        public DataFieldLogic[] VisibleFieldsLogic { get; set; }
 
         /// <summary>
         /// A list of requested data fields which need to be filled out as part of the task.
         /// </summary>
-        public DataField[] RequestedFields { get; set; }
+        public DataFieldLogic[] RequestedFieldsLogic { get; set; }
     }
 }
