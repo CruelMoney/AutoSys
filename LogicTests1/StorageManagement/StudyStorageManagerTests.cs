@@ -20,8 +20,8 @@ namespace Logic.StorageManagement.Tests
         Mock<IRepository> mockStudyRepo;
         Dictionary<int, StoredStudy> _storedStudies;
         int id = 1;
-        Team _testTeam = new Team();
-        List<Item> _testList = new List<Item>();
+        TeamLogic _testTeam = new TeamLogic();
+        List<ItemLogic> _testList = new List<ItemLogic>();
 
         [TestInitialize]
         public void InitializeRepo()
