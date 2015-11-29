@@ -26,10 +26,11 @@ namespace Logic.Model.CriteriaValidator
         public bool Validate(Criteria criteria, DataFieldLogic data)
         {
             var type = criteria.Rule;
-
+            var checkData = data.Data;
+            var criteriaData = criteria.DataMatch;
             if (_checkers.ContainsKey(type))
             {
-                return _checkers[type].IsRuleMet(data, criteria);
+                return _checkers[type].IsRuleMet(checkData, criteriaData);
             }
             else
             {

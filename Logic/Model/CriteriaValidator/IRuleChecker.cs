@@ -1,4 +1,6 @@
-﻿namespace Logic.Model.CriteriaValidator
+﻿using System.Collections.Generic;
+
+namespace Logic.Model.CriteriaValidator
 {
     public interface IRuleChecker
     {
@@ -6,7 +8,8 @@
         /// Checks whether the given data meets the rule.
         /// </summary>
         /// <param name="data"></param>
+        /// <param name="criteriaData"></param>
         /// <returns>true when the specified item is valid; false otherwise.</returns>
-        bool IsRuleMet(DataFieldLogic data, Criteria criteria);
+        bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData);
     }
 }

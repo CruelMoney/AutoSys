@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Logic.Model.CriteriaValidator
@@ -6,7 +7,7 @@ namespace Logic.Model.CriteriaValidator
 
     public class DefaultRuleChecker : IRuleChecker
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
             throw new NotImplementedException();
         }
@@ -21,9 +22,9 @@ namespace Logic.Model.CriteriaValidator
     /// <returns></returns>
     public class DataExistsRule : IRuleChecker
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData = null)
         {
-            return !(data.Data == null || !data.Data.Any());
+            return !(data == null || !data.Any());
         }
     }
 
@@ -36,16 +37,14 @@ namespace Logic.Model.CriteriaValidator
     /// <returns></returns>
     public class DataContainsRule : IRuleChecker
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
-            var list1 = data;
-            var list2 = criteria.DataMatch;
-            if (list1.Data.Count() != 1 && list2.Count() != 1)
+            if (data.Count() != 1 && criteriaData.Count() != 1)
             {
-                return !list2.Except(list1.Data).Any();
+                return !criteriaData.Except(data).Any();
             }
 
-            return list1.Data.First().Contains(list2.First());
+            return data.First().Contains(criteriaData.First());
         }
     }
 
@@ -59,9 +58,9 @@ namespace Logic.Model.CriteriaValidator
     public class EqualIgnoreOrderRule : IRuleChecker
 
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
-            return data.Data.OrderBy(t => t).SequenceEqual(criteria.DataMatch.OrderBy(t => t));
+            return data.OrderBy(t => t).SequenceEqual(criteriaData.OrderBy(t => t));
         }
     }
 
@@ -74,17 +73,17 @@ namespace Logic.Model.CriteriaValidator
     /// <returns></returns>
     public class LargerThanRule : IRuleChecker
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
-            if (data.Data.Count() != 1 || criteria.DataMatch.Count() != 1)
+            if (data.Count() != 1 || criteriaData.Count() != 1)
             {
-                return data.Data.Count() > criteria.DataMatch.Count();
+                return data.Count() > criteriaData.Count();
             }
 
             try
             {
-                var first = decimal.Parse(data.Data.First());
-                var second = decimal.Parse(criteria.DataMatch.First());
+                var first = decimal.Parse(data.First());
+                var second = decimal.Parse(criteriaData.First());
                 return first > second;
             }
             catch (Exception)
@@ -104,17 +103,17 @@ namespace Logic.Model.CriteriaValidator
     /// <returns></returns>
     public class SmallerThanRule : IRuleChecker
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
-            if (data.Data.Count() != 1 || criteria.DataMatch.Count() != 1)
+            if (data.Count() != 1 || criteriaData.Count() != 1)
             {
-                return data.Data.Count() < criteria.DataMatch.Count();
+                return data.Count() < criteriaData.Count();
             }
 
             try
             {
-                var first = decimal.Parse(data.Data.First());
-                var second = decimal.Parse(criteria.DataMatch.First());
+                var first = decimal.Parse(data.First());
+                var second = decimal.Parse(criteriaData.First());
                 return first < second;
             }
             catch (Exception)
@@ -133,16 +132,16 @@ namespace Logic.Model.CriteriaValidator
     /// <returns></returns>
     public class BeforeYearRule : IRuleChecker
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
-            if (data.Data.Count() > 1 || criteria.DataMatch.Count() > 1)
+            if (data.Count() > 1 || criteriaData.Count() > 1)
             {
                 throw new ArgumentOutOfRangeException("The data array contains more than 1 object");
             }
             try
             {
-                var checkYear = Convert.ToDateTime(data.Data.First());
-                var inputYear = Convert.ToDateTime(criteria.DataMatch.First());
+                var checkYear = Convert.ToDateTime(data.First());
+                var inputYear = Convert.ToDateTime(criteriaData.First());
                 return inputYear.Year > checkYear.Year;
             }
             catch (Exception)
@@ -161,16 +160,16 @@ namespace Logic.Model.CriteriaValidator
     /// <returns></returns>
     public class AfterYearRule : IRuleChecker
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
-            if (data.Data.Count() > 1 || criteria.DataMatch.Count() > 1)
+            if (data.Count() > 1 || criteriaData.Count() > 1)
             {
                 throw new ArgumentOutOfRangeException("The data array contains more than 1 object");
             }
             try
             {
-                var checkYear = Convert.ToDateTime(data.Data.First());
-                var inputYear = Convert.ToDateTime(criteria.DataMatch.First());
+                var checkYear = Convert.ToDateTime(data.First());
+                var inputYear = Convert.ToDateTime(criteriaData.First());
                 return inputYear.Year < checkYear.Year;
             }
             catch (Exception)
@@ -182,16 +181,16 @@ namespace Logic.Model.CriteriaValidator
 
     public class IsYear : IRuleChecker
     {
-        public bool IsRuleMet(DataFieldLogic data, Criteria criteria)
+        public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
-            if (data.Data.Count() > 1 || criteria.DataMatch.Count() > 1)
+            if (data.Count() > 1 || criteriaData.Count() > 1)
             {
                 throw new ArgumentOutOfRangeException("The data array contains more than 1 object");
             }
             try
             {
-                var checkYear = Convert.ToDateTime(data.Data.First());
-                var inputYear = Convert.ToDateTime(criteria.DataMatch.First());
+                var checkYear = Convert.ToDateTime(data.First());
+                var inputYear = Convert.ToDateTime(criteriaData.First());
                 return inputYear.Year.Equals(checkYear.Year);
             }
             catch (Exception)

@@ -10,14 +10,7 @@ namespace LogicTests1.Model
     [TestClass]
     public class CriteriaTests
     {
-        DataExistsRule _dataExistsRule = new DataExistsRule();
-        DataContainsRule _dataContainsRule = new DataContainsRule();
-        LargerThanRule _largerThanRule = new LargerThanRule();
-        SmallerThanRule _smallerThanRule = new SmallerThanRule();
-        EqualIgnoreOrderRule _equalIgnoreOrderRule =new EqualIgnoreOrderRule();
-        AfterYearRule _afterYearRule = new AfterYearRule();
-        BeforeYearRule _beforeYearRule = new BeforeYearRule();
-        IsYear _isYearRule = new IsYear();
+        CriteriaValidator _criteriaValidator = new CriteriaValidator();
         Criteria testCriteria1;
         Criteria testCriteria2;
         Criteria testCriteria3;
@@ -60,7 +53,7 @@ namespace LogicTests1.Model
             };
             
             //Assert
-            Assert.IsTrue(_dataExistsRule.IsRuleMet(testDataField, testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -84,7 +77,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsTrue(_dataContainsRule.IsRuleMet(testDataField, testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -113,7 +106,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsTrue(_dataContainsRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -142,7 +135,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsTrue(_dataContainsRule.IsRuleMet(testDataField, testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -171,7 +164,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsFalse(_dataContainsRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -200,7 +193,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsTrue(_equalIgnoreOrderRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -229,7 +222,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsTrue(_equalIgnoreOrderRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -258,7 +251,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsFalse(_equalIgnoreOrderRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -290,8 +283,8 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsTrue(_largerThanRule.IsRuleMet(testDataField,testCriteria1));
-            Assert.IsFalse(_smallerThanRule.IsRuleMet(testDataField, testCriteria2));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria2, testDataField));
         }
 
         [TestMethod]
@@ -323,8 +316,8 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsFalse(_largerThanRule.IsRuleMet(testDataField, testCriteria1));
-            Assert.IsTrue(_smallerThanRule.IsRuleMet(testDataField, testCriteria2));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria2, testDataField));
         }
 
 
@@ -346,7 +339,7 @@ namespace LogicTests1.Model
         };
 
             //Assert
-            Assert.IsTrue(_dataExistsRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -363,7 +356,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsFalse(_dataExistsRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -380,7 +373,7 @@ namespace LogicTests1.Model
             };
 
             //Assert
-            Assert.IsFalse(_dataExistsRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
 
@@ -400,7 +393,7 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = new string[1] {"1"};
 
             //Assert
-            Assert.IsTrue(_equalIgnoreOrderRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -419,7 +412,7 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = new string[1] { "1" };
 
             //Assert
-            Assert.IsFalse(_equalIgnoreOrderRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -438,7 +431,7 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = new string[1] { "true" };
 
             //Assert
-            Assert.IsTrue(_equalIgnoreOrderRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -457,7 +450,7 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = new string[1] { "false" };
 
             //Assert
-            Assert.IsFalse(_equalIgnoreOrderRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -476,7 +469,7 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = new string[1] { "testing" };
 
             //Assert
-            Assert.IsTrue(_dataContainsRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
@@ -495,7 +488,7 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = new string[1] { "testing" };
 
             //Assert
-            Assert.IsTrue(_dataContainsRule.IsRuleMet(testDataField,testCriteria1));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
     }

@@ -1,7 +1,6 @@
-﻿using System;
-using Storage.Repository;
+﻿using Storage.Repository;
 
-namespace Logic.Model.CriteriaValidator
+namespace Logic.Model
 {
     public class Criteria : IEntity
     {    
