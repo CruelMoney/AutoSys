@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using BibliographyParser;
 using Logic.Model;
 
 namespace Logic.StudyConfiguration.BiblographyParser

@@ -12,7 +12,7 @@ namespace Logic.StudyConfiguration.BiblographyParser
         /// <summary>
         /// Checks whether a specified item is valid.
         /// </summary>
-        /// <param name="item">The item to validate.</param>
+        /// <param name="item">The item to Validate.</param>
         /// <returns>true when the specified item is valid; false otherwise.</returns>
         bool Validate(ItemLogic item);
     }

@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using BibliographyParser;
 
 namespace Logic.StudyConfiguration.BiblographyParser
 {

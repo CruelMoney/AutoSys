@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Logic.Model;
-using Logic.StudyConfiguration.BiblographyParser;
 
-namespace BibliographyParser
+namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
     /// This class is used for validating bibliographic <see cref="ItemLogic"/> objects.
@@ -27,7 +26,7 @@ namespace BibliographyParser
         /// <summary>
         /// Checks whether or not a given item is valid.
         /// </summary>
-        /// <param name="item">The item to validate.</param>
+        /// <param name="item">The item to Validate.</param>
         /// <returns>true if the item is valid; false otherwise.</returns>
         public bool IsItemValid(ItemLogic item)
         {

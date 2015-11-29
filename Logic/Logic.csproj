@@ -76,7 +76,13 @@
     <Compile Include="Controllers\StudyController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Model\CriteriaLogic.cs" />
+    <Compile Include="Model\CriteriaValidator\Criteria.cs" />
+    <Compile Include="Model\CriteriaValidator\CriteriaCheckers.cs" />
+    <Compile Include="Model\CriteriaValidator\CriteriaValidator.cs" />
+    <Compile Include="Model\CriteriaValidator\ICriteriaChecker.cs" />
+    <Compile Include="Model\CriteriaValidator\ICriteriaValidator.cs" />
+    <Compile Include="Model\CriteriaValidator\IRuleChecker.cs" />
+    <Compile Include="Model\CriteriaValidator\RuleCheckers.cs" />
     <Compile Include="Model\DataFieldLogic.cs" />
     <Compile Include="Model\DTO\ConflictingData.cs" />
     <Compile Include="Model\DTO\DataField.cs" />

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BibliographyParser;
 using Logic.Model;
 using Logic.StorageManagement;
 using Logic.StudyConfiguration.BiblographyParser.bibTex;
 using Logic.Model.DTO;
+using Logic.StudyConfiguration.BiblographyParser;
 
 namespace Logic.StudyConfiguration
 {
