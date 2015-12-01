@@ -11,7 +11,7 @@ using Logic.Model;
 
 namespace Logic.StorageManagement.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class TeamStorageManagerTests
     {
         Dictionary<int, TeamLogic> _teams;

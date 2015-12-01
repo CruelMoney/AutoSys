@@ -11,7 +11,7 @@ using Logic.Model;
 
 namespace Logic.StorageManagement.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class UserStorageManagerTests
     {
         Dictionary<int, UserLogic> _users;
@@ -23,16 +23,15 @@ namespace Logic.StorageManagement.Tests
         {
             id = 1;
             _users = new Dictionary<int, UserLogic>();
-
             mockUserRepo = new Mock<IGenericRepository>();
 
             // Read item - UserLogic
             mockUserRepo.Setup(r => r.Read<UserLogic>(It.IsAny<int>())).Returns<int, UserLogic>((id, user) => _users.First(e => e.Key == id).Value);
 
-            // Read items - TeamLogic
+            // Read items - UserLogic
             mockUserRepo.Setup(r => r.Read<UserLogic>()).Returns(_users.Values.AsQueryable());
 
-            // Create - TeamLogic
+            // Create - UserLogic
             mockUserRepo.Setup(r => r.Create<UserLogic>(It.IsAny<UserLogic>())).Callback<UserLogic>(user =>
             {
                 int nextId = id++;
@@ -41,7 +40,7 @@ namespace Logic.StorageManagement.Tests
 
             });
 
-            // Update - TeamLogic
+            // Update - UserLogic
             mockUserRepo.Setup(r => r.Update<UserLogic>(It.IsAny<UserLogic>())).Callback<UserLogic>(user =>
             {
                 if (_users.ContainsKey(user.Id))
@@ -50,7 +49,7 @@ namespace Logic.StorageManagement.Tests
                 }
             });
 
-            // Delete - TeamLogic
+            // Delete - UserLogic
             mockUserRepo.Setup(r => r.Delete<UserLogic>(It.IsAny<UserLogic>())).Callback<UserLogic>(user =>
             {
                 _users.Remove(user.Id);

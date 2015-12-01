@@ -7,28 +7,50 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using Storage.Repository;
+using Logic.Model;
 
 namespace Logic.StorageManagement.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class TaskStorageManagerTests
     {
-        // Dictionary<int, StoredTask> _tasks;
+        Dictionary<int, TaskLogic> _tasks;
         Mock<IGenericRepository> mockTaskRepo;
-        int id = 1;
+        int id;
 
         [TestInitialize]
         public void InitializeRepo()
         {
             id = 1;
-            // _tasks = new Dictionary<int, StoredTask>();
+            _tasks = new Dictionary<int, TaskLogic>();
             mockTaskRepo = new Mock<IGenericRepository>();
 
-            // Read item
-            // Read items
-            // Create 
-            // Update
-            // Delete
+            // Read items - TaskLogic
+            mockTaskRepo.Setup(r => r.Read<TaskLogic>()).Returns(_tasks.Values.AsQueryable());
+
+            // Create - TaskLogic
+            mockTaskRepo.Setup(r => r.Create<TaskLogic>(It.IsAny<TaskLogic>())).Callback<TaskLogic>(task =>
+            {
+                int nextId = id++;
+                task.Id = nextId;
+                _tasks.Add(nextId, task);
+
+            });
+
+            // Update - TaskLogic
+            mockTaskRepo.Setup(r => r.Update<TaskLogic>(It.IsAny<TaskLogic>())).Callback<TaskLogic>(task =>
+            {
+                if (_tasks.ContainsKey(task.Id))
+                {
+                    _tasks[task.Id] = task;
+                }
+            });
+
+            // Delete - TaskLogic
+            mockTaskRepo.Setup(r => r.Delete<TaskLogic>(It.IsAny<TaskLogic>())).Callback<TaskLogic>(task =>
+            {
+                _tasks.Remove(task.Id);
+            });
 
         }
 
@@ -36,10 +58,14 @@ namespace Logic.StorageManagement.Tests
         /// Tests if a task has been added to the mock repo
         /// </summary>
 
-        [TestMethod()]
-        public void AddTaskTest()
+        [TestMethod]
+        public void StorageCreateTaskTest()
         {
-            throw new NotImplementedException();
+            TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
+            Assert.AreEqual(0, _tasks.Values.ToList().Count);
+            var testTask = new TaskLogic();
+            testTaskStorageManager.CreateTask(testTask);
+            Assert.AreEqual(1, _tasks.Values.ToList().Count);
         }
 
         /// <summary>
@@ -47,9 +73,15 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
-        public void RemoveTaskTest()
+        public void StorageRemoveTaskTest()
         {
-            throw new NotImplementedException();
+            TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
+            Assert.AreEqual(0, _tasks.Values.ToList().Count);
+            var testTask = new TaskLogic();
+            testTaskStorageManager.CreateTask(testTask);
+            Assert.AreEqual(1, _tasks.Values.ToList().Count);
+            _tasks.Remove(1);
+            Assert.AreEqual(0, _tasks.Values.ToList().Count);
         }
 
         /// <summary>
@@ -58,9 +90,11 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
-        public void NoTaskToRemoveTest()
+        public void StorageNoTaskToRemoveTest()
         {
-            throw new NotImplementedException();
+            TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
+            Assert.AreEqual(0, _tasks.Values.ToList().Count);
+            _tasks.Remove(1);
         }
     }
 }
