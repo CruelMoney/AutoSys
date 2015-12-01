@@ -39,6 +39,10 @@ namespace Logic.Model
             /// </summary>
             Done
         }
+        /// <summary>
+        /// The task is connected to a certain paper
+        /// </summary>
+        public virtual ItemLogic Paper { get; set; }
 
         public virtual StageLogic Stage { get; set; } // reference to Stage (many to one)
 
@@ -62,6 +66,7 @@ namespace Logic.Model
         /// </summary>
         public DataFieldLogic[] VisibleFieldsLogic { get; set; }
 
+        //TODO When multiple users refer to the same task they will edit the same fields, we need some way to let them refer to the same task but enter conflicting data
         /// <summary>
         /// A list of requested data fields which need to be filled out as part of the task.
         /// </summary>

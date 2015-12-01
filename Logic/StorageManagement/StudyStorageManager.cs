@@ -8,13 +8,12 @@ namespace Logic.StorageManagement
 {
     public class StudyStorageManager
     {
-        IRepository _studyRepo;
-        public IEnumerable<StoredStudy> Tasks => _studyRepo.Read<StoredStudy>();
+        IGenericRepository _studyRepo;
         public StudyStorageManager()
         {
         }
 
-        public StudyStorageManager(IRepository repo)
+        public StudyStorageManager(IGenericRepository repo)
         {
             _studyRepo = repo;
         }

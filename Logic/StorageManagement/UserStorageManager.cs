@@ -1,54 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 using Logic.Model.DTO;
 using Storage.Repository;
 using Logic.Model;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
     public class UserStorageManager
     {
-        IRepository _userRepo;
+        private readonly IGenericRepository _userRepo;
         public UserStorageManager()
         {
         }
 
-        public UserStorageManager(IRepository repo)
+        public UserStorageManager(IGenericRepository repo)
         {
             _userRepo = repo;
         }
 
-        public void SaveUser(User UserToSave)
+        public int SaveUser(UserLogic userToSave)
         {
-            var UserLogicToSave = new UserLogic(UserToSave);
-            _userRepo.Create(UserLogicToSave);
+            return _userRepo.Create(userToSave);
         }
 
-        public void RemoveUser(int UserWithIDToDelete)
+        public bool RemoveUser(int userWithIdToDelete)
         {
-            _userRepo.Delete(_userRepo.Read<UserLogic>(UserWithIDToDelete));
+           return _userRepo.Delete(_userRepo.Read<UserLogic>(userWithIdToDelete));
         }
 
-        public void UpdateUser(User UserToUpdate)
+        public bool UpdateUser(UserLogic user)
         {
-            var UserLogicToUpdate = new UserLogic(UserToUpdate);
-            _userRepo.Update<UserLogic>(UserLogicToUpdate);
+           return _userRepo.Update(user);
         }
 
-        public IEnumerable<UserLogic> SearchUsers(String UserName)
+        public IEnumerable<UserLogic> GetAllUsers()
         {
-            foreach (UserLogic u in (_userRepo.Read<UserLogic>()))
-                if (u.Name.Contains(UserName.ToLower()))
-                {
-                    yield return u;
-                }
-            yield break;
+            return _userRepo.Read<UserLogic>().Include(u=>u.Id);
         }
 
 
-        public UserLogic GetUser(int UserID)
+        public UserLogic GetUser(int userId)
         {
-            return _userRepo.Read<UserLogic>(UserID);
+           return _userRepo.Read<UserLogic>(userId); 
         }
 
     }

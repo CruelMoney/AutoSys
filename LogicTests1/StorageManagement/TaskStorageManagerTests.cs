@@ -14,7 +14,7 @@ namespace Logic.StorageManagement.Tests
     public class TaskStorageManagerTests
     {
         // Dictionary<int, StoredTask> _tasks;
-        Mock<IRepository> mockTaskRepo;
+        Mock<IGenericRepository> mockTaskRepo;
         int id = 1;
 
         [TestInitialize]
@@ -22,7 +22,7 @@ namespace Logic.StorageManagement.Tests
         {
             id = 1;
             // _tasks = new Dictionary<int, StoredTask>();
-            mockTaskRepo = new Mock<IRepository>();
+            mockTaskRepo = new Mock<IGenericRepository>();
 
             // Read item
             // Read items

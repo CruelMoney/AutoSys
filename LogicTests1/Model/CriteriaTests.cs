@@ -1,5 +1,6 @@
 ﻿using System;
 using Logic.Model;
+using Logic.Model.CriteriaValidator;
 using Logic.Model.DTO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -9,24 +10,29 @@ namespace LogicTests1.Model
     [TestClass]
     public class CriteriaTests
     {
-
-        CriteriaLogic testCriteria1;
-        CriteriaLogic testCriteria2;
-        CriteriaLogic testCriteria3;
-        CriteriaLogic testCriteria4;
-        CriteriaLogic testCriteria5;
-        DataField testDataField;
+        CriteriaValidator _criteriaValidator = new CriteriaValidator();
+        Criteria testCriteria1;
+        Criteria testCriteria2;
+        Criteria testCriteria3;
+        Criteria testCriteria4;
+        Criteria testCriteria5;
+        DataFieldLogic testDataField;
 
         [TestInitialize]
         public void setup()
         {
-            testCriteria1 = new CriteriaLogic()
+            testCriteria1 = new Criteria()
             {
                 Name = "testCriteria",
                 Description = "this is a test Criteria"
             };
+            testCriteria2 = new Criteria()
+            {
+                Name = "testCriteria2",
+                Description = "this is a test Criteria"
+            };
 
-            
+
         }
       
 
@@ -34,28 +40,28 @@ namespace LogicTests1.Model
         public void CheckResourceExists()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Exists;
-            testCriteria1.DataType = DataField.DataType.Resource;
+            testCriteria1.Rule = Criteria.CriteriaRule.Exists;
+            testCriteria1.DataType = DataFieldLogic.DataType.Resource;
 
             var data = new string[1];
             data[0] = "data";
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Resource,
+                FieldType = DataFieldLogic.DataType.Resource,
                 Data = data
             };
             
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
         public void CheckFlags_Contains_Excact()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Contains;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Contains;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
 
             string[] expectedData = new string[3]
             {
@@ -64,22 +70,22 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = expectedData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = expectedData
             };
 
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
         public void CheckFlags_Contains_More()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Contains;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Contains;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -93,22 +99,22 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = actaulData
             };
 
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
         public void CheckFlags_Contains_Backwards()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Contains;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Contains;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -117,27 +123,27 @@ namespace LogicTests1.Model
 
             string[] actaulData = new string[4]
            {
-              "4","3", "2","1"
+             "4", "3", "2",  "1"
            };
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = actaulData
             };
 
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
         public void CheckFlags_Contains_False()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Contains;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Contains;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -151,22 +157,22 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = actaulData
             };
 
             //Assert
-            Assert.IsFalse(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
         public void CheckFlags_Equals_true()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Equals;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Equals;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -180,22 +186,22 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = actaulData
             };
 
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
-        public void CheckFlags_Equals_true_another_order()
+        public void CheckFlags_Equals_true_random_order()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Equals;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Equals;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -204,27 +210,27 @@ namespace LogicTests1.Model
 
             string[] actaulData = new string[3]
            {
-               "3","2","1"
+               "2","3","1"
            };
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = actaulData
             };
 
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
         public void CheckFlags_Equals_false()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Equals;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Equals;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -238,24 +244,24 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = actaulData
             };
 
             //Assert
-            Assert.IsFalse(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
         public void CheckFlags_larger_than_true_smallerThan_false()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.LargerThan;
-            testCriteria1.DataType = DataField.DataType.Flags;
-            testCriteria2.Rule = CriteriaLogic.CriteriaType.SmallerThan;
-            testCriteria2.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.LargerThan;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria2.Rule = Criteria.CriteriaRule.SmallerThan;
+            testCriteria2.DataType = DataFieldLogic.DataType.Flags;
 
             string[] checkData = new string[1]
             {
@@ -270,25 +276,25 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = checkData;
             testCriteria2.DataMatch = checkData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = actaulData
             };
 
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
-            Assert.IsFalse(testCriteria2.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria2, testDataField));
         }
 
         [TestMethod]
         public void CheckFlags_larger_than_false_smallerThan_true()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.LargerThan;
-            testCriteria1.DataType = DataField.DataType.Flags;
-            testCriteria2.Rule = CriteriaLogic.CriteriaType.SmallerThan;
-            testCriteria2.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.LargerThan;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria2.Rule = Criteria.CriteriaRule.SmallerThan;
+            testCriteria2.DataType = DataFieldLogic.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -303,15 +309,15 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = checkData;
             testCriteria2.DataMatch = checkData;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = actaulData
             };
 
             //Assert
-            Assert.IsFalse(testCriteria1.CriteriaIsMet(testDataField));
-            Assert.IsTrue(testCriteria2.CriteriaIsMet(testDataField));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria2, testDataField));
         }
 
 
@@ -319,13 +325,13 @@ namespace LogicTests1.Model
         public void CheckFlags_exists_true()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Exists;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Exists;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
       
        
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
+                FieldType = DataFieldLogic.DataType.Flags,
                 Data = new string[1]
            {
                "1"
@@ -333,26 +339,41 @@ namespace LogicTests1.Model
         };
 
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
-        public void CheckFlags_exists_false()
+        public void CheckFlags_exists_null()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Exists;
-            testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria1.Rule = Criteria.CriteriaRule.Exists;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
 
-
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Flags,
-                Data = new string[1]
-          
+                FieldType = DataFieldLogic.DataType.Flags,
+                Data = null
             };
 
             //Assert
-            Assert.IsFalse(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+        }
+
+        [TestMethod]
+        public void CheckFlags_exists_empty_string()
+        {
+            //Arrange
+            testCriteria1.Rule = Criteria.CriteriaRule.Exists;
+            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+
+            testDataField = new DataFieldLogic()
+            {
+                FieldType = DataFieldLogic.DataType.Flags,
+                Data = new string[1] {""}
+            };
+
+            //Assert
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
 
@@ -360,38 +381,116 @@ namespace LogicTests1.Model
         public void CheckEnum_equals_true()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Exists;
-            testCriteria1.DataType = DataField.DataType.Enumeration;
+            testCriteria1.Rule = Criteria.CriteriaRule.Exists;
+            testCriteria1.DataType = DataFieldLogic.DataType.Enumeration;
             
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Enumeration,
+                FieldType = DataFieldLogic.DataType.Enumeration,
                 Data = new string[1] {"1"}
             };
 
             testCriteria1.DataMatch = new string[1] {"1"};
 
             //Assert
-            Assert.IsTrue(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
 
         [TestMethod]
         public void CheckEnum_equals_false()
         {
             //Arrange
-            testCriteria1.Rule = CriteriaLogic.CriteriaType.Exists;
-            testCriteria1.DataType = DataField.DataType.Enumeration;
+            testCriteria1.Rule = Criteria.CriteriaRule.Equals;
+            testCriteria1.DataType = DataFieldLogic.DataType.Enumeration;
 
-            testDataField = new DataField()
+            testDataField = new DataFieldLogic()
             {
-                FieldType = DataField.DataType.Enumeration,
+                FieldType = DataFieldLogic.DataType.Enumeration,
                 Data = new string[1] { "2" }
             };
 
             testCriteria1.DataMatch = new string[1] { "1" };
 
             //Assert
-            Assert.IsFalse(testCriteria1.CriteriaIsMet(testDataField));
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
         }
+
+        [TestMethod]
+        public void CheckBool_equals_true()
+        {
+            //Arrange
+            testCriteria1.Rule = Criteria.CriteriaRule.Equals;
+            testCriteria1.DataType = DataFieldLogic.DataType.Boolean;
+
+            testDataField = new DataFieldLogic()
+            {
+                FieldType = DataFieldLogic.DataType.Boolean,
+                Data = new string[1] { "true" }
+            };
+
+            testCriteria1.DataMatch = new string[1] { "true" };
+
+            //Assert
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+        }
+
+        [TestMethod]
+        public void CheckBool_equals_false()
+        {
+            //Arrange
+            testCriteria1.Rule = Criteria.CriteriaRule.Equals;
+            testCriteria1.DataType = DataFieldLogic.DataType.Boolean;
+
+            testDataField = new DataFieldLogic()
+            {
+                FieldType = DataFieldLogic.DataType.Boolean,
+                Data = new string[1] { "true" }
+            };
+
+            testCriteria1.DataMatch = new string[1] { "false" };
+
+            //Assert
+            Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+        }
+
+        [TestMethod]
+        public void CheckString_contains_true()
+        {
+            //Arrange
+            testCriteria1.Rule = Criteria.CriteriaRule.Contains;
+            testCriteria1.DataType = DataFieldLogic.DataType.String;
+
+            testDataField = new DataFieldLogic()
+            {
+                FieldType = DataFieldLogic.DataType.String,
+                Data = new string[1] { "testing" }
+            };
+
+            testCriteria1.DataMatch = new string[1] { "testing" };
+
+            //Assert
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+        }
+
+        [TestMethod]
+        public void CheckString_contains_true_more_words()
+        {
+            //Arrange
+            testCriteria1.Rule = Criteria.CriteriaRule.Contains;
+            testCriteria1.DataType = DataFieldLogic.DataType.String;
+
+            testDataField = new DataFieldLogic()
+            {
+                FieldType = DataFieldLogic.DataType.String,
+                Data = new string[1] { "testing the test" }
+            };
+
+            testCriteria1.DataMatch = new string[1] { "testing" };
+
+            //Assert
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+        }
+
     }
+
 }

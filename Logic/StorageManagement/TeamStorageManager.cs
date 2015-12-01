@@ -7,47 +7,46 @@ using Logic.Model;
 using Logic.Model.Data;
 using Logic.Model.DTO;
 using Storage.Repository;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
     public class TeamStorageManager 
     {
-        IRepository _teamRepo;
+        IGenericRepository _teamRepo;
         public TeamStorageManager()
         {
-            _teamRepo = new EntityFrameworkRepository<StudyDataContext>();
+            _teamRepo = new EntityFrameworkGenericRepository<StudyDataContext>();
         }
         
-        public TeamStorageManager(IRepository repo)
+        public TeamStorageManager(IGenericRepository repo)
         {
             _teamRepo = repo;
         }
 
-        public void SaveTeam(Team TeamToSave)
+        public int SaveTeam(TeamLogic TeamToSave)
         {
-            var TeamToSave = new TeamLogic(TeamToSave);
-            _teamRepo.Create(TeamToSave);
+            return _teamRepo.Create(TeamToSave);
         }
 
-        public void RemoveTeam(int TeamWithIDToDelete)
+        public IEnumerable<TeamLogic> GetAllTeams()
         {
-            _teamRepo.Delete(_teamRepo.Read<TeamLogic>(TeamWithIDToDelete));
+            return _teamRepo.Read<TeamLogic>();
         }
 
-        public void UpdateTeam(Team TeamToUpdate)
-        { 
-            var TeamLogicToUpdate = new TeamLogic(TeamToUpdate);
-            _teamRepo.Update<TeamLogic>(TeamLogicToUpdate);
+        public bool RemoveTeam(int TeamWithIDToDelete)
+        {
+            return _teamRepo.Delete(_teamRepo.Read<TeamLogic>(TeamWithIDToDelete));
         }
 
-        public IEnumerable<TeamLogic> SearchTeams(String TeamName)
+        public bool UpdateTeam(TeamLogic TeamToUpdate)
         {
-            foreach(TeamLogic t in (_teamRepo.Read<TeamLogic>()))
-                if (t.Name.Contains(TeamName.ToLower()))
-                {
-                    yield return t ;
-                }
-            yield break;
+            return _teamRepo.Update(TeamToUpdate);
+        }
+
+        public IEnumerable<TeamLogic> SearchTeams(string TeamName)
+        {
+            return _teamRepo.Read<TeamLogic>();
         }
             
         

@@ -74,9 +74,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BibTexParserTests\BibTexParserTest.cs" />
+    <Compile Include="BibTexParserTests\DefaultFieldCheckerTest.cs" />
+    <Compile Include="BibTexParserTests\DefaultItemCheckerTest.cs" />
+    <Compile Include="BibTexParserTests\FieldValidatorTest.cs" />
+    <Compile Include="BibTexParserTests\ItemValidatorTest.cs" />
     <Compile Include="Model\CriteriaTests.cs" />
+    <Compile Include="Model\TeamLogicTests.cs" />
+    <Compile Include="Model\UserLogicTests.cs" />
     <Compile Include="ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="StorageManagement\StudyStorageManagerTests.cs" />
     <Compile Include="StorageManagement\TaskStorageManagerTests.cs" />
     <Compile Include="StorageManagement\TeamStorageManagerTests.cs" />
@@ -102,7 +114,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="BibTexParserTests\Resources\bibtex.bib" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
