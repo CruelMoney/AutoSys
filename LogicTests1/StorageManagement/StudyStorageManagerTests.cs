@@ -71,6 +71,10 @@ namespace Logic.StorageManagement.Tests
             Assert.AreEqual(1, _studies.Values.ToList().Count);
         }
 
+        /// <summary>
+        /// Tests get on a Study in the mock repo
+        /// </summary>
+
         [TestMethod]
         public void StorageGetStudyTest()
         {
