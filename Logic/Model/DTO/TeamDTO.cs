@@ -5,7 +5,7 @@ namespace Logic.Model.DTO
     /// <summary>
     /// A team using the systematic study service.
     /// </summary>
-    public class Team
+    public class TeamDTO
     {
         
         /// <summary>

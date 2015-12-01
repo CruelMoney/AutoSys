@@ -19,64 +19,64 @@ namespace Logic.Controllers
         /// Get all teams.
         /// </summary>
         /// <param name="name">Search for teams which match the specified name.</param>
-        public IEnumerable<Team> Get(string name = "")
+        public IEnumerable<TeamDTO> Get(string name = "")
         {
-            // GET: api/Team
-            // GET: api/Team?name=untouchables
+            // GET: api/TeamDTO
+            // GET: api/TeamDTO?name=untouchables
 
             
             return _manager.SearchTeams(name);
         }
 
         /// <summary>
-        /// Get the team with the specific ID.
+        /// Get the TeamDTO with the specific ID.
         /// </summary>
-        /// <param name="id">The ID of the team to retrieve.</param>
-        public Team Get(int id)
+        /// <param name="id">The ID of the TeamDTO to retrieve.</param>
+        public TeamDTO Get(int id)
         {
 
             _manager.GetTeam(id);
 
-            // GET: api/Team/5
+            // GET: api/TeamDTO/5
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Create a new Team.
+        /// Create a new TeamDTO.
         /// </summary>
-        /// <param name="team">The new team to create.</param>
-        public IHttpActionResult Post([FromBody]Team team)
+        /// <param name="teamDto">The new TeamDTO to create.</param>
+        public IHttpActionResult Post([FromBody]TeamDTO teamDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            team.Id = _manager.CreateTeam(team);
+            teamDto.Id = _manager.CreateTeam(teamDto);
 
-            return CreatedAtRoute("DefaultApi", new { id = team.Id }, team);
+            return CreatedAtRoute("DefaultApi", new { id = teamDto.Id }, teamDto);
         }
 
         /// <summary>
-        /// Update the team with the specified ID.
-        /// The list of users part of the team can not be modified once it has been created.
+        /// Update the TeamDTO with the specified ID.
+        /// The list of users part of the TeamDTO can not be modified once it has been created.
         /// </summary>
-        /// <param name="id">The ID of the team to update.</param>
-        /// <param name="user">The new team data.</param>
-        public IHttpActionResult Put(int id, [FromBody]Team team)
+        /// <param name="id">The ID of the TeamDTO to update.</param>
+        /// <param name="user">The new TeamDTO data.</param>
+        public IHttpActionResult Put(int id, [FromBody]TeamDTO teamDto)
         {
-            // PUT: api/Team/5
+            // PUT: api/TeamDTO/5
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != team.Id)
+            if (id != teamDto.Id)
             {
                 return BadRequest();
             }
 
-            var updated = _manager.UpdateTeam(id, team);
+            var updated = _manager.UpdateTeam(id, teamDto);
 
             if (!updated)
             {
@@ -87,13 +87,13 @@ namespace Logic.Controllers
         }
 
         /// <summary>
-        /// Delete the team with the specified ID.
-        /// A team can not be deleted when it is participating in a study.
+        /// Delete the TeamDTO with the specified ID.
+        /// A TeamDTO can not be deleted when it is participating in a study.
         /// </summary>
-        /// <param name="id">The ID of the team to delete.</param>
+        /// <param name="id">The ID of the TeamDTO to delete.</param>
         public IHttpActionResult Delete(int id)
         {
-            // DELETE: api/Team/5
+            // DELETE: api/TeamDTO/5
             var deleted = _manager.RemoveTeam(id);
             if (!deleted)
             {

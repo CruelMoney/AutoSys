@@ -3,9 +3,9 @@
 namespace Logic.Model.DTO
 {
     /// <summary>
-    /// Represents data of one user provided for a <see cref="Logic.Model.DTO.DataField" />, used to indicate conflicting data between users.
+    /// Represents data of one user provided for a <see cref="DataFieldDTO" />, used to indicate conflicting data between users.
     /// </summary>
-    public class ConflictingData
+    public class ConflictingDataDTO
     {
         /// <summary>
         /// The user ID of the user who provided the data.

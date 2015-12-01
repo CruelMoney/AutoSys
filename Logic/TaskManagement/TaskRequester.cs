@@ -13,14 +13,14 @@ namespace Logic.TaskManagement
     {
         private TaskGenerator _taskGenerator;
         private TaskStorageManager _storageManager;
-        private readonly User _user;
-        private readonly StudyLogic _study;
+        private readonly UserDTO _userDto;
+        private readonly Study _study;
 
 
-        public TaskRequester(TaskStorageManager storageManager, User user, StudyLogic study, TaskGenerator taskGenerator)
+        public TaskRequester(TaskStorageManager storageManager, UserDTO userDto, Study study, TaskGenerator taskGenerator)
         {
             _storageManager = storageManager;
-            _user = user;
+            _userDto = userDto;
             _study = study;
             _taskGenerator = taskGenerator;
             _storageManager.Subscribe(this as IObserver<TaskRequester>);
@@ -29,56 +29,47 @@ namespace Logic.TaskManagement
         public TaskRequester()
         {
             _storageManager = new TaskStorageManager();
-            _user = new User();
-            _study = new StudyLogic();
+            _userDto = new UserDTO();
+            _study = new Study();
             _taskGenerator = new TaskGenerator(_study);
             _storageManager.Subscribe(this as IObserver<TaskRequester>);
         }
 
-        public List<TaskRequest> GetTasksForUser(int userId, StudyLogic study, int count, TaskRequest.Filter filter, TaskRequest.Type type)
+        public List<TaskRequestDTO> GetTasksForUser(int userId, Study study, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            StageLogic currentStageLogic = null;
+            Stage currentStage = null;
             foreach (var stage in study.Stages)
             {
                 if (stage.Id.Equals(study.CurrentStage))
                 {
-                    currentStageLogic = stage;
+                    currentStage = stage;
                     break;
                 }
             }
-            var users = study.Team.Users;
-            UserLogic currentUser = null;
-            foreach (var user in users)
-            {
-                if (user.Id == userId)
-                {
-                    currentUser = user;
-                    break;
-                }
-            }
-            var tasks = currentStageLogic.UserTasks[currentUser];
 
-            List<TaskRequest> TaskRequestList = null;
-            foreach (var taskLogic in tasks)
-            {
-                TaskRequestList.Add(ConvertToTaskRequest(taskLogic));
-            }
-            return TaskRequestList;
+            var currentUser = (from User user in study.Team.Users
+                where user.Id.Equals(userId)
+                select user).FirstOrDefault();
+
+            var tasks = from TaskRequestedData task in currentUser.Tasks
+                         select ConvertToTaskRequest(task.StudyTask);
+
+            return tasks.ToList();
 
         }
 
-        public TaskRequest ConvertToTaskRequest(TaskLogic tasklogic)
+        public TaskRequestDTO ConvertToTaskRequest(StudyTask tasklogic)
         {
-            TaskRequest taskRequest = new TaskRequest()
+            TaskRequestDTO taskRequestDto = new TaskRequestDTO()
             {
                 Id = tasklogic.Id,
-                TaskType = (TaskRequest.Type)Enum.Parse(typeof(TaskRequest.Type), "both"),
+                TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), "both"),
                 IsDeliverable = tasklogic.IsDeliverable,
-                VisibleFields = null,
-                RequestedFields = null
+                VisibleFieldsDto = null,
+                RequestedFieldsDto = null
 
             };
-            return taskRequest;
+            return taskRequestDto;
       
         }
 

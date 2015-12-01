@@ -14,7 +14,7 @@ namespace Logic.StorageManagement
     public class TaskStorageManager : IObservable<TaskRequester>
     {
         IGenericRepository _taskRepo;
-        public IEnumerable<TaskLogic> Tasks => _taskRepo.Read<TaskLogic>().Include("User");
+        public IEnumerable<StudyTask> Tasks => _taskRepo.Read<StudyTask>().Include("UserDTO");
 
         public TaskStorageManager()
         {
@@ -30,24 +30,24 @@ namespace Logic.StorageManagement
             throw new NotImplementedException();
         }
 
-        public void CreateTask(TaskLogic task)
+        public void CreateTask(StudyTask studyTask)
         {
-            _taskRepo.Create(task);
+            _taskRepo.Create(studyTask);
         }
 
-        public void UpdateTask(TaskLogic task)
+        public void UpdateTask(StudyTask studyTask)
         {
-            _taskRepo.Update(task);
+            _taskRepo.Update(studyTask);
         }
 
-        public IEnumerable<TaskRequest> GetTasksForUser(int userID) //ikke sikkert det skal være her
+        public IEnumerable<TaskRequestDTO> GetTasksForUser(int userID) //ikke sikkert det skal være her
         {
             throw new NotImplementedException();
         }
 
-        public TaskLogic FindTaskLogic(TaskRequest task)
+        public StudyTask FindTaskLogic(TaskRequestDTO task)
         {
-            return _taskRepo.Read<TaskLogic>().ToList().First(g => g.Id.Equals(task.Id));
+            return _taskRepo.Read<StudyTask>().ToList().First(g => g.Id.Equals(task.Id));
         }
     }
 }

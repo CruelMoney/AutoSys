@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Logic.Model
 {
-    public class UserLogic : IEntity
+    public class User : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TeamLogic TeamLogic { get; set; } // reference til Team (many to one)
+        public Team Team { get; set; } // reference til TeamDTO (many to one)
         public string Metadata { get; set; }
         public virtual List<TaskRequestedData> Tasks { get; set; } 
 
-        public UserLogic(User user)
+        public User(UserDTO userDto)
         {
-            this.Id = user.Id;
-            this.Name = user.Name;
-            this.Metadata = user.Metadata;
+            this.Id = userDto.Id;
+            this.Name = userDto.Name;
+            this.Metadata = userDto.Metadata;
         }
-        public UserLogic()
+        public User()
         {
 
         }

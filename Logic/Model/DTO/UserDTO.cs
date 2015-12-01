@@ -5,7 +5,7 @@ namespace Logic.Model.DTO
     /// <summary>
     /// A user of the systematic study service.
     /// </summary>
-    public class User
+    public class UserDTO
     {
         
         /// <summary>

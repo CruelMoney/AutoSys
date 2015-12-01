@@ -26,17 +26,17 @@ namespace Logic.TeamCRUD
             _userStorageManager = userStorageManager;
         }
 
-        public int CreateTeam(Team teamDTO)
+        public int CreateTeam(TeamDTO teamDtoDto)
         {
-            var teamToAdd = new TeamLogic()
+            var teamToAdd = new Team()
             {
-                Name = teamDTO.Name,
-                Id = teamDTO.Id,
-                Metadata = teamDTO.Metadata,
+                Name = teamDtoDto.Name,
+                Id = teamDtoDto.Id,
+                Metadata = teamDtoDto.Metadata,
             };
 
-            var users = (from UserLogic dbUser in _userStorageManager.GetAllUsers()
-                         where dbUser.Id.Equals(teamDTO.UserIDs)
+            var users = (from User dbUser in _userStorageManager.GetAllUsers()
+                         where dbUser.Id.Equals(teamDtoDto.UserIDs)
                          select dbUser).ToList();
 
             teamToAdd.Users = users;
@@ -49,17 +49,17 @@ namespace Logic.TeamCRUD
             return _teamStorageManager.RemoveTeam(TeamID);
         }
 
-        public bool UpdateTeam(int teamId, Team newTeam)
+        public bool UpdateTeam(int teamId, TeamDTO newTeamDto)
         {
-            var updatedTeam = new TeamLogic()
+            var updatedTeam = new Team()
             {
                 Id = teamId,
-                Name = newTeam.Name,
-                Metadata = newTeam.Metadata,
+                Name = newTeamDto.Name,
+                Metadata = newTeamDto.Metadata,
             };
 
-            var users = (from UserLogic dbUser in _userStorageManager.GetAllUsers()
-                         where dbUser.Id.Equals(newTeam.UserIDs)
+            var users = (from User dbUser in _userStorageManager.GetAllUsers()
+                         where dbUser.Id.Equals(newTeamDto.UserIDs)
                          select dbUser).ToList();
 
             updatedTeam.Users = users;
@@ -67,12 +67,12 @@ namespace Logic.TeamCRUD
             return _teamStorageManager.UpdateTeam(updatedTeam);
         }
 
-        public IEnumerable<Team> SearchTeams(string TeamName)
+        public IEnumerable<TeamDTO> SearchTeams(string TeamName)
         {
             return
-                 (from TeamLogic dbTeam in _teamStorageManager.GetAllTeams()
+                 (from Team dbTeam in _teamStorageManager.GetAllTeams()
                   where dbTeam.Name.Equals(TeamName)
-                  select new Team()
+                  select new TeamDTO()
                   {
                       Id = dbTeam.Id,
                       Name = dbTeam.Name,
@@ -82,10 +82,10 @@ namespace Logic.TeamCRUD
 
         }
 
-        public Team GetTeam(int teamId)
+        public TeamDTO GetTeam(int teamId)
         {
             var dbTeam = _teamStorageManager.GetTeam(teamId);
-            return new Team()
+            return new TeamDTO()
             {
                 Id = dbTeam.Id,
                 Name = dbTeam.Name,

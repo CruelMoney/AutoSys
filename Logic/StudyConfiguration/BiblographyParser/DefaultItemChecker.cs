@@ -11,7 +11,7 @@ namespace Logic.StudyConfiguration.BiblographyParser
     {
         readonly FieldValidator _validator = new FieldValidator();
 
-        public bool Validate(ItemLogic item)
+        public bool Validate(Item item)
         {
             return item.Fields.All(field => _validator.IsFieldValid(field.Value, field.Key));
         }

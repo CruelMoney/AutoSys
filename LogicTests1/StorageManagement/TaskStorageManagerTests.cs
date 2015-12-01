@@ -14,7 +14,7 @@ namespace Logic.StorageManagement.Tests
     [TestClass]
     public class TaskStorageManagerTests
     {
-        Dictionary<int, TaskLogic> _tasks;
+        Dictionary<int, StudyTask> _tasks;
         Mock<IGenericRepository> mockTaskRepo;
         int id;
 
@@ -22,14 +22,14 @@ namespace Logic.StorageManagement.Tests
         public void InitializeRepo()
         {
             id = 1;
-            _tasks = new Dictionary<int, TaskLogic>();
+            _tasks = new Dictionary<int, StudyTask>();
             mockTaskRepo = new Mock<IGenericRepository>();
 
-            // Read items - TaskLogic
-            mockTaskRepo.Setup(r => r.Read<TaskLogic>()).Returns(_tasks.Values.AsQueryable());
+            // Read items - StudyTask
+            mockTaskRepo.Setup(r => r.Read<StudyTask>()).Returns(_tasks.Values.AsQueryable());
 
-            // Create - TaskLogic
-            mockTaskRepo.Setup(r => r.Create<TaskLogic>(It.IsAny<TaskLogic>())).Callback<TaskLogic>(task =>
+            // Create - StudyTask
+            mockTaskRepo.Setup(r => r.Create<StudyTask>(It.IsAny<StudyTask>())).Callback<StudyTask>(task =>
             {
                 int nextId = id++;
                 task.Id = nextId;
@@ -37,8 +37,8 @@ namespace Logic.StorageManagement.Tests
 
             });
 
-            // Update - TaskLogic
-            mockTaskRepo.Setup(r => r.Update<TaskLogic>(It.IsAny<TaskLogic>())).Callback<TaskLogic>(task =>
+            // Update - StudyTask
+            mockTaskRepo.Setup(r => r.Update<StudyTask>(It.IsAny<StudyTask>())).Callback<StudyTask>(task =>
             {
                 if (_tasks.ContainsKey(task.Id))
                 {
@@ -46,8 +46,8 @@ namespace Logic.StorageManagement.Tests
                 }
             });
 
-            // Delete - TaskLogic
-            mockTaskRepo.Setup(r => r.Delete<TaskLogic>(It.IsAny<TaskLogic>())).Callback<TaskLogic>(task =>
+            // Delete - StudyTask
+            mockTaskRepo.Setup(r => r.Delete<StudyTask>(It.IsAny<StudyTask>())).Callback<StudyTask>(task =>
             {
                 _tasks.Remove(task.Id);
             });
@@ -55,7 +55,7 @@ namespace Logic.StorageManagement.Tests
         }
 
         /// <summary>
-        /// Tests if a task has been added to the mock repo
+        /// Tests if a StudyTask has been added to the mock repo
         /// </summary>
 
         [TestMethod]
@@ -63,13 +63,13 @@ namespace Logic.StorageManagement.Tests
         {
             TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
-            var testTask = new TaskLogic();
+            var testTask = new StudyTask();
             testTaskStorageManager.CreateTask(testTask);
             Assert.AreEqual(1, _tasks.Values.ToList().Count);
         }
 
         /// <summary>
-        /// Tests if a task has been removed to the mock repo
+        /// Tests if a StudyTask has been removed to the mock repo
         /// </summary>
 
         [TestMethod()]
@@ -77,7 +77,7 @@ namespace Logic.StorageManagement.Tests
         {
             TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
-            var testTask = new TaskLogic();
+            var testTask = new StudyTask();
             testTaskStorageManager.CreateTask(testTask);
             Assert.AreEqual(1, _tasks.Values.ToList().Count);
             _tasks.Remove(1);
@@ -85,7 +85,7 @@ namespace Logic.StorageManagement.Tests
         }
 
         /// <summary>
-        /// Tests if an exception is thrown if one tries to remove a task, while
+        /// Tests if an exception is thrown if one tries to remove a StudyTask, while
         /// there are no tasks to remove
         /// </summary>
 

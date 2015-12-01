@@ -9,7 +9,7 @@ namespace Logic.StudyConfiguration.BiblographyParser.bibTex
 
 {
     /// <summary>
-    /// Parses text containing bibliographic data in BibTex format into a collection of bibliography <see cref="ItemLogic"/> objects.
+    /// Parses text containing bibliographic data in BibTex format into a collection of bibliography <see cref="Item"/> objects.
     /// </summary>
     public class BibTexParser : IBibliographyParser
     {
@@ -39,13 +39,13 @@ namespace Logic.StudyConfiguration.BiblographyParser.bibTex
         /// </summary>
         /// <param name="data">A BibTex file as a string</param>
         /// <returns>A dictionary of the Bibliography</returns>
-        public List<ItemLogic> Parse(string data)
+        public List<Item> Parse(string data)
         {
             // Computing regex matches from the data.
             MatchCollection matchCollection = _entryRegex.Matches(data);
 
             // Collection to store the BibTex items.
-            var items = new List<ItemLogic>();
+            var items = new List<Item>();
 
             // Iterate over every BibTex item in the data.
             foreach (Match match in matchCollection)
@@ -54,9 +54,9 @@ namespace Logic.StudyConfiguration.BiblographyParser.bibTex
                 {
                     // Get the BibTex item and associated Field values.
                     string key = match.Groups[2].Value;
-                    ItemLogic.ItemType type = (ItemLogic.ItemType)Enum.Parse(typeof(ItemLogic.ItemType), match.Groups[1].Value, true);
-                    Dictionary<ItemLogic.FieldType, string> fields = ParseItem(match.Groups[3].Value);
-                    var item = new ItemLogic(type, fields);
+                    Item.ItemType type = (Item.ItemType)Enum.Parse(typeof(Item.ItemType), match.Groups[1].Value, true);
+                    Dictionary<Item.FieldType, string> fields = ParseItem(match.Groups[3].Value);
+                    var item = new Item(type, fields);
 
                     // Validate the item.
                     if (!_validator.IsItemValid(item))
@@ -75,13 +75,13 @@ namespace Logic.StudyConfiguration.BiblographyParser.bibTex
             return items;
         }
 
-        private Dictionary<ItemLogic.FieldType, string> ParseItem(string data)
+        private Dictionary<Item.FieldType, string> ParseItem(string data)
         {
             // Compute regex matches from the data.
             var matchCollection = _fieldRegex.Matches(data);
 
             // Collection to store the BibTex items.
-            var items = new Dictionary<ItemLogic.FieldType, string>();
+            var items = new Dictionary<Item.FieldType, string>();
 
             // Iterate over every Field.
             foreach (Match match in matchCollection)
@@ -89,7 +89,7 @@ namespace Logic.StudyConfiguration.BiblographyParser.bibTex
                 try
                 {
                     // Get the Field type and value.
-                    var key = (ItemLogic.FieldType)Enum.Parse(typeof(ItemLogic.FieldType), match.Groups[1].Value, true);
+                    var key = (Item.FieldType)Enum.Parse(typeof(Item.FieldType), match.Groups[1].Value, true);
                     var value = match.Groups[2].Value;
 
                     items.Add(key, value);

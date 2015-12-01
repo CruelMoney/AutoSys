@@ -8,11 +8,11 @@ using Logic.Model.DTO;
 
 namespace Logic.Model
 {
-    public class TaskLogic : IEntity
+    public class StudyTask : IEntity
     {
 
         /// <summary>
-        /// Defines whether the requested tasks are reviewing tasks, conflict tasks, or any task.
+        /// Defines whether the requested tasks are reviewing tasks, conflict tasks, or any StudyTask.
         /// </summary>
         public enum Type
         {
@@ -22,7 +22,7 @@ namespace Logic.Model
         }
 
         /// <summary>
-        /// Filters task requests.
+        /// Filters StudyTask requests.
         /// </summary>
         public enum Filter
         {
@@ -40,34 +40,34 @@ namespace Logic.Model
             Done
         }
         /// <summary>
-        /// The task is connected to a certain paper
+        /// The StudyTask is connected to a certain paper
         /// </summary>
-        public virtual ItemLogic Paper { get; set; }
+        public virtual Item Paper { get; set; }
 
-        public virtual StageLogic Stage { get; set; } // reference to Stage (many to one)
+        public virtual Stage Stage { get; set; } // reference to Stage (many to one)
 
         /// <summary>
-        /// A unique identifier for the task.
+        /// A unique identifier for the StudyTask.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// The <see cref="Type" /> of the task, either a review task, or a conflict task.
+        /// The <see cref="Type" /> of the StudyTask, either a review StudyTask, or a conflict StudyTask.
         /// </summary>
         public Type TaskType { get; set; }
 
         /// <summary>
-        /// Defines whether the task is still deliverable or not.
+        /// Defines whether the StudyTask is still deliverable or not.
         /// </summary>
         public bool IsDeliverable { get; set; }
 
         /// <summary>
         /// A list of data fields which are to be shown to the user, but are not editable.
         /// </summary>
-        public DataFieldLogic[] VisibleFieldsLogic { get; set; }
+        public DataField[] VisibleFields { get; set; }
 
         /// <summary>
-        /// A the data which need to be filled out as part of the task.
+        /// A the data which need to be filled out as part of the StudyTask.
         /// </summary>
         public virtual TaskRequestedData RequestedData { get; set; }
     }

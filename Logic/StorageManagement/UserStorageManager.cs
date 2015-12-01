@@ -22,30 +22,30 @@ namespace Logic.StorageManagement
             _userRepo = repo;
         }
 
-        public int SaveUser(UserLogic userToSave)
+        public int SaveUser(User userToSave)
         {
             return _userRepo.Create(userToSave);
         }
 
         public bool RemoveUser(int userWithIdToDelete)
         {
-           return _userRepo.Delete(_userRepo.Read<UserLogic>(userWithIdToDelete));
+           return _userRepo.Delete(_userRepo.Read<User>(userWithIdToDelete));
         }
 
-        public bool UpdateUser(UserLogic user)
+        public bool UpdateUser(User user)
         {
            return _userRepo.Update(user);
         }
 
-        public IEnumerable<UserLogic> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
-            return _userRepo.Read<UserLogic>().Include(u=>u.Id);
+            return _userRepo.Read<User>().Include(u=>u.Id);
         }
 
 
-        public UserLogic GetUser(int userId)
+        public User GetUser(int userId)
         {
-           return _userRepo.Read<UserLogic>(userId); 
+           return _userRepo.Read<User>(userId); 
         }
 
     }

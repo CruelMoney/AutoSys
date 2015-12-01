@@ -5,7 +5,7 @@ namespace Logic.Model.DTO
     /// <summary>
     /// The overview of a systematic study on which a team works.
     /// </summary>
-    public class StudyOverview
+    public class StudyOverviewDTO
     {
         /// <summary>
         /// A name for the study.
@@ -23,6 +23,6 @@ namespace Logic.Model.DTO
         /// An overview of the state of the different Stages in the study.
         /// </summary>
         [Required]
-        public StageOverview[] Phases { get; set; }
+        public StageOverviewDTO[] Phases { get; set; }
     }
 }
