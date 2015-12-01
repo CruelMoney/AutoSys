@@ -23,7 +23,7 @@ namespace Logic.Controllers
         {
             // GET: api/TeamDTO
             // GET: api/TeamDTO?name=untouchables
-
+            
             
             return _manager.SearchTeams(name);
         }

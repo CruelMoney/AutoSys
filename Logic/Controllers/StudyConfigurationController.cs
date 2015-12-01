@@ -5,6 +5,10 @@ using Logic.StorageManagement;
 using Logic.StudyConfiguration.BiblographyParser.bibTex;
 using Logic.Model.DTO;
 using Logic.StudyConfiguration.BiblographyParser;
+using System.Windows;
+using System.Net;
+using System.Web.Http;
+using Logic.TeamCRUD;
 
 namespace Logic.StudyConfiguration
 {
@@ -28,9 +32,17 @@ namespace Logic.StudyConfiguration
         }
 
 
-        public Study NewStudy(string name, TeamDTO teamDto, string studyData)
+        public Study NewStudy(string name, Team team, string studyDataLocation)
         {
-            throw new NotImplementedException();
+            Study study = new Study() { Name = name, Team = team };
+            
+            return study;          
+        }
+     
+
+public IEnumerable<Team> GetTeams(string name = "")
+        {
+            return _teamStorageManager.SearchTeams(name);
         }
 
 
