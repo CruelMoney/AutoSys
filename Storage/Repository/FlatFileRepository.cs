@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Storage.Repository
 {
-    public class FlatFileInventory<T> : IRepository where T : IEntity
+    public class FlatFileInventory<T> : IGenericRepository where T : IEntity
     {
         public void Dispose()
         {
@@ -21,17 +22,17 @@ namespace Storage.Repository
             throw new NotImplementedException();
         }
 
-        public void Create<T1>(T1 entity) where T1 : class, IEntity
+        public int Create<T1>(T1 entity) where T1 : class, IEntity
         {
             throw new NotImplementedException();
         }
 
-        public void Update<T1>(T1 entity) where T1 : class, IEntity
+        public bool Update<T1>(T1 entity) where T1 : class, IEntity
         {
             throw new NotImplementedException();
         }
 
-        public void Delete<T1>(T1 entity) where T1 : class, IEntity
+        public bool Delete<T1>(T1 entity) where T1 : class, IEntity
         {
             throw new NotImplementedException();
         }

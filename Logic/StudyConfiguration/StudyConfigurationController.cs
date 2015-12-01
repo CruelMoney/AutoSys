@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BibliographyParser;
 using Logic.Model;
 using Logic.StorageManagement;
 using Logic.StudyConfiguration.BiblographyParser.bibTex;
 using Logic.Model.DTO;
+using Logic.StudyConfiguration.BiblographyParser;
 
 namespace Logic.StudyConfiguration
 {
@@ -30,10 +30,7 @@ namespace Logic.StudyConfiguration
 
         public StudyLogic NewStudy(string name, Team team, string studyData)
         {
-            var data = ParseData(studyData);
-           
-            var newStudy = _studyStorageManager.saveStudy(name, team, data);
-            return newStudy;
+            throw new NotImplementedException();
         }
 
 

@@ -14,7 +14,7 @@ namespace Logic.StorageManagement.Tests
     public class TeamStorageManagerTests
     {
         // Dictionary<int, StoredTeam> _teams;
-        Mock<IRepository> mockTeamRepo;
+        Mock<IGenericRepository> mockTeamRepo;
         int id = 1;
 
         [TestInitialize]
@@ -22,7 +22,7 @@ namespace Logic.StorageManagement.Tests
         {
             id = 1;
             // _teams = new Dictionary<int, StoredTeam>();
-            mockTeamRepo = new Mock<IRepository>();
+            mockTeamRepo = new Mock<IGenericRepository>();
 
             // Read item
             // Read items

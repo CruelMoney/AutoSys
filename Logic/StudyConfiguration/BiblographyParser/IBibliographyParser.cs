@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Logic.Model;
 
-namespace BibliographyParser
+namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
     /// Parses text containing bibliographic data into a collection of bibliography <see cref="ItemLogic"/> objects.

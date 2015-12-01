@@ -8,12 +8,12 @@ namespace Logic.StorageManagement
 {
     public class StudyStorageManager
     {
-        IRepository _studyRepo;
+        IGenericRepository _studyRepo;
         public StudyStorageManager()
         {
         }
 
-        public StudyStorageManager(IRepository repo)
+        public StudyStorageManager(IGenericRepository repo)
         {
             _studyRepo = repo;
         }
@@ -21,6 +21,12 @@ namespace Logic.StorageManagement
         public StudyLogic saveStudy(StudyLogic study)
         {
             _studyRepo.Create(study);
+            return study;
+        }
+
+        public StudyLogic GetStudy(int studyid)
+        {
+            var study = _studyRepo.Read<StudyLogic>(studyid);
             return study;
         }
 

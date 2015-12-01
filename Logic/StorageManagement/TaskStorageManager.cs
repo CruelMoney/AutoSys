@@ -13,14 +13,14 @@ namespace Logic.StorageManagement
 {
     public class TaskStorageManager : IObservable<TaskRequester>
     {
-        IRepository _taskRepo;
+        IGenericRepository _taskRepo;
         public IEnumerable<TaskLogic> Tasks => _taskRepo.Read<TaskLogic>().Include("User");
 
         public TaskStorageManager()
         {
         }
 
-        public TaskStorageManager(IRepository repo)
+        public TaskStorageManager(IGenericRepository repo)
         {
             _taskRepo = repo;
         }

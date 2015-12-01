@@ -14,7 +14,7 @@ namespace Logic.Model.DTO
         public int UserId { get; set; }
 
         /// <summary>
-        /// A list of the filled out data fields for this task. Only <see cref="DataField.Data" /> should be modified.
+        /// A list of the filled out data fields for this task. Only <see cref="Logic.Model.DTO.DataField.Data" /> should be modified.
         /// </summary>
         [Required]
         public DataField[] SubmittedFields { get; set; }

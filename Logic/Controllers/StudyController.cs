@@ -38,6 +38,11 @@ namespace Logic.Controllers
         public IEnumerable<TaskRequest> GetTasks(int id, int userId, int count = 1, TaskRequest.Filter filter = TaskRequest.Filter.Remaining, TaskRequest.Type type = TaskRequest.Type.Both)
         {
             // GET: api/Study/4/Task?userId=5&count=1&filter=Remaining&type=Review
+
+            TaskController controller = new TaskController();
+            controller.GetTasksForUser(id, userId, count, filter, type);
+
+
             throw new NotImplementedException();
         }
 

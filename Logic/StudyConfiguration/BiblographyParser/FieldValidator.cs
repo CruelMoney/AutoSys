@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Logic.Model;
-using Logic.StudyConfiguration.BiblographyParser;
 
-namespace BibliographyParser
+namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
     /// Class which validates fields associated to bibliographic items.
@@ -25,7 +23,7 @@ namespace BibliographyParser
         /// <summary>
         /// Checks whether or not a given Field is valid.
         /// </summary>
-        /// <param name="field">The Field data to validate.</param>
+        /// <param name="field">The Field data to Validate.</param>
         /// <param name="type">The Field type.</param>
         /// <returns>returns true if the Field is valid; false otherwise.</returns>
         public bool IsFieldValid(string field, ItemLogic.FieldType type)
