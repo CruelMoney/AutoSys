@@ -24,6 +24,11 @@ namespace Logic.StorageManagement
             return study;
         }
 
+        public StudyLogic GetStudy(int id)
+        {
+            return _studyRepo.Read<StudyLogic>(id);
+        }
+
         //public List<Study>
 
     }

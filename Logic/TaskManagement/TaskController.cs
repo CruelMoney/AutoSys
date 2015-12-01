@@ -38,31 +38,11 @@ namespace Logic.TaskManagement
   
         }
 
-        public TaskRequest GetTasksForUser(int id, int userId, int count, TaskRequest.Filter filter, TaskRequest.Type type)
+        public List<TaskRequest> GetTasksForUser(int id, int userId, int count, TaskRequest.Filter filter, TaskRequest.Type type)
         {
-
             var study = _studyStorageManager.GetStudy(id);
-            StageLogic currentStageLogic;
-            foreach(var stage in study.Stages)
-            {
-                if (stage.Id == study.CurrentStage)
-                {
-                    currentStageLogic = stage;
-                }
-            }
-            var users = study.Team.Users;
-            UserLogic currentUser;
-            foreach(var user in users)
-            {
-                if (user.Id == userId)
-                {
-                    currentUser = user;
-                }
-            }
-            List<TaskLogic> tasks;
-
-
-            throw new NotImplementedException();
+            TaskRequester requester = new TaskRequester();
+            return requester.GetTasksForUser(userId, study, count, filter, type);
 
         }
     }
