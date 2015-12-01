@@ -4,6 +4,7 @@ using System.Web.Http;
 using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
 using Logic.StorageManagement;
+using Logic.TeamCRUD;
 
 namespace Logic.Controllers
 {
@@ -12,6 +13,7 @@ namespace Logic.Controllers
     /// </summary>
     internal class TeamController : ApiController, ITeamController
     {
+        private readonly TeamManager _manager = new TeamManager();
         /// <summary>
         /// Get all teams.
         /// </summary>
@@ -21,10 +23,8 @@ namespace Logic.Controllers
             // GET: api/Team
             // GET: api/Team?name=untouchables
 
-            TeamStorageManager manager = new TeamStorageManager();
-            manager.SearchTeams(name);
-
-            throw new NotImplementedException();
+            
+            return _manager.SearchTeams(name);
         }
 
         /// <summary>
@@ -33,8 +33,7 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the team to retrieve.</param>
         public Team Get(int id)
         {
-            TeamStorageManager manager = new TeamStorageManager();
-            manager.GetTeam(id);
+            _manager.GetTeam(id);
 
             // GET: api/Team/5
             throw new NotImplementedException();
@@ -46,6 +45,7 @@ namespace Logic.Controllers
         /// <param name="team">The new team to create.</param>
         public IHttpActionResult Post([FromBody]Team team)
         {
+            _manager.CreateTeam(team);
             // POST: api/Team
             throw new NotImplementedException();
         }
@@ -58,6 +58,7 @@ namespace Logic.Controllers
         /// <param name="user">The new team data.</param>
         public IHttpActionResult Put(int id, [FromBody]Team user)
         {
+            _manager.UpdateTeam(id, user);
             // PUT: api/Team/5
             throw new NotImplementedException();
         }
@@ -69,8 +70,10 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the team to delete.</param>
         public IHttpActionResult Delete(int id)
         {
+            _manager.RemoveTeam(id);
             // DELETE: api/Team/5
             throw new NotImplementedException();
+
         }
     }
 }
