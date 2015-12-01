@@ -9,19 +9,19 @@ namespace LogicTests1.BibTexParserTests
     [TestClass]
     public class ItemValidatorTest
     {
-        ItemLogic _item;
+        Item _item;
         ItemValidator _iv;
-        Dictionary<ItemLogic.ItemType, IItemChecker> _checkerDict;
-        Dictionary<ItemLogic.FieldType, string> _fieldDict;
+        Dictionary<Item.ItemType, IItemChecker> _checkerDict;
+        Dictionary<Item.FieldType, string> _fieldDict;
         IItemChecker _checker;
 
         [TestInitialize]
         public void Initialize()
         {
-            _fieldDict = new Dictionary<ItemLogic.FieldType, string>();
+            _fieldDict = new Dictionary<Item.FieldType, string>();
             _checker = new DefaultItemChecker();
-            _checkerDict = new Dictionary<ItemLogic.ItemType, IItemChecker>();
-            _checkerDict.Add(ItemLogic.ItemType.Book, new DefaultItemChecker());
+            _checkerDict = new Dictionary<Item.ItemType, IItemChecker>();
+            _checkerDict.Add(Item.ItemType.Book, new DefaultItemChecker());
             _iv = new ItemValidator(_checkerDict); 
         } 
 
@@ -29,10 +29,10 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void allFieldsValid()
         { 
-            _fieldDict.Add(ItemLogic.FieldType.Booktitle, "Hello World");
-            _fieldDict.Add(ItemLogic.FieldType.Author, "Christopher");
+            _fieldDict.Add(Item.FieldType.Booktitle, "Hello World");
+            _fieldDict.Add(Item.FieldType.Author, "Christopher");
 
-            _item = new ItemLogic(ItemLogic.ItemType.Book, _fieldDict);
+            _item = new Item(Item.ItemType.Book, _fieldDict);
 
             Assert.IsTrue(_iv.IsItemValid(_item));
         }
@@ -40,10 +40,10 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void someFieldsValid()
         {
-            _fieldDict.Add(ItemLogic.FieldType.Booktitle, "Hello\n World");
-            _fieldDict.Add(ItemLogic.FieldType.Author, "Christopher");
+            _fieldDict.Add(Item.FieldType.Booktitle, "Hello\n World");
+            _fieldDict.Add(Item.FieldType.Author, "Christopher");
 
-            _item = new ItemLogic(ItemLogic.ItemType.Book, _fieldDict);
+            _item = new Item(Item.ItemType.Book, _fieldDict);
 
             Assert.IsFalse(_iv.IsItemValid(_item));
         }
@@ -51,10 +51,10 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void allFieldsInvalid()
         {
-            _fieldDict.Add(ItemLogic.FieldType.Booktitle, "Hello\n World");
-            _fieldDict.Add(ItemLogic.FieldType.Author, "Christ\nopher");
+            _fieldDict.Add(Item.FieldType.Booktitle, "Hello\n World");
+            _fieldDict.Add(Item.FieldType.Author, "Christ\nopher");
 
-            _item = new ItemLogic(ItemLogic.ItemType.Book, _fieldDict);
+            _item = new Item(Item.ItemType.Book, _fieldDict);
 
             Assert.IsFalse(_iv.IsItemValid(_item));
         }
@@ -62,10 +62,10 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void validWithoutDefinedChecker()
         {
-            _fieldDict.Add(ItemLogic.FieldType.Title, "Hello World");
-            _fieldDict.Add(ItemLogic.FieldType.Author, "Christopher");
+            _fieldDict.Add(Item.FieldType.Title, "Hello World");
+            _fieldDict.Add(Item.FieldType.Author, "Christopher");
 
-            _item = new ItemLogic(ItemLogic.ItemType.PhDThesis, _fieldDict);
+            _item = new Item(Item.ItemType.PhDThesis, _fieldDict);
 
             Assert.IsTrue(_iv.IsItemValid(_item));
         }
@@ -73,10 +73,10 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void invalidWithoutDefinedChecker()
         {
-            _fieldDict.Add(ItemLogic.FieldType.Title, "Hello\n World");
-            _fieldDict.Add(ItemLogic.FieldType.Author, "Christopher");
+            _fieldDict.Add(Item.FieldType.Title, "Hello\n World");
+            _fieldDict.Add(Item.FieldType.Author, "Christopher");
 
-            _item = new ItemLogic(ItemLogic.ItemType.PhDThesis, _fieldDict);
+            _item = new Item(Item.ItemType.PhDThesis, _fieldDict);
 
             Assert.IsFalse(_iv.IsItemValid(_item));
         }

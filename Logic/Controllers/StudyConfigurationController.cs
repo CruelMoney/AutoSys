@@ -28,14 +28,14 @@ namespace Logic.StudyConfiguration
         }
 
 
-        public StudyLogic NewStudy(string name, Team team, string studyData)
+        public Study NewStudy(string name, TeamDTO teamDto, string studyData)
         {
             throw new NotImplementedException();
         }
 
 
 
-        private List<ItemLogic> ParseData(string studyData)
+        private List<Item> ParseData(string studyData)
         {
             throw new NotImplementedException();
             return _parser.Parse(studyData);

@@ -14,6 +14,6 @@ namespace Logic.StudyConfiguration.BiblographyParser
         /// </summary>
         /// <param name="item">The item to Validate.</param>
         /// <returns>true when the specified item is valid; false otherwise.</returns>
-        bool Validate(ItemLogic item);
+        bool Validate(Item item);
     }
 }

@@ -14,40 +14,40 @@ namespace Logic.Controllers.Interfaces
         /// Get all users.
         /// </summary>
         /// <param name="name">Search for users which match the specified name.</param>
-        IEnumerable<User> Get(string name = "");
+        IEnumerable<UserDTO> Get(string name = "");
 
         /// <summary>
-        /// Get the user with the specific ID.
+        /// Get the UserDTO with the specific ID.
         /// </summary>
-        /// <param name="id">The ID of the user to retrieve.</param>
-        User Get(int id);
+        /// <param name="id">The ID of the UserDTO to retrieve.</param>
+        UserDTO Get(int id);
 
         /// <summary>
-        /// Get all study IDs of studies a given user is part of.
+        /// Get all study IDs of studies a given UserDTO is part of.
         /// </summary>
-        /// <param name="id">The ID of the user to get study IDs for.</param>
+        /// <param name="id">The ID of the UserDTO to get study IDs for.</param>
         /// <returns></returns>
         [Route("{id}/StudyIDs")]
         IEnumerable<int> GetStudyIDs(int id);
 
         /// <summary>
-        /// Create a new user.
+        /// Create a new UserDTO.
         /// </summary>
-        /// <param name="user">The new user to create.</param>
-        IHttpActionResult Post([FromBody] User user);
+        /// <param name="userDto">The new UserDTO to create.</param>
+        IHttpActionResult Post([FromBody] UserDTO userDto);
 
         /// <summary>
-        /// Update the user with the specified ID.
+        /// Update the UserDTO with the specified ID.
         /// </summary>
-        /// <param name="id">The ID of the user to update.</param>
-        /// <param name="user">The new user data.</param>
-        IHttpActionResult Put(int id, [FromBody] User user);
+        /// <param name="id">The ID of the UserDTO to update.</param>
+        /// <param name="userDto">The new UserDTO data.</param>
+        IHttpActionResult Put(int id, [FromBody] UserDTO userDto);
 
         /// <summary>
-        /// Delete the user with the specified ID.
-        /// A user can not be deleted when the user is participating in a study.
+        /// Delete the UserDTO with the specified ID.
+        /// A UserDTO can not be deleted when the UserDTO is participating in a study.
         /// </summary>
-        /// <param name="id">The ID of the user to delete.</param>
+        /// <param name="id">The ID of the UserDTO to delete.</param>
         IHttpActionResult Delete(int id);
     }
 }

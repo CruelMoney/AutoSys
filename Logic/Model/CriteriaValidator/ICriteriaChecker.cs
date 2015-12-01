@@ -7,6 +7,6 @@
         /// </summary>
         /// <param name="criteria">The item to Validate.</param>
         /// <returns>true when the specified item is valid; false otherwise.</returns>
-        bool Validate(Criteria criteria, DataFieldLogic data);
+        bool Validate(Criteria criteria, DataField data);
     }
 }

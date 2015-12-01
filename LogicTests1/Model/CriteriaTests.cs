@@ -17,7 +17,7 @@ namespace LogicTests1.Model
         Criteria testCriteria3;
         Criteria testCriteria4;
         Criteria testCriteria5;
-        DataFieldLogic testDataField;
+        DataField testDataField;
 
         [TestInitialize]
         public void setup()
@@ -42,14 +42,14 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
-            testCriteria1.DataType = DataFieldLogic.DataType.Resource;
+            testCriteria1.DataType = DataField.DataType.Resource;
 
             var data = new string[1];
             data[0] = "data";
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Resource,
+                FieldType = DataField.DataType.Resource,
                 Data = data
             };
             
@@ -62,7 +62,7 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
             string[] expectedData = new string[3]
             {
@@ -71,9 +71,9 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = expectedData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = expectedData
             };
 
@@ -86,7 +86,7 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -100,9 +100,9 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = actaulData
             };
 
@@ -115,7 +115,7 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -129,9 +129,9 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = actaulData
             };
 
@@ -144,7 +144,7 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -158,9 +158,9 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = actaulData
             };
 
@@ -173,7 +173,7 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -187,9 +187,9 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = actaulData
             };
 
@@ -202,7 +202,7 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -216,9 +216,9 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = actaulData
             };
 
@@ -231,7 +231,7 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -245,9 +245,9 @@ namespace LogicTests1.Model
 
             testCriteria1.DataMatch = checkData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = actaulData
             };
 
@@ -260,9 +260,9 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.LargerThan;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
             testCriteria2.Rule = Criteria.CriteriaRule.SmallerThan;
-            testCriteria2.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria2.DataType = DataField.DataType.Flags;
 
             string[] checkData = new string[1]
             {
@@ -277,9 +277,9 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = checkData;
             testCriteria2.DataMatch = checkData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = actaulData
             };
 
@@ -293,9 +293,9 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.LargerThan;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
             testCriteria2.Rule = Criteria.CriteriaRule.SmallerThan;
-            testCriteria2.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria2.DataType = DataField.DataType.Flags;
 
             string[] checkData = new string[3]
             {
@@ -310,9 +310,9 @@ namespace LogicTests1.Model
             testCriteria1.DataMatch = checkData;
             testCriteria2.DataMatch = checkData;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = actaulData
             };
 
@@ -327,12 +327,12 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
       
        
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = new string[1]
            {
                "1"
@@ -348,11 +348,11 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = null
             };
 
@@ -365,11 +365,11 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
-            testCriteria1.DataType = DataFieldLogic.DataType.Flags;
+            testCriteria1.DataType = DataField.DataType.Flags;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Flags,
+                FieldType = DataField.DataType.Flags,
                 Data = new string[1] {""}
             };
 
@@ -383,11 +383,11 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
-            testCriteria1.DataType = DataFieldLogic.DataType.Enumeration;
+            testCriteria1.DataType = DataField.DataType.Enumeration;
             
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Enumeration,
+                FieldType = DataField.DataType.Enumeration,
                 Data = new string[1] {"1"}
             };
 
@@ -402,11 +402,11 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
-            testCriteria1.DataType = DataFieldLogic.DataType.Enumeration;
+            testCriteria1.DataType = DataField.DataType.Enumeration;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Enumeration,
+                FieldType = DataField.DataType.Enumeration,
                 Data = new string[1] { "2" }
             };
 
@@ -421,11 +421,11 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
-            testCriteria1.DataType = DataFieldLogic.DataType.Boolean;
+            testCriteria1.DataType = DataField.DataType.Boolean;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Boolean,
+                FieldType = DataField.DataType.Boolean,
                 Data = new string[1] { "true" }
             };
 
@@ -440,11 +440,11 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
-            testCriteria1.DataType = DataFieldLogic.DataType.Boolean;
+            testCriteria1.DataType = DataField.DataType.Boolean;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.Boolean,
+                FieldType = DataField.DataType.Boolean,
                 Data = new string[1] { "true" }
             };
 
@@ -459,11 +459,11 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
-            testCriteria1.DataType = DataFieldLogic.DataType.String;
+            testCriteria1.DataType = DataField.DataType.String;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.String,
+                FieldType = DataField.DataType.String,
                 Data = new string[1] { "testing" }
             };
 
@@ -478,11 +478,11 @@ namespace LogicTests1.Model
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
-            testCriteria1.DataType = DataFieldLogic.DataType.String;
+            testCriteria1.DataType = DataField.DataType.String;
 
-            testDataField = new DataFieldLogic()
+            testDataField = new DataField()
             {
-                FieldType = DataFieldLogic.DataType.String,
+                FieldType = DataField.DataType.String,
                 Data = new string[1] { "testing the test" }
             };
 
@@ -497,12 +497,12 @@ namespace LogicTests1.Model
         {
             //Arrange
             var criteria = new Criteria();
-            var data = new DataFieldLogic();
+            var data = new DataField();
             var mockCriteriaChecker = new Mock<ICriteriaChecker>();
             var validator = new CriteriaValidator(
-                new Dictionary<DataFieldLogic.DataType, ICriteriaChecker>
+                new Dictionary<DataField.DataType, ICriteriaChecker>
                 {
-                    {It.IsAny<DataFieldLogic.DataType>(), mockCriteriaChecker.Object}
+                    {It.IsAny<DataField.DataType>(), mockCriteriaChecker.Object}
                 });
 
             mockCriteriaChecker.Setup(m => m.Validate(criteria, data)).Returns(true);

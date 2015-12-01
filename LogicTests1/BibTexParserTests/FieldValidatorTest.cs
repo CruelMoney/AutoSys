@@ -12,7 +12,7 @@ namespace LogicTests1.BibTexParserTests
     public class FieldValidatorTest
     {
 
-        Dictionary<ItemLogic.FieldType, IFieldChecker> _checkerDict;
+        Dictionary<Item.FieldType, IFieldChecker> _checkerDict;
         IFieldChecker _checker;
         FieldValidator _fv;
 
@@ -20,8 +20,8 @@ namespace LogicTests1.BibTexParserTests
         [TestInitialize]
         public void Initialize(){
             _checker = new DefaultFieldChecker();
-            _checkerDict = new Dictionary<ItemLogic.FieldType, IFieldChecker>();
-            _checkerDict.Add(ItemLogic.FieldType.Author, _checker);
+            _checkerDict = new Dictionary<Item.FieldType, IFieldChecker>();
+            _checkerDict.Add(Item.FieldType.Author, _checker);
             _fv = new FieldValidator(_checkerDict);
             }
 
@@ -29,25 +29,25 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void TestFieldValid()
         {
-            Assert.IsTrue(_fv.IsFieldValid("Christopher", ItemLogic.FieldType.Author));
+            Assert.IsTrue(_fv.IsFieldValid("Christopher", Item.FieldType.Author));
         }
 
         [TestMethod]
         public void TestFieldinvalid()
         {
-            Assert.IsFalse(_fv.IsFieldValid("Chris\ntopher", ItemLogic.FieldType.Author));
+            Assert.IsFalse(_fv.IsFieldValid("Chris\ntopher", Item.FieldType.Author));
         }
 
         [TestMethod]
         public void validWithoutDefinedChecker()
         {
-            Assert.IsTrue(_fv.IsFieldValid("Hello World", ItemLogic.FieldType.Booktitle));
+            Assert.IsTrue(_fv.IsFieldValid("Hello World", Item.FieldType.Booktitle));
         }
 
         [TestMethod]
         public void invalidWithoutDefinedChecker()
         {
-            Assert.IsFalse(_fv.IsFieldValid("Hello\n World", ItemLogic.FieldType.Booktitle));
+            Assert.IsFalse(_fv.IsFieldValid("Hello\n World", Item.FieldType.Booktitle));
         }
 
 

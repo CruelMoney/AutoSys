@@ -16,7 +16,7 @@ namespace Logic.Model
             Exists
         }
 
-        public virtual StageLogic Stage { get; set; } // reference to Stage (many to one)
+        public virtual Stage Stage { get; set; } // reference to Stage (many to one)
 
         public int Id { get; set; }
 
@@ -33,13 +33,13 @@ namespace Logic.Model
         /// <summary>
         /// The type of data this criteria holds.
         /// </summary>
-        public DataFieldLogic.DataType DataType { get; set; }
+        public DataField.DataType DataType { get; set; }
 
         /// <summary>
         /// The data the rule is checked against. 
         /// The data this Field holds depends on the data type.
-        /// For all but <see cref="DataFieldLogic.DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).
-        /// For DataFieldLogic it can contain several flags that is checked in regards to the rule. 
+        /// For all but <see cref="DataField.DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).
+        /// For DataField it can contain several flags that is checked in regards to the rule. 
         /// </summary>
         public string[] DataMatch { get; set; }
 

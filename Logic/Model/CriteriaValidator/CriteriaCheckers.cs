@@ -23,7 +23,7 @@ namespace Logic.Model.CriteriaValidator
             };
         }
 
-        public bool Validate(Criteria criteria, DataFieldLogic data)
+        public bool Validate(Criteria criteria, DataField data)
         {
             var type = criteria.Rule;
             var checkData = data.Data;

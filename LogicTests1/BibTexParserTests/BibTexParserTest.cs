@@ -38,8 +38,8 @@ namespace LogicTests1.BibTexParserTests
             var _item = _bib[0];
 
             Assert.AreEqual(1, _bib.Count);
-            Assert.AreEqual(ItemLogic.ItemType.InProceedings, _item.Type);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _item.Fields[ItemLogic.FieldType.Author]);
+            Assert.AreEqual(Item.ItemType.InProceedings, _item.Type);
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _item.Fields[Item.FieldType.Author]);
     
         }
 
@@ -80,8 +80,8 @@ namespace LogicTests1.BibTexParserTests
             
 
             Assert.AreEqual(2, _bib.Count);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].Fields[ItemLogic.FieldType.Author]);
-            Assert.AreEqual("Pour, G.", _bib[1].Fields[ItemLogic.FieldType.Author]);
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].Fields[Item.FieldType.Author]);
+            Assert.AreEqual("Pour, G.", _bib[1].Fields[Item.FieldType.Author]);
 
         }
 
@@ -94,7 +94,7 @@ namespace LogicTests1.BibTexParserTests
 
 
             Assert.AreEqual(1, _bib.Count);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].Fields[ItemLogic.FieldType.Author]);
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].Fields[Item.FieldType.Author]);
         }
 
   

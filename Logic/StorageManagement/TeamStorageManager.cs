@@ -24,36 +24,36 @@ namespace Logic.StorageManagement
             _teamRepo = repo;
         }
 
-        public int SaveTeam(TeamLogic TeamToSave)
+        public int SaveTeam(Team TeamToSave)
         {
             return _teamRepo.Create(TeamToSave);
         }
 
-        public IEnumerable<TeamLogic> GetAllTeams()
+        public IEnumerable<Team> GetAllTeams()
         {
-            return _teamRepo.Read<TeamLogic>();
+            return _teamRepo.Read<Team>();
         }
 
         public bool RemoveTeam(int TeamWithIDToDelete)
         {
-            return _teamRepo.Delete(_teamRepo.Read<TeamLogic>(TeamWithIDToDelete));
+            return _teamRepo.Delete(_teamRepo.Read<Team>(TeamWithIDToDelete));
         }
 
-        public bool UpdateTeam(TeamLogic TeamToUpdate)
+        public bool UpdateTeam(Team TeamToUpdate)
         {
             return _teamRepo.Update(TeamToUpdate);
         }
 
-        public IEnumerable<TeamLogic> SearchTeams(string TeamName)
+        public IEnumerable<Team> SearchTeams(string TeamName)
         {
-            return _teamRepo.Read<TeamLogic>();
+            return _teamRepo.Read<Team>();
         }
             
         
 
-        public TeamLogic GetTeam(int TeamID)
+        public Team GetTeam(int TeamID)
         {
-            return _teamRepo.Read<TeamLogic>(TeamID);
+            return _teamRepo.Read<Team>(TeamID);
         }
 
     }

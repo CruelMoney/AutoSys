@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace Logic.Model.DTO
 {
     /// <summary>
-    /// The overview of a stage within a <see cref="StudyOverview"/>.
+    /// The overview of a stage within a <see cref="StudyOverviewDTO"/>.
     /// </summary>
-    public class StageOverview
+    public class StageOverviewDTO
     {
         /// <summary>
         /// An optional short name describing the key point of interest of this stage.

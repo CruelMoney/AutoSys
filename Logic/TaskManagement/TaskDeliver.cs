@@ -18,7 +18,7 @@ namespace Logic.TaskManagement
         {
         }
 
-        public TaskRequest DeliverTask(TaskSubmission taskToDeliver)
+        public TaskRequestDTO DeliverTask(TaskSubmissionDTO taskToDeliver)
         {
             //konverter tasksubmission til taskrequest og send tilbage
             throw new NotImplementedException();

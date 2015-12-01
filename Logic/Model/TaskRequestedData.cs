@@ -9,18 +9,18 @@ using Storage.Repository;
 namespace Logic.Model
 {
     /// <summary>
-    /// This class represents the data entered by a user for a specific task. 
+    /// This class represents the data entered by a user for a specific StudyTask. 
     /// </summary>
     public  class TaskRequestedData : IEntity
     {
         /// <summary>
-        /// The user that is associated with this task and it's data
+        /// The user that is associated with this StudyTask and it's data
         /// </summary>
-        public virtual UserLogic User { get; set; }
+        public virtual User User { get; set; }
         /// <summary>
-        /// The associated task
+        /// The associated StudyTask
         /// </summary>
-        public virtual TaskLogic Task { get; set; }
+        public virtual StudyTask StudyTask { get; set; }
         /// <summary>
         /// The Data entered
         /// </summary>
