@@ -17,6 +17,8 @@ namespace Logic.StorageManagement.Tests
         Dictionary<int, StudyTask> _tasks;
         Mock<IGenericRepository> mockTaskRepo;
         int id;
+        Task testTask;
+        TaskStorageManager testTaskStorageManager;
 
         [TestInitialize]
         public void InitializeRepo()
@@ -24,6 +26,8 @@ namespace Logic.StorageManagement.Tests
             id = 1;
             _tasks = new Dictionary<int, StudyTask>();
             mockTaskRepo = new Mock<IGenericRepository>();
+            testTask = new StudyTask();
+
 
             // Read items - StudyTask
             mockTaskRepo.Setup(r => r.Read<StudyTask>()).Returns(_tasks.Values.AsQueryable());

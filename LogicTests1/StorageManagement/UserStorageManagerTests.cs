@@ -17,6 +17,8 @@ namespace Logic.StorageManagement.Tests
         Dictionary<int, User> _users;
         Mock<IGenericRepository> mockUserRepo;
         int id;
+        User testUser;
+        UserStorageManager testUserStorageManager;
 
         [TestInitialize]
         public void InitializeRepo()
@@ -24,9 +26,11 @@ namespace Logic.StorageManagement.Tests
             id = 1;
             _users = new Dictionary<int, User>();
             mockUserRepo = new Mock<IGenericRepository>();
+            testUser = new User() { Id = 1 };
+            testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
 
             // Read item - User
-            mockUserRepo.Setup(r => r.Read<User>(It.IsAny<int>())).Returns<int, User>((id, user) => _users.First(e => e.Key == id).Value);
+            mockUserRepo.Setup(r => r.Read<User>(It.IsAny<int>())).Returns<int>((id) => _users.First(e => e.Key == id).Value);
 
             // Read items - User
             mockUserRepo.Setup(r => r.Read<User>()).Returns(_users.Values.AsQueryable());
@@ -64,20 +68,13 @@ namespace Logic.StorageManagement.Tests
         [TestMethod]
         public void StorageAddUserTest()
         {
-            UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
-            Assert.AreEqual(0, _users.Values.ToList().Count);
-            var testUser = new User() { Id = 1};
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(1, _users.Values.ToList().Count);
-            Assert.AreEqual(1, testUserStorageManager.GetUser(1).Id);
         }
 
         [TestMethod]
         public void StorageGetUserTest()
         {
-            UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
-            Assert.AreEqual(0, _users.Values.ToList().Count);
-            var testUser = new User() { Id = 1 };
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(testUser, testUserStorageManager.GetUser(1));
             Assert.AreEqual(1, testUserStorageManager.GetUser(1).Id);
@@ -90,9 +87,6 @@ namespace Logic.StorageManagement.Tests
         [TestMethod]
         public void StorageRemoveUserTest()
         {
-            UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
-            Assert.AreEqual(0, _users.Values.ToList().Count);
-            var testUser = new User() { Id = 1 };
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(1, _users.Values.ToList().Count);
             testUserStorageManager.RemoveUser(1);
@@ -108,7 +102,6 @@ namespace Logic.StorageManagement.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StorageNoUserToRemoveTest()
         {
-            UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
             Assert.AreEqual(0, _users.Values.ToList().Count);
             Assert.IsFalse(testUserStorageManager.RemoveUser(1));
         }
