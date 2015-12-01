@@ -72,6 +72,10 @@ namespace Logic.StorageManagement.Tests
             Assert.AreEqual(1, _users.Values.ToList().Count);
         }
 
+        /// <summary>
+        /// Tests get on a User from the mock repo
+        /// </summary>
+
         [TestMethod]
         public void StorageGetUserTest()
         {

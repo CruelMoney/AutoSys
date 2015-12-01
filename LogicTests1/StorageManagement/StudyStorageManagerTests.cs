@@ -19,6 +19,7 @@ namespace Logic.StorageManagement.Tests
         Mock<IGenericRepository> mockStudyRepo;
         int id;
         Study _testStudy = new Study() { Id = 1, CurrentStage = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>(), Team = new Team(), TeamId = 1 };
+        StudyStorageManager testStudyStorageManager;
 
         [TestInitialize]
         public void InitializeRepo()
@@ -26,9 +27,10 @@ namespace Logic.StorageManagement.Tests
             id = 1;
             mockStudyRepo = new Mock<IGenericRepository>();
             _studies = new Dictionary<int, Study>();
+            testStudyStorageManager = new StudyStorageManager(mockStudyRepo.Object);
 
             // Read item
-            mockStudyRepo.Setup(r => r.Read<Study>(It.IsAny<int>())).Returns<int, Study>((id, stud) => _studies.First(e => e.Key == id).Value);
+            mockStudyRepo.Setup(r => r.Read<Study>(It.IsAny<int>())).Returns<int>((id) => _studies.First(e => e.Key == id).Value);
 
             // Read items
             mockStudyRepo.Setup(r => r.Read<Study>()).Returns(_studies.Values.AsQueryable());
@@ -65,10 +67,15 @@ namespace Logic.StorageManagement.Tests
         [TestMethod()]
         public void StorageAddStudyTest()
         {
-            StudyStorageManager testStudyManager = new StudyStorageManager(mockStudyRepo.Object);
-            Assert.AreEqual(0, _studies.Values.ToList().Count);
-            testStudyManager.saveStudy(_testStudy);
+            testStudyStorageManager.saveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
+        }
+
+        [TestMethod]
+        public void StorageGetStudyTest()
+        {
+            testStudyStorageManager.saveStudy(_testStudy);
+            Assert.AreEqual(_testStudy, testStudyStorageManager.GetStudy(1));
         }
 
         /// <summary>
@@ -78,11 +85,9 @@ namespace Logic.StorageManagement.Tests
         [TestMethod()]
         public void StorageRemoveStudyTest()
         {
-            StudyStorageManager testStudyManager = new StudyStorageManager(mockStudyRepo.Object);
-            Assert.AreEqual(0, _studies.Values.ToList().Count);
-            testStudyManager.saveStudy(_testStudy);
+            testStudyStorageManager.saveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
-            testStudyManager.removeStudy(_testStudy);
+            testStudyStorageManager.removeStudy(_testStudy);
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             
         }
@@ -93,11 +98,11 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void StorageNoStudyToRemoveTest()
         {
-            StudyStorageManager testStudyManager = new StudyStorageManager(mockStudyRepo.Object);
             Assert.AreEqual(0, _studies.Values.ToList().Count);
-            //Assert.IsFalse(testStudyManager.removeStudy(_testStudy));
+            // Assert.IsFalse(testStudyStorageManager.removeStudy(_testStudy));
         }
     }
 }

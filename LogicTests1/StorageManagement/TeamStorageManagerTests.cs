@@ -72,6 +72,10 @@ namespace Logic.StorageManagement.Tests
             Assert.AreEqual(1, _teams.Values.ToList().Count);
         }
 
+        /// <summary>
+        /// Tests get on a team from the mock repo
+        /// </summary>
+
         [TestMethod]
         public void StorageGetTeamTest() {
             testTeamStorageManager.SaveTeam(testTeam);
