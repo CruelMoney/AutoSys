@@ -42,7 +42,6 @@ namespace Logic.StorageManagement
             return _userRepo.Read<User>().Include(u=>u.Id);
         }
 
-
         public User GetUser(int userId)
         {
            return _userRepo.Read<User>(userId); 

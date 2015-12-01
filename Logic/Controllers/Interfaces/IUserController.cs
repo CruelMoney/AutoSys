@@ -14,13 +14,13 @@ namespace Logic.Controllers.Interfaces
         /// Get all users.
         /// </summary>
         /// <param name="name">Search for users which match the specified name.</param>
-        IEnumerable<UserDTO> Get(string name = "");
+        IHttpActionResult Get(string name = "");
 
         /// <summary>
         /// Get the UserDTO with the specific ID.
         /// </summary>
         /// <param name="id">The ID of the UserDTO to retrieve.</param>
-        UserDTO Get(int id);
+        IHttpActionResult Get(int id);
 
         /// <summary>
         /// Get all study IDs of studies a given UserDTO is part of.
@@ -28,7 +28,7 @@ namespace Logic.Controllers.Interfaces
         /// <param name="id">The ID of the UserDTO to get study IDs for.</param>
         /// <returns></returns>
         [Route("{id}/StudyIDs")]
-        IEnumerable<int> GetStudyIDs(int id);
+        IHttpActionResult GetStudyIDs(int id);
 
         /// <summary>
         /// Create a new UserDTO.

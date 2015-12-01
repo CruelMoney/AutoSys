@@ -48,8 +48,7 @@ namespace Logic.StorageManagement
         {
             return _teamRepo.Read<Team>();
         }
-            
-        
+           
 
         public Team GetTeam(int TeamID)
         {
