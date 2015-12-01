@@ -82,7 +82,7 @@ namespace Logic.StorageManagement.Tests
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             testStudyManager.saveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
-            testStudyManager.RemoveStudy(_testStudy);
+            testStudyManager.removeStudy(_testStudy);
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             
         }
@@ -93,12 +93,11 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void StorageNoStudyToRemoveTest()
         {
             StudyStorageManager testStudyManager = new StudyStorageManager(mockStudyRepo.Object);
             Assert.AreEqual(0, _studies.Values.ToList().Count);
-            //testStudyManager.removeStudy(1);
+            //Assert.IsFalse(testStudyManager.removeStudy(_testStudy));
         }
     }
 }
