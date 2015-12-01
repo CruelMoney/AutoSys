@@ -17,17 +17,20 @@ namespace Logic.StorageManagement.Tests
         Dictionary<int, Team> _teams;
         Mock<IGenericRepository> mockTeamRepo;
         int id;
+        Team testTeam;
+        TeamStorageManager testTeamStorageManager;
 
         [TestInitialize]
         public void InitializeRepo()
         {
             id = 1;
             _teams = new Dictionary<int, Team>();
-
             mockTeamRepo = new Mock<IGenericRepository>();
-            
+            testTeam = new Team() { Id = 1 };
+            testTeamStorageManager = new TeamStorageManager(mockTeamRepo.Object);
+
             // Read item - Team
-            mockTeamRepo.Setup(r => r.Read<Team>(It.IsAny<int>())).Returns<int, Team>((id, team) => _teams.First(e => e.Key == id).Value);
+            mockTeamRepo.Setup(r => r.Read<Team>(It.IsAny<int>())).Returns<int>((id) => _teams.First(e => e.Key == id).Value);
             
             // Read items - Team
             mockTeamRepo.Setup(r => r.Read<Team>()).Returns(_teams.Values.AsQueryable());
@@ -65,11 +68,19 @@ namespace Logic.StorageManagement.Tests
         [TestMethod]
         public void StorageAddTeamTest()
         {
-            TeamStorageManager testTeamStorageManager = new TeamStorageManager(mockTeamRepo.Object);
-            Assert.AreEqual(0, _teams.Values.ToList().Count);
-            var testTeam = new Team();
             testTeamStorageManager.SaveTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
+        }
+
+        /// <summary>
+        /// Tests get on a team from the mock repo
+        /// </summary>
+
+        [TestMethod]
+        public void StorageGetTeamTest() {
+            testTeamStorageManager.SaveTeam(testTeam);
+            Assert.AreEqual(testTeam, testTeamStorageManager.GetTeam(1));
+            Assert.AreEqual(1, testTeamStorageManager.GetTeam(1).Id);
         }
 
         /// <summary>
@@ -79,9 +90,6 @@ namespace Logic.StorageManagement.Tests
         [TestMethod]
         public void StorageRemoveTeamTest()
         {
-            TeamStorageManager testTeamStorageManager = new TeamStorageManager(mockTeamRepo.Object);
-            Assert.AreEqual(0, _teams.Values.ToList().Count);
-            var testTeam = new Team();
             testTeamStorageManager.SaveTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
             testTeamStorageManager.RemoveTeam(1);
@@ -97,9 +105,8 @@ namespace Logic.StorageManagement.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StorageNoTeamToRemoveTest()
         {
-            TeamStorageManager testTeamStorageManager = new TeamStorageManager(mockTeamRepo.Object);
             Assert.AreEqual(0, _teams.Values.ToList().Count);
-            _teams.Remove(1);
+            Assert.IsFalse(_teams.Remove(0));
         }
     }
 }

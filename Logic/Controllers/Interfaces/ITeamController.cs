@@ -13,13 +13,13 @@ namespace Logic.Controllers.Interfaces
         /// Get all teams.
         /// </summary>
         /// <param name="name">Search for teams which match the specified name.</param>
-        IEnumerable<TeamDTO> Get(string name = "");
+        IHttpActionResult Get(string name = "");
 
         /// <summary>
         /// Get the TeamDTO with the specific ID.
         /// </summary>
         /// <param name="id">The ID of the TeamDTO to retrieve.</param>
-        TeamDTO Get(int id);
+        IHttpActionResult Get(int id);
 
         /// <summary>
         /// Create a new TeamDTO.

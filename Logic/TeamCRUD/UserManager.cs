@@ -69,5 +69,18 @@ namespace Logic.TeamCRUD
                 Metadata = dbUser.Metadata
             };
         }
+
+        public IEnumerable<UserDTO> GetAllUsers()
+        {
+            return
+                (from User dbUser in _userStorageManager.GetAllUsers()
+                    select new UserDTO()
+                    {
+                        Id = dbUser.Id,
+                        Name = dbUser.Name,
+                        Metadata = dbUser.Metadata
+                    }).ToList();
+
+        }
     }
 }

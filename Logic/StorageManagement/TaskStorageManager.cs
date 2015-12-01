@@ -14,7 +14,6 @@ namespace Logic.StorageManagement
     public class TaskStorageManager : IObservable<TaskRequester>
     {
         IGenericRepository _taskRepo;
-        public IEnumerable<StudyTask> Tasks => _taskRepo.Read<StudyTask>().Include("UserDTO");
 
         public TaskStorageManager()
         {
@@ -33,6 +32,11 @@ namespace Logic.StorageManagement
         public void CreateTask(StudyTask studyTask)
         {
             _taskRepo.Create(studyTask);
+        }
+
+        public bool RemoveTask(int taskWithIdToDelete)
+        {
+            return _taskRepo.Delete(_taskRepo.Read<StudyTask>(taskWithIdToDelete));
         }
 
         public void UpdateTask(StudyTask studyTask)

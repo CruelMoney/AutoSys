@@ -43,11 +43,10 @@ namespace Logic.TaskManagement
                 where user.Id.Equals(userId)
                 select user).FirstOrDefault();
 
-            var tasks = from TaskRequestedData task in currentUser.Tasks
-                         select ConvertToTaskRequest(task.StudyTask);
+            var tasks = from StudyTask task in currentUser.Tasks
+                         select ConvertToTaskRequest(task);
 
             return tasks.ToList();
-
         }
 
         public TaskRequestDTO ConvertToTaskRequest(StudyTask task)

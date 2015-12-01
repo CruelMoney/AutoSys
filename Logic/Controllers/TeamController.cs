@@ -19,26 +19,25 @@ namespace Logic.Controllers
         /// Get all teams.
         /// </summary>
         /// <param name="name">Search for teams which match the specified name.</param>
-        public IEnumerable<TeamDTO> Get(string name = "")
+        public IHttpActionResult Get(string name = "")
         {
             // GET: api/TeamDTO
             // GET: api/TeamDTO?name=untouchables
+            IEnumerable<TeamDTO> teams;
+
+            teams = name.Equals(string.Empty) ? _manager.GetAllTeams() : _manager.SearchTeams(name);
             
-            
-            return _manager.SearchTeams(name);
+            return Ok(teams);
         }
 
         /// <summary>
         /// Get the TeamDTO with the specific ID.
         /// </summary>
         /// <param name="id">The ID of the TeamDTO to retrieve.</param>
-        public TeamDTO Get(int id)
+        public IHttpActionResult Get(int id)
         {
-
-            _manager.GetTeam(id);
-
             // GET: api/TeamDTO/5
-            throw new NotImplementedException();
+            return Ok(_manager.GetTeam(id));
         }
 
         /// <summary>

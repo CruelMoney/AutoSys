@@ -11,8 +11,8 @@ namespace Logic.TeamCRUD
 {
     public class TeamManager
     {
-        TeamStorageManager _teamStorageManager;
-        UserStorageManager _userStorageManager;
+        private readonly TeamStorageManager _teamStorageManager;
+        private readonly UserStorageManager _userStorageManager;
 
         public TeamManager()
         {
@@ -91,6 +91,19 @@ namespace Logic.TeamCRUD
                 Metadata = dbTeam.Metadata,
                 UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
             };
+        }
+
+        public IEnumerable<TeamDTO> GetAllTeams()
+        {
+            return
+                 (from Team dbTeam in _teamStorageManager.GetAllTeams()
+                  select new TeamDTO()
+                  {
+                      Id = dbTeam.Id,
+                      Name = dbTeam.Name,
+                      Metadata = dbTeam.Metadata,
+                      UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
+                  }).ToList();
         }
 
     }

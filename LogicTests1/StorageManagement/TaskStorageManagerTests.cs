@@ -17,6 +17,8 @@ namespace Logic.StorageManagement.Tests
         Dictionary<int, StudyTask> _tasks;
         Mock<IGenericRepository> mockTaskRepo;
         int id;
+        StudyTask testTask = new StudyTask() { Id = 1 };
+        TaskStorageManager testTaskStorageManager;
 
         [TestInitialize]
         public void InitializeRepo()
@@ -24,6 +26,10 @@ namespace Logic.StorageManagement.Tests
             id = 1;
             _tasks = new Dictionary<int, StudyTask>();
             mockTaskRepo = new Mock<IGenericRepository>();
+            testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
+
+            // Read item - Team
+            mockTaskRepo.Setup(r => r.Read<StudyTask>(It.IsAny<int>())).Returns<int>((id) => _tasks.First(e => e.Key == id).Value);
 
             // Read items - StudyTask
             mockTaskRepo.Setup(r => r.Read<StudyTask>()).Returns(_tasks.Values.AsQueryable());
@@ -61,26 +67,31 @@ namespace Logic.StorageManagement.Tests
         [TestMethod]
         public void StorageAddTaskTest()
         {
-            TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
-            Assert.AreEqual(0, _tasks.Values.ToList().Count);
-            var testTask = new StudyTask();
             testTaskStorageManager.CreateTask(testTask);
             Assert.AreEqual(1, _tasks.Values.ToList().Count);
+        }
+
+        /// <summary>
+        /// Tests get on a Study Task from the mock repo
+        /// </summary>
+
+        [TestMethod]
+        public void StorageGetTaskTest()
+        {
+            //testTaskStorageManager.CreateTask(testTask);
+            //Assert.AreEqual(1, testTaskStorageManager.GetTask(1));
         }
 
         /// <summary>
         /// Tests if a StudyTask has been removed to the mock repo
         /// </summary>
 
-        [TestMethod()]
+        [TestMethod]
         public void StorageRemoveTaskTest()
         {
-            TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
-            Assert.AreEqual(0, _tasks.Values.ToList().Count);
-            var testTask = new StudyTask();
             testTaskStorageManager.CreateTask(testTask);
             Assert.AreEqual(1, _tasks.Values.ToList().Count);
-            _tasks.Remove(1);
+            testTaskStorageManager.RemoveTask(1);
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
         }
 
@@ -90,12 +101,10 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void StorageNoTaskToRemoveTest()
         {
-            TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
-            _tasks.Remove(1);
+            Assert.IsFalse(testTaskStorageManager.RemoveTask(1));
         }
     }
 }

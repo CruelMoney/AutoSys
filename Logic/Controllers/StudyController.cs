@@ -19,7 +19,7 @@ namespace Logic.Controllers
         /// </summary>
         /// <param name="id">The ID of the study for which to retrieve an overview.</param>
         [Route("{id}/Overview")]
-        public StudyOverviewDTO GetOverview(int id)
+        public IHttpActionResult GetOverview(int id)
         {
             // GET: api/Study/5/Overview
             throw new NotImplementedException();
@@ -35,15 +35,14 @@ namespace Logic.Controllers
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
         [Route("{id}/StudyTask")]
-        public IEnumerable<TaskRequestDTO> GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
+        public IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
 
-            TaskController controller = new TaskController();
-            return controller.GetTasksForUser(id, userId, count, filter, type);
-
-
             throw new NotImplementedException();
+
+            TaskController controller = new TaskController();
+            return Ok(controller.GetTasksForUser(id, userId, count, filter, type));
         }
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace Logic.Controllers
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
         [Route("{id}/TaskIDs")]
-        public IEnumerable<int> GetTaskIDs(int id, int userId, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Editable, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
+        public IHttpActionResult GetTaskIDs(int id, int userId, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Editable, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/TaskIDs?userId=5&filter=Editable
             throw new NotImplementedException();
@@ -68,7 +67,7 @@ namespace Logic.Controllers
         /// <param name="taskId"></param>
         /// <returns></returns>
         [Route("{id}/StudyTask/{taskId}")]
-        public TaskRequestDTO GetTask(int id, int taskId)
+        public IHttpActionResult GetTask(int id, int taskId)
         {
             // GET: api/Study/4/StudyTask/5
             throw new NotImplementedException();

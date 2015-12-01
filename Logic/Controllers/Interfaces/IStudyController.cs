@@ -9,11 +9,11 @@ namespace Logic.Controllers.Interfaces
     public interface IStudyController
     {
         /// <summary>
-        /// Retrieve an overview of the specified study.
+        /// Retrieve an overview of the specified study as <see cref="StudyOverviewDTO"/>.
         /// </summary>
         /// <param name="id">The ID of the study for which to retrieve an overview.</param>
         [Route("{id}/Overview")]
-        StudyOverviewDTO GetOverview(int id);
+        IHttpActionResult GetOverview(int id);
 
         /// <summary>
         /// Get requested tasks for a specific user of a given study. By default, the first remaining (still to be completed) StudyTask is retrieved.
@@ -25,7 +25,7 @@ namespace Logic.Controllers.Interfaces
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
         [Route("{id}/StudyTask")]
-        IEnumerable<TaskRequestDTO> GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both);
+        IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both);
 
         /// <summary>
         /// Get requested StudyTask IDs for a specific user of a given study. By default, delivered but still editable StudyTask IDs are returned.
@@ -36,7 +36,7 @@ namespace Logic.Controllers.Interfaces
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
         [Route("{id}/TaskIDs")]
-        IEnumerable<int> GetTaskIDs(int id, int userId, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Editable,
+        IHttpActionResult GetTaskIDs(int id, int userId, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Editable,
             TaskRequestDTO.Type type = TaskRequestDTO.Type.Both);
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Logic.Controllers.Interfaces
         /// <param name="taskId"></param>
         /// <returns></returns>
         [Route("{id}/StudyTask/{taskId}")]
-        TaskRequestDTO GetTask(int id, int taskId);
+        IHttpActionResult GetTask(int id, int taskId);
 
         /// <summary>
         /// Deliver a finished StudyTask.

@@ -8,11 +8,13 @@ using Logic.TeamCRUD;
 
 namespace Logic.Controllers
 {
+
     /// <summary>
     /// Controller to access and modify users.
     /// </summary>
+    //TODO should not be public, how to test? whaat?
     [RoutePrefix("api/UserDTO")]
-    internal class UserController : ApiController, IUserController
+    public class UserController : ApiController, IUserController
     {
         private readonly UserManager _manager = new UserManager();
 
@@ -20,21 +22,25 @@ namespace Logic.Controllers
         /// Get all users.
         /// </summary>
         /// <param name="name">Search for users which match the specified name.</param>
-        public IEnumerable<UserDTO> Get(string name = "")
+        public IHttpActionResult Get(string name = "")
         {
             // GET: api/UserDTO
             // GET: api/UserDTO?name=alice
-            return _manager.SearchUsers(name);
+            IEnumerable<UserDTO> users;
+
+            users = name.Equals(string.Empty) ? _manager.GetAllUsers() : _manager.SearchUsers(name);
+
+            return Ok(users);
         }
 
         /// <summary>
         /// Get the UserDTO with the specific ID.
         /// </summary>
         /// <param name="id">The ID of the UserDTO to retrieve.</param>
-        public UserDTO Get(int id)
+        public IHttpActionResult Get(int id)
         {
             // GET: api/UserDTO/5
-            return _manager.GetUser(id);
+            return Ok(_manager.GetUser(id));
         }
 
         /// <summary>
@@ -43,7 +49,7 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the UserDTO to get study IDs for.</param>
         /// <returns></returns>
         [Route("{id}/StudyIDs")]
-        public IEnumerable<int> GetStudyIDs(int id)
+        public IHttpActionResult GetStudyIDs(int id)
         {
             // GET: api/UserDTO/5/StudyIDs
             throw new NotImplementedException();
