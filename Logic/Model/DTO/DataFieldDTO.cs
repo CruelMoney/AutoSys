@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using Logic.Controllers;
-using Logic.Model.DTO;
 
-namespace Logic.Model
+namespace Logic.Model.DTO
 {
-    public class DataFieldLogic
+    /// <summary>
+    /// A data Field part of a <see cref="TaskRequestDTO" />.
+    /// </summary>
+    public class DataFieldDTO
     {
         /// <summary>
         /// Defines the type of data the data Field holds.
@@ -39,6 +37,7 @@ namespace Logic.Model
         /// <summary>
         /// A name for the data Field.
         /// </summary>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
@@ -57,11 +56,11 @@ namespace Logic.Model
         public string[] TypeInfo { get; set; }
 
         /// <summary>
-        /// This property holds the data for the Field and can be used to provide default data to the user, as well as by the user to submit the task.
+        /// This property holds the data for the Field and can be used to provide default data to the user, as well as by the user to submit the StudyTask.
         /// The data this Field holds depends on the data type.
         /// For all but <see cref="DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).
         /// For <see cref="DataType.Flags" /> it can contain several flags, either existing ones listed in <see cref="TypeInfo" />, or new ones.
-        /// For <see cref="DataType.Resource" /> it contains a JSON representation of <see cref="Resource" />.
+        /// For <see cref="DataType.Resource" /> it contains a JSON representation of <see cref="ResourceDTO" />.
         /// </summary>
         public string[] Data { get; set; }
     }

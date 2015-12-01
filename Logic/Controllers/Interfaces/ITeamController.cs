@@ -13,33 +13,33 @@ namespace Logic.Controllers.Interfaces
         /// Get all teams.
         /// </summary>
         /// <param name="name">Search for teams which match the specified name.</param>
-        IEnumerable<Team> Get(string name = "");
+        IEnumerable<TeamDTO> Get(string name = "");
 
         /// <summary>
-        /// Get the team with the specific ID.
+        /// Get the TeamDTO with the specific ID.
         /// </summary>
-        /// <param name="id">The ID of the team to retrieve.</param>
-        Team Get(int id);
+        /// <param name="id">The ID of the TeamDTO to retrieve.</param>
+        TeamDTO Get(int id);
 
         /// <summary>
-        /// Create a new Team.
+        /// Create a new TeamDTO.
         /// </summary>
-        /// <param name="team">The new team to create.</param>
-        IHttpActionResult Post([FromBody] Team team);
+        /// <param name="teamDto">The new TeamDTO to create.</param>
+        IHttpActionResult Post([FromBody] TeamDTO teamDto);
 
         /// <summary>
-        /// Update the team with the specified ID.
-        /// The list of users part of the team can not be modified once it has been created.
+        /// Update the TeamDTO with the specified ID.
+        /// The list of users part of the TeamDTO can not be modified once it has been created.
         /// </summary>
-        /// <param name="id">The ID of the team to update.</param>
-        /// <param name="user">The new team data.</param>
-        IHttpActionResult Put(int id, [FromBody] Team user);
+        /// <param name="id">The ID of the TeamDTO to update.</param>
+        /// <param name="user">The new TeamDTO data.</param>
+        IHttpActionResult Put(int id, [FromBody] TeamDTO user);
 
         /// <summary>
-        /// Delete the team with the specified ID.
-        /// A team can not be deleted when it is participating in a study.
+        /// Delete the TeamDTO with the specified ID.
+        /// A TeamDTO can not be deleted when it is participating in a study.
         /// </summary>
-        /// <param name="id">The ID of the team to delete.</param>
+        /// <param name="id">The ID of the TeamDTO to delete.</param>
         IHttpActionResult Delete(int id);
     }
 }

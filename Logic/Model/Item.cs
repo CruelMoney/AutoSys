@@ -5,7 +5,7 @@ namespace Logic.Model
     /// <summary>
     ///     This class defines a bibliographic item.
     /// </summary>
-    public class ItemLogic
+    public class Item
     {
         /// <summary>
         ///     Type of a Field associated to a bibliographic item.
@@ -79,7 +79,7 @@ namespace Logic.Model
         /// </summary>
         public readonly ItemType Type;
 
-        public ItemLogic(ItemType type, IDictionary<FieldType, string> fields)
+        public Item(ItemType type, IDictionary<FieldType, string> fields)
         {
             Type = type;
             Fields = new Dictionary<FieldType, string>(fields);

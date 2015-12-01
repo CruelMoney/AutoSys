@@ -4,11 +4,11 @@ using Logic.Model;
 namespace Logic.StudyConfiguration.BiblographyParser
 {
     /// <summary>
-    /// This class is used for validating bibliographic <see cref="ItemLogic"/> objects.
+    /// This class is used for validating bibliographic <see cref="Item"/> objects.
     /// </summary>
     public class ItemValidator
     {
-        readonly Dictionary<ItemLogic.ItemType, IItemChecker> _checkers;
+        readonly Dictionary<Item.ItemType, IItemChecker> _checkers;
         readonly IItemChecker _defaultChecker = new DefaultItemChecker();
 
         /// <summary>
@@ -18,9 +18,9 @@ namespace Logic.StudyConfiguration.BiblographyParser
         /// A dictionary of Field checkers per item type.
         /// If a checker for an item type is not specified, <see cref="DefaultFieldChecker"/> is used.
         /// </param>
-        public ItemValidator(Dictionary<ItemLogic.ItemType, IItemChecker> checkers = null)
+        public ItemValidator(Dictionary<Item.ItemType, IItemChecker> checkers = null)
         {
-            _checkers = checkers ?? new Dictionary<ItemLogic.ItemType, IItemChecker>();
+            _checkers = checkers ?? new Dictionary<Item.ItemType, IItemChecker>();
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Logic.StudyConfiguration.BiblographyParser
         /// </summary>
         /// <param name="item">The item to Validate.</param>
         /// <returns>true if the item is valid; false otherwise.</returns>
-        public bool IsItemValid(ItemLogic item)
+        public bool IsItemValid(Item item)
         {
             return _checkers.ContainsKey(item.Type) ? _checkers[item.Type].Validate(item) : _defaultChecker.Validate(item);
         }

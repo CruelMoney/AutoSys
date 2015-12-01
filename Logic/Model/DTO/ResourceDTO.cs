@@ -6,7 +6,7 @@ namespace Logic.Model.DTO
     /// <summary>
     /// Describes a resource data Field.
     /// </summary>
-    public class Resource
+    public class ResourceDTO
     {
         /// <summary>
         /// The unique ID for the resource, which can be used to retrieve the resource by calling <see cref="StudyController.GetResource" />.

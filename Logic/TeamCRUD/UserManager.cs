@@ -18,12 +18,12 @@ namespace Logic.TeamCRUD
         {
             _userStorageManager = storageManager;
         }
-        public int CreateUser(User user)
+        public int CreateUser(UserDTO userDto)
         {
-            var userToAdd = new UserLogic
+            var userToAdd = new User
             {
-                Name = user.Name,
-                Metadata = user.Metadata
+                Name = userDto.Name,
+                Metadata = userDto.Metadata
             };
             
             return _userStorageManager.SaveUser(userToAdd);
@@ -34,23 +34,23 @@ namespace Logic.TeamCRUD
             return _userStorageManager.RemoveUser(userId);
         }
 
-        public bool UpdateUser(int userId, User newUser)
+        public bool UpdateUser(int userId, UserDTO newUserDto)
         {
-            var updatedUser = new UserLogic()
+            var updatedUser = new User()
             {
                 Id = userId,
-                Name = newUser.Name,
-                Metadata = newUser.Metadata
+                Name = newUserDto.Name,
+                Metadata = newUserDto.Metadata
             };
             return _userStorageManager.UpdateUser(updatedUser);
         }
 
-        public IEnumerable<User> SearchUsers(string userName)
+        public IEnumerable<UserDTO> SearchUsers(string userName)
         {
             return
-                (from UserLogic dbUser in _userStorageManager.GetAllUsers()
+                (from User dbUser in _userStorageManager.GetAllUsers()
                     where dbUser.Name.Equals(userName)
-                    select new User()
+                    select new UserDTO()
                     {
                         Id = dbUser.Id,
                         Name = dbUser.Name,
@@ -59,10 +59,10 @@ namespace Logic.TeamCRUD
                     .ToList();
         }
 
-        public User GetUser(int userId)
+        public UserDTO GetUser(int userId)
         {
             var dbUser = _userStorageManager.GetUser(userId);
-            return new User()
+            return new UserDTO()
             {
                 Id = dbUser.Id,
                 Name = dbUser.Name,

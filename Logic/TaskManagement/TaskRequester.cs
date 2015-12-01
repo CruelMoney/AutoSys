@@ -13,14 +13,14 @@ namespace Logic.TaskManagement
     {
         private TaskGenerator _taskGenerator;
         private TaskStorageManager _storageManager;
-        private readonly User _user;
-        private readonly StudyLogic _study;
+        private readonly UserDTO _userDto;
+        private readonly Study _study;
 
 
-        public TaskRequester(TaskStorageManager storageManager, User user, StudyLogic study, TaskGenerator taskGenerator)
+        public TaskRequester(TaskStorageManager storageManager, UserDTO userDto, Study study, TaskGenerator taskGenerator)
         {
             _storageManager = storageManager;
-            _user = user;
+            _userDto = userDto;
             _study = study;
             _taskGenerator = taskGenerator;
             _storageManager.Subscribe(this as IObserver<TaskRequester>);
@@ -29,26 +29,49 @@ namespace Logic.TaskManagement
         public TaskRequester()
         {
             _storageManager = new TaskStorageManager();
-            _user = new User();
-            _study = new StudyLogic();
+            _userDto = new UserDTO();
+            _study = new Study();
             _taskGenerator = new TaskGenerator(_study);
             _storageManager.Subscribe(this as IObserver<TaskRequester>);
         }
 
-        public void GetTaskForUser(User user, StudyLogic study)
+        public List<TaskRequestDTO> GetTasksForUser(int userId, Study study, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
+            Stage currentStage = null;
+            foreach (var stage in study.Stages)
+            {
+                if (stage.Id.Equals(study.CurrentStage))
+                {
+                    currentStage = stage;
+                    break;
+                }
+            }
 
-            throw new NotImplementedException();
-            if (!_storageManager.Tasks.Any())
-            {
-                ///No tasks
-            }
-            else
-            {
-                
-            }
+            var currentUser = (from User user in study.Team.Users
+                where user.Id.Equals(userId)
+                select user).FirstOrDefault();
+
+            var tasks = from TaskRequestedData task in currentUser.Tasks
+                         select ConvertToTaskRequest(task.StudyTask);
+
+            return tasks.ToList();
+
         }
 
+        public TaskRequestDTO ConvertToTaskRequest(StudyTask tasklogic)
+        {
+            TaskRequestDTO taskRequestDto = new TaskRequestDTO()
+            {
+                Id = tasklogic.Id,
+                TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), "both"),
+                IsDeliverable = tasklogic.IsDeliverable,
+                VisibleFieldsDto = null,
+                RequestedFieldsDto = null
+
+            };
+            return taskRequestDto;
+      
+        }
 
         public void OnNext(TaskStorageManager value)
         {

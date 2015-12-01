@@ -31,38 +31,18 @@ namespace Logic.TaskManagement
             _studyStorageManager = new StudyStorageManager();
         }
 
-        public void deliverTask(TaskSubmission task)
+        public void deliverTask(TaskSubmissionDTO task)
         {
-            //TaskDeliver skal have kode til at ændre en submitted task til dens tilsvarende requested task, den kalder på
+            //TaskDeliver skal have kode til at ændre en submitted StudyTask til dens tilsvarende requested StudyTask, den kalder på
             // taskdeliver, som ændrer, returnerer den nye (og færdige) udgave af taskrequest. den sendes med koden herunder.
   
         }
 
-        public TaskRequest GetTasksForUser(int id, int userId, int count, TaskRequest.Filter filter, TaskRequest.Type type)
+        public List<TaskRequestDTO> GetTasksForUser(int id, int userId, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-
             var study = _studyStorageManager.GetStudy(id);
-            StageLogic currentStageLogic;
-            foreach(var stage in study.Stages)
-            {
-                if (stage.Id == study.CurrentStage)
-                {
-                    currentStageLogic = stage;
-                }
-            }
-            var users = study.Team.Users;
-            UserLogic currentUser;
-            foreach(var user in users)
-            {
-                if (user.Id == userId)
-                {
-                    currentUser = user;
-                }
-            }
-            List<TaskLogic> tasks;
-
-
-            throw new NotImplementedException();
+            TaskRequester requester = new TaskRequester();
+            return requester.GetTasksForUser(userId, study, count, filter, type);
 
         }
     }

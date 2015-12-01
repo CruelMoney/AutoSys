@@ -14,7 +14,7 @@ namespace Logic.StorageManagement.Tests
     [TestClass]
     public class TeamStorageManagerTests
     {
-        Dictionary<int, TeamLogic> _teams;
+        Dictionary<int, Team> _teams;
         Mock<IGenericRepository> mockTeamRepo;
         int id;
 
@@ -22,18 +22,18 @@ namespace Logic.StorageManagement.Tests
         public void InitializeRepo()
         {
             id = 1;
-            _teams = new Dictionary<int, TeamLogic>();
+            _teams = new Dictionary<int, Team>();
 
             mockTeamRepo = new Mock<IGenericRepository>();
             
-            // Read item - TeamLogic
-            mockTeamRepo.Setup(r => r.Read<TeamLogic>(It.IsAny<int>())).Returns<int, TeamLogic>((id, team) => _teams.First(e => e.Key == id).Value);
+            // Read item - Team
+            mockTeamRepo.Setup(r => r.Read<Team>(It.IsAny<int>())).Returns<int, Team>((id, team) => _teams.First(e => e.Key == id).Value);
             
-            // Read items - TeamLogic
-            mockTeamRepo.Setup(r => r.Read<TeamLogic>()).Returns(_teams.Values.AsQueryable());
+            // Read items - Team
+            mockTeamRepo.Setup(r => r.Read<Team>()).Returns(_teams.Values.AsQueryable());
             
-            // Create - TeamLogic
-            mockTeamRepo.Setup(r => r.Create<TeamLogic>(It.IsAny<TeamLogic>())).Callback<TeamLogic>(team =>
+            // Create - Team
+            mockTeamRepo.Setup(r => r.Create<Team>(It.IsAny<Team>())).Callback<Team>(team =>
             {
                 int nextId = id++;
                 team.Id = nextId;
@@ -41,8 +41,8 @@ namespace Logic.StorageManagement.Tests
 
             });
             
-            // Update - TeamLogic
-            mockTeamRepo.Setup(r => r.Update<TeamLogic>(It.IsAny<TeamLogic>())).Callback<TeamLogic>(team =>
+            // Update - Team
+            mockTeamRepo.Setup(r => r.Update<Team>(It.IsAny<Team>())).Callback<Team>(team =>
             {
                 if (_teams.ContainsKey(team.Id))
                 {
@@ -50,8 +50,8 @@ namespace Logic.StorageManagement.Tests
                 }
             });
             
-            // Delete - TeamLogic
-            mockTeamRepo.Setup(r => r.Delete<TeamLogic>(It.IsAny<TeamLogic>())).Callback<TeamLogic>(team =>
+            // Delete - Team
+            mockTeamRepo.Setup(r => r.Delete<Team>(It.IsAny<Team>())).Callback<Team>(team =>
             {
                 _teams.Remove(team.Id);
             });
@@ -67,7 +67,7 @@ namespace Logic.StorageManagement.Tests
         {
             TeamStorageManager testTeamStorageManager = new TeamStorageManager(mockTeamRepo.Object);
             Assert.AreEqual(0, _teams.Values.ToList().Count);
-            var testTeam = new TeamLogic();
+            var testTeam = new Team();
             testTeamStorageManager.SaveTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
         }
@@ -81,10 +81,10 @@ namespace Logic.StorageManagement.Tests
         {
             TeamStorageManager testTeamStorageManager = new TeamStorageManager(mockTeamRepo.Object);
             Assert.AreEqual(0, _teams.Values.ToList().Count);
-            var testTeam = new TeamLogic();
+            var testTeam = new Team();
             testTeamStorageManager.SaveTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
-            _teams.Remove(1);
+            testTeamStorageManager.RemoveTeam(1);
             Assert.AreEqual(0, _teams.Values.ToList().Count);
         }
 

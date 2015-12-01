@@ -18,20 +18,19 @@ namespace Logic.StorageManagement
             _studyRepo = repo;
         }
 
-        public StudyLogic saveStudy(StudyLogic study)
+        public Study saveStudy(Study study)
         {
             _studyRepo.Create(study);
             return study;
         }
 
-        public void RemoveStudy(StudyLogic study)
+        public void removeStudy(Study study)
         {
             _studyRepo.Delete(study);
         }
-        public StudyLogic GetStudy(int studyid)
+        public Study GetStudy(int studyid)
         {
-            var study = _studyRepo.Read<StudyLogic>(studyid);
-            return study;
+            return _studyRepo.Read<Study>(studyid);
         }
 
         //public List<Study>

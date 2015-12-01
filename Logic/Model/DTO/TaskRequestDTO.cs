@@ -3,12 +3,12 @@
 namespace Logic.Model.DTO
 {
     /// <summary>
-    /// A requested task, part of a systematic study.
+    /// A requested StudyTask, part of a systematic study.
     /// </summary>
-    public class TaskRequest
+    public class TaskRequestDTO
     {
         /// <summary>
-        /// Defines whether the requested tasks are reviewing tasks, conflict tasks, or any task.
+        /// Defines whether the requested tasks are reviewing tasks, conflict tasks, or any StudyTask.
         /// </summary>
         public enum Type
         {
@@ -18,7 +18,7 @@ namespace Logic.Model.DTO
         }
 
         /// <summary>
-        /// Filters task requests.
+        /// Filters StudyTask requests.
         /// </summary>
         public enum Filter
         {
@@ -38,19 +38,19 @@ namespace Logic.Model.DTO
 
 
         /// <summary>
-        /// A unique identifier for the task.
+        /// A unique identifier for the StudyTask.
         /// </summary>
         [Required]
         public int Id { get; set; }
 
         /// <summary>
-        /// The <see cref="Type" /> of the task, either a review task, or a conflict task.
+        /// The <see cref="Type" /> of the StudyTask, either a review StudyTask, or a conflict StudyTask.
         /// </summary>
         [Required]
         public Type TaskType { get; set; }
 
         /// <summary>
-        /// Defines whether the task is still deliverable or not.
+        /// Defines whether the StudyTask is still deliverable or not.
         /// </summary>
         [Required]
         public bool IsDeliverable { get; set; }
@@ -59,17 +59,17 @@ namespace Logic.Model.DTO
         /// A list of data fields which are to be shown to the user, but are not editable.
         /// </summary>
         [Required]
-        public DataField[] VisibleFields { get; set; }
+        public DataFieldDTO[] VisibleFieldsDto { get; set; }
 
         /// <summary>
-        /// A list of requested data fields which need to be filled out as part of the task.
+        /// A list of requested data fields which need to be filled out as part of the StudyTask.
         /// </summary>
         [Required]
-        public DataField[] RequestedFields { get; set; }
+        public DataFieldDTO[] RequestedFieldsDto { get; set; }
 
         /// <summary>
-        /// In case this is a <see cref="Type.Conflict" /> task, represents for each of the <see cref="RequestedFields" /> the list of <see cref="ConflictingData" /> provided by separate users.
+        /// In case this is a <see cref="Type.Conflict" /> StudyTask, represents for each of the <see cref="RequestedFieldsDto" /> the list of <see cref="ConflictingDataDto" /> provided by separate users.
         /// </summary>
-        public ConflictingData[][] ConflictingData { get; set; }
+        public ConflictingDataDTO[][] ConflictingDataDto { get; set; }
     }
 }

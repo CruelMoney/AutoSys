@@ -9,24 +9,24 @@ namespace LogicTests1.BibTexParserTests
     public class DefaultItemCheckerTest
     {
 
-        ItemLogic _validItem;
-        ItemLogic _invalidItem;
+        Item _validItem;
+        Item _invalidItem;
         DefaultItemChecker _dfc;
 
-        Dictionary<ItemLogic.FieldType, string> _validDict = new Dictionary<ItemLogic.FieldType, string>();
-        Dictionary<ItemLogic.FieldType, string> _invalidDict = new Dictionary<ItemLogic.FieldType, string>();
+        Dictionary<Item.FieldType, string> _validDict = new Dictionary<Item.FieldType, string>();
+        Dictionary<Item.FieldType, string> _invalidDict = new Dictionary<Item.FieldType, string>();
         DefaultItemChecker _DefaultItemChecker = new DefaultItemChecker();
 
         [TestInitialize]
         public void Initialize(){
-            _validDict.Add(ItemLogic.FieldType.Booktitle, "Hello World");
-            _validDict.Add(ItemLogic.FieldType.Author, "Christopher");
+            _validDict.Add(Item.FieldType.Booktitle, "Hello World");
+            _validDict.Add(Item.FieldType.Author, "Christopher");
 
-            _invalidDict.Add(ItemLogic.FieldType.Booktitle, "Hello World");
-            _invalidDict.Add(ItemLogic.FieldType.Author, "invalid\n field");
+            _invalidDict.Add(Item.FieldType.Booktitle, "Hello World");
+            _invalidDict.Add(Item.FieldType.Author, "invalid\n field");
 
-            _validItem = new ItemLogic(ItemLogic.ItemType.Book, _validDict);
-            _invalidItem = new ItemLogic(ItemLogic.ItemType.Book, _invalidDict);
+            _validItem = new Item(Item.ItemType.Book, _validDict);
+            _invalidItem = new Item(Item.ItemType.Book, _invalidDict);
             }
 
 

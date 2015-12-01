@@ -14,12 +14,12 @@ namespace Logic.TaskManagement
 {
     public class TaskGenerator
     {
-        public TaskGenerator(StudyLogic study)
+        public TaskGenerator(Study study)
         {
          
         }
 
-        public IEnumerable<TaskRequest> GenerateTasks(StudyLogic study, StageLogic stage)
+        public IEnumerable<TaskRequestDTO> GenerateTasks(Study study, Stage stage)
         {
             throw new NotImplementedException();
            
