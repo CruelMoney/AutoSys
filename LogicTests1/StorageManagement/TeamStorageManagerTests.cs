@@ -63,7 +63,7 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod]
-        public void StorageSaveTeamTest()
+        public void StorageAddTeamTest()
         {
             TeamStorageManager testTeamStorageManager = new TeamStorageManager(mockTeamRepo.Object);
             Assert.AreEqual(0, _teams.Values.ToList().Count);
