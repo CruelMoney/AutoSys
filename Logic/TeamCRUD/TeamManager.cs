@@ -11,8 +11,8 @@ namespace Logic.TeamCRUD
 {
     public class TeamManager
     {
-        TeamStorageManager _teamStorageManager;
-        UserStorageManager _userStorageManager;
+        private readonly TeamStorageManager _teamStorageManager;
+        private readonly UserStorageManager _userStorageManager;
 
         public TeamManager()
         {

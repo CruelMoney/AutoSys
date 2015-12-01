@@ -14,7 +14,6 @@ namespace Logic.StorageManagement
     public class TaskStorageManager : IObservable<TaskRequester>
     {
         IGenericRepository _taskRepo;
-        public IEnumerable<StudyTask> Tasks => _taskRepo.Read<StudyTask>().Include("UserDTO");
 
         public TaskStorageManager()
         {
