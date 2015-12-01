@@ -34,10 +34,6 @@ namespace Logic.Controllers
         public User Get(int id)
         {
             // GET: api/User/5
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             return _manager.GetUser(id);
         }
 
