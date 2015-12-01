@@ -70,7 +70,7 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the team to delete.</param>
         public IHttpActionResult Delete(int id)
         {
-            _manager.RemoveTeam(id);
+            var deleted = _manager.RemoveTeam(id);
             // DELETE: api/Team/5
             throw new NotImplementedException();
 
