@@ -84,7 +84,7 @@ namespace Logic.StorageManagement.Tests
             var testTeam = new TeamLogic();
             testTeamStorageManager.SaveTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
-            _teams.Remove(1);
+            testTeamStorageManager.RemoveTeam(1);
             Assert.AreEqual(0, _teams.Values.ToList().Count);
         }
 

@@ -35,20 +35,52 @@ namespace Logic.TaskManagement
             _storageManager.Subscribe(this as IObserver<TaskRequester>);
         }
 
-        public void GetTaskForUser(User user, StudyLogic study)
+        public List<TaskRequest> GetTasksForUser(int userId, StudyLogic study, int count, TaskRequest.Filter filter, TaskRequest.Type type)
         {
+            StageLogic currentStageLogic = null;
+            foreach (var stage in study.Stages)
+            {
+                if (stage.Id.Equals(study.CurrentStage))
+                {
+                    currentStageLogic = stage;
+                    break;
+                }
+            }
+            var users = study.Team.Users;
+            UserLogic currentUser = null;
+            foreach (var user in users)
+            {
+                if (user.Id == userId)
+                {
+                    currentUser = user;
+                    break;
+                }
+            }
+            var tasks = currentStageLogic.UserTasks[currentUser];
 
-            throw new NotImplementedException();
-            if (!_storageManager.Tasks.Any())
+            List<TaskRequest> TaskRequestList = null;
+            foreach (var taskLogic in tasks)
             {
-                ///No tasks
+                TaskRequestList.Add(ConvertToTaskRequest(taskLogic));
             }
-            else
-            {
-                
-            }
+            return TaskRequestList;
+
         }
 
+        public TaskRequest ConvertToTaskRequest(TaskLogic tasklogic)
+        {
+            TaskRequest taskRequest = new TaskRequest()
+            {
+                Id = tasklogic.Id,
+                TaskType = (TaskRequest.Type)Enum.Parse(typeof(TaskRequest.Type), "both"),
+                IsDeliverable = tasklogic.IsDeliverable,
+                VisibleFields = null,
+                RequestedFields = null
+
+            };
+            return taskRequest;
+      
+        }
 
         public void OnNext(TaskStorageManager value)
         {

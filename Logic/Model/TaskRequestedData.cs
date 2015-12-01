@@ -24,7 +24,7 @@ namespace Logic.Model
         /// <summary>
         /// The Data entered
         /// </summary>
-        public string[] Data { get; set; }
+        public string[] Data { get; set; } 
 
         public int Id { get; set; }
     }

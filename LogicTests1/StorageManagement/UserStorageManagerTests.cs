@@ -66,9 +66,21 @@ namespace Logic.StorageManagement.Tests
         {
             UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
             Assert.AreEqual(0, _users.Values.ToList().Count);
-            var testUser = new UserLogic();
+            var testUser = new UserLogic() { Id = 1};
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(1, _users.Values.ToList().Count);
+            Assert.AreEqual(1, testUserStorageManager.GetUser(1).Id);
+        }
+
+        [TestMethod]
+        public void StorageGetUserTest()
+        {
+            UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
+            Assert.AreEqual(0, _users.Values.ToList().Count);
+            var testUser = new UserLogic() { Id = 1 };
+            testUserStorageManager.SaveUser(testUser);
+            Assert.AreEqual(testUser, testUserStorageManager.GetUser(1));
+            Assert.AreEqual(1, testUserStorageManager.GetUser(1).Id);
         }
 
         /// <summary>
@@ -80,10 +92,10 @@ namespace Logic.StorageManagement.Tests
         {
             UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
             Assert.AreEqual(0, _users.Values.ToList().Count);
-            var testUser = new UserLogic();
+            var testUser = new UserLogic() { Id = 1 };
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(1, _users.Values.ToList().Count);
-            _users.Remove(1);
+            testUserStorageManager.RemoveUser(1);
             Assert.AreEqual(0, _users.Values.ToList().Count);
         }
 
@@ -98,7 +110,7 @@ namespace Logic.StorageManagement.Tests
         {
             UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
             Assert.AreEqual(0, _users.Values.ToList().Count);
-            _users.Remove(1);
+            Assert.IsFalse(testUserStorageManager.RemoveUser(1));
         }
     }
 }
