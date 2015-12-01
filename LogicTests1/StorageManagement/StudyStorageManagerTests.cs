@@ -15,47 +15,45 @@ namespace Logic.StorageManagement.Tests
     [TestClass()]
     public class StudyStorageManagerTests
     {
-        // Dictionary<int, StudyLogic> _studies;
+        Dictionary<int, StudyLogic> _studies;
         Mock<IGenericRepository> mockStudyRepo;
-        Dictionary<int, StudyLogic> _storedStudies;
-        int id = 1;
+        int id;
         StudyLogic _testStudy = new StudyLogic() { Id = 1, CurrentStage = 1, IsFinished = false, Items = new List<ItemLogic>(), Stages = new List<StageLogic>(), Team = new TeamLogic(), TeamId = 1 };
 
         [TestInitialize]
         public void InitializeRepo()
         {
             id = 1;
-            // _studies = new Dictionary<int, StudyLogic>();
             mockStudyRepo = new Mock<IGenericRepository>();
-            _storedStudies = new Dictionary<int, StudyLogic>();
+            _studies = new Dictionary<int, StudyLogic>();
 
             // Read item
-            mockStudyRepo.Setup(r => r.Read<StudyLogic>(It.IsAny<int>())).Returns<int, StudyLogic>((id, stud) => _storedStudies.First(e => e.Key == id).Value);
+            mockStudyRepo.Setup(r => r.Read<StudyLogic>(It.IsAny<int>())).Returns<int, StudyLogic>((id, stud) => _studies.First(e => e.Key == id).Value);
 
             // Read items
-            mockStudyRepo.Setup(r => r.Read<StudyLogic>()).Returns(_storedStudies.Values.AsQueryable());
+            mockStudyRepo.Setup(r => r.Read<StudyLogic>()).Returns(_studies.Values.AsQueryable());
 
             // Create 
             mockStudyRepo.Setup(r => r.Create<StudyLogic>(It.IsAny<StudyLogic>())).Callback<StudyLogic>(study =>
             {
                 int nextId = id++;
                 study.Id = nextId;
-                _storedStudies.Add(nextId, study);
+                _studies.Add(nextId, study);
             });
 
             // Update
             mockStudyRepo.Setup(r => r.Update<StudyLogic>(It.IsAny<StudyLogic>())).Callback<StudyLogic>(study =>
             {
-                if (_storedStudies.ContainsKey(study.Id))
+                if (_studies.ContainsKey(study.Id))
                 {
-                    _storedStudies[study.Id] = study;
+                    _studies[study.Id] = study;
                 }
             });
 
             // Delete
             mockStudyRepo.Setup(r => r.Delete<StudyLogic>(It.IsAny<StudyLogic>())).Callback<StudyLogic>(study =>
             {
-                _storedStudies.Remove(study.Id);
+                _studies.Remove(study.Id);
             });
 
         }
@@ -65,15 +63,15 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
-        public void AddStudyTest()
+        public void StorageAddStudyTest()
         {
-            StudyStorageManager TestManager = new StudyStorageManager(mockStudyRepo.Object);
-            var SavedTestStudy = TestManager.saveStudy(_testStudy);
-            Assert.AreEqual(1, _storedStudies.Values.ToList().Count);
-            Assert.AreEqual(SavedTestStudy.Id, 1);
-            Assert.AreEqual(SavedTestStudy.Team, _testStudy.Team);
-            Assert.AreEqual(SavedTestStudy.Items, _testStudy.Items);
-            throw new NotImplementedException();
+            StudyStorageManager testStudyManager = new StudyStorageManager(mockStudyRepo.Object);
+            testStudyManager.saveStudy(_testStudy);
+            var savedTestStudy = testStudyManager.GetStudy(1);
+            Assert.AreEqual(1, _studies.Values.ToList().Count);
+            Assert.AreEqual(savedTestStudy.Id, 1);
+            Assert.AreEqual(savedTestStudy.Team, _testStudy.Team);
+            Assert.AreEqual(savedTestStudy.Items, _testStudy.Items);
         }
 
         /// <summary>
@@ -81,9 +79,15 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
-        public void RemoveStudyTest()
+        public void StorageRemoveStudyTest()
         {
-            throw new NotImplementedException();
+            StudyStorageManager testStudyManager = new StudyStorageManager(mockStudyRepo.Object);
+            Assert.AreEqual(0, _studies.Values.ToList().Count);
+            testStudyManager.saveStudy(_testStudy);
+            Assert.AreEqual(1, _studies.Values.ToList().Count);
+           // testStudyManager.removeStudy(1);
+            Assert.AreEqual(0, _studies.Values.ToList().Count);
+            
         }
 
         /// <summary>
@@ -92,9 +96,12 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
-        public void NoStudyToRemoveTest()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void StorageNoStudyToRemoveTest()
         {
-            throw new NotImplementedException();
+            StudyStorageManager testStudyManager = new StudyStorageManager(mockStudyRepo.Object);
+            Assert.AreEqual(0, _studies.Values.ToList().Count);
+            //testStudyManager.removeStudy(1);
         }
     }
 }

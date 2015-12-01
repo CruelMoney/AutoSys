@@ -62,7 +62,7 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod]
-        public void StorageSaveUserTest()
+        public void StorageAddUserTest()
         {
             UserStorageManager testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
             Assert.AreEqual(0, _users.Values.ToList().Count);

@@ -59,7 +59,7 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod]
-        public void StorageCreateTaskTest()
+        public void StorageAddTaskTest()
         {
             TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
@@ -90,6 +90,7 @@ namespace Logic.StorageManagement.Tests
         /// </summary>
 
         [TestMethod()]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void StorageNoTaskToRemoveTest()
         {
             TaskStorageManager testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
