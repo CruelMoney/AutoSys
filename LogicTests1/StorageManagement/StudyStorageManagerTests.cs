@@ -66,12 +66,9 @@ namespace Logic.StorageManagement.Tests
         public void StorageAddStudyTest()
         {
             StudyStorageManager testStudyManager = new StudyStorageManager(mockStudyRepo.Object);
+            Assert.AreEqual(0, _studies.Values.ToList().Count);
             testStudyManager.saveStudy(_testStudy);
-            var savedTestStudy = testStudyManager.GetStudy(1);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
-            Assert.AreEqual(savedTestStudy.Id, 1);
-            Assert.AreEqual(savedTestStudy.Team, _testStudy.Team);
-            Assert.AreEqual(savedTestStudy.Items, _testStudy.Items);
         }
 
         /// <summary>
