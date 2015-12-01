@@ -85,7 +85,7 @@ namespace Logic.StorageManagement.Tests
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             testStudyManager.saveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
-           // testStudyManager.removeStudy(1);
+            testStudyManager.RemoveStudy(_testStudy);
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             
         }
