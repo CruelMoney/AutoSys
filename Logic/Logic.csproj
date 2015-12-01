@@ -115,7 +115,7 @@
     <Compile Include="StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\ItemValidator.cs" />
-    <Compile Include="StudyConfiguration\StudyConfigurationController.cs" />
+    <Compile Include="Controllers\StudyConfigurationController.cs" />
     <Compile Include="TaskManagement\TaskController.cs" />
     <Compile Include="TaskManagement\TaskDeliver.cs" />
     <Compile Include="TaskManagement\TaskGenerator.cs" />
