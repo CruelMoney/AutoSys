@@ -19,6 +19,7 @@ namespace Logic.Model.Data
         public DbSet<TaskLogic> Tasks { get; set; }
         public DbSet<ItemLogic> Items { get; set; }
         public DbSet<DataFieldLogic> DataFields { get; set; }
+        public DbSet<TaskRequestedData> EnteredData { get; set; }
     }
     
 }

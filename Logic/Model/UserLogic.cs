@@ -14,7 +14,7 @@ namespace Logic.Model
         public string Name { get; set; }
         public TeamLogic TeamLogic { get; set; } // reference til Team (many to one)
         public string Metadata { get; set; }
-
+        public virtual List<TaskRequestedData> Tasks { get; set; } 
 
         public UserLogic(User user)
         {

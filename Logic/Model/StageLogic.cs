@@ -16,6 +16,5 @@ namespace Logic.Model
         public virtual List<Criteria> Criteria { get; set; } // reference til Criteria (one to many)
         public virtual List<TaskLogic> Tasks { get; set; } // reference til Task (one to many)
         public virtual StudyLogic Study { get; set; } // reference til Study (many to one)
-        public Dictionary<UserLogic, List<TaskLogic>> UserTasks { get; set; }
     }
 }

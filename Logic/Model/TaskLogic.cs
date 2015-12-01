@@ -66,10 +66,9 @@ namespace Logic.Model
         /// </summary>
         public DataFieldLogic[] VisibleFieldsLogic { get; set; }
 
-        //TODO When multiple users refer to the same task they will edit the same fields, we need some way to let them refer to the same task but enter conflicting data
         /// <summary>
-        /// A list of requested data fields which need to be filled out as part of the task.
+        /// A the data which need to be filled out as part of the task.
         /// </summary>
-        public DataFieldLogic[] RequestedFieldsLogic { get; set; }
+        public virtual TaskRequestedData RequestedData { get; set; }
     }
 }
