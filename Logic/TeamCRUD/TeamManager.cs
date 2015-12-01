@@ -44,9 +44,9 @@ namespace Logic.TeamCRUD
             return _teamStorageManager.SaveTeam(teamToAdd);
         }
 
-        public void RemoveTeam(int TeamID)
+        public Boolean RemoveTeam(int TeamID)
         {
-            _teamStorageManager.RemoveTeam(TeamID);
+            return _teamStorageManager.RemoveTeam(TeamID);
         }
 
         public bool UpdateTeam(int teamId, Team newTeam)
