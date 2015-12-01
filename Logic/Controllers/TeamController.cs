@@ -4,6 +4,8 @@ using System.Web.Http;
 using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
 using Logic.StorageManagement;
+using Logic.TeamCRUD;
+using System.Net;
 
 namespace Logic.Controllers
 {
@@ -12,6 +14,7 @@ namespace Logic.Controllers
     /// </summary>
     internal class TeamController : ApiController, ITeamController
     {
+        private readonly TeamManager _manager = new TeamManager();
         /// <summary>
         /// Get all teams.
         /// </summary>
@@ -21,10 +24,8 @@ namespace Logic.Controllers
             // GET: api/Team
             // GET: api/Team?name=untouchables
 
-            TeamStorageManager manager = new TeamStorageManager();
-            manager.SearchTeams(name);
-
-            throw new NotImplementedException();
+            
+            return _manager.SearchTeams(name);
         }
 
         /// <summary>
@@ -33,8 +34,8 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the team to retrieve.</param>
         public Team Get(int id)
         {
-            TeamStorageManager manager = new TeamStorageManager();
-            manager.GetTeam(id);
+
+            _manager.GetTeam(id);
 
             // GET: api/Team/5
             throw new NotImplementedException();
@@ -46,8 +47,14 @@ namespace Logic.Controllers
         /// <param name="team">The new team to create.</param>
         public IHttpActionResult Post([FromBody]Team team)
         {
-            // POST: api/Team
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            team.Id = _manager.CreateTeam(team);
+
+            return CreatedAtRoute("DefaultApi", new { id = team.Id }, team);
         }
 
         /// <summary>
@@ -56,10 +63,27 @@ namespace Logic.Controllers
         /// </summary>
         /// <param name="id">The ID of the team to update.</param>
         /// <param name="user">The new team data.</param>
-        public IHttpActionResult Put(int id, [FromBody]Team user)
+        public IHttpActionResult Put(int id, [FromBody]Team team)
         {
             // PUT: api/Team/5
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != team.Id)
+            {
+                return BadRequest();
+            }
+
+            var updated = _manager.UpdateTeam(id, team);
+
+            if (!updated)
+            {
+                return NotFound();
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -70,7 +94,13 @@ namespace Logic.Controllers
         public IHttpActionResult Delete(int id)
         {
             // DELETE: api/Team/5
-            throw new NotImplementedException();
+            var deleted = _manager.RemoveTeam(id);
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }
