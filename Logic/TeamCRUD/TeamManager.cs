@@ -94,6 +94,19 @@ namespace Logic.TeamCRUD
             };
         }
 
+        public IEnumerable<TeamDTO> GetAllTeams()
+        {
+            return
+                 (from Team dbTeam in _teamStorageManager.GetAllTeams()
+                  select new TeamDTO()
+                  {
+                      Id = dbTeam.Id,
+                      Name = dbTeam.Name,
+                      Metadata = dbTeam.Metadata,
+                      UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
+                  }).ToList();
+        }
+
     }
 }
 
