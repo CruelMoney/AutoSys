@@ -35,6 +35,11 @@ namespace Logic.StorageManagement
             _taskRepo.Create(studyTask);
         }
 
+        public void RemoveTask(StudyTask studyTask)
+        {
+            _taskRepo.Delete(studyTask);
+        }
+
         public void UpdateTask(StudyTask studyTask)
         {
             _taskRepo.Update(studyTask);

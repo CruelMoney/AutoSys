@@ -89,7 +89,7 @@ namespace Logic.StorageManagement.Tests
         {
             testTaskStorageManager.CreateTask(testTask);
             Assert.AreEqual(1, _tasks.Values.ToList().Count);
-            //testTaskStorageManager.RemoveTask(1);
+            testTaskStorageManager.RemoveTask(testTask);
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
         }
 
