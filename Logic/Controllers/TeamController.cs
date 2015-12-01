@@ -5,6 +5,7 @@ using Logic.Controllers.Interfaces;
 using Logic.Model.DTO;
 using Logic.StorageManagement;
 using Logic.TeamCRUD;
+using System.Net;
 
 namespace Logic.Controllers
 {
@@ -33,6 +34,7 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the team to retrieve.</param>
         public Team Get(int id)
         {
+
             _manager.GetTeam(id);
 
             // GET: api/Team/5
@@ -45,9 +47,14 @@ namespace Logic.Controllers
         /// <param name="team">The new team to create.</param>
         public IHttpActionResult Post([FromBody]Team team)
         {
-            _manager.CreateTeam(team);
-            // POST: api/Team
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            team.Id = _manager.CreateTeam(team);
+
+            return CreatedAtRoute("DefaultApi", new { id = team.Id }, team);
         }
 
         /// <summary>
@@ -56,11 +63,27 @@ namespace Logic.Controllers
         /// </summary>
         /// <param name="id">The ID of the team to update.</param>
         /// <param name="user">The new team data.</param>
-        public IHttpActionResult Put(int id, [FromBody]Team user)
+        public IHttpActionResult Put(int id, [FromBody]Team team)
         {
-            _manager.UpdateTeam(id, user);
             // PUT: api/Team/5
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != team.Id)
+            {
+                return BadRequest();
+            }
+
+            var updated = _manager.UpdateTeam(id, team);
+
+            if (!updated)
+            {
+                return NotFound();
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -70,10 +93,14 @@ namespace Logic.Controllers
         /// <param name="id">The ID of the team to delete.</param>
         public IHttpActionResult Delete(int id)
         {
-            var deleted = _manager.RemoveTeam(id);
             // DELETE: api/Team/5
-            throw new NotImplementedException();
+            var deleted = _manager.RemoveTeam(id);
+            if (!deleted)
+            {
+                return NotFound();
+            }
 
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }
