@@ -21,7 +21,7 @@
             </StackPanel>
             <TextBlock Text="Choose Team"/>
             <StackPanel x:Name="teamInputPanel" Orientation="Horizontal" Margin="0,20,0,20">
-                <ComboBox x:Name="teamInput" Width="280" HorizontalAlignment="Left"/>
+                <ComboBox x:Name="teamInput" Width="280" HorizontalAlignment="Left" DataContext=""/>
             </StackPanel>
             <StackPanel x:Name="nextOrCancelPanel" Orientation="Horizontal" Margin="0,20,0,20">
                 <Button x:Name="cancelButton" Content="Cancel"/>

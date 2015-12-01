@@ -12,7 +12,7 @@ namespace Logic.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Team Team { get; set; } // reference til TeamDTO (many to one)
+        public virtual List<TeamLogic> Teams { get; set; }     // reference til Teams (one to many)
         public string Metadata { get; set; }
         public virtual List<StudyTask> Tasks { get; set; } 
 
