@@ -5,10 +5,12 @@ using Logic.StorageManagement;
 using Logic.StudyConfiguration.BiblographyParser.bibTex;
 using Logic.Model.DTO;
 using Logic.StudyConfiguration.BiblographyParser;
+using System.Web.Http;
 
 namespace Logic.StudyConfiguration
 {
-    public class StudyConfigurationController
+    [RoutePrefix("api/StudyConfiguration")]
+    public class StudyConfigurationController : ApiController
     {
         private StudyStorageManager _studyStorageManager;
         private TeamStorageManager _teamStorageManager;
