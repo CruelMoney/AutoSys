@@ -35,9 +35,9 @@ namespace Logic.StorageManagement
             _taskRepo.Create(studyTask);
         }
 
-        public void RemoveTask(StudyTask studyTask)
+        public bool RemoveTask(int taskWithIdToDelete)
         {
-            _taskRepo.Delete(studyTask);
+            return _taskRepo.Delete(_taskRepo.Read<StudyTask>(taskWithIdToDelete));
         }
 
         public void UpdateTask(StudyTask studyTask)
