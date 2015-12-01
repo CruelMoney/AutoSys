@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Logic.Model;
 using Logic.Model.CriteriaValidator;
 using Logic.Model.DTO;
@@ -489,6 +490,29 @@ namespace LogicTests1.Model
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, testDataField));
+        }
+
+        [TestMethod]
+        public void CriteriaValidator_Calls_Checker_Correctly()
+        {
+            //Arrange
+            var criteria = new Criteria();
+            var data = new DataFieldLogic();
+            var mockCriteriaChecker = new Mock<ICriteriaChecker>();
+            var validator = new CriteriaValidator(
+                new Dictionary<DataFieldLogic.DataType, ICriteriaChecker>
+                {
+                    {It.IsAny<DataFieldLogic.DataType>(), mockCriteriaChecker.Object}
+                });
+
+            mockCriteriaChecker.Setup(m => m.Validate(criteria, data)).Returns(true);
+
+            //Action
+            var result = validator.CriteriaIsMet(criteria, data);
+
+            //Assert
+            mockCriteriaChecker.Verify(m => m.Validate(criteria, data), Times.Once);
+            Assert.IsTrue(result);
         }
 
     }
