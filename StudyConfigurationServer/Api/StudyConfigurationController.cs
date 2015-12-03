@@ -1,36 +1,42 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using StudyConfigurationServer.Logic.StudyConfiguration;
+using StudyConfigurationServer.Logic.TeamCRUD;
+using StudyConfigurationServer.Models;
 
 namespace StudyConfigurationServer.Api
 {
     public class StudyConfigurationController : ApiController
     {
-        private readonly StudyManager _manager = new TeamManager();
+        private readonly StudyManager _manager = new StudyManager();
         // GET: api/StudyConfiguration
-        public IEnumerable<string> Get()
+        public IEnumerable<Study> Get()
         {
-            return new string[] { "WOLOLOLO", "WOLOLOLO" };
+            return _manager.GetAllStudies();
         }
 
         // GET: api/StudyConfiguration/5
-        public string Get(int id)
+        public Study Get(int id)
         {
-            return "Det virker";
+            return _manager.GetStudy(id);
         }
 
         // POST: api/StudyConfiguration
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Study study)
         {
+            _manager.CreateStudy(study);
         }
 
         // PUT: api/StudyConfiguration/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Study study)
         {
+            _manager.UpdateStudy(id, study);
         }
 
         // DELETE: api/StudyConfiguration/5
         public void Delete(int id)
         {
+            _manager.RemoveStudy(id);
         }
     }
 }
