@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Logic.Model.DTO;
 using Logic.Model;
+using System.Data.Entity;
 
 namespace Logic.StorageManagement
 {
@@ -18,22 +19,29 @@ namespace Logic.StorageManagement
             _studyRepo = repo;
         }
 
-        public Study saveStudy(Study study)
+        public int SaveStudy(Study study)
         {
-            _studyRepo.Create(study);
-            return study;
+            return _studyRepo.Create(study);
         }
 
-        public void removeStudy(Study study)
+        public bool RemoveStudy(int studyWithIdToDelete)
         {
-            _studyRepo.Delete(study);
+            return _studyRepo.Delete(_studyRepo.Read<Study>(studyWithIdToDelete));
         }
-        public Study GetStudy(int studyid)
+        public bool UpdateStudy(Study study)
         {
-            return _studyRepo.Read<Study>(studyid);
+            return _studyRepo.Update(study);
         }
 
-        //public List<Study>
+        public IEnumerable<Study> GetAllStudies()
+        {
+            return _studyRepo.Read<Study>();
+        }
+
+        public Study GetStudy(int studyId)
+        {
+            return _studyRepo.Read<Study>(studyId);
+        }
 
     }
 }

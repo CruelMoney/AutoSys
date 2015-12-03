@@ -43,13 +43,7 @@ namespace Logic.StorageManagement
         {
             return _teamRepo.Update(TeamToUpdate);
         }
-
-        public IEnumerable<Team> SearchTeams(string TeamName)
-        {
-            return _teamRepo.Read<Team>();
-        }
            
-
         public Team GetTeam(int TeamID)
         {
             return _teamRepo.Read<Team>(TeamID);
