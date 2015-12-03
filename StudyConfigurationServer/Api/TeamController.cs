@@ -10,7 +10,7 @@ namespace StudyConfigurationServer.Api
     /// <summary>
     /// Controller to access and modify teams.
     /// </summary>
-    internal class TeamController : ApiController, ITeamController
+    public class TeamController : ApiController, ITeamController
     {
         private readonly TeamManager _manager = new TeamManager();
         /// <summary>
