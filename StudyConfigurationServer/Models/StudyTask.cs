@@ -1,4 +1,5 @@
-﻿using Storage.Repository;
+﻿using System.Collections.Generic;
+using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
 {
@@ -63,6 +64,6 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// A the data which need to be filled out as part of the StudyTask.
         /// </summary>
-        public virtual TaskRequestedData RequestedData { get; set; }
+        public virtual List<TaskRequestedData> RequestedData { get; set; }
     }
 }

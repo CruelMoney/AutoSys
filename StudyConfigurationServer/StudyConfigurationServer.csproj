@@ -163,6 +163,7 @@
     <Compile Include="Logic\StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
     <Compile Include="Logic\StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="Logic\StudyConfiguration\BiblographyParser\ItemValidator.cs" />
+    <Compile Include="Logic\StudyConfiguration\StudyManager.cs" />
     <Compile Include="Logic\TaskManagement\TaskController.cs" />
     <Compile Include="Logic\TaskManagement\TaskDeliver.cs" />
     <Compile Include="Logic\TaskManagement\TaskGenerator.cs" />

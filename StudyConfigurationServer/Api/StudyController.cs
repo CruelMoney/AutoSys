@@ -10,7 +10,7 @@ namespace StudyConfigurationServer.Api
     /// Controller to access information about a study.
     /// </summary>
     [RoutePrefix("api/Study")]
-    internal class StudyController : ApiController, IStudyController
+    public class StudyController : ApiController, IStudyController
     {
         /// <summary>
         /// Retrieve an overview of the specified study.

@@ -5,7 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
+using StudyConfigurationServer.Logic.TeamCRUD;
 using StudyConfigurationServer.Models;
+using StudyConfigurationServer.Models.Data;
+using StudyConfigurationServer.Models.DTO;
 
 namespace LogicTests1.StorageManagement
 {
@@ -120,5 +123,8 @@ namespace LogicTests1.StorageManagement
             var testUser2 = new User() { Id = 2, Name = "Bob Sveskebob" };
             Assert.IsTrue(testUserStorageManager.UpdateUser(testUser2));
         }
+
+      
+       
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
 {
     /// <summary>
     ///     This class defines a bibliographic item.
     /// </summary>
-    public class Item
+    public class Item :IEntity
     {
         /// <summary>
         ///     Type of a Field associated to a bibliographic item.
@@ -84,5 +85,7 @@ namespace StudyConfigurationServer.Models
             Type = type;
             Fields = new Dictionary<FieldType, string>(fields);
         }
+
+        public int Id { get; set; }
     }
 }

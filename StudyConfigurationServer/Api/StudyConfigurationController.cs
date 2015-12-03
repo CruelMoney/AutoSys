@@ -5,6 +5,7 @@ namespace StudyConfigurationServer.Api
 {
     public class StudyConfigurationController : ApiController
     {
+        private readonly StudyManager _manager = new TeamManager();
         // GET: api/StudyConfiguration
         public IEnumerable<string> Get()
         {
