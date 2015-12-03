@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Storage.Repository;
+using StudyConfigurationServer.Logic.StorageManagement;
+using StudyConfigurationServer.Models;
 
 namespace LogicTests1.StorageManagement
 {

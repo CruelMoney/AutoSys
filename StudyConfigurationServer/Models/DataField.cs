@@ -1,5 +1,4 @@
-﻿using Logic.Controllers;
-using StudyConfigurationServer.Api;
+﻿using StudyConfigurationServer.Api;
 using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Models

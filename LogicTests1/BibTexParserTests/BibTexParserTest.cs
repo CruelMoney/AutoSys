@@ -1,6 +1,9 @@
 ﻿using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
+using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bibTex;
+using StudyConfigurationServer.Models;
 
 namespace LogicTests1.BibTexParserTests
 {
@@ -21,7 +24,7 @@ namespace LogicTests1.BibTexParserTests
                 
             var _fileString = System.Text.Encoding.Default.GetString(_file);
 
-            var _parser = new Logic.StudyConfiguration.BiblographyParser.bibTex.BibTexParser(new ItemValidator());
+            var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_fileString);
 
             Assert.AreEqual(23, _bib.Count);
@@ -30,7 +33,7 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void parsingValidItem()
         {
-            var _parser = new Logic.StudyConfiguration.BiblographyParser.bibTex.BibTexParser(new ItemValidator());
+            var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_validItem);
             
             var _item = _bib[0];
@@ -45,7 +48,7 @@ namespace LogicTests1.BibTexParserTests
         [ExpectedException(typeof(InvalidDataException))]
         public void parsingInValidItemType()
         {
-            var _parser = new Logic.StudyConfiguration.BiblographyParser.bibTex.BibTexParser(new ItemValidator());
+            var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_invalidItemType);
         }
 
@@ -53,7 +56,7 @@ namespace LogicTests1.BibTexParserTests
         [ExpectedException(typeof(InvalidDataException))]
         public void parsingInValidFieldType()
         {
-            var _parser = new Logic.StudyConfiguration.BiblographyParser.bibTex.BibTexParser(new ItemValidator());
+            var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_invalidFieldType);
         }
 
@@ -61,7 +64,7 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void parsingInValidItemSyntax()
         {
-            var _parser = new Logic.StudyConfiguration.BiblographyParser.bibTex.BibTexParser(new ItemValidator());
+            var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_invalidItemSyntax);
 
             Assert.AreEqual(0, _bib.Count);
@@ -72,7 +75,7 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void parsingMultipleItems()
         {
-            var _parser = new Logic.StudyConfiguration.BiblographyParser.bibTex.BibTexParser(new ItemValidator());
+            var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_validItem);
             _bib.AddRange(_parser.Parse(_validItem2));
             
@@ -86,7 +89,7 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void parsingValidAndInvalid()
         {
-            var _parser = new Logic.StudyConfiguration.BiblographyParser.bibTex.BibTexParser(new ItemValidator());
+            var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_validItem);
             _bib.AddRange(_parser.Parse(_invalidItemKey));
 

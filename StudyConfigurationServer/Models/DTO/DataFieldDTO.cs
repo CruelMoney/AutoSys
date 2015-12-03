@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Logic.Controllers;
 using StudyConfigurationServer.Api;
 
 namespace StudyConfigurationServer.Models.DTO
