@@ -1,9 +1,10 @@
-﻿using StudyConfigurationServer.Api;
+﻿using Storage.Repository;
+using StudyConfigurationServer.Api;
 using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Models
 {
-    public class DataField
+    public class DataField : IEntity
     {
         /// <summary>
         /// Defines the type of data the data Field holds.
@@ -59,5 +60,7 @@ namespace StudyConfigurationServer.Models
         /// For <see cref="DataType.Resource" /> it contains a JSON representation of <see cref="ResourceDTO" />.
         /// </summary>
         public string[] Data { get; set; }
+
+        public int Id { get; set; }
     }
 }

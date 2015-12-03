@@ -36,7 +36,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
 
         public IEnumerable<User> GetAllUsers()
         {
-            return _userRepo.Read<User>().Include(u=>u.Id);
+            return _userRepo.Read<User>();
         }
 
         public User GetUser(int userId)
