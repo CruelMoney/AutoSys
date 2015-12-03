@@ -94,7 +94,7 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
-        /// Tests if an exception is thrown if one tries to remove a study, while
+        /// Tests if an exception is thrown and Remove() returns false if one tries to remove a study, while
         /// there are no studies to remove
         /// </summary>
 
@@ -103,7 +103,22 @@ namespace LogicTests1.StorageManagement
         public void StorageNoStudyToRemoveTest()
         {
             Assert.AreEqual(0, _studies.Values.ToList().Count);
-            // Assert.IsFalse(testStudyStorageManager.removeStudy(_testStudy));
+            Assert.IsFalse(testStudyStorageManager.RemoveStudy(_testStudy.Id));
+        }
+
+        /// <summary>
+        /// Tests if a study is updated
+        /// </summary>
+
+        [TestMethod]
+        public void StorageUpdateStudyTest()
+        {
+            var idTestStudy = new Study() { Id = 1 };
+            testStudyStorageManager.SaveStudy(idTestStudy);
+            Assert.AreEqual(1, idTestStudy.Id);
+            idTestStudy.Id = 2;
+            testStudyStorageManager.UpdateStudy(idTestStudy);
+            Assert.AreEqual(1, testStudyStorageManager.GetStudy(2).Id);
         }
     }
 }

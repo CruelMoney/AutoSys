@@ -93,11 +93,12 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
-        /// Tests if an exception is thrown if one tries to remove a StudyTask, while
+        /// Tests if an exception is thrown and Remove() returns false if one tries to remove a StudyTask, while
         /// there are no tasks to remove
         /// </summary>
 
         [TestMethod()]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void StorageNoTaskToRemoveTest()
         {
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
