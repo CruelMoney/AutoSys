@@ -11,6 +11,7 @@ namespace StudyConfigurationServer.Models
         public bool IsFinished { get; set; }
         public List<User> Validators { get; set; }
         public List<User> Reviewers { get; set; }
+        public Team Team { get; set; }
         public virtual List<Stage> Stages { get; set; } // reference til Stages (one to many)
         public virtual List<Item> Items { get; set; } // where to place?
     }
