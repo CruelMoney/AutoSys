@@ -15,7 +15,7 @@ namespace Logic.Controllers
     internal class StudyController : ApiController, IStudyController
     {
         /// <summary>
-        /// Retrieve an overview of the specified study.
+        /// Retrieve an overview of the specified study. Gives a studyOverviewDTO
         /// </summary>
         /// <param name="id">The ID of the study for which to retrieve an overview.</param>
         [Route("{id}/Overview")]
