@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Logic.Model.DTO;
 using Logic.Model;
 using System.Data.Entity;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
@@ -12,6 +13,7 @@ namespace Logic.StorageManagement
         IGenericRepository _studyRepo;
         public StudyStorageManager()
         {
+            _studyRepo = new EntityFrameworkGenericRepository<StudyDataContext>();
         }
 
         public StudyStorageManager(IGenericRepository repo)
