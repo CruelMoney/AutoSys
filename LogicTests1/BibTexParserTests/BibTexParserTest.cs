@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using BibliographyParser;
-using Logic.Model;
-using Logic.StudyConfiguration.BiblographyParser;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LogicTests1.BibTexParserTests

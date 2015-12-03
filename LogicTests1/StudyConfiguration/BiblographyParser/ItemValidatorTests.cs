@@ -1,12 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BibliographyParser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BibliographyParser.Tests
+namespace LogicTests1.StudyConfiguration.BiblographyParser
 {
     [TestClass()]
     public class ItemValidatorTests
