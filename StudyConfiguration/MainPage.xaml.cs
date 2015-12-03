@@ -27,6 +27,5 @@ namespace StudyConfiguration
             this.InitializeComponent();
         }
 
-        public IEnumerable<TeamLogic> getTeamList()
     }
 }
