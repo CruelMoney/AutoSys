@@ -67,7 +67,7 @@ namespace Logic.StorageManagement.Tests
         [TestMethod()]
         public void StorageAddStudyTest()
         {
-            testStudyStorageManager.saveStudy(_testStudy);
+            testStudyStorageManager.SaveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
         }
 
@@ -78,7 +78,7 @@ namespace Logic.StorageManagement.Tests
         [TestMethod]
         public void StorageGetStudyTest()
         {
-            testStudyStorageManager.saveStudy(_testStudy);
+            testStudyStorageManager.SaveStudy(_testStudy);
             Assert.AreEqual(_testStudy, testStudyStorageManager.GetStudy(1));
         }
 
@@ -89,9 +89,9 @@ namespace Logic.StorageManagement.Tests
         [TestMethod()]
         public void StorageRemoveStudyTest()
         {
-            testStudyStorageManager.saveStudy(_testStudy);
+            testStudyStorageManager.SaveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
-            testStudyStorageManager.removeStudy(_testStudy);
+            testStudyStorageManager.RemoveStudy(_testStudy.Id);
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             
         }

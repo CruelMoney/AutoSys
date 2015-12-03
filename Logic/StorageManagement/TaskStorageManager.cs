@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Logic.Model;
 using Logic.TaskManagement;
 using Logic.Model.DTO;
+using Logic.Model.Data;
 
 namespace Logic.StorageManagement
 {
@@ -17,6 +18,7 @@ namespace Logic.StorageManagement
 
         public TaskStorageManager()
         {
+            _taskRepo = new EntityFrameworkGenericRepository<StudyDataContext>();
         }
 
         public TaskStorageManager(IGenericRepository repo)
@@ -44,14 +46,14 @@ namespace Logic.StorageManagement
             _taskRepo.Update(studyTask);
         }
 
-        public IEnumerable<TaskRequestDTO> GetTasksForUser(int userID) //ikke sikkert det skal være her
+        public IEnumerable<StudyTask> GetAllTasks() 
         {
-            throw new NotImplementedException();
+            return _taskRepo.Read<StudyTask>();
         }
 
-        public StudyTask FindTaskLogic(TaskRequestDTO task)
+        public StudyTask GetTask(int taskId)
         {
-            return _taskRepo.Read<StudyTask>().ToList().First(g => g.Id.Equals(task.Id));
+            return _taskRepo.Read<StudyTask>(taskId);
         }
     }
 }
