@@ -106,10 +106,6 @@
     <Compile Include="TeamCRUD\UserManagementTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Logic\Logic.csproj">
-      <Project>{4B17F3E1-A15E-4017-B2CF-25CF17B16B67}</Project>
-      <Name>Logic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Storage\Storage.csproj">
       <Project>{38abd49b-ad3c-41fb-9820-3779d5fb4d41}</Project>
       <Name>Storage</Name>

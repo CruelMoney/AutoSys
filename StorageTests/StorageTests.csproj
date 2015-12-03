@@ -92,10 +92,6 @@
     <Compile Include="Repository\MockEntity.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Logic\Logic.csproj">
-      <Project>{4B17F3E1-A15E-4017-B2CF-25CF17B16B67}</Project>
-      <Name>Logic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Storage\Storage.csproj">
       <Project>{38ABD49B-AD3C-41FB-9820-3779D5FB4D41}</Project>
       <Name>Storage</Name>
