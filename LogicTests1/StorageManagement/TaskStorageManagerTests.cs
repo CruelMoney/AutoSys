@@ -1,15 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Logic.StorageManagement;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Storage.Repository;
-using Logic.Model;
 
-namespace Logic.StorageManagement.Tests
+namespace LogicTests1.StorageManagement
 {
     [TestClass]
     public class TaskStorageManagerTests
