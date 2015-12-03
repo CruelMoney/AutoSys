@@ -6,6 +6,7 @@ using Logic.StudyConfiguration.BiblographyParser.bibTex;
 using Logic.Model.DTO;
 using Logic.StudyConfiguration.BiblographyParser;
 using System.Web.Http;
+using System.IO;
 
 namespace Logic.StudyConfiguration
 {
