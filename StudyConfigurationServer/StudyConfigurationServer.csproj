@@ -44,6 +44,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -122,9 +130,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Logic\StudyOverview\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Interfaces\IStudyController.cs" />
+    <Compile Include="Api\Interfaces\ITeamController.cs" />
+    <Compile Include="Api\Interfaces\IUserController.cs" />
+    <Compile Include="Api\StudyController.cs" />
+    <Compile Include="Api\TeamController.cs" />
+    <Compile Include="Api\UserController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -163,6 +177,49 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\StorageManagement\StudyStorageManager.cs" />
+    <Compile Include="Logic\StorageManagement\TaskStorageManager.cs" />
+    <Compile Include="Logic\StorageManagement\TeamStorageManager.cs" />
+    <Compile Include="Logic\StorageManagement\UserStorageManager.cs" />
+    <Compile Include="Logic\StudyConfiguration\BiblographyParser\bibTex\BibTexParser.cs" />
+    <Compile Include="Logic\StudyConfiguration\BiblographyParser\DefaultFieldChecker.cs" />
+    <Compile Include="Logic\StudyConfiguration\BiblographyParser\DefaultItemChecker.cs" />
+    <Compile Include="Logic\StudyConfiguration\BiblographyParser\FieldValidator.cs" />
+    <Compile Include="Logic\StudyConfiguration\BiblographyParser\IBibliographyParser.cs" />
+    <Compile Include="Logic\StudyConfiguration\BiblographyParser\IFieldChecker.cs" />
+    <Compile Include="Logic\StudyConfiguration\BiblographyParser\IItemChecker.cs" />
+    <Compile Include="Logic\StudyConfiguration\BiblographyParser\ItemValidator.cs" />
+    <Compile Include="Logic\TaskManagement\TaskController.cs" />
+    <Compile Include="Logic\TaskManagement\TaskDeliver.cs" />
+    <Compile Include="Logic\TaskManagement\TaskGenerator.cs" />
+    <Compile Include="Logic\TaskManagement\TaskRequester.cs" />
+    <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
+    <Compile Include="Logic\TeamCRUD\UserManager.cs" />
+    <Compile Include="Models\Criteria.cs" />
+    <Compile Include="Models\CriteriaValidator\CriteriaCheckers.cs" />
+    <Compile Include="Models\CriteriaValidator\CriteriaValidator.cs" />
+    <Compile Include="Models\CriteriaValidator\ICriteriaChecker.cs" />
+    <Compile Include="Models\CriteriaValidator\ICriteriaValidator.cs" />
+    <Compile Include="Models\CriteriaValidator\IRuleChecker.cs" />
+    <Compile Include="Models\CriteriaValidator\RuleCheckers.cs" />
+    <Compile Include="Models\DataField.cs" />
+    <Compile Include="Models\Data\StudyDataContext.cs" />
+    <Compile Include="Models\DTO\ConflictingDataDTO.cs" />
+    <Compile Include="Models\DTO\DataFieldDTO.cs" />
+    <Compile Include="Models\DTO\ResourceDTO.cs" />
+    <Compile Include="Models\DTO\StageOverviewDTO.cs" />
+    <Compile Include="Models\DTO\StudyOverviewDTO.cs" />
+    <Compile Include="Models\DTO\TaskRequestDTO.cs" />
+    <Compile Include="Models\DTO\TaskSubmissionDTO.cs" />
+    <Compile Include="Models\DTO\TeamDTO.cs" />
+    <Compile Include="Models\DTO\UserDTO.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\Stage.cs" />
+    <Compile Include="Models\Study.cs" />
+    <Compile Include="Models\StudyTask.cs" />
+    <Compile Include="Models\TaskRequestedData.cs" />
+    <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -215,7 +272,12 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{38abd49b-ad3c-41fb-9820-3779d5fb4d41}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
