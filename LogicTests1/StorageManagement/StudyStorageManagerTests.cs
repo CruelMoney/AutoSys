@@ -116,7 +116,7 @@ namespace LogicTests1.StorageManagement
             var stageTestStudy = new Study() { Id = 2, CurrentStage = 1 };
             testStudyStorageManager.SaveStudy(stageTestStudy);
             var NewStageTestStudy = new Study() { Id = 2, CurrentStage = 2 };
-            Assert.IsFalse(testStudyStorageManager.UpdateStudy(NewStageTestStudy));
+            Assert.IsTrue(testStudyStorageManager.UpdateStudy(NewStageTestStudy));
            // Assert.AreEqual(2, testStudyStorageManager.GetStudy(2).CurrentStage);
             
         }
