@@ -113,12 +113,12 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void StorageUpdateStudyTest()
         {
-            var idTestStudy = new Study() { Id = 1 };
-            testStudyStorageManager.SaveStudy(idTestStudy);
-            Assert.AreEqual(1, idTestStudy.Id);
-            idTestStudy.Id = 2;
-            testStudyStorageManager.UpdateStudy(idTestStudy);
-            Assert.AreEqual(1, testStudyStorageManager.GetStudy(2).Id);
+            var stageTestStudy = new Study() { Id = 2, CurrentStage = 1 };
+            testStudyStorageManager.SaveStudy(stageTestStudy);
+            var NewStageTestStudy = new Study() { Id = 2, CurrentStage = 2 };
+            Assert.IsFalse(testStudyStorageManager.UpdateStudy(NewStageTestStudy));
+           // Assert.AreEqual(2, testStudyStorageManager.GetStudy(2).CurrentStage);
+            
         }
     }
 }
