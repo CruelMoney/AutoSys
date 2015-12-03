@@ -9,8 +9,8 @@ namespace StudyConfigurationServer.Models
         public int Id { get; set; }
         public int CurrentStage { get; set; }
         public bool IsFinished { get; set; }
-        public int TeamId { get; set; }
-        public virtual Team Team { get; set; }  // reference til TeamDTO (many to one)
+        public List<User> Validators { get; set; }
+        public List<User> Reviewers { get; set; }
         public virtual List<Stage> Stages { get; set; } // reference til Stages (one to many)
         public virtual List<Item> Items { get; set; } // where to place?
     }
