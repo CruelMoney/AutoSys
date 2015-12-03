@@ -36,7 +36,7 @@ namespace Logic.TeamCRUD
 
         public bool UpdateUser(int userId, UserDTO newUserDto)
         {
-            var updatedUser = new User()
+            var updatedUser = new User();
             {
                 Id = userId,
                 Name = newUserDto.Name,

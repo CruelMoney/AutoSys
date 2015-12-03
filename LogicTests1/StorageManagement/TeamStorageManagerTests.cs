@@ -97,7 +97,7 @@ namespace Logic.StorageManagement.Tests
         }
 
         /// <summary>
-        /// Tests if an exception is thrown if one tries to remove a team, while
+        /// Tests if an exception is thrown and Remove() returns false if one tries to remove a team, while
         /// there are no teams to remove
         /// </summary>
 
@@ -106,7 +106,7 @@ namespace Logic.StorageManagement.Tests
         public void StorageNoTeamToRemoveTest()
         {
             Assert.AreEqual(0, _teams.Values.ToList().Count);
-            Assert.IsFalse(_teams.Remove(0));
+            Assert.IsFalse(testTeamStorageManager.RemoveTeam(1));
         }
     }
 }

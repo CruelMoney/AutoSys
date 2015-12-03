@@ -98,7 +98,7 @@ namespace Logic.StorageManagement.Tests
         }
 
         /// <summary>
-        /// Tests if an exception is thrown if one tries to remove a user, while
+        /// Tests if an exception is thrown and Remove() returns false if one tries to remove a user, while
         /// there are no users to remove
         /// </summary>
 
@@ -108,6 +108,21 @@ namespace Logic.StorageManagement.Tests
         {
             Assert.AreEqual(0, _users.Values.ToList().Count);
             Assert.IsFalse(testUserStorageManager.RemoveUser(1));
+        }
+
+        /// <summary>
+        /// Tests if a user is updated
+        /// </summary>
+        
+        [TestMethod]
+        public void StorageUpdateUserTest()
+        {
+            var idTestUser = new User() { Id = 1 }; 
+            testUserStorageManager.SaveUser(idTestUser);
+            Assert.AreEqual(1, idTestUser.Id);
+            idTestUser.Id = 2;
+            testUserStorageManager.UpdateUser(idTestUser);
+            Assert.AreEqual(1, testUserStorageManager.GetUser(2).Id);
         }
     }
 }
