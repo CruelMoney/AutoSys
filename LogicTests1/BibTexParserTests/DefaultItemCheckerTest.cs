@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Logic.Model;
-using Logic.StudyConfiguration.BiblographyParser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
+using StudyConfigurationServer.Models;
 
 namespace LogicTests1.BibTexParserTests
 {

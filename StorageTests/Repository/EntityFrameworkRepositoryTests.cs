@@ -1,17 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Storage.Repository;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Logic.Model.DTO;
+﻿using System.Data.Entity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using StorageTests.Repository;
+using Storage.Repository;
 
-namespace Storage.Repository.Tests
+namespace StorageTests.Repository
 {
     [TestClass]
     public class EntityFrameworkGenericRepositoryTests
