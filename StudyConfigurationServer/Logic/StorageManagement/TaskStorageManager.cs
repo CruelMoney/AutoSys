@@ -13,7 +13,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
 
         public TaskStorageManager()
         {
-            _taskRepo = new EntityFrameworkGenericRepository<StudyDataContext>();
+            _taskRepo = new EntityFrameworkGenericRepository<StudyContext>();
         }
 
         public TaskStorageManager(IGenericRepository repo)

@@ -3,8 +3,13 @@ using Storage.Repository;
 
 namespace StudyConfigurationServer.Models.Data
 {
-    public class StudyDataContext : DbContext, IDbContext
+    public class StudyContext : DbContext, IDbContext 
     {
+        public StudyContext() 
+        {
+            
+        }
+
         public DbSet<Study> Studies { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<User> Users { get; set; }

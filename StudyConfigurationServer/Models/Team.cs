@@ -12,18 +12,6 @@ namespace StudyConfigurationServer.Models
         public virtual List<Study> Studies { get;  set;}  // reference til Study (one to many)
         public virtual List<User> Users { get; set; }     // reference til Users (one to many)
         public string Metadata { get; set; }
-
-        public Team(TeamDTO teamDto)
-        {
-            this.Id = teamDto.Id;
-            this.Name = teamDto.Name;
-            this.UserIDs = teamDto.UserIDs;
-            this.Metadata = teamDto.Metadata;
-        }
-        public Team()
-        {
-
-        }
     }
 
     

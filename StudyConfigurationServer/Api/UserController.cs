@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
+using Storage.Repository;
 using StudyConfigurationServer.Api.Interfaces;
+using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.TeamCRUD;
+using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Api
@@ -16,7 +19,13 @@ namespace StudyConfigurationServer.Api
     [RoutePrefix("api/UserDTO")]
     public class UserController : ApiController, IUserController
     {
-        private readonly UserManager _manager = new UserManager();
+        private readonly UserManager _manager;
+
+        public UserController()
+        {
+            var userManager = new UserManager();
+            _manager = userManager;
+        }
 
         /// <summary>
         /// Get all users.
