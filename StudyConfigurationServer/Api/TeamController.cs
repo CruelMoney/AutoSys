@@ -19,8 +19,8 @@ namespace StudyConfigurationServer.Api
         /// <param name="name">Search for teams which match the specified name.</param>
         public IHttpActionResult Get(string name = "")
         {
-            // GET: api/TeamDTO
-            // GET: api/TeamDTO?name=untouchables
+            // GET: api/Team
+            // GET: api/Team?name=untouchables
             IEnumerable<TeamDTO> teams;
 
             teams = name.Equals(string.Empty) ? _manager.GetAllTeams() : _manager.SearchTeams(name);
@@ -34,7 +34,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the TeamDTO to retrieve.</param>
         public IHttpActionResult Get(int id)
         {
-            // GET: api/TeamDTO/5
+            // GET: api/Team/5
             return Ok(_manager.GetTeam(id));
         }
 
@@ -62,7 +62,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="user">The new TeamDTO data.</param>
         public IHttpActionResult Put(int id, [FromBody]TeamDTO teamDto)
         {
-            // PUT: api/TeamDTO/5
+            // PUT: api/Team/5
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -90,7 +90,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the TeamDTO to delete.</param>
         public IHttpActionResult Delete(int id)
         {
-            // DELETE: api/TeamDTO/5
+            // DELETE: api/Team/5
             var deleted = _manager.RemoveTeam(id);
             if (!deleted)
             {
