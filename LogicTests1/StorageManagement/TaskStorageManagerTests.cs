@@ -106,5 +106,19 @@ namespace LogicTests1.StorageManagement
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
             Assert.IsFalse(testTaskStorageManager.RemoveTask(1));
         }
+
+        /// <summary>
+        /// Tests if a task is updated
+        /// </summary>
+
+        [TestMethod]
+        public void StorageUpdateTaskTest()
+        {
+            var testTask1 = new StudyTask() { Id = 1, IsDeliverable = true};
+            testTaskStorageManager.CreateTask(testTask1);
+            var testTask2 = new StudyTask() { Id = 1, IsDeliverable = false};
+            testTaskStorageManager.UpdateTask(testTask2);
+            Assert.IsFalse(testTaskStorageManager.GetTask(1).IsDeliverable);
+        }
     }
 }
