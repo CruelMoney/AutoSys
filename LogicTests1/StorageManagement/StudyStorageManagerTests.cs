@@ -45,8 +45,11 @@ namespace LogicTests1.StorageManagement
             {
                 if (_studies.ContainsKey(study.Id))
                 {
-                    _studies[study.Id] = study;
+                    _studies[study.Id] = study;   
+                    
                 }
+
+                
             });
 
             // Delete
@@ -113,11 +116,11 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void StorageUpdateStudyTest()
         {
-            var stageTestStudy = new Study() { Id = 2, CurrentStage = 1 };
+            var stageTestStudy = new Study() { Id = 1, CurrentStage = 1 };
             testStudyStorageManager.SaveStudy(stageTestStudy);
-            var NewStageTestStudy = new Study() { Id = 2, CurrentStage = 2 };
-            //Assert.IsTrue(testStudyStorageManager.UpdateStudy(NewStageTestStudy));
-            Assert.AreEqual(2, testStudyStorageManager.GetStudy(2).CurrentStage);
+            var NewStageTestStudy = new Study() { Id = 1, CurrentStage = 2 };
+            testStudyStorageManager.UpdateStudy(NewStageTestStudy);
+            Assert.AreEqual(2, testStudyStorageManager.GetStudy(1).CurrentStage);
             
         }
     }

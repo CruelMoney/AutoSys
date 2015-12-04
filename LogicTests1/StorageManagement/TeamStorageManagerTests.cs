@@ -106,5 +106,19 @@ namespace LogicTests1.StorageManagement
             Assert.AreEqual(0, _teams.Values.ToList().Count);
             Assert.IsFalse(testTeamStorageManager.RemoveTeam(1));
         }
+
+        /// <summary>
+        /// Tests if a team is updated
+        /// </summary>
+
+        [TestMethod]
+        public void StorageUpdateTeamTest()
+        {
+            var testTeam1 = new Team() { Id = 1, Name = "Team" };
+            testTeamStorageManager.SaveTeam(testTeam1);
+            var testTeam2 = new Team() { Id = 1, Name = "Team Awesome" };
+            testTeamStorageManager.UpdateTeam(testTeam2);
+            Assert.AreEqual("Team Awesome", testTeamStorageManager.GetTeam(1).Name);
+        }
     }
 }
