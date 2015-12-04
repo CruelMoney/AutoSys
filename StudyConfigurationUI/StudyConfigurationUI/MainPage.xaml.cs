@@ -34,7 +34,6 @@ namespace StudyConfiguration
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.FileTypeFilter.Add(".bib");
             openPicker.FileTypeFilter.Add(".csv");
-            openPicker.
         }
     }
 }
