@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +27,14 @@ namespace StudyConfiguration
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void openBtn_Click(Object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.FileTypeFilter.Add(".bib");
+            openPicker.FileTypeFilter.Add(".csv");
+            openPicker.
         }
     }
 }
