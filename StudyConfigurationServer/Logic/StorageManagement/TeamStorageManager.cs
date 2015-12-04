@@ -10,7 +10,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         IGenericRepository _teamRepo;
         public TeamStorageManager()
         {
-            _teamRepo = new EntityFrameworkGenericRepository<StudyDataContext>();
+            _teamRepo = new EntityFrameworkGenericRepository<StudyContext>();
         }
         
         public TeamStorageManager(IGenericRepository repo)

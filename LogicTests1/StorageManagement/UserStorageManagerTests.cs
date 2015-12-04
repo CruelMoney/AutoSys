@@ -63,7 +63,7 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
-        /// Tests if a user has been added to the mock repo
+        /// Tests if a User has been added to the mock repo
         /// </summary>
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
-        /// Tests if a user has been removed to the mock repo
+        /// Tests if a User has been removed to the mock repo
         /// </summary>
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
-        /// Tests if an exception is thrown and Remove() returns false if one tries to remove a user, while
+        /// Tests if an exception is thrown and Remove() returns false if one tries to remove a User, while
         /// there are no users to remove
         /// </summary>
 
@@ -112,16 +112,17 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
-        /// Tests if a user is updated
+        /// Tests if a User is updated
         /// </summary>
         
         [TestMethod]
         public void StorageUpdateUserTest()
         {
-            var testUser1 = new User() { Id = 2, Name = "Bob" };
+            var testUser1 = new User() { Id = 1, Name = "Bob" };
             testUserStorageManager.SaveUser(testUser1);
-            var testUser2 = new User() { Id = 2, Name = "Bob Sveskebob" };
-            Assert.IsTrue(testUserStorageManager.UpdateUser(testUser2));
+            var testUser2 = new User() { Id = 1, Name = "Bob Sveskebob" };
+            testUserStorageManager.UpdateUser(testUser2);
+            Assert.AreEqual("Bob Sveskebob", testUserStorageManager.GetUser(1).Name);
         }
 
       

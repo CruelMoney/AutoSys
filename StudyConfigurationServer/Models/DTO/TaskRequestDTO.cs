@@ -56,7 +56,7 @@ namespace StudyConfigurationServer.Models.DTO
         public bool IsDeliverable { get; set; }
 
         /// <summary>
-        /// A list of data fields which are to be shown to the user, but are not editable.
+        /// A list of data fields which are to be shown to the User, but are not editable.
         /// </summary>
         [Required]
         public DataFieldDTO[] VisibleFieldsDto { get; set; }

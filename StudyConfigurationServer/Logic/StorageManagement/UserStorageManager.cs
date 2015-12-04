@@ -11,8 +11,8 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         private readonly IGenericRepository _userRepo;
         public UserStorageManager()
         {
-            _userRepo = new EntityFrameworkGenericRepository<StudyDataContext>();
-            
+            var context = new StudyContext();
+            _userRepo = new EntityFrameworkGenericRepository<StudyContext>(context);
         }
 
         public UserStorageManager(IGenericRepository repo)

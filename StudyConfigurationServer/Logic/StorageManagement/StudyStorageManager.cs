@@ -10,7 +10,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         IGenericRepository _studyRepo;
         public StudyStorageManager()
         {
-            _studyRepo = new EntityFrameworkGenericRepository<StudyDataContext>();
+            _studyRepo = new EntityFrameworkGenericRepository<StudyContext>();
         }
 
         public StudyStorageManager(IGenericRepository repo)

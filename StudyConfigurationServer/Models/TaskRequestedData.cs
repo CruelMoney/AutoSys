@@ -1,14 +1,15 @@
-﻿using Storage.Repository;
+﻿using System.Collections.Generic;
+using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
 {
     /// <summary>
-    /// This class represents the data entered by a user for a specific StudyTask. 
+    /// This class represents the data entered by a User for a specific StudyTask. 
     /// </summary>
     public  class TaskRequestedData : IEntity
     {
         /// <summary>
-        /// The user that is associated with this StudyTask and it's data
+        /// The User that is associated with this StudyTask and it's data
         /// </summary>
         public virtual User User { get; set; }
         /// <summary>
@@ -18,7 +19,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// The Data entered
         /// </summary>
-        public string[] Data { get; set; } 
+        public List<DataField>[] Data { get; set; } 
 
         public int Id { get; set; }
     }

@@ -35,9 +35,17 @@ namespace StudyConfigurationServer.Logic.TaskManagement
 
         public List<TaskRequestDTO> GetTasksForUser(int userId, Study study, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            
+            Stage currentStage = null;
+            foreach (var stage in study.Stages)
+            {
+                if (stage.Id.Equals(study.CurrentStage))
+                {
+                    currentStage = stage;
+                    break;
+                }
+            }
 
-            var currentUser = (from User user in study.Team.Users
+            var currentUser = (from User user in study.Users
                 where user.Id.Equals(userId)
                 select user).FirstOrDefault();
 
@@ -61,8 +69,6 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             return taskRequestDto;
       
         }
-
-        
 
         public void OnNext(TaskStorageManager value)
         {

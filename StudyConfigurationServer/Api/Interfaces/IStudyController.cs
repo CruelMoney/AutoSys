@@ -14,11 +14,11 @@ namespace StudyConfigurationServer.Api.Interfaces
         IHttpActionResult GetOverview(int id);
 
         /// <summary>
-        /// Get requested tasks for a specific user of a given study. By default, the first remaining (still to be completed) StudyTask is retrieved.
+        /// Get requested tasks for a specific User of a given study. By default, the first remaining (still to be completed) StudyTask is retrieved.
         /// Optionally, the amount of tasks to retrieve, and the type of tasks to retrieve are specified.
         /// </summary>
         /// <param name="id">The ID of the study to get tasks for.</param>
-        /// <param name="userId">The ID of the user to get tasks for.</param>
+        /// <param name="userId">The ID of the User to get tasks for.</param>
         /// <param name="count">The amount of tasks to retrieve.</param>
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
@@ -26,11 +26,11 @@ namespace StudyConfigurationServer.Api.Interfaces
         IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both);
 
         /// <summary>
-        /// Get requested StudyTask IDs for a specific user of a given study. By default, delivered but still editable StudyTask IDs are returned.
+        /// Get requested StudyTask IDs for a specific User of a given study. By default, delivered but still editable StudyTask IDs are returned.
         /// Optionally, the type of StudyTask IDs to retrieve are specified.
         /// </summary>
         /// <param name="id">The ID of the study to get tasks for.</param>
-        /// <param name="userId">The ID of the user to get tasks for.</param>
+        /// <param name="userId">The ID of the User to get tasks for.</param>
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
         [Route("{id}/TaskIDs")]

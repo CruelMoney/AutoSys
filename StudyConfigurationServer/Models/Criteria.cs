@@ -26,7 +26,7 @@ namespace StudyConfigurationServer.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// A description for the criteria, so the user understands what data is requested.
+        /// A description for the criteria, so the User understands what data is requested.
         /// </summary>
         public string Description { get; set; }
 
