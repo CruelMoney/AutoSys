@@ -53,9 +53,9 @@ namespace Storage.Repository
 
         public bool Update<T>(T entity) where T : class, IEntity
         {
-           
-            var found = _context.Set<T>().FindAsync(entity.Id);
-          
+
+            var found = _context.Set<T>().Find(entity.Id);
+
             if (found == null)
             {
                 return false;
@@ -67,6 +67,8 @@ namespace Storage.Repository
             _context.SaveChangesAsync();
 
             return true;
+        
+
         }
 
         public void Dispose()

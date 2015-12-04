@@ -1,15 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Logic.StorageManagement;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Storage.Repository;
-using Logic.Model;
+using StudyConfigurationServer.Logic.StorageManagement;
+using StudyConfigurationServer.Logic.TeamCRUD;
+using StudyConfigurationServer.Models;
+using StudyConfigurationServer.Models.Data;
+using StudyConfigurationServer.Models.DTO;
 
-namespace Logic.StorageManagement.Tests
+namespace LogicTests1.StorageManagement
 {
     [TestClass]
     public class UserStorageManagerTests
@@ -98,7 +99,7 @@ namespace Logic.StorageManagement.Tests
         }
 
         /// <summary>
-        /// Tests if an exception is thrown if one tries to remove a user, while
+        /// Tests if an exception is thrown and Remove() returns false if one tries to remove a user, while
         /// there are no users to remove
         /// </summary>
 
@@ -109,5 +110,21 @@ namespace Logic.StorageManagement.Tests
             Assert.AreEqual(0, _users.Values.ToList().Count);
             Assert.IsFalse(testUserStorageManager.RemoveUser(1));
         }
+
+        /// <summary>
+        /// Tests if a user is updated
+        /// </summary>
+        
+        [TestMethod]
+        public void StorageUpdateUserTest()
+        {
+            var testUser1 = new User() { Id = 2, Name = "Bob" };
+            testUserStorageManager.SaveUser(testUser1);
+            var testUser2 = new User() { Id = 2, Name = "Bob Sveskebob" };
+            Assert.IsTrue(testUserStorageManager.UpdateUser(testUser2));
+        }
+
+      
+       
     }
 }

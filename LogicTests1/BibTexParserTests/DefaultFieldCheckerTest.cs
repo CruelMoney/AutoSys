@@ -1,5 +1,5 @@
-﻿using Logic.StudyConfiguration.BiblographyParser;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
 
 namespace LogicTests1.BibTexParserTests
 {

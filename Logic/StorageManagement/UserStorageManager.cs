@@ -15,6 +15,7 @@ namespace Logic.StorageManagement
         private readonly IGenericRepository _userRepo;
         public UserStorageManager()
         {
+            _userRepo = new EntityFrameworkGenericRepository<StudyDataContext>();
         }
 
         public UserStorageManager(IGenericRepository repo)

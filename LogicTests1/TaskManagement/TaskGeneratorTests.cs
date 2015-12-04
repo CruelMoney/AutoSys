@@ -1,12 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Logic.TaskManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Logic.TaskManagement.Tests
+namespace LogicTests1.TaskManagement
 {
     [TestClass()]
     public class TaskGeneratorTests

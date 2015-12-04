@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Logic.Model;
-using Logic.Model.CriteriaValidator;
-using Logic.Model.DTO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using StudyConfigurationServer.Models;
+using StudyConfigurationServer.Models.CriteriaValidator;
 
 namespace LogicTests1.Model
 {

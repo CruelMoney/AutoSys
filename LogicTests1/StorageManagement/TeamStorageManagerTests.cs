@@ -1,15 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Logic.StorageManagement;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Storage.Repository;
-using Logic.Model;
+using StudyConfigurationServer.Logic.StorageManagement;
+using StudyConfigurationServer.Models;
 
-namespace Logic.StorageManagement.Tests
+namespace LogicTests1.StorageManagement
 {
     [TestClass]
     public class TeamStorageManagerTests
@@ -97,7 +95,7 @@ namespace Logic.StorageManagement.Tests
         }
 
         /// <summary>
-        /// Tests if an exception is thrown if one tries to remove a team, while
+        /// Tests if an exception is thrown and Remove() returns false if one tries to remove a team, while
         /// there are no teams to remove
         /// </summary>
 
@@ -106,7 +104,7 @@ namespace Logic.StorageManagement.Tests
         public void StorageNoTeamToRemoveTest()
         {
             Assert.AreEqual(0, _teams.Values.ToList().Count);
-            Assert.IsFalse(_teams.Remove(0));
+            Assert.IsFalse(testTeamStorageManager.RemoveTeam(1));
         }
     }
 }

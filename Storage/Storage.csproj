@@ -75,7 +75,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EntityFrameworkGenericRepository.cs" />
-    <Compile Include="Repository\FlatFileRepository.cs" />
+    <Compile Include="Repository\FlatFileInventory.cs" />
     <Compile Include="Repository\IDbContext.cs" />
     <Compile Include="Repository\IEntity.cs" />
     <Compile Include="Repository\IGenericRepository.cs" />
