@@ -45,7 +45,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
                 }
             }
 
-            var currentUser = (from User user in study.Team.Users
+            var currentUser = (from User user in study.Users
                 where user.Id.Equals(userId)
                 select user).FirstOrDefault();
 

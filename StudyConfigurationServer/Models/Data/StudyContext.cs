@@ -10,6 +10,7 @@ namespace StudyConfigurationServer.Models.Data
             
         }
 
+        public DbSet<UserStudies> UserStudies { get; set; }
         public DbSet<Study> Studies { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<User> Users { get; set; }

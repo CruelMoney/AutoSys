@@ -3,12 +3,12 @@
 namespace StudyConfigurationServer.Models.DTO
 {
     /// <summary>
-    /// A submission by a user for a requested StudyTask.
+    /// A submission by a User for a requested StudyTask.
     /// </summary>
     public class TaskSubmissionDTO
     {
         /// <summary>
-        /// The user who is submitting this StudyTask.
+        /// The User who is submitting this StudyTask.
         /// </summary>
         [Required]
         public int UserId { get; set; }

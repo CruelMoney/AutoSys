@@ -14,13 +14,13 @@ namespace StudyConfigurationServer.Models.DTO
         public string Name { get; set; }
 
         /// <summary>
-        /// Per user ID, the amount of completed tasks in this stage.
+        /// Per User ID, the amount of completed tasks in this stage.
         /// </summary>
         [Required]
         public Dictionary<int,int> CompletedTasks { get; set; }
 
         /// <summary>
-        /// Per user ID, the amount of incomplete tasks in this stage.
+        /// Per User ID, the amount of incomplete tasks in this stage.
         /// </summary>
         [Required]
         public Dictionary<int, int> IncompleteTasks { get; set; }

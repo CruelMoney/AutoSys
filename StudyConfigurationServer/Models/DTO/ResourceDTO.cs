@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using StudyConfigurationServer.Api;
+
 
 namespace StudyConfigurationServer.Models.DTO
 {

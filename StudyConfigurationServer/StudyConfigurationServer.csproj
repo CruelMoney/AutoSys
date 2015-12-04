@@ -151,9 +151,13 @@
     <Compile Include="Logic\TaskManagement\TaskRequester.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
-    <Compile Include="Migrations\201512041241275_InitialCreate.cs" />
-    <Compile Include="Migrations\201512041241275_InitialCreate.Designer.cs">
-      <DependentUpon>201512041241275_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201512041429518_Initial.cs" />
+    <Compile Include="Migrations\201512041429518_Initial.Designer.cs">
+      <DependentUpon>201512041429518_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512041431418_UserStudies.cs" />
+    <Compile Include="Migrations\201512041431418_UserStudies.Designer.cs">
+      <DependentUpon>201512041431418_UserStudies.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
@@ -182,6 +186,7 @@
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\UserStudies.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -203,8 +208,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512041241275_InitialCreate.resx">
-      <DependentUpon>201512041241275_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512041429518_Initial.resx">
+      <DependentUpon>201512041429518_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512041431418_UserStudies.resx">
+      <DependentUpon>201512041431418_UserStudies.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

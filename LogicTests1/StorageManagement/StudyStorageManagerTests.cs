@@ -15,7 +15,7 @@ namespace LogicTests1.StorageManagement
         Dictionary<int, Study> _studies;
         Mock<IGenericRepository> mockStudyRepo;
         int id;
-        Study _testStudy = new Study() { Id = 1, CurrentStage = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>(), Team = new Team() };
+        Study _testStudy = new Study() { Id = 1, CurrentStage = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() };
         StudyStorageManager testStudyStorageManager;
 
         [TestInitialize]

@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
-using Storage.Repository;
 using StudyConfigurationServer.Api.Interfaces;
-using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.TeamCRUD;
-using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Api
@@ -19,13 +16,7 @@ namespace StudyConfigurationServer.Api
     [RoutePrefix("api/UserDTO")]
     public class UserController : ApiController, IUserController
     {
-        private readonly UserManager _manager;
-
-        public UserController()
-        {
-            var userManager = new UserManager();
-            _manager = userManager;
-        }
+        private readonly UserManager _manager = new UserManager();
 
         /// <summary>
         /// Get all users.
@@ -33,8 +24,8 @@ namespace StudyConfigurationServer.Api
         /// <param name="name">Search for users which match the specified name.</param>
         public IHttpActionResult Get(string name = "")
         {
-            // GET: api/UserDTO
-            // GET: api/UserDTO?name=alice
+            // GET: api/User
+            // GET: api/User?name=alice
             IEnumerable<UserDTO> users;
 
             users = name.Equals(string.Empty) ? _manager.GetAllUsers() : _manager.SearchUsers(name);
@@ -48,7 +39,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the UserDTO to retrieve.</param>
         public IHttpActionResult Get(int id)
         {
-            // GET: api/UserDTO/5
+            // GET: api/User/5
             return Ok(_manager.GetUser(id));
         }
 
@@ -70,7 +61,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="userDto">The new UserDTO to create.</param>
         public IHttpActionResult Post([FromBody]UserDTO userDto)
         {
-            // POST: api/UserDTO
+            // POST: api/User
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -88,7 +79,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="userDto">The new UserDTO data.</param>
         public IHttpActionResult Put(int id, [FromBody]UserDTO userDto)
         {
-            // PUT: api/UserDTO/5
+            // PUT: api/User/5
 
             if (!ModelState.IsValid)
             {
@@ -118,7 +109,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the UserDTO to delete.</param>
         public IHttpActionResult Delete(int id)
         {
-            // DELETE: api/UserDTO/5
+            // DELETE: api/User/5
             var deleted = _manager.RemoveUser(id);
 
             if (!deleted)

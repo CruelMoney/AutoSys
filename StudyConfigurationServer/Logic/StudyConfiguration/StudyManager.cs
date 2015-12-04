@@ -22,15 +22,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         }
         public int CreateStudy(Study study)
         {
-            var studyToAdd = new Study
-            {
-                Name = study.Name,
-                Validators = study.Validators,
-                Reviewers = study.Reviewers,
-                IsFinished = false
-            };
-
-            return _studyStorageManager.SaveStudy(studyToAdd);
+           return _studyStorageManager.SaveStudy(study);
         }
 
         public bool RemoveStudy(int studyId)

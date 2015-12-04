@@ -8,8 +8,9 @@ namespace StudyConfigurationServer.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual List<Team> Teams { get; set; }     // reference til Teams (one to many)
+        public virtual List<Team> Teams { get; set; }
+        public virtual List<UserStudies> Studies { get; set; }
         public string Metadata { get; set; }
-        public virtual List<StudyTask> Tasks { get; set; } 
+        public virtual List<TaskRequestedData> Tasks { get; set; } 
     }
 }
