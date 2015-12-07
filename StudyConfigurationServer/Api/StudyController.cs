@@ -21,9 +21,10 @@ namespace StudyConfigurationServer.Api
         [Route("{id}/Overview")]
         public IHttpActionResult GetOverview(int id)
         {
+            throw new NotImplementedException();
             // GET: api/Study/5/Overview
             StudyOverviewController controller = new StudyOverviewController();
-            return Ok(controller.GetOverview(id));
+            controller.
         }
         
 

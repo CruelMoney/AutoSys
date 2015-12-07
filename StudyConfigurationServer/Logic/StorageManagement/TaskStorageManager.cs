@@ -7,7 +7,7 @@ using StudyConfigurationServer.Models.Data;
 
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
-    public class TaskStorageManager : IObservable<TaskRequester>
+    public class TaskStorageManager
     {
         IGenericRepository _taskRepo;
 
@@ -21,11 +21,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             _taskRepo = repo;
         }
 
-        public IDisposable Subscribe(IObserver<TaskRequester> observer)
-        {
-            throw new NotImplementedException();
-        }
-
+    
         public void CreateTask(StudyTask studyTask)
         {
             _taskRepo.Create(studyTask);
@@ -50,5 +46,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         {
             return _taskRepo.Read<StudyTask>(taskId);
         }
+
+       
     }
 }
