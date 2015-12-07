@@ -64,7 +64,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -118,6 +120,12 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\AppData\Local\Temp\StudyContext.Designer.cs">
+      <Link>Models\Data\StudyContext.Designer.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StudyContext.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Api\Interfaces\IStudyController.cs" />
     <Compile Include="Api\Interfaces\ITeamController.cs" />
     <Compile Include="Api\Interfaces\IUserController.cs" />
@@ -158,6 +166,10 @@
     <Compile Include="Migrations\201512041431418_UserStudies.cs" />
     <Compile Include="Migrations\201512041431418_UserStudies.Designer.cs">
       <DependentUpon>201512041431418_UserStudies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512071203593_userstageRelation.cs" />
+    <Compile Include="Migrations\201512071203593_userstageRelation.Designer.cs">
+      <DependentUpon>201512071203593_userstageRelation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
@@ -214,6 +226,16 @@
     <EmbeddedResource Include="Migrations\201512041431418_UserStudies.resx">
       <DependentUpon>201512041431418_UserStudies.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512071203593_userstageRelation.resx">
+      <DependentUpon>201512071203593_userstageRelation.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="..\..\..\..\AppData\Local\Temp\StudyContext.edmx">
+      <Link>Models\Data\StudyContext.edmx</Link>
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StudyContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

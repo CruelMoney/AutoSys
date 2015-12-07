@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
@@ -34,17 +36,21 @@ namespace StudyConfigurationServer.Models
             /// </summary>
             Done
         }
-        /// <summary>
-        /// The StudyTask is connected to a certain paper
-        /// </summary>
-        public virtual Item Paper { get; set; }
-
-        public virtual Stage Stage { get; set; } // reference to Stage (many to one)
 
         /// <summary>
         /// A unique identifier for the StudyTask.
         /// </summary>
+       
         public int Id { get; set; }
+        /// <summary>
+        /// The StudyTask is connected to a certain paper
+        /// </summary>
+        [Required]
+        public virtual Item Paper { get; set; }
+
+        public virtual Stage Stage { get; set; } // reference to Stage (many to one)
+
+        
 
         /// <summary>
         /// The <see cref="Type" /> of the StudyTask, either a review StudyTask, or a conflict StudyTask.
