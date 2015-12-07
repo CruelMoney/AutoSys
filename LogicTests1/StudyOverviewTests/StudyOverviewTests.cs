@@ -10,35 +10,77 @@ namespace LogicTests1.StudyOverviewTests
     public class StudyOverviewTests
     {
         StudyOverviewController controller;
-        Study study, study2;
-        List<UserStudies> studieList1, studieList2, studieList3;
-        List<Stage> stages;
-        List<StudyTask> tasks;
-        List<TaskRequestedData> reqData1, reqData2, reqData3;
+        Study study1, study2;
+        List<UserStudies> userStudieList1, userStudieList2;
+        List<Stage> stageList1;
+        List<Stage> stageList2;
+        List<StudyTask> taskList1;
+        List<StudyTask> taskList2;
+        List<StudyTask> taskList3;
+        List<TaskRequestedData> listReqData1, listReqData2, listReqData3;
+        TaskRequestedData reqData1, reqData2, reqData3;
         User user1, user2, user3;
-        UserStudies study1, studie2, studie3;
-         
-        
+        UserStudies userStudy1, userStudy2, userStudy3;
+        StudyTask task1, task2, task3;
+        Stage stage1, stage2, stage3;
+
+
+
 
 
         [TestInitialize]
         public void InitializeTests()
         {
-            user1 = new User() {Name = "User1", Id= 1, Studies = studieList1, Tasks = reqData1 };
-            user2 = new User() { Name = "User2", Id = 2, Studies = studieList2, Tasks = reqData2 };
-            user3 = new User() { Name = "User3", Id = 3, Studies = studieList3, Tasks = reqData3 };
+            user1 = new User() { Name = "User1", Id = 1, Studies = userStudieList1, Tasks = listReqData1 };
+            user2 = new User() { Name = "User2", Id = 2, Studies = userStudieList1, Tasks = listReqData2 };
+            user3 = new User() { Name = "User3", Id = 3, Studies = userStudieList2, Tasks = listReqData3 };
+
+            userStudy1 = new UserStudies() { User = user1, Study = study1 };
+            userStudy2 = new UserStudies() { User = user2, Study = study1 };
+            userStudy3 = new UserStudies() { User = user3, Study = study2 };
+
+            userStudieList1 = new List<UserStudies>() { userStudy1, userStudy2 };
+            userStudieList2 = new List<UserStudies>() { userStudy3 };
+
+            task1 = new StudyTask() { IsFinished = true, Id = 1 };
+            task2 = new StudyTask() { IsFinished = false, Id = 2 };
+            task3 = new StudyTask() { IsFinished = true, Id = 3 };
+
+            taskList1 = new List<StudyTask>() { task1, task2, task3 };
+            taskList2 = new List<StudyTask>() { task1, task2 };
+            taskList3 = new List<StudyTask>() { task2, task3 };
+
+            reqData1 = new TaskRequestedData() { User = user1, StudyTask = task1 };
+            reqData2 = new TaskRequestedData() { User = user2, StudyTask = task2 };
+            reqData3 = new TaskRequestedData() { User = user3, StudyTask = task3 };
+
+            stage1 = new Stage() { Id = 1, Study = study1, Tasks = taskList1 };
+            stage2 = new Stage() { Id = 2, Study = study1, Tasks = taskList2 };
+            stage3 = new Stage() { Id = 3, Study = study2, Tasks = taskList3 };
+
+            stageList1 = new List<Stage>() { stage1, stage2 };
+            stageList2 = new List<Stage>() { stage3 };
+
+            study1 = new Study() { Name = "TestStudy", Id = 1, IsFinished = false, Stages = stageList1, CurrentStage = 1, Users = userStudieList1 };
+            study2 = new Study() { Name = "TestStudy2", Id = 2, IsFinished = false, Stages = stageList2, CurrentStage = 1, Users = userStudieList2 };
 
             controller = new StudyOverviewController();
-            studies = new List<UserStudies>() { new UserStudies() { User = user }, new UserStudies() { User = user2 } };
-            stages = new List<Stage>();
-            reqData = new List<TaskRequestedData>();
-            study = new Study() { Name = "TestStudy", Id = 1, IsFinished = false, Stages = stages, Users = studies, CurrentStage = 1};
-
         }
 
         [TestMethod]
         public void TestRetrieveAllUserIdsFromStudy()
         {
+            Assert.AreEqual(2, controller.GetUserIDs(study1).Length);
+            Assert.AreEqual(1, controller.GetUserIDs(study2).Length);
+
+            Assert.IsTrue(controller.GetUserIDs(study1)[1].Equals(userStudy2));
+            Assert.IsTrue(controller.GetUserIDs(study2)[0].Equals(userStudy3));          
+        }
+
+        [TestMethod]
+        public void Test()
+        {
+
         }
     }
 }
