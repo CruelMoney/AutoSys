@@ -22,12 +22,6 @@ namespace LogicTests1.TeamCRUD
         }
 
         [TestMethod()]
-        public void TeamManagementTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
         public void TeamCreateTest()
         {
             Assert.AreEqual("Test Team", testTeam.Name);
@@ -45,24 +39,6 @@ namespace LogicTests1.TeamCRUD
         {
             testTeam.Users.Remove(testUser1);
             Assert.AreEqual(0, testTeam.Users.Count);
-        }
-
-        [TestMethod()]
-        public void TeamUpdateTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void TeamRetrieveTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void TeamDeleteTest()
-        {
-            throw new NotImplementedException();
         }
     }
 }
