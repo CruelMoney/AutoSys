@@ -79,7 +79,6 @@ namespace Logic.TeamCRUD
                       Metadata = dbTeam.Metadata,
                       UserIDs = dbTeam.Users.Select(u=>u.Id).ToArray()
                   }).ToList();
-
         }
 
         public TeamDTO GetTeam(int teamId)

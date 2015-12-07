@@ -26,7 +26,7 @@ namespace Logic.Controllers
             IEnumerable<TeamDTO> teams;
 
             teams = name.Equals(string.Empty) ? _manager.GetAllTeams() : _manager.SearchTeams(name);
-
+            
             return Ok(teams);
         }
 

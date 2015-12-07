@@ -37,15 +37,7 @@ namespace Logic.TaskManagement
 
         public List<TaskRequestDTO> GetTasksForUser(int userId, Study study, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            Stage currentStage = null;
-            foreach (var stage in study.Stages)
-            {
-                if (stage.Id.Equals(study.CurrentStage))
-                {
-                    currentStage = stage;
-                    break;
-                }
-            }
+      
 
             var currentUser = (from User user in study.Team.Users
                 where user.Id.Equals(userId)
@@ -57,13 +49,13 @@ namespace Logic.TaskManagement
             return tasks.ToList();
         }
 
-        public TaskRequestDTO ConvertToTaskRequest(StudyTask tasklogic)
+        public TaskRequestDTO ConvertToTaskRequest(StudyTask task)
         {
             TaskRequestDTO taskRequestDto = new TaskRequestDTO()
             {
-                Id = tasklogic.Id,
+                Id = task.Id,
                 TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), "both"),
-                IsDeliverable = tasklogic.IsDeliverable,
+                IsDeliverable = task.IsDeliverable,
                 VisibleFieldsDto = null,
                 RequestedFieldsDto = null
 
