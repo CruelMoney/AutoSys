@@ -108,6 +108,7 @@
     <Compile Include="StudyConfiguration\BiblographyParser\DefaultItemCheckerTests.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\FieldValidatorTests.cs" />
     <Compile Include="StudyConfiguration\BiblographyParser\ItemValidatorTests.cs" />
+    <Compile Include="StudyOverviewTests\StudyOverviewTests.cs" />
     <Compile Include="TaskManagement\TaskGeneratorTests.cs" />
     <Compile Include="TaskManagement\TaskRequesterTests.cs" />
     <Compile Include="TeamCRUD\TeamManagementTests.cs" />

@@ -22,7 +22,7 @@ namespace StudyConfigurationServer.Api
         {
             // GET: api/Study/5/Overview
             StudyOverviewController controller = new StudyOverviewController();
-            controller.
+            return Ok(controller.GetOverview(id));
         }
 
         /// <summary>

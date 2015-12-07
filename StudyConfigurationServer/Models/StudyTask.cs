@@ -57,6 +57,11 @@ namespace StudyConfigurationServer.Models
         public bool IsDeliverable { get; set; }
 
         /// <summary>
+        /// Defines whether a StudyTask is finished. True when all data are filled out.
+        /// </summary>
+        public bool IsFinished { get; set; }
+
+        /// <summary>
         /// A list of data fields which are to be shown to the User, but are not editable.
         /// </summary>
         public DataField[] VisibleFields { get; set; }
