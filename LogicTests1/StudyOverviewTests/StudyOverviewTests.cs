@@ -54,15 +54,15 @@ namespace LogicTests1.StudyOverviewTests
             reqData2 = new TaskRequestedData() { User = user2, StudyTask = task2 };
             reqData3 = new TaskRequestedData() { User = user3, StudyTask = task3 };
 
-            stage1 = new Stage() { Id = 1, Study = study1, Tasks = taskList1 };
-            stage2 = new Stage() { Id = 2, Study = study1, Tasks = taskList2 };
-            stage3 = new Stage() { Id = 3, Study = study2, Tasks = taskList3 };
+            stage1 = new Stage() { Id = 1, Study = study1, Tasks = taskList1, Users = userStudieList1 };
+            stage2 = new Stage() { Id = 2, Study = study1, Tasks = taskList2, Users = userStudieList1 };
+            stage3 = new Stage() { Id = 3, Study = study2, Tasks = taskList3, Users = userStudieList2 };
 
             stageList1 = new List<Stage>() { stage1, stage2 };
             stageList2 = new List<Stage>() { stage3 };
 
-            study1 = new Study() { Name = "TestStudy", Id = 1, IsFinished = false, Stages = stageList1, CurrentStage = 1, Users = userStudieList1 };
-            study2 = new Study() { Name = "TestStudy2", Id = 2, IsFinished = false, Stages = stageList2, CurrentStage = 1, Users = userStudieList2 };
+            study1 = new Study() { Name = "TestStudy", Id = 1, IsFinished = false, Stages = stageList1, CurrentStage = 1 };
+            study2 = new Study() { Name = "TestStudy2", Id = 2, IsFinished = false, Stages = stageList2, CurrentStage = 1 };
 
             controller = new StudyOverviewController();
         }
@@ -73,8 +73,8 @@ namespace LogicTests1.StudyOverviewTests
             Assert.AreEqual(2, controller.GetUserIDs(study1).Length);
             Assert.AreEqual(1, controller.GetUserIDs(study2).Length);
 
-            Assert.IsTrue(controller.GetUserIDs(study1)[1].Equals(userStudy2));
-            Assert.IsTrue(controller.GetUserIDs(study2)[0].Equals(userStudy3));          
+            Assert.AreEqual(controller.GetUserIDs(study1)[1], userStudy2.User.Id);
+            Assert.AreEqual(controller.GetUserIDs(study2)[0], userStudy3.User.Id);          
         }
 
         [TestMethod]

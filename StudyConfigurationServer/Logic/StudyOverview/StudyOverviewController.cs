@@ -42,7 +42,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
         public int[] GetUserIDs(Study study)
         {
-            var NumbOfUsers = study.Users.Count();
+            var NumbOfUsers = study.Team.UserI
 
 
             var userList = new int[NumbOfUsers];
