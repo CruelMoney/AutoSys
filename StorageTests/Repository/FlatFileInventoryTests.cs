@@ -7,37 +7,37 @@ namespace StorageTests.Repository
     public class FlatFileInventoryTests
     {
         [TestMethod()]
-        public void DisposeTest()
+        public void RepositoryDisposeTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void ReadTest()
+        public void RepositoryReadTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void ReadTest1()
+        public void RepositoryReadManyTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void CreateTest()
+        public void RepositoryCreateTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void UpdateTest()
+        public void RepositoryUpdateTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void DeleteTest()
+        public void RepositoryDeleteTest()
         {
             throw new NotImplementedException();
         }

@@ -13,7 +13,7 @@ namespace LogicTests1.StudyConfiguration.BiblographyParser
         }
 
         [TestMethod()]
-        public void IsFieldValidTest()
+        public void FieldIsValidTest()
         {
             throw new NotImplementedException();
         }

@@ -7,7 +7,7 @@ namespace LogicTests1.StudyConfiguration.BiblographyParser
     public class DefaultItemCheckerTests
     {
         [TestMethod()]
-        public void ValidateTest()
+        public void DefaultItemValidTest()
         {
             throw new NotImplementedException();
         }

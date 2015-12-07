@@ -13,7 +13,7 @@ namespace LogicTests1.StudyConfiguration.BiblographyParser
         }
 
         [TestMethod()]
-        public void IsItemValidTest()
+        public void ItemIsValidTest()
         {
             throw new NotImplementedException();
         }

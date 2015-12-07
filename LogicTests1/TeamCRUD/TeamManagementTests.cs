@@ -13,43 +13,37 @@ namespace LogicTests1.TeamCRUD
         }
 
         [TestMethod()]
-        public void TeamManagementTest1()
+        public void TeamCreateTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void CreateTeamTest()
+        public void TeamAddUserTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void AddUserToTeamTest()
+        public void TeamRemoveUserTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void RemoveUserFromTeamTest()
+        public void TeamUpdateTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void UpdateTeamTest()
+        public void TeamRetrieveTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void RetrieveTeamTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void DeleteTeamTest()
+        public void TeamDeleteTest()
         {
             throw new NotImplementedException();
         }

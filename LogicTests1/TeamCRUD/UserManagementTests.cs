@@ -7,13 +7,13 @@ namespace LogicTests1.TeamCRUD
     public class UserManagementTests
     {
         [TestMethod()]
-        public void CreateUserTest()
+        public void UserCreateTest()
         {
             throw new NotImplementedException();
         }
 
         [TestMethod()]
-        public void DeleteUserTest()
+        public void UserDeleteTest()
         {
             throw new NotImplementedException();
         }
