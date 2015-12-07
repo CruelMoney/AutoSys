@@ -181,12 +181,6 @@
     <Compile Include="Models\Data\StudyContext.Designer.cs">
       <DependentUpon>StudyContext.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Data\StudyContext.Views.cs" />
-    <Compile Include="Models\Data\StudyContext1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StudyContext.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\DTO\ConflictingDataDTO.cs" />
     <Compile Include="Models\DTO\DataFieldDTO.cs" />
     <Compile Include="Models\DTO\ResourceDTO.cs" />
@@ -208,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Models\Data\ER DIAGRAM.PNG" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -235,12 +230,6 @@
     <EmbeddedResource Include="Migrations\201512071203593_userstageRelation.resx">
       <DependentUpon>201512071203593_userstageRelation.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="Models\Data\StudyContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>StudyContext1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
