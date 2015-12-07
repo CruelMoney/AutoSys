@@ -104,10 +104,7 @@
     <Compile Include="StorageManagement\TaskStorageManagerTests.cs" />
     <Compile Include="StorageManagement\TeamStorageManagerTests.cs" />
     <Compile Include="StorageManagement\UserStorageManagerTests.cs" />
-    <Compile Include="StudyConfiguration\BiblographyParser\DefaultFieldCheckerTests.cs" />
-    <Compile Include="StudyConfiguration\BiblographyParser\DefaultItemCheckerTests.cs" />
-    <Compile Include="StudyConfiguration\BiblographyParser\FieldValidatorTests.cs" />
-    <Compile Include="StudyConfiguration\BiblographyParser\ItemValidatorTests.cs" />
+    <Compile Include="StudyOverviewTests\StudyOverviewTests.cs" />
     <Compile Include="TaskManagement\TaskGeneratorTests.cs" />
     <Compile Include="TaskManagement\TaskRequesterTests.cs" />
     <Compile Include="TeamCRUD\TeamManagementTests.cs" />
@@ -133,6 +130,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="StudyConfiguration\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

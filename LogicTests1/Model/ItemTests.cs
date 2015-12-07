@@ -7,7 +7,7 @@ namespace LogicTests1.Model
     public class ItemTests
     {
         [TestMethod()]
-        public void ItemTest()
+        public void ItemCreateTest()
         {
             throw new NotImplementedException();
         }

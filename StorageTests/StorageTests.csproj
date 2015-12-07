@@ -87,7 +87,6 @@
     <Compile Include="ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EntityFrameworkRepositoryTests.cs" />
-    <Compile Include="Repository\FlatFileInventoryTests.cs" />
     <Compile Include="Repository\MockContext.cs" />
     <Compile Include="Repository\MockEntity.cs" />
   </ItemGroup>

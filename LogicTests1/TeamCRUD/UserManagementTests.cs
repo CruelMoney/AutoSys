@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StudyConfigurationServer.Models;
 
 namespace LogicTests1.TeamCRUD
 {
@@ -7,15 +8,10 @@ namespace LogicTests1.TeamCRUD
     public class UserManagementTests
     {
         [TestMethod()]
-        public void CreateUserTest()
+        public void UserCreateTest()
         {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod()]
-        public void DeleteUserTest()
-        {
-            throw new NotImplementedException();
+            User testUser = new User() { Id = 1, Name = "Test Name"};
+            Assert.AreEqual("Test Name", testUser.Name);
         }
     }
 }
