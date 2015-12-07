@@ -10,7 +10,9 @@ namespace StudyConfigurationServer.Models
         public string Name { get; set; }
         public virtual List<Team> Teams { get; set; }
         public virtual List<UserStudies> Studies { get; set; }
+        public virtual List<Stage> Stages { get; set; }
         public string Metadata { get; set; }
-        public virtual List<TaskRequestedData> Tasks { get; set; } 
+        public virtual List<TaskRequestedData> Tasks { get; set; }
+       
     }
 }

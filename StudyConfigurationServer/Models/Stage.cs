@@ -7,8 +7,12 @@ namespace StudyConfigurationServer.Models
     {
         public string Name { get; set;}
         public int Id { get; set; }
-        public virtual List<Criteria> Criteria { get; set; } // reference til Criteria (one to many)
-        public virtual List<StudyTask> Tasks { get; set; } // reference til StudyTask (one to many)
-        public virtual Study Study { get; set; } // reference til Study (many to one)
+        //The criteria are defining what fields are editable for this stage
+        public virtual List<Criteria> Criteria { get; set; } 
+        public virtual List<StudyTask> Tasks { get; set; }
+        public virtual Study Study { get; set; } 
+        //The fields that can only be seen in adddition to the editable fields.
+        public DataField[] VisibleFields { get; set; }
+        public virtual List<UserStudies> Users { get; set; }
     }
 }
