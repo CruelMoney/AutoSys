@@ -31,13 +31,13 @@ namespace LogicTests1.BibTexParserTests
 
 
         [TestMethod]
-        public void TestValid()
+        public void ItemValidTest()
         {
             Assert.IsTrue(_DefaultItemChecker.Validate(_validItem));
         }
 
         [TestMethod]
-        public void TestInValid()
+        public void ItemInValidTest()
         {
             Assert.IsFalse(_DefaultItemChecker.Validate(_invalidItem));
         }

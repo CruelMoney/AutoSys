@@ -43,7 +43,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         public int[] GetUserIDs(Study study)
         {
             var NumbOfUsers = study.Users.Count();
-            
+
 
             var userList = new int[NumbOfUsers];
             int index = 0;
@@ -54,6 +54,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             }
             return userList;     
         }
+
 
         public Stage GetCurrentStage(Study study)
         {
@@ -76,13 +77,13 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             var numbOfStages = study.Stages.Count();
             var stageOverview = new StageOverviewDTO[numbOfStages];
             var stages = new Stage[numbOfStages];
-
+            
             
             foreach(var stage in study.Stages)
             {
                 stages[index++] = stage;
             }
-       
+            
 
             for(int i = 0; i < numbOfStages; i++)
             {
@@ -95,9 +96,9 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
         public Dictionary<int, int> GetCompletedTasks(Stage stage)
         {
-            
+
             var completedTasks = new ConcurrentDictionary<int, int>();
-           
+
             foreach(var task in stage.Tasks)
             {
                 if (task.IsFinished)
@@ -115,13 +116,13 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
 
             var inCompletedTasks = new ConcurrentDictionary<int, int>();
-            
+
             foreach (var task in stage.Tasks)
-            {
+        {
                 if (!task.IsFinished)
-                {
+            {
                     foreach (var user in task.RequestedData)
-                    {
+                {
                         inCompletedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
                 }

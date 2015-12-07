@@ -31,13 +31,11 @@ namespace LogicTests1.Model
                 Name = "testCriteria2",
                 Description = "this is a test Criteria"
             };
-
-
         }
       
 
         [TestMethod]
-        public void CheckResourceExists()
+        public void CriteriaCheckResourceExistsTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
@@ -57,7 +55,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_Contains_Excact()
+        public void CriteriaCheckFlagsContainsExcactTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
@@ -81,7 +79,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_Contains_More()
+        public void CrietriaCheckFlagsContainsMoreTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
@@ -110,7 +108,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_Contains_Backwards()
+        public void CriteriaCheckFlagsContainsBackwardsTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
@@ -139,7 +137,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_Contains_False()
+        public void CriteriaCheckFlagsContainsFalseTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
@@ -168,7 +166,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_Equals_true()
+        public void CriteriaCheckFlagsContainsTrueTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
@@ -197,7 +195,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_Equals_true_random_order()
+        public void CriteriaCheckFlagsEqualsTrueRandomOrderTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
@@ -226,7 +224,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_Equals_false()
+        public void CriteriaCheckFlagsEqualsFalseTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
@@ -255,7 +253,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_larger_than_true_smallerThan_false()
+        public void CriteriaCheckFlagsLargerThanTrueSmallerThanFalseTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.LargerThan;
@@ -288,7 +286,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_larger_than_false_smallerThan_true()
+        public void CriteriaCheckFlagsLargerThanFalseSmallerThanTrueTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.LargerThan;
@@ -322,7 +320,7 @@ namespace LogicTests1.Model
 
 
         [TestMethod]
-        public void CheckFlags_exists_true()
+        public void CriteriaCheckFlagsExistsTrueTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
@@ -343,7 +341,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_exists_null()
+        public void CriteriaCheckFlagsExistsFalseTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
@@ -360,7 +358,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckFlags_exists_empty_string()
+        public void CriteriaCheckFlagsExistsEmptyStringTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
@@ -378,7 +376,7 @@ namespace LogicTests1.Model
 
 
         [TestMethod]
-        public void CheckEnum_equals_true()
+        public void CriteraCheckEnumEqualsTrueTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
@@ -397,7 +395,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckEnum_equals_false()
+        public void CriteriaCheckEnumEqualsFalseTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
@@ -416,7 +414,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckBool_equals_true()
+        public void CriteriaCheckBoolEqualsTrueTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
@@ -435,7 +433,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckBool_equals_false()
+        public void CriteriaCheckBoolEqualsFalseTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
@@ -454,7 +452,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckString_contains_true()
+        public void CriteraCheckStringContainsTrueTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
@@ -473,7 +471,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CheckString_contains_true_more_words()
+        public void CriteriaCheckStringContainsTrueMoreWordsTest()
         {
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
@@ -492,7 +490,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void CriteriaValidator_Calls_Checker_Correctly()
+        public void CriteriaValidatorCallsCheckerCorrectlyTest()
         {
             //Arrange
             var criteria = new Criteria();

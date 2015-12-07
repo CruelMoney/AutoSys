@@ -25,7 +25,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void ValidateTest()
+        public void DefaultFieldValidTest()
         {
 
             Assert.IsTrue(_DefaultFieldChecker.Validate(_valid));
@@ -36,7 +36,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void invalidTest()
+        public void DefaultFieldInvalidTest()
         { 
             Assert.IsFalse(_DefaultFieldChecker.Validate(_invalid));
             Assert.IsFalse(_DefaultFieldChecker.Validate(_invalid2));
