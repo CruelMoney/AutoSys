@@ -22,7 +22,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             _studyManager = new StudyManager();
         }
-
+        
         public StudyOverviewDTO GetOverview(int id)
         {
             Study study = _studyManager.GetStudy(id);
@@ -36,7 +36,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             };
             
         }
-
+        
         public int[] GetUserIDs(Study study)
         {
             var users = study.Reviewers;
@@ -51,6 +51,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             }
             return userList;     
         }
+        
 
         public Stage GetCurrentStage(Study study)
         {
@@ -66,7 +67,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             }
             return currentStage;
         }
-
+        
         public StageOverviewDTO[] GetStages(Study study)
         {
             int index = 0;
@@ -95,7 +96,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             return stageOverview;
         }
-
+        
         public Dictionary<int, int> GetCompletedTasks(Study study)
         {
             var completedTaks = new Dictionary<int, int>(); 
@@ -107,7 +108,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
                 }
             }
         }
-
+        
 
     }
 }

@@ -17,6 +17,7 @@ namespace StudyConfigurationServer.Api
         /// Retrieve an overview of the specified study.
         /// </summary>
         /// <param name="id">The ID of the study for which to retrieve an overview.</param>
+        
         [Route("{id}/Overview")]
         public IHttpActionResult GetOverview(int id)
         {
@@ -24,6 +25,7 @@ namespace StudyConfigurationServer.Api
             StudyOverviewController controller = new StudyOverviewController();
             controller.
         }
+        
 
         /// <summary>
         /// Get requested tasks for a specific User of a given study. By default, the first remaining (still to be completed) StudyTask is retrieved.

@@ -16,7 +16,7 @@ namespace StorageTests.Repository
 
 
         [TestMethod]
-        public void DefaultConstructor_Runs()
+        public void EFRepoDefaultConstructorRunsTest()
         {
             //Act
             var efDatabase = new EntityFrameworkGenericRepository<MockContext>();
@@ -26,7 +26,7 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void SecondConstructor_Runs()
+        public void EFRepoSecondConstructorRunsTest()
         {
             var efDatabase = new EntityFrameworkGenericRepository<MockContext>((MockContext)defaultDBContext().Object);
 
@@ -37,7 +37,7 @@ namespace StorageTests.Repository
         
 
         [TestMethod]
-        public void CreateTest()
+        public void EFRepoCreateTest()
         {
             //Arrange
             var dbset = new Mock<DbSet<MockEntity>>();
@@ -54,7 +54,7 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void DeleteTest()
+        public void EFRepoDeleteTest()
         {
 
             //Arrange
@@ -72,7 +72,7 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void ReadTest()
+        public void EFRepoReadTest()
         {
             //Arrange
             var expectedDbset = new Mock<DbSet<MockEntity>>();
@@ -90,7 +90,7 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void ReadItemTest()
+        public void EFRepoReadItemTest()
         {
             //Arrange
             var expectedItem = new MockEntity() { Id = 1};
