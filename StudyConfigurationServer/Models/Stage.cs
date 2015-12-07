@@ -12,7 +12,7 @@ namespace StudyConfigurationServer.Models
         public virtual List<StudyTask> Tasks { get; set; }
         public virtual Study Study { get; set; } 
         //The fields that can only be seen in adddition to the editable fields.
-        public DataField[] VisibleFields { get; set; }
+        public List<Item.FieldType> VisibleFields { get; set; }
         public virtual List<UserStudies> Users { get; set; }
     }
 }

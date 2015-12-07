@@ -42,12 +42,12 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
         public int[] GetUserIDs(Study study)
         {
-            var NumbOfUsers = study.Team.UserI
+            var NumbOfUsers = study.Team.Users.Count();
 
 
             var userList = new int[NumbOfUsers];
             int index = 0;
-            foreach(var user in study.Users)
+            foreach(var user in study.Team.Users)
             {
                 userList[index] = user.Id;
                 index++;

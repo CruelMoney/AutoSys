@@ -52,6 +52,11 @@ namespace StudyConfigurationServer.Models
         public Type TaskType { get; set; }
 
         /// <summary>
+        /// Defines whether the StudyTask is finished.
+        /// </summary>
+        public bool IsFinished { get; set; }
+
+        /// <summary>
         /// Defines whether the StudyTask is still deliverable or not.
         /// </summary>
         public bool IsDeliverable { get; set; }

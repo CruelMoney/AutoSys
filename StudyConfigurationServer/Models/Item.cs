@@ -87,5 +87,7 @@ namespace StudyConfigurationServer.Models
         }
 
         public int Id { get; set; }
+
+        public StudyTask Task { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// The Data entered
         /// </summary>
-        public List<DataField>[] Data { get; set; } 
+        public List<DataField> Data { get; set; } 
 
         public int Id { get; set; }
     }
