@@ -116,7 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Logic\StudyOverview\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Interfaces\IStudyController.cs" />
@@ -145,6 +144,7 @@
     <Compile Include="Logic\StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="Logic\StudyConfiguration\BiblographyParser\ItemValidator.cs" />
     <Compile Include="Logic\StudyConfiguration\StudyManager.cs" />
+    <Compile Include="Logic\StudyOverview\test.cs" />
     <Compile Include="Logic\TaskManagement\TaskController.cs" />
     <Compile Include="Logic\TaskManagement\TaskDeliver.cs" />
     <Compile Include="Logic\TaskManagement\TaskGenerator.cs" />
