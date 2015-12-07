@@ -62,7 +62,5 @@ namespace StudyConfigurationServer.Models
         public string[] Data { get; set; }
 
         public int Id { get; set; }
-
-        public virtual TaskRequestedData Task { get; set; }
     }
 }

@@ -5,11 +5,6 @@ namespace StudyConfigurationServer.Models.Data
 {
     public class StudyContext : DbContext, IDbContext 
     {
-        public StudyContext() 
-        {
-            
-        }
-
         public DbSet<UserStudies> UserStudies { get; set; }
         public DbSet<Study> Studies { get; set; }
         public DbSet<Team> Teams { get; set; }

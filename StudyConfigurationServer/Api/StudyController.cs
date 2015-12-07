@@ -24,7 +24,7 @@ namespace StudyConfigurationServer.Api
             throw new NotImplementedException();
             // GET: api/Study/5/Overview
             StudyOverviewController controller = new StudyOverviewController();
-            controller.
+         
         }
         
 
