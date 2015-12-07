@@ -67,6 +67,8 @@ namespace StudyConfigurationServer.Models
         /// </summary>
         public bool IsDeliverable { get; set; }
 
+        public bool IsFinished { get; set; }
+
         /// <summary>
         /// A the data which need to be filled out as part of the StudyTask.
         /// </summary>
