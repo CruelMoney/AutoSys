@@ -82,6 +82,18 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
+        /// Tests get on all teams in the mock repo
+        /// </summary>
+
+        public void StorageGetAllTeamsTest()
+        {
+            testTeamStorageManager.SaveTeam(testTeam);
+            var testTeam2 = new Team();
+            testTeamStorageManager.SaveTeam(testTeam2);
+            Assert.AreEqual(2, testTeamStorageManager.GetAllTeams().Count());
+        }
+
+        /// <summary>
         /// Tests if a team has been removed to the mock repo
         /// </summary>
 

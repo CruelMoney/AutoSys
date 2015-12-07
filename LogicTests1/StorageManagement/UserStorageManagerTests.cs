@@ -86,6 +86,18 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
+        /// Tests get on all users in the mock repo
+        /// </summary>
+
+        public void StorageGetAllUsersTest()
+        {
+            testUserStorageManager.SaveUser(testUser);
+            var testUser2 = new User();
+            testUserStorageManager.SaveUser(testUser2);
+            Assert.AreEqual(2, testUserStorageManager.GetAllUsers().Count());
+        }
+
+        /// <summary>
         /// Tests if a User has been removed to the mock repo
         /// </summary>
 
