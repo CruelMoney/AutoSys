@@ -120,11 +120,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\AppData\Local\Temp\StudyContext.Designer.cs">
-      <Link>Models\Data\StudyContext.Designer.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StudyContext.edmx</DependentUpon>
+    <Compile Include="..\..\..\..\AppData\Local\Temp\StudyContext.Views.cs">
+      <Link>StudyContext.Views.cs</Link>
     </Compile>
     <Compile Include="Api\Interfaces\IStudyController.cs" />
     <Compile Include="Api\Interfaces\ITeamController.cs" />
@@ -181,6 +178,15 @@
     <Compile Include="Models\CriteriaValidator\RuleCheckers.cs" />
     <Compile Include="Models\DataField.cs" />
     <Compile Include="Models\Data\StudyContext.cs" />
+    <Compile Include="Models\Data\StudyContext.Designer.cs">
+      <DependentUpon>StudyContext.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Data\StudyContext.Views.cs" />
+    <Compile Include="Models\Data\StudyContext1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StudyContext.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\DTO\ConflictingDataDTO.cs" />
     <Compile Include="Models\DTO\DataFieldDTO.cs" />
     <Compile Include="Models\DTO\ResourceDTO.cs" />
@@ -231,10 +237,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="..\..\..\..\AppData\Local\Temp\StudyContext.edmx">
-      <Link>Models\Data\StudyContext.edmx</Link>
+    <EntityDeploy Include="Models\Data\StudyContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>StudyContext.Designer.cs</LastGenOutput>
+      <LastGenOutput>StudyContext1.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
