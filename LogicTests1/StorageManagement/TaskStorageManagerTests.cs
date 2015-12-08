@@ -122,11 +122,11 @@ namespace LogicTests1.StorageManagement
         /// <summary>
         /// Tests if a task is updated
         /// </summary>
-
+        // Giver ikke rigtig mening at have
         [TestMethod]
         public void StorageUpdateTaskTest()
         {
-            var testTask1 = new StudyTask() { Id = 1, IsDeliverable = true};
+            var testTask1 = new TaskRequestedData() { Id = 1, IsDeliverable = true};
             testTaskStorageManager.CreateTask(testTask1);
             var testTask2 = new StudyTask() { Id = 1, IsDeliverable = false};
             testTaskStorageManager.UpdateTask(testTask2);

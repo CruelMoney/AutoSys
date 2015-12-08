@@ -15,7 +15,7 @@ namespace LogicTests1.StorageManagement
         Dictionary<int, Study> _studies;
         Mock<IGenericRepository> mockStudyRepo;
         int id;
-        Study _testStudy = new Study() { Id = 1, CurrentStage = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() };
+        Study _testStudy = new Study() { Id = 1, CurrentStageID = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() };
         StudyStorageManager testStudyStorageManager;
 
         [TestInitialize]
@@ -128,11 +128,11 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void StorageUpdateStudyTest()
         {
-            var stageTestStudy = new Study() { Id = 1, CurrentStage = 1 };
+            var stageTestStudy = new Study() { Id = 1, CurrentStageID = 1 };
             testStudyStorageManager.SaveStudy(stageTestStudy);
-            var NewStageTestStudy = new Study() { Id = 1, CurrentStage = 2 };
+            var NewStageTestStudy = new Study() { Id = 1, CurrentStageID = 2 };
             testStudyStorageManager.UpdateStudy(NewStageTestStudy);
-            Assert.AreEqual(2, testStudyStorageManager.GetStudy(1).CurrentStage);
+            Assert.AreEqual(2, testStudyStorageManager.GetStudy(1).CurrentStageID);
             
         }
     }
