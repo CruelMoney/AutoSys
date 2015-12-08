@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         public void OnNext(Study study)
         {
            var currentStage = study.Stages.Find(s => s.Id.Equals(study.CurrentStageID));
-           var tasks = _taskDistributor.Distribute(currentStage, _taskGenerator.GenerateTasks(study));
+           var tasks = _taskDistributor.Distribute(currentStage, _taskGenerator.GenerateTasks(currentStage, study.Items));
 
             foreach (var task in tasks)
             {

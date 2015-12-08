@@ -189,7 +189,7 @@
     <Compile Include="Models\Stage.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Models\StudyTask.cs" />
-    <Compile Include="Models\TaskRequestedData.cs" />
+    <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -11,41 +11,27 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
     /// </summary>
     public class EqualDistributor : IDistributor
     {
-        public IEnumerable<StudyTask> Distribute(Stage stage, IEnumerable<StudyTask> tasks)
+        public IEnumerable<StudyTask> Distribute(List<User> users, IEnumerable<StudyTask> tasks, Criteria criteria)
         {         
                 foreach (var task in tasks)
                 {
-                foreach (var user in stage.Users.Select(u => u.User))
+                foreach (var user in users)
                 {
-                    //For each user create a new requestedData relation for the task.
-                    if (!task.RequestedData.Select(t => t.User).Contains(user))
+                    if (task.DataFields.Select(d => d.UserData.Where(u => u.User.Id == user.Id)).Any())
                     {
-                        var requestedData = new TaskRequestedData()
-                        {
-                            User = user,
-                            IsDeliverable = true,
-                            IsFinished = false,
-                        };
+                        throw new ArgumentException("The user is already connected to the task");
+                    }
 
-                        //For each criteria add a field to fill out
-                        foreach (var criterion in stage.Criteria)
-                        {
-                            var field = new DataField()
-                            {
-                                Name = criterion.Name,
-                                Description = criterion.Description,
-                                FieldType = criterion.DataType,
-                            };
-
-                           requestedData.Data.Add(field);
-                        }
-
-                        //Add the requested data to the task.
-                        task.RequestedData.Add(requestedData);
-                        yield return task;
+                    foreach (var dataField in task.DataFields)
+                    {
+                        dataField.UserData.Add(new UserData() {User = user});
+                    }
+                        
+                    yield return task;
                     }
                 }
             }
-        }
+        
+
     }
 }

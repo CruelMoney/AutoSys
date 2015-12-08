@@ -101,7 +101,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach(var task in stage.Tasks)
             {
-               foreach(var userTask in task.RequestedData)
+               foreach(var userTask in task.DataFields)
                   {
                     if (userTask.IsFinished)
                     {
@@ -120,7 +120,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             foreach (var task in stage.Tasks)
         {
                
-                    foreach (var userTask in task.RequestedData)
+                    foreach (var userTask in task.DataFields)
                 {
                     if (!userTask.IsFinished)
                     {

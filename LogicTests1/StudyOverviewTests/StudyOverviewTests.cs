@@ -17,8 +17,8 @@ namespace LogicTests1.StudyOverviewTests
         List<StudyTask> taskList1;
         List<StudyTask> taskList2;
         List<StudyTask> taskList3;
-        List<TaskRequestedData> listReqData1, listReqData2, listReqData3;
-        TaskRequestedData reqData1, reqData2, reqData3;
+        List<UserData> listReqData1, listReqData2, listReqData3;
+        UserData reqData1, reqData2, reqData3;
         User user1, user2, user3;
         UserStudies userStudy1, userStudy2, userStudy3;
         StudyTask task1, task2, task3;

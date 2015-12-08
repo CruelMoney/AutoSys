@@ -14,7 +14,7 @@ namespace StudyConfigurationServer.Models.Data
         public DbSet<StudyTask> Tasks { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<DataField> DataFields { get; set; }
-        public DbSet<TaskRequestedData> EnteredData { get; set; }
+        public DbSet<UserData> EnteredData { get; set; }
     }
     
 }

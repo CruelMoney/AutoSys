@@ -93,10 +93,11 @@
     <Compile Include="BibTexParserTests\FieldValidatorTest.cs" />
     <Compile Include="BibTexParserTests\ItemValidatorTest.cs" />
     <Compile Include="Model\CriteriaTests.cs" />
+    <Compile Include="Model\DataFieldTests.cs" />
     <Compile Include="Model\ItemTests.cs" />
     <Compile Include="Model\StageTests.cs" />
     <Compile Include="Model\StudyTaskTests.cs" />
-    <Compile Include="Model\TaskRequestedDataTests.cs" />
+    <Compile Include="Model\UserDataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
