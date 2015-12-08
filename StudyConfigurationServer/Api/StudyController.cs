@@ -24,6 +24,7 @@ namespace StudyConfigurationServer.Api
             throw new NotImplementedException();
             // GET: api/Study/5/Overview
             StudyOverviewController controller = new StudyOverviewController();
+            return Ok(controller.GetOverview(id));
          
         }
         
@@ -42,7 +43,7 @@ namespace StudyConfigurationServer.Api
         {
             // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
 
-            throw new NotImplementedException();
+           
 
             TaskController controller = new TaskController();
             return Ok(controller.GetTasksForUser(id, userId, count, filter, type));
@@ -73,7 +74,8 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetTask(int id, int taskId)
         {
             // GET: api/Study/4/StudyTask/5
-            throw new NotImplementedException();
+            TaskController controller = new TaskController();
+            controller.GetTaskWithId(id, taskId);
         }
 
         /// <summary>

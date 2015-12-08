@@ -38,14 +38,14 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             Stage currentStage = null;
             foreach (var stage in study.Stages)
             {
-                if (stage.Id.Equals(study.CurrentStage))
+                if (stage.Id == study.CurrentStage)
                 {
                     currentStage = stage;
                     break;
                 }
             }
-
-           
+            
+                     
         }
 
         public TaskRequestDTO ConvertToTaskRequest(StudyTask tasklogic)
@@ -62,6 +62,10 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             return taskRequestDto;
       
         }
-        
+        public TaskRequestDTO GetTask(int id, int taskid)
+        {
+
+
+        }
     }
 }

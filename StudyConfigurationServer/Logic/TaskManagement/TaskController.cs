@@ -37,7 +37,13 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             var study = _studyStorageManager.GetStudy(id);
             TaskRequester requester = new TaskRequester();
             return requester.GetTasksForUser(userId, study, count, filter, type);
+        }
 
+        public TaskRequestDTO GetTaskWithId(int id, int taskId)
+        {
+            var study = _studyStorageManager.GetStudy(id);
+            TaskRequester requester = new TaskRequester();
+            return requester.GetTask(id, taskId);
         }
     }
 }
