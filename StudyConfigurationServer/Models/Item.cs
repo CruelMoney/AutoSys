@@ -88,6 +88,6 @@ namespace StudyConfigurationServer.Models
 
         public int Id { get; set; }
 
-        public virtual StudyTask Task { get; set; }
+        public StudyTask Task { get; set; }
     }
 }

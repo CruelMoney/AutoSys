@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
 
 namespace StudyConfigurationServer.Models.CriteriaValidator
@@ -14,6 +15,7 @@ namespace StudyConfigurationServer.Models.CriteriaValidator
         /// <param name="checkers">A dictionary of Field checkers. If not specified, <see cref="DefaultFieldChecker"/> is used.</param>
         public CriteriaValidator(Dictionary<DataField.DataType, ICriteriaChecker> checkers = null)
         {
+            throw new NotImplementedException();
             _checkers = checkers ?? new Dictionary<DataField.DataType, ICriteriaChecker>()
             {
                 

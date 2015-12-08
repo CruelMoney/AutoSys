@@ -20,7 +20,6 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         {
             _taskRepo = repo;
         }
-
     
         public void CreateTask(StudyTask studyTask)
         {
@@ -32,9 +31,10 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return _taskRepo.Delete(_taskRepo.Read<StudyTask>(taskWithIdToDelete));
         }
 
-        public void UpdateTask(StudyTask studyTask)
+        public bool UpdateTask(StudyTask studyTask)
         {
-            _taskRepo.Update(studyTask);
+           
+            return _taskRepo.Update(studyTask);
         }
 
         public IEnumerable<StudyTask> GetAllTasks() 
