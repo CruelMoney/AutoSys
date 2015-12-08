@@ -99,14 +99,36 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\Criteria.cs" />
+    <Compile Include="Data\CriteriaValidator\CriteriaCheckers.cs" />
+    <Compile Include="Data\CriteriaValidator\CriteriaValidator.cs" />
+    <Compile Include="Data\CriteriaValidator\ICriteriaChecker.cs" />
+    <Compile Include="Data\CriteriaValidator\ICriteriaValidator.cs" />
+    <Compile Include="Data\CriteriaValidator\IRuleChecker.cs" />
+    <Compile Include="Data\CriteriaValidator\RuleCheckers.cs" />
+    <Compile Include="Data\DataField.cs" />
+    <Compile Include="Data\IEntity.cs" />
+    <Compile Include="Data\Item.cs" />
+    <Compile Include="Data\Stage.cs" />
+    <Compile Include="Data\Study.cs" />
+    <Compile Include="Data\StudyTask.cs" />
+    <Compile Include="Data\TaskRequestedData.cs" />
+    <Compile Include="Data\Team.cs" />
+    <Compile Include="Data\User.cs" />
+    <Compile Include="Data\UserStudies.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManagePhasePage.xaml.cs">
+      <DependentUpon>ManagePhasePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ManageStudyPage.xaml.cs">
       <DependentUpon>ManageStudyPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ManageStudyPageArgs.cs" />
+    <Compile Include="Model\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -133,11 +155,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ManagePhasePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ManageStudyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

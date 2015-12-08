@@ -42,17 +42,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
         public int[] GetUserIDs(Study study)
         {
-            var NumbOfUsers = study.Team.Users.Count();
-
-
-            var userList = new int[NumbOfUsers];
-            int index = 0;
-            foreach(var user in study.Team.Users)
-            {
-                userList[index] = user.Id;
-                index++;
-            }
-            return userList;     
+            return study.Team.UserIDs;    
         }
 
 
@@ -76,20 +66,17 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             int index = 0;
             var numbOfStages = study.Stages.Count();
             var stageOverview = new StageOverviewDTO[numbOfStages];
-            var stages = new Stage[numbOfStages];
+      
+        
             
-            
-            foreach(var stage in study.Stages)
-            {
-                stages[index++] = stage;
-            }
             
 
             for(int i = 0; i < numbOfStages; i++)
             {
-                stageOverview[i].Name = stages[i].Name;
-                stageOverview[i].CompletedTasks = GetCompletedTasks(stages[i]);
-                stageOverview[i].IncompleteTasks = GetIncompleteTasks(stages[i]);
+                stageOverview[i] = new StageOverviewDTO();
+                stageOverview[i].Name = study.Stages.ToArray()[i].Name;
+                stageOverview[i].CompletedTasks = GetCompletedTasks(study.Stages.ToArray()[i]);
+                stageOverview[i].IncompleteTasks = GetIncompleteTasks(study.Stages.ToArray()[i]);
             }
             return stageOverview;
         }
@@ -101,7 +88,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach(var task in stage.Tasks)
             {
-               foreach(var userTask in task.DataFields)
+               foreach(var userTask in task.RequestedData)
                   {
                     if (userTask.IsFinished)
                     {
@@ -114,13 +101,11 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
         public Dictionary<int, int> GetIncompleteTasks(Stage stage)
         {
-
             var inCompletedTasks = new ConcurrentDictionary<int, int>();
 
             foreach (var task in stage.Tasks)
-        {
-               
-                    foreach (var userTask in task.DataFields)
+            {            
+                foreach (var userTask in task.RequestedData)
                 {
                     if (!userTask.IsFinished)
                     {
@@ -128,7 +113,6 @@ namespace StudyConfigurationServer.Logic.StudyOverview
                     }
                 }
             }
-
             return inCompletedTasks.ToDictionary(k => k.Key, k => k.Value);
         }
 

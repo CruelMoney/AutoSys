@@ -73,10 +73,10 @@ namespace StudyConfigurationServer.Api
         [Route("{id}/StudyTask/{taskId}")]
         public IHttpActionResult GetTask(int id, int taskId)
         {
-            throw new NotImplementedException();
             // GET: api/Study/4/StudyTask/5
+            throw new NotImplementedException();
             TaskController controller = new TaskController();
-          
+            
         }
 
         /// <summary>

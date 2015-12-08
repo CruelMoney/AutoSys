@@ -122,7 +122,7 @@ namespace LogicTests1.StorageManagement
         /// <summary>
         /// Tests if a task is updated
         /// </summary>
-
+        // Giver ikke rigtig mening at have
         [TestMethod]
         public void StorageUpdateTaskTest()
         {

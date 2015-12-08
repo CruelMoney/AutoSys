@@ -44,6 +44,8 @@ namespace StudyConfigurationServer.Logic.TaskManagement
 
         public TaskRequestDTO GetTask(int id, int taskid)
         {
+            throw new NotImplementedException();
+        }
 
             throw new NotImplementedException();
         }
