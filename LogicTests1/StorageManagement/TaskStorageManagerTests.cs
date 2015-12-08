@@ -82,6 +82,18 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
+        /// Tests get on all tasks in the mock repo
+        /// </summary>
+
+        public void StorageGetAllTasksTest()
+        {
+            testTaskStorageManager.CreateTask(testTask);
+            var testTask2 = new StudyTask();
+            testTaskStorageManager.CreateTask(testTask2);
+            Assert.AreEqual(2, testTaskStorageManager.GetAllTasks().Count());
+        }
+
+        /// <summary>
         /// Tests if a StudyTask has been removed to the mock repo
         /// </summary>
 

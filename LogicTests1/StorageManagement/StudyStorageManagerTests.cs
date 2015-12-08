@@ -83,6 +83,18 @@ namespace LogicTests1.StorageManagement
         }
 
         /// <summary>
+        /// Tests get on all studies in the mock repo
+        /// </summary>
+
+        public void StorageGetAllStudiesTest()
+        {
+            testStudyStorageManager.SaveStudy(_testStudy);
+            var _testStudy2 = new Study();
+            testStudyStorageManager.SaveStudy(_testStudy2);
+            Assert.AreEqual(2, testStudyStorageManager.GetAllStudies().Count());
+        }
+
+        /// <summary>
         /// Tests if a study has been removed from the mock repo
         /// </summary>
 
