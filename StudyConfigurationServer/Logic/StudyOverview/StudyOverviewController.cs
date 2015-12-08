@@ -62,7 +62,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
            
             foreach (var stage in study.Stages)
             {
-                if (stage.Id == study.CurrentStage)
+                if (stage.Id == study.CurrentStageID)
                 {
                     currentStage = stage;
                     break;
@@ -101,11 +101,11 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach(var task in stage.Tasks)
             {
-                if (task.IsFinished)
-                {
-                    foreach(var user in task.RequestedData)
+               foreach(var userTask in task.RequestedData)
+                  {
+                    if (userTask.IsFinished)
                     {
-                        completedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
+                        completedTasks.AddOrUpdate(userTask.User.Id, 1, (id, count) => count + 1);
                     }
                 }
             }           
@@ -119,11 +119,12 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach (var task in stage.Tasks)
         {
-                if (!task.IsFinished)
-            {
-                    foreach (var user in task.RequestedData)
+               
+                    foreach (var userTask in task.RequestedData)
                 {
-                        inCompletedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
+                    if (!userTask.IsFinished)
+                    {
+                        inCompletedTasks.AddOrUpdate(userTask.User.Id, 1, (id, count) => count + 1);
                     }
                 }
             }

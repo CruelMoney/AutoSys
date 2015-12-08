@@ -6,13 +6,29 @@ namespace StudyConfigurationServer.Models
 {
     public class Study : IEntity
     {
-        public string Name { get; set; }
         public int Id { get; set; }
-        public int CurrentStage { get; set; }
+        /// <summary>
+        /// The official Name of the study.
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// The DB id for the current stage
+        /// </summary>
+        public int CurrentStageID { get; set; }
+        public List<Stage> Stages { get; set; } // reference til Stages (one to many)
+        public Team Team { get; set; }
+        public List<Item> Items { get; set; } // where to place?
         public bool IsFinished { get; set; }
-        public virtual Team Team { get; set; }
-        public virtual List<Stage> Stages { get; set; } // reference til Stages (one to many)
-        public virtual List<Item> Items { get; set; } // where to place?
 
+        /// <summary>
+        /// Finds the next stage db ID and returns it. 
+        /// We rely on the database to keep the study's list of stages in order.
+        /// </summary>
+        /// <returns></returns>
+        public int MoveToNextStage()
+        {
+            var currentIndex = Stages.FindIndex(s => s.Id.Equals(CurrentStageID));
+            return CurrentStageID = Stages[currentIndex + 1].Id;
+        }
     }
 }

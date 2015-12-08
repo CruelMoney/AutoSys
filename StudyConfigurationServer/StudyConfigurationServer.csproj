@@ -152,6 +152,9 @@
     <Compile Include="Logic\StudyOverview\StudyOverviewController.cs" />
     <Compile Include="Logic\TaskManagement\TaskController.cs" />
     <Compile Include="Logic\TaskManagement\TaskDeliver.cs" />
+    <Compile Include="Logic\TaskManagement\TaskDistributor\Distributors.cs" />
+    <Compile Include="Logic\TaskManagement\TaskDistributor\DistributorSelector.cs" />
+    <Compile Include="Logic\TaskManagement\TaskDistributor\IDistributor.cs" />
     <Compile Include="Logic\TaskManagement\TaskGenerator.cs" />
     <Compile Include="Logic\TaskManagement\TaskRequester.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />

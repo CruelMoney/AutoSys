@@ -16,7 +16,7 @@ namespace StudyConfigurationServer.Models
             Exists
         }
 
-        public virtual Stage Stage { get; set; } // reference to Stage (many to one)
+        public Stage Stage { get; set; } // reference to Stage (many to one)
 
         public int Id { get; set; }
 

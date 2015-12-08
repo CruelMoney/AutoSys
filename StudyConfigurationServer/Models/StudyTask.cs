@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Storage.Repository;
+using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Models
 {
@@ -46,11 +48,10 @@ namespace StudyConfigurationServer.Models
         /// The StudyTask is connected to a certain paper
         /// </summary>
         [Required]
-        public virtual Item Paper { get; set; }
+        public Item Paper { get; set; }
 
-        public virtual Stage Stage { get; set; } // reference to Stage (many to one)
+        public Stage Stage { get; set; } // reference to Stage (many to one)
 
-        
 
         /// <summary>
         /// The <see cref="Type" /> of the StudyTask, either a review StudyTask, or a conflict StudyTask.
@@ -58,18 +59,31 @@ namespace StudyConfigurationServer.Models
         public Type TaskType { get; set; }
 
         /// <summary>
-        /// Defines whether the StudyTask is finished.
-        /// </summary>
-        public bool IsFinished { get; set; }
-
-        /// <summary>
-        /// Defines whether the StudyTask is still deliverable or not.
-        /// </summary>
-        public bool IsDeliverable { get; set; }
-
-        /// <summary>
         /// A the data which need to be filled out as part of the StudyTask.
         /// </summary>
-        public virtual List<TaskRequestedData> RequestedData { get; set; }
+        public List<TaskRequestedData> RequestedData { get; set; }
+
+
+        public StudyTask SubmitData(TaskSubmissionDTO taskToDeliver)
+        {
+            var userID = taskToDeliver.UserId;
+            var newDataFields = taskToDeliver.SubmittedFieldsDto.ToList();
+            
+            //We expect that the user only exists once per requestedData
+            var dataToUpdate = this.RequestedData.First(u => u.User.Id.Equals(userID));
+
+            //TODO For now we use the dataField name to update the data.
+            foreach (var field in newDataFields)
+            {
+                dataToUpdate.Data.First(f => f.Name.Equals(field.Name)).Data = field.Data;
+            }
+
+            dataToUpdate.IsFinished = dataToUpdate.IsTaskFinished();
+
+            return this;
+        }
+
+        
+
     }
 }

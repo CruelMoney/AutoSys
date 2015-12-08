@@ -29,39 +29,16 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             _storageManager = new TaskStorageManager();
             _userDto = new UserDTO();
             _study = new Study();
-            _taskGenerator = new TaskGenerator(_study);
+            _taskGenerator = new TaskGenerator();
         }
 
         public List<TaskRequestDTO> GetTasksForUser(int userId, Study study, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
             throw new NotImplementedException();
-            Stage currentStage = null;
-            foreach (var stage in study.Stages)
-            {
-                if (stage.Id.Equals(study.CurrentStage))
-                {
-                    currentStage = stage;
-                    break;
-                }
-            }
+            
 
            
         }
 
-        public TaskRequestDTO ConvertToTaskRequest(StudyTask tasklogic)
-        {
-            TaskRequestDTO taskRequestDto = new TaskRequestDTO()
-            {
-                Id = tasklogic.Id,
-                TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), "both"),
-                IsDeliverable = tasklogic.IsDeliverable,
-                VisibleFieldsDto = null,
-                RequestedFieldsDto = null
-
-            };
-            return taskRequestDto;
-      
-        }
-        
     }
 }

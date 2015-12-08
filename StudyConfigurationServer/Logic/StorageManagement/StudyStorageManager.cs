@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Ajax.Utilities;
 using Storage.Repository;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
@@ -9,9 +10,8 @@ namespace StudyConfigurationServer.Logic.StorageManagement
 {
     public class StudyStorageManager : IObservable<Study>
     {
-
-        IGenericRepository _studyRepo;
-        List<IObserver<Study>> observers;
+        readonly IGenericRepository _studyRepo;
+        readonly List<IObserver<Study>> observers;
 
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
 
             public void Dispose()
             {
-                if (!(_observer == null)) _observers.Remove(_observer);
+                if (_observer != null) _observers.Remove(_observer);
             }
         }
 
@@ -48,6 +48,11 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         public int SaveStudy(Study study)
         {
             var returnValue = _studyRepo.Create(study);
+
+            foreach (var observer in observers)
+            {
+                observer.OnNext(study);
+            }
             
             return returnValue;
         }
@@ -58,10 +63,14 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         }
         public bool UpdateStudy(Study study)
         {
+            var returnValue = _studyRepo.Update(study);
 
+            foreach (var observer in observers)
+            {
+                observer.OnNext(study);
+            }
 
-
-            return _studyRepo.Update(study);
+            return returnValue;
         }
 
         public IEnumerable<Study> GetAllStudies()

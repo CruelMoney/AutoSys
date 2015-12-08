@@ -9,8 +9,8 @@ namespace StudyConfigurationServer.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int[] UserIDs { get; set; } 
-        public virtual List<User> Users { get; set; } 
-        public virtual List<Study> Studies { get; set; } 
+        public List<User> Users { get; set; } 
+        public List<Study> Studies { get; set; } 
         public string Metadata { get; set; }
     }
 
