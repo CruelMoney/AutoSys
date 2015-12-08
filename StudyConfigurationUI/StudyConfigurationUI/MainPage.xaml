@@ -10,24 +10,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel x:Name="contentPanel" Margin="8,32,0,0">
-            <TextBlock Text="Create Study!" Margin="0,0,0,40" FontSize="40"/>
-            <TextBlock Text="Study Name:"/>
-            <StackPanel x:Name="studyInputPanel" Orientation="Horizontal" Margin="0,20,0,20">
-                <TextBox x:Name="studyNameInput" Width="280" HorizontalAlignment="Left"/>
-            </StackPanel>
-            <TextBlock Text="Bibtex File"/>
-            <StackPanel x:Name="bibtexInputPanel" Orientation="Horizontal" Margin="0,20,0,20">
-                <TextBox x:Name="bibtexFileInput" Width="280" HorizontalAlignment="Left"/>
-                <Button x:Name="bibtexInputButton" Content="Open File"/>
-            </StackPanel>
-            <TextBlock Text="Choose Team"/>
-            <StackPanel x:Name="teamInputPanel" Orientation="Horizontal" Margin="0,20,0,20">
-                <ComboBox x:Name="teamInput" Width="280" HorizontalAlignment="Left" DataContext=""/>
-            </StackPanel>
-            <StackPanel x:Name="nextOrCancelPanel" Orientation="Horizontal" Margin="0,20,0,20">
-                <Button x:Name="cancelButton" Content="Cancel"/>
-                <Button x:Name="nextButton" Content="Next" Margin="100,0,0,0"/>
-            </StackPanel>
+            <Button Click="OnOpenStudy">Open Existing Study</Button>
         </StackPanel>
     </Grid>
 </Page>

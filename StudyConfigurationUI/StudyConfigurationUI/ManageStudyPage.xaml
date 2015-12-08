@@ -5,9 +5,43 @@
     xmlns:local="using:StudyConfigurationUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Height="716" Width="736">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,316,84">
+        <StackPanel x:Name="contentPanel" Margin="8,0,-2,0">
+            <TextBlock Text="Study Configuration" Margin="0,0,0,40" FontSize="30"/>
+            <TextBlock Text="Study Name"/>
+            <StackPanel x:Name="namePanel" Orientation="Horizontal" Margin="0,20,0,20">
+                <TextBox x:Name="nameInput" Width="280" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <TextBlock Text="Team Selected"/>
+            <StackPanel x:Name="teamPanel" Orientation="Horizontal" Margin="0,20,0,20">
+                <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0">
+                    <TextBlock x:Name="teamOutput" Width="276" HorizontalAlignment="Left" Text="" Height="28"/>
+                </Border>
+            </StackPanel>
+            <TextBlock Text="Resource File"/>
+            <StackPanel x:Name="bibtexInputPanel" Orientation="Horizontal" Margin="0,20,0,20">
+                <Border BorderBrush="Gray" BorderThickness="2" Grid.Row="0">
+                    <TextBlock x:Name="bibtexOutput" Width="276" HorizontalAlignment="Left" Text="" Height="28"/>
+                </Border>
+                <Button Click="BibtexInputButton_OnClick" x:Name="bibtexInputButton" Content="Select File"/>
+            </StackPanel>
+            <TextBlock Text="Phases"/>
+            <StackPanel x:Name="phaseInputPanel" Orientation="Horizontal" Margin="0,20,0,20">
+                <ComboBox Width="206">
+                    <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
+                    <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                </ComboBox>
+                <Button x:Name="editPhasebutton" Content="Edit" Margin="5,0,0,0"/>
+                <Button x:Name="deletePhasebutton" Content="Delete" Margin="5,0,0,0"/>
+                <Button x:Name="newPhasebutton" Click="onNewPhase" Content="New" Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel x:Name="lastButtonsPanel" Orientation="Horizontal" Margin="0,20,0,20">
+                <Button x:Name="saveAndCloseButton" Content="Save and Close"/>
+                <Button x:Name="deleteStudybutton" Content="Delete study" Margin="65,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
