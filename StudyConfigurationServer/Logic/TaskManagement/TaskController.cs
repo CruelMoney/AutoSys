@@ -31,14 +31,14 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             _storageManager = new TaskStorageManager();
             _taskRequester = new TaskRequester();
         }
-    
+
 
         public void DeliverTask(int taskID, TaskSubmissionDTO task)
         {
             var taskToUpdate = _storageManager.GetTask(taskID);
             taskToUpdate.SubmitData(task);
             _storageManager.UpdateTask(taskToUpdate);
-
+  
             if (taskToUpdate.Stage.IsFinished())
             {
                 var study = taskToUpdate.Stage.Study;

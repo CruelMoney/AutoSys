@@ -35,10 +35,14 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         public List<TaskRequestDTO> GetTasksForUser(int userId, Study study, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
             throw new NotImplementedException();
-            
-
            
-        }
 
+      
+        }
+        public TaskRequestDTO GetTask(int id, int taskid)
+        {
+
+        
     }
+}
 }
