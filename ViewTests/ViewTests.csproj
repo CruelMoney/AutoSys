@@ -72,12 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\View\View.csproj">
-      <Project>{67EE8A02-7408-4F01-83B9-AB63D64B9F4C}</Project>
-      <Name>View</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

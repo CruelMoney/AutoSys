@@ -3,84 +3,83 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Logic.StudyOverview;
 using StudyConfigurationServer.Models;
 using System.Collections.Generic;
+using Storage.Repository;
+using StudyConfigurationServer.Logic.StorageManagement;
+using Moq;
+using System.Linq;
+
 
 namespace LogicTests1.StudyOverviewTests
 {
     [TestClass]
     public class StudyOverviewTests
     {
-        StudyOverviewController controller;
-        Study study1, study2;
-        List<UserStudies> userStudieList1, userStudieList2;
-        List<Stage> stageList1;
-        List<Stage> stageList2;
-        List<StudyTask> taskList1;
-        List<StudyTask> taskList2;
-        List<StudyTask> taskList3;
-        List<TaskRequestedData> listReqData1, listReqData2, listReqData3;
-        TaskRequestedData reqData1, reqData2, reqData3;
-        User user1, user2, user3;
-        UserStudies userStudy1, userStudy2, userStudy3;
-        StudyTask task1, task2, task3;
-        Stage stage1, stage2, stage3;
+        Dictionary<int, Study> _studies;
+        Dictionary<int, StudyTask> _studyTasks;
 
-
-
+        Mock<IGenericRepository> mockStudyRepo;
+        int id;    
+        Study _testStudy = new Study() { Id = 1,Team = new Team() {UserIDs = new int[4] { 1, 2, 3, 4 } }, CurrentStageID = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() };
+        StudyStorageManager testStudyStorageManager;
 
 
         [TestInitialize]
         public void InitializeTests()
         {
-            user1 = new User() { Name = "User1", Id = 1, Studies = userStudieList1, Tasks = listReqData1 };
-            user2 = new User() { Name = "User2", Id = 2, Studies = userStudieList1, Tasks = listReqData2 };
-            user3 = new User() { Name = "User3", Id = 3, Studies = userStudieList2, Tasks = listReqData3 };
+            id = 1;
+            mockStudyRepo = new Mock<IGenericRepository>();
+            _studies = new Dictionary<int, Study>();
+            _studyTasks = new Dictionary<int, StudyTask>();
+            testStudyStorageManager = new StudyStorageManager(mockStudyRepo.Object);
 
-            userStudy1 = new UserStudies() { User = user1, Study = study1 };
-            userStudy2 = new UserStudies() { User = user2, Study = study1 };
-            userStudy3 = new UserStudies() { User = user3, Study = study2 };
+            // Read item
+            mockStudyRepo.Setup(r => r.Read<Study>(It.IsAny<int>())).Returns<int>((id) => _studies.First(e => e.Key == id).Value);
 
-            userStudieList1 = new List<UserStudies>() { userStudy1, userStudy2 };
-            userStudieList2 = new List<UserStudies>() { userStudy3 };
+            // Read items
+            mockStudyRepo.Setup(r => r.Read<Study>()).Returns(_studies.Values.AsQueryable());
 
-            task1 = new StudyTask() { IsFinished = true, Id = 1 };
-            task2 = new StudyTask() { IsFinished = false, Id = 2 };
-            task3 = new StudyTask() { IsFinished = true, Id = 3 };
+            // Create 
+            mockStudyRepo.Setup(r => r.Create<Study>(It.IsAny<Study>())).Callback<Study>(study =>
+            {
+                int nextId = id++;
+                study.Id = nextId;
+                _studies.Add(nextId, study);
+            });
 
-            taskList1 = new List<StudyTask>() { task1, task2, task3 };
-            taskList2 = new List<StudyTask>() { task1, task2 };
-            taskList3 = new List<StudyTask>() { task2, task3 };
+            // Update
+            mockStudyRepo.Setup(r => r.Update<Study>(It.IsAny<Study>())).Callback<Study>(study =>
+            {
+                if (_studies.ContainsKey(study.Id))
+                {
+                    _studies[study.Id] = study;
 
-            reqData1 = new TaskRequestedData() { User = user1, StudyTask = task1 };
-            reqData2 = new TaskRequestedData() { User = user2, StudyTask = task2 };
-            reqData3 = new TaskRequestedData() { User = user3, StudyTask = task3 };
+                }
 
-            stage1 = new Stage() { Id = 1, Study = study1, Tasks = taskList1, Users = userStudieList1 };
-            stage2 = new Stage() { Id = 2, Study = study1, Tasks = taskList2, Users = userStudieList1 };
-            stage3 = new Stage() { Id = 3, Study = study2, Tasks = taskList3, Users = userStudieList2 };
 
-            stageList1 = new List<Stage>() { stage1, stage2 };
-            stageList2 = new List<Stage>() { stage3 };
+            });
 
-            study1 = new Study() { Name = "TestStudy", Id = 1, IsFinished = false, Stages = stageList1, CurrentStage = 1 };
-            study2 = new Study() { Name = "TestStudy2", Id = 2, IsFinished = false, Stages = stageList2, CurrentStage = 1 };
+            // Delete
+            mockStudyRepo.Setup(r => r.Delete<Study>(It.IsAny<Study>())).Callback<Study>(study =>
+            {
+                _studies.Remove(study.Id);
+            });
 
-            controller = new StudyOverviewController();
         }
-
+        
         [TestMethod]
         public void TestRetrieveAllUserIdsFromStudy()
         {
-            Assert.AreEqual(2, controller.GetUserIDs(study1).Length);
-            Assert.AreEqual(1, controller.GetUserIDs(study2).Length);
+            testStudyStorageManager.SaveStudy(_testStudy);
+            StudyOverviewController controller = new StudyOverviewController();
 
-            Assert.AreEqual(controller.GetUserIDs(study1)[1], userStudy2.User.Id);
-            Assert.AreEqual(controller.GetUserIDs(study2)[0], userStudy3.User.Id);          
+            Assert.AreEqual(4, controller.GetUserIDs(_testStudy).Length);
+            
         }
-
+        /*
         [TestMethod]
         public void Test()
         {
 
-        }
+        }*/
     }
 }
