@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.WebPages;
+using Microsoft.Ajax.Utilities;
 using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
@@ -24,7 +25,11 @@ namespace StudyConfigurationServer.Models
 
         public bool ContainsData()
         {
-            return Data.Select(d => !"".Equals(d)).Any();
+            if (Data==null)
+            {
+                return false;
+            }
+            return Data.Where(d => !d.IsNullOrWhiteSpace()).Any();
         }
      }
 }

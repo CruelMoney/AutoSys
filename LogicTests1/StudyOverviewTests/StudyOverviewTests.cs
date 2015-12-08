@@ -35,6 +35,12 @@ namespace LogicTests1.StudyOverviewTests
             var user2 = new User() { Id = 2 };
             var user3 = new User() { Id = 3 };
             var user4 = new User() { Id = 4 };
+            var finishedData = new UserData() { Data = new [] { "finished" } };
+            var userData2 = new UserData() { };
+            var userData3 = new UserData() { };
+            var userData4 = new UserData() { };
+
+
 
             _testStudy =  new Study()
             {
@@ -52,35 +58,59 @@ namespace LogicTests1.StudyOverviewTests
                 Name = "stage1" ,
                 Id = 1, Tasks = new List<StudyTask>()
                 {
-                new StudyTask() {RequestedData = new List<TaskRequestedData>()
+                new StudyTask() {
+                     Users = new List<User>() {user1,user2,user3},
+                    DataFields = new List<DataField>()
                 {
-                    new TaskRequestedData() {
-                        IsFinished = true,
-                        User = user1 },
-                    new TaskRequestedData() {
-                        IsFinished = false,
-                        User = user2},
-                    new TaskRequestedData() {
-                        IsFinished = true,
-                        User = user3}
-                } } } },
+                    new DataField() {
+                        UserData = new List<UserData>()
+                        {
+                            new UserData()
+                            {
+                                Data = new [] { "finished" },
+                                User = user1
+                            },
+                             new UserData()
+                            {
+                                Data = new [] { "" },
+                                User = user2
+                            },
+                              new UserData()
+                            {
+                                Data = new [] { "finished" },
+                                User = user3
+                            }
+                        } 
+                       
+                } } } } },
              new Stage() {
                 Name = "stage2" ,
-                Id = 1, Tasks = new List<StudyTask>()
+                Id = 2, Tasks = new List<StudyTask>()
                 {
-                new StudyTask() {RequestedData = new List<TaskRequestedData>()
+               new StudyTask() {
+                   Users = new List<User>() {user1,user2,user4},
+                   DataFields = new List<DataField>()
                 {
-                    new TaskRequestedData() {
-                        IsFinished = false,
-                        User = user1 },
-                    new TaskRequestedData() {
-                        IsFinished = true,
-                        User = user2},
-                    new TaskRequestedData() {
-                        IsFinished = false,
-                        User = user4}
-                } } } } }
-            };
+                    new DataField() {
+                        UserData = new List<UserData>()
+                        {
+                            new UserData()
+                            {
+                                Data = new [] { "" },
+                                User = user1
+                            },
+                             new UserData()
+                            {
+                                Data = new [] { "finished" },
+                                User = user2
+                            },
+                              new UserData()
+                            {
+                                Data = new [] { "" },
+                                User = user4
+                            }
+                        }
+                } } } } } } };
 
 
 

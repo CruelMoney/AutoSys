@@ -53,7 +53,7 @@ namespace StudyConfigurationServer.Models
 
         public Stage Stage { get; set; } // reference to Stage (many to one)
 
-
+        public List<User> Users { get; set; } 
         /// <summary>
         /// The <see cref="Type" /> of the StudyTask, either a review StudyTask, or a conflict StudyTask.
         /// </summary>
@@ -88,9 +88,20 @@ namespace StudyConfigurationServer.Models
             return this;
         }
 
-        public bool IsFinished()
+        public bool IsFinished(int? userID = null)
         {
-            return DataFields.TrueForAll(d=>d.DataEntered());
+            if (userID == null)
+            {
+                return DataFields.TrueForAll(d => d.DataEntered());
+            }
+            try
+            {
+                return DataFields.TrueForAll(d => d.DataEntered(userID));
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("The user is not associated with this task");
+            }
         }
 
         

@@ -47,8 +47,8 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             throw new NotImplementedException();
         }
 
-            throw new NotImplementedException();
+           
         }
     }
-}
+
 

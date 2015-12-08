@@ -66,9 +66,13 @@ namespace StudyConfigurationServer.Models
         public DataField SubmitData(int userId, string[] data)
         {
             //We expect that the user only exists once per dataField
-            var dataToUpdate = UserData.First(d => d.User.Id == userId);
+            UserData dataToUpdate;
 
-            if (dataToUpdate==null)
+            try
+            {
+                dataToUpdate = UserData.First(d => d.User.Id == userId);
+            }
+            catch (Exception)
             {
                 throw new ArgumentException("User not associated with task");
             }
@@ -78,9 +82,26 @@ namespace StudyConfigurationServer.Models
             return this;
         }
 
+        /// <summary>
+        /// Returns true the given user has entered data for this field. If no userID is given
+        /// it checks for all users associated with this field.
+        /// </summary>
+        /// <param name="userID">The user to check if has entered data</ram>
+        /// <returns></returns>
         public bool DataEntered(int? userID = null )
         {
+            if (userID==null)
+            {
                 return UserData.TrueForAll(d => d.ContainsData());
+            }
+            try
+            {
+                return UserData.First(u=>u.User.Id==userID).ContainsData();
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("The user is not associated with this task");
+            }
         }
     }
 }

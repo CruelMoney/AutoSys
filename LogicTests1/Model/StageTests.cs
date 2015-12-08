@@ -28,8 +28,8 @@ namespace LogicTests1.Model
             var user2 = new User() {Id = 2, Name = "user2"};
             var userData1 = new UserData() { Data = new string[] {"done"}, User = user1 };
             var userData2 = new UserData() { Data = new string[] { }, User = user2};
-            var completeDataField = new DataField() {Name = "testField", UserData = {userData1}};
-            var incompletedataField = new DataField() { Name = "testField", UserData = { userData2 } }; ;
+            var completeDataField = new DataField() {Name = "testField", UserData = new List<UserData>() {userData1}};
+            var incompletedataField = new DataField() { Name = "testField", UserData = new List<UserData>() { userData2 } }; ;
 
             completeTask = new StudyTask()
             {

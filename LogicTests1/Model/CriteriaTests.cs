@@ -13,10 +13,7 @@ namespace LogicTests1.Model
         CriteriaValidator _criteriaValidator = new CriteriaValidator();
         Criteria testCriteria1;
         Criteria testCriteria2;
-        Criteria testCriteria3;
-        Criteria testCriteria4;
-        Criteria testCriteria5;
-        DataField testDataField;
+       
 
         [TestInitialize]
         public void setup()
@@ -54,12 +51,14 @@ namespace LogicTests1.Model
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
             testCriteria1.DataType = DataField.DataType.Flags;
+            
 
             string[] expectedData = new string[3]
             {
                "1", "2", "3"
             };
-           
+
+            testCriteria1.DataMatch = expectedData;
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, expectedData));

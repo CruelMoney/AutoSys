@@ -8,13 +8,13 @@ using StudyConfigurationServer.Models;
 
 namespace LogicTests1.Model
 {
+    [TestClass]
     public class UserDataTests
     {
         UserData completedData;
         UserData completedData2;
         UserData incompleteData1;
         UserData incompleteData2;
-
 
         [TestInitialize]
         public void Initialize()

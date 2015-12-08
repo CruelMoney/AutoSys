@@ -36,11 +36,6 @@ namespace StudyConfigurationServer.Models
         public DataField.DataType DataType { get; set; }
 
         /// <summary>
-        /// For <see cref="DataField.DataType.Enumeration"/> and <see cref="DataField.DataType.Flags"/> data types, a collection of the predefined values.
-        /// </summary>
-        public string[] TypeInfo { get; set; }
-
-        /// <summary>
         /// The data the rule is checked against. 
         /// The data this Field holds depends on the data type.
         /// For all but <see cref="DataField.DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).

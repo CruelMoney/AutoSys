@@ -14,6 +14,9 @@ namespace LogicTests1.Model
     {
         StudyTask testTask;
         StudyTask testTaskMultipleUsers;
+        StudyTask finishedTask;
+        StudyTask unfinishedTask;
+        StudyTask testTaskFinished;
 
 
         [TestInitialize]
@@ -25,8 +28,11 @@ namespace LogicTests1.Model
             var testUser2 = new User() { Id = 2, Name = "ramos" };
             var userData1 = new UserData() { User = testUser1, Data = new string[1] { "initialData" } };
             var userData2 = new UserData() { User = testUser2, Data = new string[1] { "initialData2" } };
-            var dataFields1 = new List<DataField>() { new DataField() { UserData = {userData1} , Name = "testField", Description = "testDescription" } };
-            var dataFields2 = new List<DataField>() { new DataField() { UserData = { userData2, userData1 }, Name = "testField2", Description = "testDescription2" } };
+            var userData3 = new UserData() { User = testUser2, Data = new string[1] };
+            var dataFields1 = new List<DataField>() { new DataField() { UserData = new List<UserData>() {userData1} , Name = "testField", Description = "testDescription" } };
+            var dataFields2 = new List<DataField>() { new DataField() { UserData = new List<UserData>(){ userData2, userData1 }, Name = "testField2", Description = "testDescription2" } };
+            var dataFields3 = new List<DataField>() { new DataField() { UserData = new List<UserData>() { userData3, userData1 }, Name = "testField3", Description = "testDescription" } };
+
 
             testTask = new StudyTask()
             {
@@ -39,6 +45,14 @@ namespace LogicTests1.Model
                 Paper = testItem,
                 DataFields = new List<DataField>(dataFields2)
             };
+
+            testTaskFinished = new StudyTask()
+            {
+                Paper = testItem,
+                DataFields = new List<DataField>(dataFields3)
+            };
+
+
         }
 
         [TestMethod]
@@ -121,6 +135,22 @@ namespace LogicTests1.Model
 
             //Action
             testTask.SubmitData(dataSubmit);
+        }
+
+        [TestMethod]
+        public void FinishedTaskTest()
+        {
+            //Arrange
+        
+            //Action
+            var allFinish = testTaskFinished.IsFinished();
+            var user1Finish = testTaskFinished.IsFinished(1);
+            var user2Finish = testTaskFinished.IsFinished(2);
+
+            //Assert
+            Assert.IsTrue(user1Finish);
+            Assert.IsFalse(user2Finish);
+            Assert.IsFalse(allFinish);
         }
     }
 }

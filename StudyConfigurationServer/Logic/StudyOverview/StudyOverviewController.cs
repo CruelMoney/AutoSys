@@ -83,16 +83,15 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
         public Dictionary<int, int> GetCompletedTasks(Stage stage)
         {
-
             var completedTasks = new ConcurrentDictionary<int, int>();
 
             foreach(var task in stage.Tasks)
             {
-               foreach(var userTask in task.RequestedData)
-                  {
-                    if (userTask.IsFinished)
+                foreach (var user in task.Users)
+                {
+                    if (task.IsFinished(user.Id))
                     {
-                        completedTasks.AddOrUpdate(userTask.User.Id, 1, (id, count) => count + 1);
+                        completedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
                 }
             }           
@@ -104,15 +103,16 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             var inCompletedTasks = new ConcurrentDictionary<int, int>();
 
             foreach (var task in stage.Tasks)
-            {            
-                foreach (var userTask in task.RequestedData)
+            {
+                foreach (var user in task.Users)
                 {
-                    if (!userTask.IsFinished)
+                    if (!task.IsFinished(user.Id))
                     {
-                        inCompletedTasks.AddOrUpdate(userTask.User.Id, 1, (id, count) => count + 1);
+                        inCompletedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
                 }
             }
+
             return inCompletedTasks.ToDictionary(k => k.Key, k => k.Value);
         }
 
