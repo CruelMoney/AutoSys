@@ -120,9 +120,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\AppData\Local\Temp\StudyContext.Views.cs">
-      <Link>StudyContext.Views.cs</Link>
-    </Compile>
     <Compile Include="Api\Interfaces\IStudyController.cs" />
     <Compile Include="Api\Interfaces\ITeamController.cs" />
     <Compile Include="Api\Interfaces\IUserController.cs" />

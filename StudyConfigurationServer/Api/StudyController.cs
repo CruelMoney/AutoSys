@@ -74,8 +74,9 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetTask(int id, int taskId)
         {
             // GET: api/Study/4/StudyTask/5
+            throw new NotImplementedException();
             TaskController controller = new TaskController();
-            controller.GetTaskWithId(id, taskId);
+            
         }
 
         /// <summary>
