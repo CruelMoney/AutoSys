@@ -109,6 +109,7 @@
     <Compile Include="StorageManagement\TeamStorageManagerTests.cs" />
     <Compile Include="StorageManagement\UserStorageManagerTests.cs" />
     <Compile Include="StudyOverviewTests\StudyOverviewTests.cs" />
+    <Compile Include="TaskManagement\TaskDistributor\DistributorsTests.cs" />
     <Compile Include="TaskManagement\TaskGeneratorTests.cs" />
     <Compile Include="TaskManagement\TaskRequesterTests.cs" />
     <Compile Include="TeamCRUD\TeamManagementTests.cs" />

@@ -56,7 +56,6 @@ namespace StorageTests.Repository
         [TestMethod]
         public void EFRepoDeleteTest()
         {
-
             //Arrange
             var dbset = new Mock<DbSet<MockEntity>>();
             var context = new Mock<MockContext>();

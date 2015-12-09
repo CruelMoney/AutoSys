@@ -11,27 +11,23 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
     /// </summary>
     public class EqualDistributor : IDistributor
     {
-        public IEnumerable<StudyTask> Distribute(List<User> users, IEnumerable<StudyTask> tasks, Criteria criteria)
+        public IEnumerable<StudyTask> Distribute(List<User> users, IEnumerable<StudyTask> tasks)
         {         
                 foreach (var task in tasks)
                 {
                 foreach (var user in users)
                 {
-                    if (task.DataFields.Select(d => d.UserData.Where(u => u.User.Id == user.Id)).Any())
-                    {
-                        throw new ArgumentException("The user is already connected to the task");
-                    }
+
+                    task.Users.Add(user);
 
                     foreach (var dataField in task.DataFields)
                     {
                         dataField.UserData.Add(new UserData() {User = user});
                     }
-                        
-                    yield return task;
-                    }
-                }
+                  
+                   }
+                yield return task;
             }
-        
-
+            }
     }
 }

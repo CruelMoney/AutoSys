@@ -64,6 +64,10 @@ namespace StudyConfigurationServer.Models
         /// </summary>
         public List<DataField> DataFields { get; set; }
 
+        /// <summary>
+        /// In case this is a <see cref="TaskRequestDTO.Type.Conflict" /> StudyTask
+        /// </summary>
+        public UserData[][] ConflictingData { get; set; }
 
         public StudyTask SubmitData(TaskSubmissionDTO taskToDeliver)
         {
