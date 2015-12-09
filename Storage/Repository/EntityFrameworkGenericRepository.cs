@@ -61,13 +61,12 @@ namespace Storage.Repository
                 return false;
             }
             
-            _context.Set<T>().Attach(found);
-            _context.Entry(found).State = EntityState.Modified;
+            _context.Set<T>().Attach(entity);
+            _context.Entry(found).CurrentValues.SetValues(entity);
+            _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChangesAsync();
 
             return true;
-        
-
         }
 
         public void Dispose()
