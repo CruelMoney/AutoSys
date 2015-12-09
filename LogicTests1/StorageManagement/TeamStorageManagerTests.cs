@@ -85,6 +85,7 @@ namespace LogicTests1.StorageManagement
         /// Tests get on all teams in the mock repo
         /// </summary>
 
+        [TestMethod]
         public void StorageGetAllTeamsTest()
         {
             testTeamStorageManager.SaveTeam(testTeam);

@@ -117,10 +117,11 @@ namespace StorageTests.Repository
 
             DbSet.Setup(m => m.Find(item.Id)).Returns(item);
             context.Setup(c => c.Set<MockEntity>()).Returns(DbSet.Object);
+
            
             EFRepo.Update(item);
 
-            context.Verify(c => c.SaveChangesAsync(), Times.Once);
+            context.Verify(c => c.SaveChanges(), Times.Once);
             DbSet.Verify(m => m.Attach(item), Times.Once);
             
         }

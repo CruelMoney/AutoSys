@@ -35,7 +35,11 @@ namespace StudyConfigurationServer.Logic.StorageManagement
 
         public bool UpdateTeam(Team TeamToUpdate)
         {
-            return _teamRepo.Update(TeamToUpdate);
+            var storedTeam =_teamRepo.Read<Team>(TeamToUpdate.Id);
+            storedTeam.Name = TeamToUpdate.Name;
+            storedTeam.Metadata = TeamToUpdate.Metadata;
+            storedTeam.UserIDs = TeamToUpdate.UserIDs;
+            return _teamRepo.Update(storedTeam);
         }
            
         public Team GetTeam(int TeamID)

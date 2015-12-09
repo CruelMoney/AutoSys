@@ -23,7 +23,7 @@ namespace Storage.Repository
         public int Create<T>(T entity) where T : class, IEntity
         {
             _context.Set<T>().Add(entity);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             return entity.Id;
         }
 
@@ -37,7 +37,7 @@ namespace Storage.Repository
             }
 
             _context.Set<T>().Remove(entity);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             return true;
         }
 
@@ -60,11 +60,12 @@ namespace Storage.Repository
             {
                 return false;
             }
+
+     
             
-            _context.Set<T>().Attach(entity);
-            _context.Entry(found).CurrentValues.SetValues(entity);
+            _context.Set<T>().Attach(entity);        
             _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return true;
         }
