@@ -8,6 +8,6 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
 {
     public interface IDistributor
     {
-        IEnumerable<StudyTask> Distribute(List<User> users, IEnumerable<StudyTask> tasks, Criteria criteria);
+        IEnumerable<StudyTask> Distribute(List<User> users, IEnumerable<StudyTask> tasks);
     }
 }

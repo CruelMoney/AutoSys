@@ -31,16 +31,15 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
         /// <param name="stage"></param>
         public IEnumerable<StudyTask> Distribute(Stage stage, IEnumerable<StudyTask> tasks)
         {
-            var criteria = stage.Criteria;
             var distributionRule = stage.DistributionRule;
             var users = stage.Users.Select(u=>u.User).ToList();
             if (_distributors.ContainsKey(distributionRule))
             {
-               return _distributors[distributionRule].Distribute(users, tasks, criteria);
+               return _distributors[distributionRule].Distribute(users, tasks);
             }
             else
             {
-               return _defaultDistributor.Distribute(users, tasks, criteria);
+               return _defaultDistributor.Distribute(users, tasks);
             }
         }
     }
