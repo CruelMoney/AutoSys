@@ -79,7 +79,7 @@ namespace LogicTests1.TaskManagement
 
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void InvalidStageType()
+        public void TestTaskGeneratorStageInvalidType()
         {
             //Action
             _taskGenerator.GenerateReviewTasks(items, new Stage() {StageType = StudyTask.Type.Conflict}).ToList();

@@ -67,7 +67,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod()]
-        public void StorageAddStudyTest()
+        public void TestStorageAddStudy()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
@@ -78,7 +78,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageGetStudyTest()
+        public void TestStorageGetStudy()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             Assert.AreEqual(_testStudy, testStudyStorageManager.GetStudy(1));
@@ -88,7 +88,7 @@ namespace LogicTests1.StorageManagement
         /// Tests get on all studies in the mock repo
         /// </summary>
 
-        public void StorageGetAllStudiesTest()
+        public void TestStorageGetAllStudies()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             var _testStudy2 = new Study();
@@ -101,7 +101,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod()]
-        public void StorageRemoveStudyTest()
+        public void TestStorageRemoveStudy()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
@@ -117,7 +117,7 @@ namespace LogicTests1.StorageManagement
 
         [TestMethod()]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void StorageNoStudyToRemoveTest()
+        public void TestStorageNoStudyToRemove()
         {
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             Assert.IsFalse(testStudyStorageManager.RemoveStudy(_testStudy.Id));
@@ -128,7 +128,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageUpdateStudyTest()
+        public void TestStorageUpdateStudy()
         {
             var stageTestStudy = new Study() { Id = 1, CurrentStageID = 1 };
             testStudyStorageManager.SaveStudy(stageTestStudy);

@@ -26,25 +26,25 @@ namespace LogicTests1.BibTexParserTests
 
 
         [TestMethod]
-        public void FieldValidTest()
+        public void TestFieldValid()
         {
             Assert.IsTrue(_fv.IsFieldValid("Christopher", Item.FieldType.Author));
         }
 
         [TestMethod]
-        public void FieldInvalidTest()
+        public void TestFieldInvalid()
         {
             Assert.IsFalse(_fv.IsFieldValid("Chris\ntopher", Item.FieldType.Author));
         }
 
         [TestMethod]
-        public void FieldValidWithoutDefinedCheckerTest()
+        public void TestFieldValidWithoutDefinedChecker()
         {
             Assert.IsTrue(_fv.IsFieldValid("Hello World", Item.FieldType.Booktitle));
         }
 
         [TestMethod]
-        public void FieldInvalidWithoutDefinedCheckerTest()
+        public void TestFieldInvalidWithoutDefinedChecker()
         {
             Assert.IsFalse(_fv.IsFieldValid("Hello\n World", Item.FieldType.Booktitle));
         }

@@ -51,7 +51,7 @@ namespace LogicTests1.TaskManagement.TaskDistributor
         }
 
         [TestMethod]
-        public void TestEqualDistributor()
+        public void TestDistributorsEqual()
         {
             //Arrange
             var distributor = new EqualDistributor();
