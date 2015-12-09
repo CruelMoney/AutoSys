@@ -130,10 +130,10 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void StorageUpdateUserTest()
         {
-            var testUser1 = new User() { Id = 1, Name = "Bob" };
-            testUserStorageManager.SaveUser(testUser1);
-            var testUser2 = new User() { Id = 1, Name = "Bob Sveskebob" };
-            testUserStorageManager.UpdateUser(testUser2);
+            var testUser = new User() { Id = 1, Name = "Bob" };
+            testUserStorageManager.SaveUser(testUser);
+            testUser.Name = "Bob Sveskebob";
+            testUserStorageManager.UpdateUser(testUser);
             Assert.AreEqual("Bob Sveskebob", testUserStorageManager.GetUser(1).Name);
         }
 

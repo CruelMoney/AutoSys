@@ -32,13 +32,14 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
         public IEnumerable<StudyTask> Distribute(Stage stage, IEnumerable<StudyTask> tasks)
         {
             var distributionRule = stage.DistributionRule;
+            var users = stage.Users.Select(u=>u.User).ToList();
             if (_distributors.ContainsKey(distributionRule))
             {
-               return _distributors[distributionRule].Distribute(stage, tasks);
+               return _distributors[distributionRule].Distribute(users, tasks);
             }
             else
             {
-               return _defaultDistributor.Distribute(stage, tasks);
+               return _defaultDistributor.Distribute(users, tasks);
             }
         }
     }

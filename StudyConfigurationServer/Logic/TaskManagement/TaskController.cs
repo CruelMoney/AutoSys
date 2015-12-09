@@ -58,8 +58,9 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         /// <param name="study"></param>
         public void OnNext(Study study)
         {
+            throw new NotImplementedException();
            var currentStage = study.Stages.Find(s => s.Id.Equals(study.CurrentStageID));
-           var tasks = _taskDistributor.Distribute(currentStage, _taskGenerator.GenerateTasks(study));
+            var tasks = new List<StudyTask>();
 
             foreach (var task in tasks)
             {

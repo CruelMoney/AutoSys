@@ -126,11 +126,11 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void StorageUpdateTaskTest()
         {
-            var testTask1 = new StudyTask() { Id = 1, TaskType = StudyTask.Type.Review};
-            testTaskStorageManager.CreateTask(testTask1);
-            var testTask2 = new StudyTask() { Id = 1, TaskType = StudyTask.Type.Conflict};
-            testTaskStorageManager.UpdateTask(testTask2);
-            Assert.Equals(StudyTask.Type.Conflict, testTaskStorageManager.GetTask(1).TaskType);
+            var testTask = new StudyTask() { Id = 1, TaskType = StudyTask.Type.Review};
+            testTaskStorageManager.CreateTask(testTask);
+            testTask.TaskType = StudyTask.Type.Conflict;
+            testTaskStorageManager.UpdateTask(testTask);
+            Assert.AreEqual(StudyTask.Type.Conflict, testTaskStorageManager.GetTask(1).TaskType);
         }
     }
 }

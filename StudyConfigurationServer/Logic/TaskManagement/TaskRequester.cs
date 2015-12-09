@@ -7,7 +7,7 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.TaskManagement
 {
-    public class TaskRequester 
+    public class TaskRequester
     {
         private TaskGenerator _taskGenerator;
         private TaskStorageManager _storageManager;
@@ -15,13 +15,14 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         private readonly Study _study;
 
 
-        public TaskRequester(TaskStorageManager storageManager, UserDTO userDto, Study study, TaskGenerator taskGenerator)
+        public TaskRequester(TaskStorageManager storageManager, UserDTO userDto, Study study,
+            TaskGenerator taskGenerator)
         {
             _storageManager = storageManager;
             _userDto = userDto;
             _study = study;
             _taskGenerator = taskGenerator;
-         
+
         }
 
         public TaskRequester()
@@ -32,19 +33,22 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             _taskGenerator = new TaskGenerator();
         }
 
-        public List<TaskRequestDTO> GetTasksForUser(int userId, Study study, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
+        public List<TaskRequestDTO> GetTasksForUser(int userId, Study study, int count, TaskRequestDTO.Filter filter,
+            TaskRequestDTO.Type type)
         {
             throw new NotImplementedException();
-           
 
-      
+
+
         }
+
         public TaskRequestDTO GetTask(int id, int taskid)
         {
             throw new NotImplementedException();
         }
 
-        
+           
+        }
     }
-}
+
 

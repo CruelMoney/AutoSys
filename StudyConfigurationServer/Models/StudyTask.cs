@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace StudyConfigurationServer.Models
 
         public Stage Stage { get; set; } // reference to Stage (many to one)
 
-
+        public List<User> Users { get; set; } 
         /// <summary>
         /// The <see cref="Type" /> of the StudyTask, either a review StudyTask, or a conflict StudyTask.
         /// </summary>
@@ -61,26 +62,50 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// A the data which need to be filled out as part of the StudyTask.
         /// </summary>
-        public List<TaskRequestedData> RequestedData { get; set; }
+        public List<DataField> DataFields { get; set; }
 
+        /// <summary>
+        /// In case this is a <see cref="TaskRequestDTO.Type.Conflict" /> StudyTask
+        /// </summary>
+        public UserData[][] ConflictingData { get; set; }
 
         public StudyTask SubmitData(TaskSubmissionDTO taskToDeliver)
         {
             var userID = taskToDeliver.UserId;
+            
             var newDataFields = taskToDeliver.SubmittedFieldsDto.ToList();
             
-            //We expect that the user only exists once per requestedData
-            var dataToUpdate = this.RequestedData.First(u => u.User.Id.Equals(userID));
-
-            //TODO For now we use the dataField name to update the data.
+            //TODO for now we use the dataField name to update the data.
             foreach (var field in newDataFields)
             {
-                dataToUpdate.Data.First(f => f.Name.Equals(field.Name)).Data = field.Data;
+                var fieldToUpdate = DataFields.First(d=>d.Name.Equals(field.Name));
+                
+                if (fieldToUpdate==null)
+                {
+                    throw new InvalidOperationException("A Corresponding dataField is not found in the task");
+                }
+
+                fieldToUpdate.SubmitData(userID, field.Data);
+
             }
 
-            dataToUpdate.IsFinished = dataToUpdate.IsTaskFinished();
-
             return this;
+        }
+
+        public bool IsFinished(int? userID = null)
+        {
+            if (userID == null)
+            {
+                return DataFields.TrueForAll(d => d.DataEntered());
+            }
+            try
+            {
+                return DataFields.TrueForAll(d => d.DataEntered(userID));
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("The user is not associated with this task");
+            }
         }
 
         

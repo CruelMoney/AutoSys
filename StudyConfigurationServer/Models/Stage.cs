@@ -9,7 +9,7 @@ namespace StudyConfigurationServer.Models
         public string Name { get; set;}
         public int Id { get; set; }
         //The criteria are defining what fields are editable for this stage
-        public List<Criteria> Criteria { get; set; } 
+        public  List<Criteria> Criteria { get; set; } 
         public List<StudyTask> Tasks { get; set; }
         public Study Study { get; set; } 
         //The fields that can only be seen in adddition to the editable fields.
@@ -30,7 +30,7 @@ namespace StudyConfigurationServer.Models
 
         public bool IsFinished()
         {
-            return Tasks.All(task => task.RequestedData.TrueForAll(data => data.IsFinished));
+            return Tasks.TrueForAll(t => t.IsFinished());
         }
     }
 }
