@@ -157,7 +157,7 @@ namespace LogicTests1.StudyOverviewTests
         }
         
         [TestMethod]
-        public void TestRetrieveAllUserIdsFromStudy()
+        public void OverviewRetrieveAllUserIdsFromStudyTest()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             StudyOverviewController controller = new StudyOverviewController();
@@ -167,7 +167,7 @@ namespace LogicTests1.StudyOverviewTests
         }
 
         [TestMethod]
-        public void TestCountAmountOfStages()
+        public void OverviewCountAmountOfStagesTest()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             StudyOverviewController controller = new StudyOverviewController();
@@ -176,7 +176,7 @@ namespace LogicTests1.StudyOverviewTests
         }
 
         [TestMethod]
-        public void TestCompletedTasksInOverview()
+        public void OverviewCompletedTasksTest()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             StudyOverviewController controller = new StudyOverviewController();
@@ -196,7 +196,7 @@ namespace LogicTests1.StudyOverviewTests
         }
 
         [TestMethod]
-        public void TestIncompleteTasksInOverview()
+        public void OverviewIncompleteTasksTest()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             StudyOverviewController controller = new StudyOverviewController();
@@ -215,7 +215,7 @@ namespace LogicTests1.StudyOverviewTests
         }
 
         [TestMethod]
-        public void TestCurrentStage()
+        public void OverviewCurrentStageTest()
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             StudyOverviewController controller = new StudyOverviewController();

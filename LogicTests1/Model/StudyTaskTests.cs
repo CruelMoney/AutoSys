@@ -56,7 +56,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void SubmitDataSingleUser()
+        public void TaskSubmitDataSingleUserTest()
         {
             //Arrange
             var expectedData = new string[] {"testData"};
@@ -77,7 +77,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void SubmitDataMultipleUsers()
+        public void TaskSubmitDataMultipleUsersTest()
         {
             //Arrange
             var expectedData = new[] { "testData" };
@@ -105,7 +105,7 @@ namespace LogicTests1.Model
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void SubmitDataInvalidUser()
+        public void TaskSubmitDataInvalidUserTest()
         {
             //Arrange
             var expectedData = new string[] { "testData" };
@@ -122,7 +122,7 @@ namespace LogicTests1.Model
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void SubmitDataInvalidDatafield()
+        public void TaskSubmitDataInvalidDatafieldTest()
         {
             //Arrange
             var expectedData = new string[] { "testData" };
@@ -138,7 +138,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void FinishedTaskTest()
+        public void TaskFinishedTest()
         {
             //Arrange
         
