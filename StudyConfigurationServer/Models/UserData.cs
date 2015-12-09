@@ -31,5 +31,10 @@ namespace StudyConfigurationServer.Models
             }
             return Data.Where(d => !d.IsNullOrWhiteSpace()).Any();
         }
-     }
+
+        public bool DataEquals(UserData userData)
+        {
+            return Data.Equals(userData.Data);
+        }
+    }
 }

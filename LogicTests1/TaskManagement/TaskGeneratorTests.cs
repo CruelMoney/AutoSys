@@ -55,7 +55,7 @@ namespace LogicTests1.TaskManagement
                 TypeInfo = new string[1] { "expectedInfo2" }
             };
 
-            testStage1 = new Stage() {Id = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, StageType = StudyTask.Type.Review};
+            testStage1 = new Stage() {Id = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, CurrentTaskType = StudyTask.Type.Review};
             var testStage2 = new Stage() { Id = 2, Name = "stage2" };
 
             expectedUserData1 = new UserData() {Data = new string[] {"conflictingData1"}, User = user1};
@@ -99,7 +99,7 @@ namespace LogicTests1.TaskManagement
             for (int i=0; i < result.Count; i++)
             {
                 Assert.AreEqual(items[i], result[i].Paper);
-                Assert.AreEqual(testStage1.StageType, result[i].TaskType);
+                Assert.AreEqual(testStage1.CurrentTaskType, result[i].TaskType);
                 Assert.AreEqual(testStage1, result[i].Stage);
                 Assert.AreEqual(1, result[i].DataFields.Count);
                 Assert.AreEqual("expectedDescription", result[i].DataFields[0].Description);
@@ -138,7 +138,7 @@ namespace LogicTests1.TaskManagement
         public void TestTaskGeneratorStageInvalidType()
         {
             //Action
-            items.Select(item => _taskGenerator.GenerateReviewTask(item, new Stage() { StageType = StudyTask.Type.Conflict })).ToList();
+            items.Select(item => _taskGenerator.GenerateReviewTask(item, new Stage() { CurrentTaskType = StudyTask.Type.Conflict })).ToList();
 
         }
 
