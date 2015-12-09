@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using StudyConfigurationUI.Data;
 using StudyConfigurationUI.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -32,14 +33,13 @@ namespace StudyConfigurationUI
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
-            if (args.Parameter.GetType() == typeof (ViewModel))
+            _viewModel = new ViewModel();
+            if (args.Parameter.GetType() == typeof (Study))
             {
-                var viewArgs = args.Parameter as ViewModel;
-                ReturnFromStageManager(viewArgs);
+                _viewModel.studyToWorkOn = args.Parameter as Study;
+                SetUpFromStudy(_viewModel.studyToWorkOn);
                 return;
             }
-
-            _viewModel = new ViewModel();
             // Make sure either a team, or study ID is passed, so that a suitable UI to manage the study can be created.
             var studyArgs = args.Parameter as ManageStudyPageArgs;
             if (studyArgs == null)
@@ -72,6 +72,22 @@ namespace StudyConfigurationUI
         private void onNewPhase(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(ManagePhasePage));
+        }
+
+        private void SetUpFromStudy(Study study)
+        {
+            nameInput.Text = study.Name;
+            if (study.Items == null || study.Items.Count < 1)
+            {
+                bibtexOutput.Text = "No items selected yet";
+            }
+            else
+            {
+                bibtexOutput.Text = "Items have already been selected";
+                bibtexInputButton.
+            }
+            
+                
         }
     }
 }

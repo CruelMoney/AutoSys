@@ -11,11 +11,11 @@ namespace StudyConfigurationUI.ViewModels
 {
     class ViewModel
     {
-        private Study _study;
+        public Study studyToWorkOn { get; set; }
 
         public ViewModel()
         {
-            _study = new Study();
+            studyToWorkOn = new Study();
         }
         public ViewModel(int TeamID)
         {
@@ -48,7 +48,6 @@ namespace StudyConfigurationUI.ViewModels
             picker.FileTypeFilter.Add(".csv");
             picker.FileTypeFilter.Add(".bib");
             picker.FileTypeFilter.Add(".txt");
-
             return await picker.PickSingleFileAsync();
         }
     }
