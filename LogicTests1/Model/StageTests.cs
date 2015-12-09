@@ -57,7 +57,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void TestStageFinished()
+        public void StageFinishedTest()
         {
             //Arrange
             testStage.Tasks.Add(completeTask);
@@ -67,7 +67,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void TestStageNotFinished()
+        public void StageNotFinishedTest()
         {
             //Arrange
             testStage.Tasks.AddRange(new List<StudyTask>() { incompleteTask });
@@ -94,7 +94,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void TestStageNotFinishedMultipleTasks()
+        public void StageNotFinishedMultipleTasksTest()
         {
             //Arrange
             testStage.Tasks.AddRange(new List<StudyTask>() { incompleteTask4, completeTask });

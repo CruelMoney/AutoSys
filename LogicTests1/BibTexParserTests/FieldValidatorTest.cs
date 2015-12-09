@@ -32,7 +32,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void FieldinvalidTest()
+        public void FieldInvalidTest()
         {
             Assert.IsFalse(_fv.IsFieldValid("Chris\ntopher", Item.FieldType.Author));
         }

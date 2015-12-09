@@ -28,9 +28,9 @@ namespace LogicTests1.TaskManagement
         }
 
         [TestMethod()]
-        public void TestGenerateTaskStage1()
+        public void StudyGenerateTaskStage1Test()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }
