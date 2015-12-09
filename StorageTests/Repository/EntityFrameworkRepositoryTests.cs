@@ -108,5 +108,23 @@ namespace StorageTests.Repository
             Assert.AreEqual(expectedItem, actual);
         }
 
+        [TestMethod]
+        public void EFRepoUpdateItemTest()
+        {
+            var DbSet = new Mock<DbSet<MockEntity>>();
+            var context = new Mock<MockContext>();
+            var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
+            var item = new MockEntity() { Id = 1, Name = "OldName" };
+
+            DbSet.Setup(m => m.Find(item.Id)).Returns(item);
+            context.Setup(c => c.Set<MockEntity>()).Returns(DbSet.Object);
+           
+            EFRepo.Update(item);
+
+            context.Verify(c => c.SaveChangesAsync(), Times.Once);
+            DbSet.Verify(m => m.Attach(item), Times.Once);
+            
+        }
+
     }
 }

@@ -126,10 +126,10 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void StorageUpdateTeamTest()
         {
-            var testTeam1 = new Team() { Id = 1, Name = "Team" };
-            testTeamStorageManager.SaveTeam(testTeam1);
-            var testTeam2 = new Team() { Id = 1, Name = "Team Awesome" };
-            testTeamStorageManager.UpdateTeam(testTeam2);
+            var testTeam = new Team() { Id = 1, Name = "Team" };
+            testTeamStorageManager.SaveTeam(testTeam);
+            testTeam.Name = "Team Awesome";
+            testTeamStorageManager.UpdateTeam(testTeam);
             Assert.AreEqual("Team Awesome", testTeamStorageManager.GetTeam(1).Name);
         }
     }
