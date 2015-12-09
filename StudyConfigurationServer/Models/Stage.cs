@@ -16,9 +16,9 @@ namespace StudyConfigurationServer.Models
         public List<Item.FieldType> VisibleFields { get; set; }
         public List<UserStudies> Users { get; set; }
         /// <summary>
-        /// Defines wether the stage is for reviewing or validating tasks.
+        /// Defines wether the stage is currently reviewing or validating.
         /// </summary>
-        public StudyTask.Type StageType { get; set; }
+        public StudyTask.Type CurrentTaskType { get; set; }
         public Distribution DistributionRule { get; set; }
 
         public enum Distribution

@@ -64,7 +64,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageAddTeamTest()
+        public void TestStorageAddTeam()
         {
             testTeamStorageManager.SaveTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
@@ -75,7 +75,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageGetTeamTest() {
+        public void TestStorageGetTeam() {
             testTeamStorageManager.SaveTeam(testTeam);
             Assert.AreEqual(testTeam, testTeamStorageManager.GetTeam(1));
             Assert.AreEqual(1, testTeamStorageManager.GetTeam(1).Id);
@@ -85,8 +85,7 @@ namespace LogicTests1.StorageManagement
         /// Tests get on all teams in the mock repo
         /// </summary>
 
-        [TestMethod]
-        public void StorageGetAllTeamsTest()
+        public void TestStorageGetAllTeams()
         {
             testTeamStorageManager.SaveTeam(testTeam);
             var testTeam2 = new Team();
@@ -99,7 +98,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageRemoveTeamTest()
+        public void TestStorageRemoveTeam()
         {
             testTeamStorageManager.SaveTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
@@ -114,7 +113,7 @@ namespace LogicTests1.StorageManagement
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void StorageNoTeamToRemoveTest()
+        public void TestStorageNoTeamToRemove()
         {
             Assert.AreEqual(0, _teams.Values.ToList().Count);
             Assert.IsFalse(testTeamStorageManager.RemoveTeam(1));
@@ -125,7 +124,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageUpdateTeamTest()
+        public void TestStorageUpdateTeam()
         {
             var testTeam = new Team() { Id = 1, Name = "Team" };
             testTeamStorageManager.SaveTeam(testTeam);

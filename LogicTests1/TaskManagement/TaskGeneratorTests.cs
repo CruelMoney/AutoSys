@@ -11,13 +11,19 @@ namespace LogicTests1.TaskManagement
     [TestClass()]
     public class TaskGeneratorTests
     {
-        Stage testStage;
+        Stage testStage1;
         List<Item> items;
         TaskGenerator _taskGenerator;
         Item testItem1;
         Item testItem2;
         Item testItem3;
         DataField.DataType expectedDataType = It.IsAny<DataField.DataType>();
+        StudyTask conflictingTask;
+        User user1;
+        User user2;
+        UserData expectedUserData1;
+        UserData expectedUserData2;
+
 
         [TestInitialize]
         public void SetupStudy()
@@ -28,8 +34,11 @@ namespace LogicTests1.TaskManagement
              testItem2 = new Item(Item.ItemType.Article, new Dictionary<Item.FieldType, string>());
              testItem3 = new Item(Item.ItemType.PhDThesis, new Dictionary<Item.FieldType, string>());
 
-            items = new List<Item>() {testItem1,testItem2,testItem3};
+             items = new List<Item>() {testItem1,testItem2,testItem3};
           
+             var user1 = new User() {Id = 1};
+             var user2 = new User() { Id = 2 };
+
             var testCriteria = new Criteria()
             {
                 DataType = expectedDataType,
@@ -46,9 +55,33 @@ namespace LogicTests1.TaskManagement
                 TypeInfo = new string[1] { "expectedInfo2" }
             };
 
-            testStage = new Stage() {Id = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, StageType = StudyTask.Type.Review};
+            testStage1 = new Stage() {Id = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, CurrentTaskType = StudyTask.Type.Review};
             var testStage2 = new Stage() { Id = 2, Name = "stage2" };
-            
+
+            expectedUserData1 = new UserData() {Data = new string[] {"conflictingData1"}, User = user1};
+            expectedUserData2 = new UserData() {Data = new string[] {"conflictingData2"}, User = user2};
+
+            conflictingTask = new StudyTask()
+            {
+                DataFields = new List<DataField>()
+                {
+                    new DataField()
+                    {
+                        UserData = new List<UserData>()
+                        {
+                           expectedUserData1, expectedUserData2
+                        },
+                        Description = "dataFieldDescription1",
+                        FieldType = expectedDataType,
+                        Name = "dataFieldName1"
+                    }
+                },
+                Paper = testItem1,
+                Stage = testStage1,
+                TaskType = StudyTask.Type.Review,
+                Users = new List<User>() { user1,user2}
+            };
+
         }
 
         [TestMethod]
@@ -57,8 +90,8 @@ namespace LogicTests1.TaskManagement
             //Arrange
             
             //Action
-            var result = _taskGenerator.GenerateReviewTasks(items, testStage).ToList();
-
+            var result = items.Select(item => _taskGenerator.GenerateReviewTask(item, testStage1)).ToList();
+            
             //Assert 
             Assert.AreEqual(3, result.Count());
 
@@ -66,8 +99,8 @@ namespace LogicTests1.TaskManagement
             for (int i=0; i < result.Count; i++)
             {
                 Assert.AreEqual(items[i], result[i].Paper);
-                Assert.AreEqual(testStage.StageType, result[i].TaskType);
-                Assert.AreEqual(testStage, result[i].Stage);
+                Assert.AreEqual(testStage1.CurrentTaskType, result[i].TaskType);
+                Assert.AreEqual(testStage1, result[i].Stage);
                 Assert.AreEqual(1, result[i].DataFields.Count);
                 Assert.AreEqual("expectedDescription", result[i].DataFields[0].Description);
                 Assert.AreEqual(expectedDataType, result[i].DataFields[0].FieldType);
@@ -77,12 +110,36 @@ namespace LogicTests1.TaskManagement
 
             }
 
+        [TestMethod]
+        public void TestGenerateValidateTasks()
+        {
+            //Arrange
+
+            //Action
+            var result = _taskGenerator.GenerateValidateTasks(conflictingTask);
+
+            //Assert 
+            Assert.AreEqual(items[0], result.Paper);
+            Assert.AreEqual(StudyTask.Type.Conflict, result.TaskType);
+            Assert.AreEqual(testStage1, result.Stage);
+            Assert.AreEqual(1, result.DataFields.Count);
+            Assert.AreEqual("dataFieldDescription1", result.DataFields[0].Description);
+            Assert.AreEqual(expectedDataType, result.DataFields[0].FieldType);
+            Assert.AreEqual("dataFieldName1", result.DataFields[0].Name);
+
+            //Assert userdata
+            Assert.AreEqual(2, result.DataFields[0].ConflictingData.Count);
+            Assert.AreEqual(expectedUserData1, result.DataFields[0].ConflictingData[0]);
+            Assert.AreEqual(expectedUserData2, result.DataFields[0].ConflictingData[1]);
+        }
+
         [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void InvalidStageType()
+        public void TestTaskGeneratorStageInvalidType()
         {
             //Action
-            _taskGenerator.GenerateReviewTasks(items, new Stage() {StageType = StudyTask.Type.Conflict}).ToList();
+            items.Select(item => _taskGenerator.GenerateReviewTask(item, new Stage() { CurrentTaskType = StudyTask.Type.Conflict })).ToList();
+
         }
 
       

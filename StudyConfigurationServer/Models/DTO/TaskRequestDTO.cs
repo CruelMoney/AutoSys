@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace StudyConfigurationServer.Models.DTO
 {
@@ -36,6 +39,47 @@ namespace StudyConfigurationServer.Models.DTO
             Done
         }
 
+        public TaskRequestDTO() { }
+
+        public TaskRequestDTO(StudyTask task, int userId)
+        {
+            var editableFields = new List<DataFieldDTO>();
+
+            foreach (var dataField in task.DataFields)
+            {
+                editableFields.Add(new DataFieldDTO(dataField, userId));
+            }
+
+            var visibleFields = new List<DataFieldDTO>();
+
+            foreach (var dataType in task.Stage.VisibleFields)
+            {
+                visibleFields.Add(new DataFieldDTO(dataType, task.Paper));
+            }
+
+            IsDeliverable = task.IsEditable;
+            TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), task.TaskType.ToString());
+            Id = task.Id;
+            RequestedFieldsDto = editableFields.ToArray();
+            VisibleFieldsDto = visibleFields.ToArray();
+
+            if (task.TaskType == StudyTask.Type.Conflict)
+            {
+                ConflictingDataDTO[][] conflictinData = new ConflictingDataDTO[task.DataFields.Count][];
+                for (int d = 0; d < task.DataFields.Count; d++)
+                {
+                    conflictinData[d] = new ConflictingDataDTO[task.Users.Count];
+                    for (int u = 0; u < task.Users.Count; u++)
+                    {
+                        var userData = task.DataFields[d].ConflictingData[u];
+                        conflictinData[d][u] = new ConflictingDataDTO() { Data = userData.Data, UserId = userData.User.Id };
+                    }
+                }
+
+                ConflictingDataDto = conflictinData;
+            }
+            
+        }
 
         /// <summary>
         /// A unique identifier for the StudyTask.
@@ -72,4 +116,6 @@ namespace StudyConfigurationServer.Models.DTO
         /// </summary>
         public ConflictingDataDTO[][] ConflictingDataDto { get; set; }
     }
+
+
 }

@@ -7,7 +7,7 @@ namespace LogicTests1.TaskManagement
     public class TaskRequesterTests
     {
         [TestMethod()]
-        public void TaskRequesterTest()
+        public void TestTaskRequester()
         {
             throw new NotImplementedException();
         }

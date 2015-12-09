@@ -32,7 +32,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void DataFieldSubmitDataSingleUserTest()
+        public void TestDataFieldSubmitDataSingleUser()
         {
             //Arrange
             var expectedData = new string[] {"testData"};
@@ -50,7 +50,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void DataFieldSubmitDataMultipleUsersTest()
+        public void TestDataFieldSubmitDataMultipleUsers()
         {
             //Arrange
             var expectedData = new string[] { "testData" };
@@ -74,7 +74,7 @@ namespace LogicTests1.Model
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void DataFieldSubmitDataInvalidUserTest()
+        public void TestDataFieldSubmitDataInvalidUser()
         {
             //Arrange
             var expectedData = new string[] { "testData" };
