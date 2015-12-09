@@ -22,25 +22,6 @@ namespace StudyConfigurationServer.Models
         }
 
         /// <summary>
-        /// Filters StudyTask requests.
-        /// </summary>
-        public enum Filter
-        {
-            /// <summary>
-            /// Only list remaining tasks.
-            /// </summary>
-            Remaining,
-            /// <summary>
-            /// Only list delivered tasks which are still editable.
-            /// </summary>
-            Editable,
-            /// <summary>
-            /// Only list tasks which are done, and are no longer editable.
-            /// </summary>
-            Done
-        }
-
-        /// <summary>
         /// A unique identifier for the StudyTask.
         /// </summary>
        
@@ -54,6 +35,12 @@ namespace StudyConfigurationServer.Models
         public Stage Stage { get; set; } // reference to Stage (many to one)
 
         public List<User> Users { get; set; } 
+        
+        /// <summary>
+        /// Defines wether the task can still be edited. Changes to false when all tasks for a stage has been delivered. 
+        /// </summary>
+        public bool IsEditable { get; set; }
+
         /// <summary>
         /// The <see cref="Type" /> of the StudyTask, either a review StudyTask, or a conflict StudyTask.
         /// </summary>
@@ -63,11 +50,6 @@ namespace StudyConfigurationServer.Models
         /// A the data which need to be filled out as part of the StudyTask.
         /// </summary>
         public List<DataField> DataFields { get; set; }
-
-        /// <summary>
-        /// In case this is a <see cref="TaskRequestDTO.Type.Conflict" /> StudyTask
-        /// </summary>
-        public UserData[][] ConflictingData { get; set; }
 
         public StudyTask SubmitData(TaskSubmissionDTO taskToDeliver)
         {
