@@ -26,7 +26,7 @@ namespace LogicTests1.BibTexParserTests
 
 
         [TestMethod]
-        public void ItemsAllValidTest()
+        public void TestItemsAllValid()
         { 
             _fieldDict.Add(Item.FieldType.Booktitle, "Hello World");
             _fieldDict.Add(Item.FieldType.Author, "Christopher");
@@ -37,7 +37,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void ItemsSomeValidTest()
+        public void TestItemsSomeValid()
         {
             _fieldDict.Add(Item.FieldType.Booktitle, "Hello\n World");
             _fieldDict.Add(Item.FieldType.Author, "Christopher");
@@ -48,7 +48,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void ItemsAllInvalidTest()
+        public void TestItemsAllInvalid()
         {
             _fieldDict.Add(Item.FieldType.Booktitle, "Hello\n World");
             _fieldDict.Add(Item.FieldType.Author, "Christ\nopher");
@@ -59,7 +59,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void ItemsValidWithoutDefinedCheckerTest()
+        public void TestItemsValidWithoutDefinedChecker()
         {
             _fieldDict.Add(Item.FieldType.Title, "Hello World");
             _fieldDict.Add(Item.FieldType.Author, "Christopher");
@@ -70,7 +70,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void ItemsInvalidWithoutDefinedCheckerTest()
+        public void TestItemsInvalidWithoutDefinedChecker()
         {
             _fieldDict.Add(Item.FieldType.Title, "Hello\n World");
             _fieldDict.Add(Item.FieldType.Author, "Christopher");

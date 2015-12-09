@@ -61,6 +61,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="userDto">The new UserDTO to create.</param>
         public IHttpActionResult Post([FromBody]UserDTO userDto)
         {
+            
             // POST: api/User
             if (!ModelState.IsValid)
             {
@@ -68,7 +69,7 @@ namespace StudyConfigurationServer.Api
             }
 
             userDto.Id = _manager.CreateUser(userDto);
-
+            
             return CreatedAtRoute("DefaultApi", new { id = userDto.Id }, userDto);
         }
 

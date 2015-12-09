@@ -16,7 +16,7 @@ namespace StorageTests.Repository
 
 
         [TestMethod]
-        public void EFRepoDefaultConstructorRunsTest()
+        public void TestEFRepoDefaultConstructorRuns()
         {
             //Act
             var efDatabase = new EntityFrameworkGenericRepository<MockContext>();
@@ -26,7 +26,7 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void EFRepoSecondConstructorRunsTest()
+        public void TestEFRepoSecondConstructorRuns()
         {
             var efDatabase = new EntityFrameworkGenericRepository<MockContext>((MockContext)defaultDBContext().Object);
 
@@ -37,7 +37,7 @@ namespace StorageTests.Repository
         
 
         [TestMethod]
-        public void EFRepoCreateTest()
+        public void TestEFRepoCreate()
         {
             //Arrange
             var dbset = new Mock<DbSet<MockEntity>>();
@@ -54,7 +54,7 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void EFRepoDeleteTest()
+        public void TestEFRepoDelete()
         {
             //Arrange
             var dbset = new Mock<DbSet<MockEntity>>();
@@ -71,7 +71,7 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void EFRepoReadTest()
+        public void TestEFRepoRead()
         {
             //Arrange
             var expectedDbset = new Mock<DbSet<MockEntity>>();
@@ -89,7 +89,7 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void EFRepoReadItemTest()
+        public void TestEFRepoReadItem()
         {
             //Arrange
             var expectedItem = new MockEntity() { Id = 1};
@@ -105,6 +105,26 @@ namespace StorageTests.Repository
 
             //Assert
             Assert.AreEqual(expectedItem, actual);
+        }
+
+        [TestMethod]
+        public void TestEFRepoUpdateItem()
+        {
+            var DbSet = new Mock<DbSet<MockEntity>>();
+            var context = new Mock<MockContext>();
+            var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
+            var item = new MockEntity() { Id = 1, Name = "Name"};
+
+            DbSet.Setup(m => m.Find(item.Id)).Returns(item);
+            context.Setup(c => c.Set<MockEntity>()).Returns(DbSet.Object);
+
+            EFRepo.Create(item);
+            item.Name = "NewName";
+            EFRepo.Update(item);
+
+            context.Verify(c => c.SaveChangesAsync(), Times.Exactly(2));
+            DbSet.Verify(m => m.Attach(item), Times.Once);
+            
         }
 
     }

@@ -8,7 +8,7 @@ namespace LogicTests1.TeamCRUD
     public class UserManagementTests
     {
         [TestMethod()]
-        public void UserCreateTest()
+        public void TestUserCreate()
         {
             User testUser = new User() { Id = 1, Name = "Test Name"};
             Assert.AreEqual("Test Name", testUser.Name);

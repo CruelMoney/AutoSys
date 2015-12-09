@@ -18,7 +18,7 @@ namespace LogicTests1.BibTexParserTests
         private const string _validItem2 = "@INPROCEEDINGS{1158672, author={Pour, G.},}";
        
         [TestMethod]
-        public void ParseBibtexTest()
+        public void TestParseBibtex()
         {
             var _file = Properties.Resources.bibtex;
                 
@@ -31,7 +31,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void ParseValidItemTest()
+        public void TestParseValidItem()
         {
             var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_validItem);
@@ -46,7 +46,7 @@ namespace LogicTests1.BibTexParserTests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidDataException))]
-        public void ParseInValidItemTypeTest()
+        public void TestParseInValidItemType()
         {
             var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_invalidItemType);
@@ -54,7 +54,7 @@ namespace LogicTests1.BibTexParserTests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidDataException))]
-        public void ParseInValidFieldTypeTest()
+        public void TestParseInValidFieldType()
         {
             var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_invalidFieldType);
@@ -62,7 +62,7 @@ namespace LogicTests1.BibTexParserTests
 
   
         [TestMethod]
-        public void ParseInValidItemSyntaxTest()
+        public void TestParseInValidItemSyntax()
         {
             var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_invalidItemSyntax);
@@ -73,7 +73,7 @@ namespace LogicTests1.BibTexParserTests
 
 
         [TestMethod]
-        public void ParseMultipleItemsTest()
+        public void TestParseMultipleItems()
         {
             var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_validItem);
@@ -87,7 +87,7 @@ namespace LogicTests1.BibTexParserTests
         }
 
         [TestMethod]
-        public void ParseValidAndInvalidTest()
+        public void TestParseValidAndInvalid()
         {
             var _parser = new BibTexParser(new ItemValidator());
             var _bib = _parser.Parse(_validItem);

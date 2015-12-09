@@ -67,7 +67,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageAddUserTest()
+        public void TestStorageAddUser()
         {
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(1, _users.Values.ToList().Count);
@@ -78,7 +78,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageGetUserTest()
+        public void TestStorageGetUser()
         {
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(testUser, testUserStorageManager.GetUser(1));
@@ -89,7 +89,7 @@ namespace LogicTests1.StorageManagement
         /// Tests get on all users in the mock repo
         /// </summary>
 
-        public void StorageGetAllUsersTest()
+        public void TestStorageGetAllUsers()
         {
             testUserStorageManager.SaveUser(testUser);
             var testUser2 = new User();
@@ -102,7 +102,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageRemoveUserTest()
+        public void TestStorageRemoveUser()
         {
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(1, _users.Values.ToList().Count);
@@ -117,7 +117,7 @@ namespace LogicTests1.StorageManagement
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void StorageNoUserToRemoveTest()
+        public void TestStorageNoUserToRemove()
         {
             Assert.AreEqual(0, _users.Values.ToList().Count);
             Assert.IsFalse(testUserStorageManager.RemoveUser(1));
@@ -128,12 +128,12 @@ namespace LogicTests1.StorageManagement
         /// </summary>
         
         [TestMethod]
-        public void StorageUpdateUserTest()
+        public void TestStorageUpdateUser()
         {
-            var testUser1 = new User() { Id = 1, Name = "Bob" };
-            testUserStorageManager.SaveUser(testUser1);
-            var testUser2 = new User() { Id = 1, Name = "Bob Sveskebob" };
-            testUserStorageManager.UpdateUser(testUser2);
+            var testUser = new User() { Id = 1, Name = "Bob" };
+            testUserStorageManager.SaveUser(testUser);
+            testUser.Name = "Bob Sveskebob";
+            testUserStorageManager.UpdateUser(testUser);
             Assert.AreEqual("Bob Sveskebob", testUserStorageManager.GetUser(1).Name);
         }
 

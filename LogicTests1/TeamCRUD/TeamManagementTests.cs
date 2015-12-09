@@ -22,20 +22,20 @@ namespace LogicTests1.TeamCRUD
         }
 
         [TestMethod()]
-        public void TeamCreateTest()
+        public void TestTeamCreate()
         {
             Assert.AreEqual("Test Team", testTeam.Name);
         }
 
         [TestMethod()]
-        public void TeamAddUserTest()
+        public void TestTeamAddUser()
         {
             testTeam.Users.Add(testUser2);
             Assert.AreEqual(2, testTeam.Users.Count);
         }
 
         [TestMethod()]
-        public void TeamRemoveUserTest()
+        public void TestTeamRemoveUser()
         {
             testTeam.Users.Remove(testUser1);
             Assert.AreEqual(0, testTeam.Users.Count);

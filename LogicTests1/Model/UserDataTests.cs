@@ -31,14 +31,14 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void UserDataEnteredTrueTest()
+        public void TestUserDataEnteredTrue()
         {
             Assert.IsTrue(completedData.ContainsData());
             Assert.IsTrue(completedData2.ContainsData());
         }
 
         [TestMethod]
-        public void UserDataTaskUnFinishedTest()
+        public void TestUserDataTaskUnFinished()
         {
             Assert.IsFalse(incompleteData1.ContainsData());
             Assert.IsFalse(incompleteData2.ContainsData());

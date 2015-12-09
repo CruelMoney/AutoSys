@@ -64,7 +64,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageAddTaskTest()
+        public void TestStorageAddTask()
         {
             testTaskStorageManager.CreateTask(testTask);
             Assert.AreEqual(1, _tasks.Values.ToList().Count);
@@ -75,7 +75,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageGetTaskTest()
+        public void TestStorageGetTask()
         {
             //testTaskStorageManager.CreateTask(testTask);
             //Assert.AreEqual(1, testTaskStorageManager.GetTask(1));
@@ -85,7 +85,7 @@ namespace LogicTests1.StorageManagement
         /// Tests get on all tasks in the mock repo
         /// </summary>
 
-        public void StorageGetAllTasksTest()
+        public void TestStorageGetAllTasks()
         {
             testTaskStorageManager.CreateTask(testTask);
             var testTask2 = new StudyTask();
@@ -98,7 +98,7 @@ namespace LogicTests1.StorageManagement
         /// </summary>
 
         [TestMethod]
-        public void StorageRemoveTaskTest()
+        public void TestStorageRemoveTask()
         {
             testTaskStorageManager.CreateTask(testTask);
             Assert.AreEqual(1, _tasks.Values.ToList().Count);
@@ -113,7 +113,7 @@ namespace LogicTests1.StorageManagement
 
         [TestMethod()]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void StorageNoTaskToRemoveTest()
+        public void TestStorageNoTaskToRemove()
         {
             Assert.AreEqual(0, _tasks.Values.ToList().Count);
             Assert.IsFalse(testTaskStorageManager.RemoveTask(1));
@@ -124,12 +124,12 @@ namespace LogicTests1.StorageManagement
         /// </summary>
         // Giver ikke rigtig mening at have
         [TestMethod]
-        public void StorageUpdateTaskTest()
+        public void TestStorageUpdateTask()
         {
-            var testTask1 = new StudyTask() { Id = 1, TaskType = StudyTask.Type.Review};
-            testTaskStorageManager.CreateTask(testTask1);
-            var testTask2 = new StudyTask() { Id = 1, TaskType = StudyTask.Type.Conflict};
-            testTaskStorageManager.UpdateTask(testTask2);
+            var testTask = new StudyTask() { Id = 1, TaskType = StudyTask.Type.Review};
+            testTaskStorageManager.CreateTask(testTask);
+            testTask.TaskType = StudyTask.Type.Conflict;
+            testTaskStorageManager.UpdateTask(testTask);
             Assert.AreEqual(StudyTask.Type.Conflict, testTaskStorageManager.GetTask(1).TaskType);
         }
     }
