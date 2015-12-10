@@ -110,5 +110,10 @@ namespace StudyConfigurationServer.Models
                 throw new ArgumentException("The user is not associated with this task");
             }
         }
+
+        public bool UserDataIsConflicting()
+        {
+           return UserData.Any(d => !d.DataEquals(UserData.First()));
+        }
     }
 }

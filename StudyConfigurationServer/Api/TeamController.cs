@@ -21,11 +21,13 @@ namespace StudyConfigurationServer.Api
         {
             // GET: api/Team
             // GET: api/Team?name=untouchables
-            IEnumerable<TeamDTO> teams;
 
+            IEnumerable<TeamDTO> teams;
+            
             teams = name.Equals(string.Empty) ? _manager.GetAllTeams() : _manager.SearchTeams(name);
 
             return Ok(teams);
+           
         }
 
         /// <summary>
@@ -68,10 +70,10 @@ namespace StudyConfigurationServer.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != teamDto.Id)
+            /*if (id != teamDto.Id)
             {
                 return BadRequest();
-            }
+            }*/
 
             var updated = _manager.UpdateTeam(id, teamDto);
 

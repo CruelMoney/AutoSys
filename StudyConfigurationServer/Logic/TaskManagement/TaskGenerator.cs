@@ -12,7 +12,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
     {
         public StudyTask GenerateReviewTask(Item item, Stage stage)
         {
-            if (stage.StageType!=StudyTask.Type.Review)
+            if (stage.CurrentTaskType!=StudyTask.Type.Review)
             {
                 throw new ArgumentException("The stage is not a review stage");
             }
@@ -21,7 +21,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
                 var task = new StudyTask()
                 {
                     Paper = item,
-                    TaskType = stage.StageType,
+                    TaskType = stage.CurrentTaskType,
                     Stage = stage,
                     DataFields = new List<DataField>(),
                     IsEditable = true

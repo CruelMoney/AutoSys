@@ -26,13 +26,14 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
         }
 
         /// <summary>
-        /// 
+        /// Distributes the tasks to the users by finding the correct IDistributer and distribute using that.
         /// </summary>
-        /// <param name="stage"></param>
-        public IEnumerable<StudyTask> Distribute(Stage stage, IEnumerable<StudyTask> tasks)
+        /// <param name="stage">The stage within the tasks are distributed</param>
+        /// <param name="users">The users to distribute the tasks to</param>
+        /// <param name="tasks">The tasks to distribute</param>
+        public IEnumerable<StudyTask> Distribute(Stage stage, ICollection<User> users, IEnumerable<StudyTask> tasks)
         {
             var distributionRule = stage.DistributionRule;
-            var users = stage.Users.Select(u=>u.User).ToList();
             if (_distributors.ContainsKey(distributionRule))
             {
                return _distributors[distributionRule].Distribute(users, tasks);

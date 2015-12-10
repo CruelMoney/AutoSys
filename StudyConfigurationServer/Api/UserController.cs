@@ -88,10 +88,10 @@ namespace StudyConfigurationServer.Api
             }
 
             //Is the UserDTO id always entered?
-            if (id != userDto.Id)
+           /* if (id != userDto.Id)
             {
                 return BadRequest();
-            }
+            }*/
 
             var updated =  _manager.UpdateUser(id, userDto);
 

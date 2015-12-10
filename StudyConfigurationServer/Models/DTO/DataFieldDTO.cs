@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using StudyConfigurationServer.Api;
 
 namespace StudyConfigurationServer.Models.DTO
@@ -63,5 +65,28 @@ namespace StudyConfigurationServer.Models.DTO
         /// For <see cref="DataType.Resource" /> it contains a JSON representation of <see cref="ResourceDTO" />.
         /// </summary>
         public string[] Data { get; set; }
+
+        public DataFieldDTO(DataField field, int userId)
+        {
+            Name = field.Name;
+            Description = field.Description;
+            FieldType = (DataFieldDTO.DataType) Enum.Parse(typeof (DataFieldDTO.DataType), field.FieldType.ToString());
+            TypeInfo = field.TypeInfo;
+            Data = field.UserData.First(u => u.User.Id == userId).Data;
+        }
+
+        /// <summary>
+        /// Used to create dataFields for visible fields
+        /// </summary>
+        /// <param name="fieldType"></param>
+        /// <param name="item"></param>
+        public DataFieldDTO(Item.FieldType fieldType, Item item)
+        {
+            Name = fieldType.ToString();
+            Data = new string[] {item.Fields[fieldType]};
+            FieldType = DataFieldDTO.DataType.String;
+        }
+
+        public DataFieldDTO() { }
     }
 }

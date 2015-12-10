@@ -90,7 +90,10 @@ namespace StudyConfigurationServer.Models
             }
         }
 
-        
+        public bool ContainsConflictingData()
+        {
+            return DataFields.Any(d => d.UserDataIsConflicting());
+        }
 
     }
 }

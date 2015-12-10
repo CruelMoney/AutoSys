@@ -12,6 +12,6 @@ namespace Storage.Repository
     {
         DbSet<T> Set<T>() where T : class;
         DbEntityEntry<T> Entry<T>(T entity) where T : class;
-        Task<int> SaveChangesAsync();
+        int SaveChanges();
     }
 }

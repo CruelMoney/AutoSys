@@ -32,7 +32,10 @@ namespace StudyConfigurationServer.Logic.StorageManagement
 
         public bool UpdateUser(User user)
         {
-           return _userRepo.Update(user);
+            var userstored = _userRepo.Read<User>(user.Id);
+            userstored.Name = user.Name;
+            userstored.Metadata = user.Metadata;
+           return _userRepo.Update(userstored);
         }
 
         public IEnumerable<User> GetAllUsers()
