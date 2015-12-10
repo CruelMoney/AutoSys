@@ -72,7 +72,7 @@ namespace StudyConfigurationServer.Models.DTO
             Description = field.Description;
             FieldType = (DataFieldDTO.DataType) Enum.Parse(typeof (DataFieldDTO.DataType), field.FieldType.ToString());
             TypeInfo = field.TypeInfo;
-            Data = field.UserData.First(u => u.User.Id == userId).Data;
+            Data = field.UserData.First(u => u.UserID == userId).Data;
         }
 
         /// <summary>

@@ -68,17 +68,17 @@ namespace LogicTests1.StudyOverviewTests
                             new UserData()
                             {
                                 Data = new [] { "finished" },
-                                User = user1
+                                UserID = user1.Id
                             },
                              new UserData()
                             {
                                 Data = new [] { "" },
-                                User = user2
+                                UserID = user2.Id
                             },
                               new UserData()
                             {
                                 Data = new [] { "finished" },
-                                User = user3
+                                UserID = user3.Id
                             }
                         } 
                        
@@ -97,17 +97,17 @@ namespace LogicTests1.StudyOverviewTests
                             new UserData()
                             {
                                 Data = new [] { "" },
-                                User = user1
+                                UserID = user1.Id
                             },
                              new UserData()
                             {
                                 Data = new [] { "finished" },
-                                User = user2
+                                UserID = user2.Id
                             },
                               new UserData()
                             {
                                 Data = new [] { "" },
-                                User = user4
+                                UserID = user4.Id
                             }
                         }
                 } } } } } } };

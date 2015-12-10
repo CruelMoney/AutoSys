@@ -29,10 +29,7 @@
             </StackPanel>
             <TextBlock Text="Phases"/>
             <StackPanel x:Name="phaseInputPanel" Orientation="Horizontal" Margin="0,20,0,20">
-                <ComboBox Width="206">
-                    <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
-                    <ComboBoxItem IsSelected="True">ComboBox Item #2</ComboBoxItem>
-                    <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                <ComboBox x:Name="phaseComboBox"  Width="206">
                 </ComboBox>
                 <Button x:Name="editPhasebutton" Content="Edit" Margin="5,0,0,0"/>
                 <Button x:Name="deletePhasebutton" Content="Delete" Margin="5,0,0,0"/>

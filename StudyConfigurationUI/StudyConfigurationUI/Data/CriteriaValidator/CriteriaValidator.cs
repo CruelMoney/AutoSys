@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace StudyConfigurationUI.Data.CriteriaValidator
 {
@@ -14,7 +13,7 @@ namespace StudyConfigurationUI.Data.CriteriaValidator
         /// <param name="checkers">A dictionary of Field checkers. If not specified, <see cref="DefaultFieldChecker"/> is used.</param>
         public CriteriaValidator(Dictionary<DataField.DataType, ICriteriaChecker> checkers = null)
         {
-            throw new NotImplementedException();
+            
             _checkers = checkers ?? new Dictionary<DataField.DataType, ICriteriaChecker>()
             {
                 
@@ -27,7 +26,7 @@ namespace StudyConfigurationUI.Data.CriteriaValidator
         /// <param name="criteria"></param>
         /// <param name="data"></param>
         /// <returns>returns true if the Field is valid; false otherwise.</returns>
-        public bool CriteriaIsMet(Criteria criteria, DataField data)
+        public bool CriteriaIsMet(Criteria criteria, string[] data)
         {
             var type = criteria.DataType;
             return _checkers.ContainsKey(type) ? _checkers[type].Validate(criteria, data) : _defaultChecker.Validate(criteria, data);

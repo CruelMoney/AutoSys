@@ -24,8 +24,8 @@ namespace LogicTests1.Model
 
             var testUser1 = new User() { Id = 1, Name = "chris" };
             var testUser2 = new User() { Id = 2, Name = "ramos" };
-            userData1 = new UserData() { User = testUser1, Data = new string[1] { "initialData" } };
-            userData2 = new UserData() { User = testUser2, Data = new string[1] { "initialData2" } };
+            userData1 = new UserData() { UserID = 1, Data = new string[1] { "initialData" } };
+            userData2 = new UserData() { UserID = 2, Data = new string[1] { "initialData2" } };
             dataField1 =  new DataField() { UserData = new List<UserData>() { userData1 }, Name = "testField", Description = "testDescription"  };
             dataField2 =  new DataField() { UserData = new List<UserData>(){ userData2, userData1 }, Name = "testField2", Description = "testDescription2"  };
           
@@ -40,11 +40,11 @@ namespace LogicTests1.Model
 
             //Action
             var actualField = dataField.SubmitData(1, expectedData);
-            var actualUserData = actualField.UserData.First(u => u.User.Id == 1);
+            var actualUserData = actualField.UserData.First(u => u.UserID == 1);
 
             //Assert
            
-            Assert.AreEqual("chris", actualUserData.User.Name);
+            Assert.AreEqual(1, actualUserData.UserID);
             Assert.AreEqual(expectedData, actualUserData.Data);
             Assert.AreEqual("testDescription", actualField.Description);
         }
@@ -60,10 +60,10 @@ namespace LogicTests1.Model
             dataField.SubmitData(2, expectedData);
 
             //Assert
-            var actualUserData1 = dataField.UserData.First(u => u.User.Id == 1);
-            var actualUserData2 = dataField.UserData.First(u => u.User.Id == 2);
+            var actualUserData1 = dataField.UserData.First(u => u.UserID == 1);
+            var actualUserData2 = dataField.UserData.First(u => u.UserID == 2);
 
-            Assert.AreEqual("ramos", actualUserData2.User.Name);
+            Assert.AreEqual(2, actualUserData2.UserID);
             Assert.AreEqual(expectedData, actualUserData2.Data);
             Assert.AreEqual("testDescription", dataField.Description);
 
@@ -73,7 +73,7 @@ namespace LogicTests1.Model
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestDataFieldSubmitDataInvalidUser()
         {
             //Arrange

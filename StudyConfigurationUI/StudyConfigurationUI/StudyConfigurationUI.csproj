@@ -112,9 +112,9 @@
     <Compile Include="Data\Stage.cs" />
     <Compile Include="Data\Study.cs" />
     <Compile Include="Data\StudyTask.cs" />
-    <Compile Include="Data\TaskRequestedData.cs" />
     <Compile Include="Data\Team.cs" />
     <Compile Include="Data\User.cs" />
+    <Compile Include="Data\UserData.cs" />
     <Compile Include="Data\UserStudies.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

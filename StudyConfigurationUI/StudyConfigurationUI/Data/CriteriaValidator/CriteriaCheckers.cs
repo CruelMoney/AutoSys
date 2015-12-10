@@ -23,10 +23,10 @@ namespace StudyConfigurationUI.Data.CriteriaValidator
             };
         }
 
-        public bool Validate(Criteria criteria, DataField data)
+        public bool Validate(Criteria criteria, string[] data)
         {
             var type = criteria.Rule;
-            var checkData = data.Data;
+            var checkData = data;
             var criteriaData = criteria.DataMatch;
             if (_checkers.ContainsKey(type))
             {

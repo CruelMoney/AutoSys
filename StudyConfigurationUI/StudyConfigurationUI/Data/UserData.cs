@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.WebPages;
-using Microsoft.Ajax.Utilities;
-using Storage.Repository;
+﻿using System.Linq;
 
-namespace StudyConfigurationServer.Models
+
+namespace StudyConfigurationUI.Data
 {
     /// <summary>
     /// This class represents the data entered by a User for a specific StudyTask. 
@@ -14,7 +11,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// The User that is associated with this StudyTask and it's data
         /// </summary>
-        public int UserID { get; set; }
+        public User User { get; set; }
       
         /// <summary>
         /// The Data entered
@@ -29,12 +26,7 @@ namespace StudyConfigurationServer.Models
             {
                 return false;
             }
-            return Data.Where(d => !d.IsNullOrWhiteSpace()).Any();
+            return true; // Data.Where(d => !d.IsNullOrWhiteSpace()).Any();
         }
-
-        public bool DataEquals(UserData userData)
-        {
-            return Data.Equals(userData.Data);
-        }
-    }
+     }
 }
