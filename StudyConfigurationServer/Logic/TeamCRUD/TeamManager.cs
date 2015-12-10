@@ -56,6 +56,8 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             var teamToUpdate = _teamStorageManager.GetTeam(teamId);
 
+            teamToUpdate.Users.Clear();
+
             teamToUpdate.Name = newTeamDto.Name;
 
             foreach (var userID in newTeamDto.UserIDs)
