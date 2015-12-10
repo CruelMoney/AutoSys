@@ -59,7 +59,7 @@ namespace LogicTests1.StudyOverviewTests
                 Id = 1, Tasks = new List<StudyTask>()
                 {
                 new StudyTask() {
-                     Users = new List<User>() {user1,user2,user3},
+                     UserIDs = new List<int>() {user1.Id,user2.Id,user3.Id},
                     DataFields = new List<DataField>()
                 {
                     new DataField() {
@@ -88,7 +88,7 @@ namespace LogicTests1.StudyOverviewTests
                 Id = 2, Tasks = new List<StudyTask>()
                 {
                new StudyTask() {
-                   Users = new List<User>() {user1,user2,user4},
+                   UserIDs = new List<int>() {user1.Id,user2.Id,user4.Id},
                    DataFields = new List<DataField>()
                 {
                     new DataField() {

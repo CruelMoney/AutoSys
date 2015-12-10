@@ -19,7 +19,7 @@ namespace LogicTests1.StorageManagement
         Mock<IGenericRepository> mockUserRepo;
         int id;
         User testUser;
-        UserStorageManager testUserStorageManager;
+        TeamStorageManager testUserStorageManager;
 
         [TestInitialize]
         public void InitializeRepo()
@@ -28,7 +28,7 @@ namespace LogicTests1.StorageManagement
             _users = new Dictionary<int, User>();
             mockUserRepo = new Mock<IGenericRepository>();
             testUser = new User() { Id = 1 };
-            testUserStorageManager = new UserStorageManager(mockUserRepo.Object);
+            testUserStorageManager = new TeamStorageManager(mockUserRepo.Object);
 
             // Read item - User
             mockUserRepo.Setup(r => r.Read<User>(It.IsAny<int>())).Returns<int>((id) => _users.First(e => e.Key == id).Value);

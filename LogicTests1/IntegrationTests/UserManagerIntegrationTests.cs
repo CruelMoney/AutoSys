@@ -13,28 +13,29 @@ using System.Linq;
 namespace LogicTests1.IntegrationTests
 {
     [TestClass]
-    public class UserManagerIntegrationTest
+    public class UserManagerIntegrationTests
     {
         private UserManager userManager;
-        private UserStorageManager userStorageManager;
-        
-        private UserDTO userDTO = new UserDTO() { Id = 1, Name = "Bob"};
+        private TeamStorageManager teamStorageManager;
+
+        private UserDTO userDTO = new UserDTO() { Id = 1, Name = "Bob" };
         private IGenericRepository testRepo;
 
         [TestInitialize]
-        public void InitializeTest() {
+        public void InitializeTest()
+        {
             Database.SetInitializer(new DropCreateDatabaseAlways<IntegrationTestContext>());
             IntegrationTestContext testContext = new IntegrationTestContext();
             testContext.Database.Initialize(true);
 
             testRepo = new EntityFrameworkGenericRepository<IntegrationTestContext>(testContext);
-            userStorageManager = new UserStorageManager(testRepo);
-            userManager = new UserManager(userStorageManager);
-            
+            teamStorageManager = new TeamStorageManager(testRepo);
+            userManager = new UserManager(teamStorageManager);
+
         }
 
         [TestMethod]
-        public void TestIntegrationUserManagerCreateUser()
+        public void TestUserManagerIntegrationCreateUser()
         {
 
             userManager.CreateUser(userDTO);
@@ -42,41 +43,37 @@ namespace LogicTests1.IntegrationTests
         }
 
         [TestMethod]
-        public void TestIntegrationUserManagerRemoveUser()
+        public void TestUserManagerIntegrationRemoveUser()
         {
 
             userManager.CreateUser(userDTO);
-            
+
             Assert.IsTrue(userManager.RemoveUser(userDTO.Id));
         }
 
         [TestMethod]
-        public void TestIntegrationUserManagerUpdateUser()
+        public void TestUserManagerIntegrationUpdateUser()
         {
-
             userManager.CreateUser(userDTO);
-            userDTO.Name = "Bob Sveskebob";
+            userDTO.Name = "Bob2";
             Assert.IsTrue(userManager.UpdateUser(userDTO.Id, userDTO));
-            Assert.AreEqual("Bob Sveskebob", userManager.GetUser(userDTO.Id).Name);
+            Assert.AreEqual("Bob2", userManager.GetUser(userDTO.Id).Name);
         }
 
         [TestMethod]
-        public void TestIntegrationUserManagerSearchUsers()
+        public void TestUserManagerIntegrationSearchUsers()
         {
             userManager.CreateUser(userDTO);
             Assert.AreEqual(1, userManager.SearchUsers("Bob").Count());
         }
 
         [TestMethod]
-        public void TestIntegrationUserManagerGetAllUsers()
+        public void TestUserManagerIntegrationGetAllUsers()
         {
             UserDTO userDTO2 = new UserDTO() { Id = 2, Name = "Bob2" };
-
             userManager.CreateUser(userDTO);
             userManager.CreateUser(userDTO2);
-        
             Assert.AreEqual(2, userManager.GetAllUsers().Count());
         }
-
     }
 }
