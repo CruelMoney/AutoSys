@@ -85,7 +85,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         public TeamDTO GetTeam(int teamId)
         {
             var dbTeam = _teamStorageManager.GetTeam(teamId);
-            return new TeamDTO()
+             return new TeamDTO()
             {
                 Id = dbTeam.Id,
                 Name = dbTeam.Name,

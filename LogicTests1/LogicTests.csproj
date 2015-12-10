@@ -98,6 +98,7 @@
     <Compile Include="IntegrationTests\TaskControllerIntegratesStorage.cs" />
     <Compile Include="IntegrationTests\TeamManagerIntegrationTest.cs" />
     <Compile Include="IntegrationTests\UserControllerIntegrationTest.cs" />
+    <Compile Include="IntegrationTests\UserManagerIntegrationTest.cs" />
     <Compile Include="Model\CriteriaTests.cs" />
     <Compile Include="Model\DataFieldTests.cs" />
     <Compile Include="Model\ItemTests.cs" />
