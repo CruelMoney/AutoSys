@@ -60,13 +60,13 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// The list of data entered by users. 
         /// </summary>
-        public List<UserData> UserData { get; set; }
+        public virtual List<UserData> UserData { get; set; }
 
         /// <summary>
         /// A list of conflicting userData in case of a <see cref="StudyTask.Type.Conflict" /> task.
         /// The user is meant to choose one and copy it to the UserData list as the answer.
         /// </summary>
-        public List<UserData> ConflictingData { get; set; } 
+        public virtual List<UserData> ConflictingData { get; set; } 
 
         public int Id { get; set; }
 
@@ -77,7 +77,7 @@ namespace StudyConfigurationServer.Models
 
             try
             {
-                dataToUpdate = UserData.First(d => d.User.Id == userId);
+                dataToUpdate = UserData.First(d => d.UserID == userId);
             }
             catch (Exception)
             {
@@ -103,7 +103,7 @@ namespace StudyConfigurationServer.Models
             }
             try
             {
-                return UserData.First(u=>u.User.Id==userID).ContainsData();
+                return UserData.First(u=>u.UserID==userID).ContainsData();
             }
             catch (Exception)
             {

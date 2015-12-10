@@ -21,7 +21,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
 
                     foreach (var dataField in task.DataFields)
                     {
-                        dataField.UserData.Add(new UserData() {User = user});
+                        dataField.UserData.Add(new UserData() {UserID = user.Id});
                     }
                   
                    }
