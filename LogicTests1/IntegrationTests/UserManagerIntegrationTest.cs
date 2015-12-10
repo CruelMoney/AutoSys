@@ -8,11 +8,12 @@ using Storage.Repository;
 using StudyConfigurationServer.Api;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.DTO;
+using System.Linq;
 
 namespace LogicTests1.IntegrationTests
 {
     [TestClass]
-    public class UserControllerIntegrationTest
+    public class UserManagerIntegrationTest
     {
         private UserManager userManager;
         private UserStorageManager userStorageManager;
@@ -33,7 +34,7 @@ namespace LogicTests1.IntegrationTests
         }
 
         [TestMethod]
-        public void TestIntegrationAddUser()
+        public void TestIntegrationUserManagerCreateUser()
         {
 
             userManager.CreateUser(userDTO);
@@ -41,7 +42,7 @@ namespace LogicTests1.IntegrationTests
         }
 
         [TestMethod]
-        public void TestIntegrationRemoveUser()
+        public void TestIntegrationUserManagerRemoveUser()
         {
 
             userManager.CreateUser(userDTO);
@@ -50,7 +51,7 @@ namespace LogicTests1.IntegrationTests
         }
 
         [TestMethod]
-        public void TestIntegrationUpdateUser()
+        public void TestIntegrationUserManagerUpdateUser()
         {
 
             userManager.CreateUser(userDTO);
@@ -58,5 +59,24 @@ namespace LogicTests1.IntegrationTests
             Assert.IsTrue(userManager.UpdateUser(userDTO.Id, userDTO));
             Assert.AreEqual("Bob Sveskebob", userManager.GetUser(userDTO.Id).Name);
         }
+
+        [TestMethod]
+        public void TestIntegrationUserManagerSearchUsers()
+        {
+            userManager.CreateUser(userDTO);
+            Assert.AreEqual(1, userManager.SearchUsers("Bob").Count());
+        }
+
+        [TestMethod]
+        public void TestIntegrationUserManagerGetAllUsers()
+        {
+            UserDTO userDTO2 = new UserDTO() { Id = 2, Name = "Bob2" };
+
+            userManager.CreateUser(userDTO);
+            userManager.CreateUser(userDTO2);
+        
+            Assert.AreEqual(2, userManager.GetAllUsers().Count());
+        }
+
     }
 }

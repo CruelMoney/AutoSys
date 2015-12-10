@@ -93,7 +93,8 @@
     <Compile Include="BibTexParserTests\FieldValidatorTest.cs" />
     <Compile Include="BibTexParserTests\ItemValidatorTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTestContext.cs" />
-    <Compile Include="IntegrationTests\UserControllerIntegrationTest.cs" />
+    <Compile Include="IntegrationTests\TeamManagerIntegrationTest.cs" />
+    <Compile Include="IntegrationTests\UserManagerIntegrationTests.cs" />
     <Compile Include="Model\CriteriaTests.cs" />
     <Compile Include="Model\DataFieldTests.cs" />
     <Compile Include="Model\ItemTests.cs" />
