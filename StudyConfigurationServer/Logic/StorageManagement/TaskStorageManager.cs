@@ -33,7 +33,6 @@ namespace StudyConfigurationServer.Logic.StorageManagement
 
         public bool UpdateTask(StudyTask studyTask)
         {
-           
             return _taskRepo.Update(studyTask);
         }
 

@@ -72,7 +72,7 @@ namespace StudyConfigurationServer.Models.DTO
                     for (int u = 0; u < task.Users.Count; u++)
                     {
                         var userData = task.DataFields[d].ConflictingData[u];
-                        conflictinData[d][u] = new ConflictingDataDTO() { Data = userData.Data, UserId = userData.User.Id };
+                        conflictinData[d][u] = new ConflictingDataDTO() { Data = userData.Data, UserId = userData.UserID };
                     }
                 }
 

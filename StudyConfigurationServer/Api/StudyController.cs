@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Web.Http;
 using StudyConfigurationServer.Api.Interfaces;
 using StudyConfigurationServer.Logic.TaskManagement;
@@ -10,16 +11,15 @@ namespace StudyConfigurationServer.Api
     /// <summary>
     /// Controller to access information about a study.
     /// </summary>
-    [RoutePrefix("api/Study")]
-    public class StudyController : ApiController, IStudyController
+    public class StudyController : ApiController
     {
+
+        TaskController _controller = new TaskController();
         /// <summary>
         /// Retrieve an overview of the specified study.
         /// </summary>
         /// <param name="id">The ID of the study for which to retrieve an overview.</param>
-        
-        [Route("{id}/Overview")]
-        public IHttpActionResult GetOverview(int id)
+        public IHttpActionResult Get(int id)
         {
             throw new NotImplementedException();
             // GET: api/Study/5/Overview
@@ -85,11 +85,30 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the study the StudyTask is part of.</param>
         /// <param name="taskId">The ID of the StudyTask.</param>
         /// <param name="task">The completed StudyTask.</param>
-        [Route("{id}/StudyTask/{taskId}")]
-        public IHttpActionResult PostTask(int id, int taskId, [FromBody]TaskSubmissionDTO task)
+        public IHttpActionResult Post( int taskId, [FromBody]TaskSubmissionDTO task)
         {
             // POST: api/Study/4/StudyTask/5
-            throw new NotImplementedException();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            /*if (id != teamDto.Id)
+            {
+                return BadRequest();
+            }*/
+
+            var updated = _controller.DeliverTask(taskId, task);
+
+            if (!updated)
+            {
+                return NotFound();
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+
+            
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// The User that is associated with this StudyTask and it's data
         /// </summary>
-        public User User { get; set; }
+        public int UserID { get; set; }
       
         /// <summary>
         /// The Data entered

@@ -66,7 +66,7 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void TestStorageAddTeam()
         {
-            testTeamStorageManager.SaveTeam(testTeam);
+            testTeamStorageManager.CreateTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
         }
 
@@ -76,7 +76,7 @@ namespace LogicTests1.StorageManagement
 
         [TestMethod]
         public void TestStorageGetTeam() {
-            testTeamStorageManager.SaveTeam(testTeam);
+            testTeamStorageManager.CreateTeam(testTeam);
             Assert.AreEqual(testTeam, testTeamStorageManager.GetTeam(1));
             Assert.AreEqual(1, testTeamStorageManager.GetTeam(1).Id);
         }
@@ -87,9 +87,9 @@ namespace LogicTests1.StorageManagement
 
         public void TestStorageGetAllTeams()
         {
-            testTeamStorageManager.SaveTeam(testTeam);
+            testTeamStorageManager.CreateTeam(testTeam);
             var testTeam2 = new Team();
-            testTeamStorageManager.SaveTeam(testTeam2);
+            testTeamStorageManager.CreateTeam(testTeam2);
             Assert.AreEqual(2, testTeamStorageManager.GetAllTeams().Count());
         }
 
@@ -100,7 +100,7 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void TestStorageRemoveTeam()
         {
-            testTeamStorageManager.SaveTeam(testTeam);
+            testTeamStorageManager.CreateTeam(testTeam);
             Assert.AreEqual(1, _teams.Values.ToList().Count);
             testTeamStorageManager.RemoveTeam(1);
             Assert.AreEqual(0, _teams.Values.ToList().Count);
@@ -127,7 +127,7 @@ namespace LogicTests1.StorageManagement
         public void TestStorageUpdateTeam()
         {
             var testTeam = new Team() { Id = 1, Name = "Team" };
-            testTeamStorageManager.SaveTeam(testTeam);
+            testTeamStorageManager.CreateTeam(testTeam);
             testTeam.Name = "Team Awesome";
             testTeamStorageManager.UpdateTeam(testTeam);
             Assert.AreEqual("Team Awesome", testTeamStorageManager.GetTeam(1).Name);

@@ -77,7 +77,7 @@ namespace StudyConfigurationServer.Models
 
             try
             {
-                dataToUpdate = UserData.First(d => d.User.Id == userId);
+                dataToUpdate = UserData.First(d => d.UserID == userId);
             }
             catch (Exception)
             {
@@ -103,7 +103,7 @@ namespace StudyConfigurationServer.Models
             }
             try
             {
-                return UserData.First(u=>u.User.Id==userID).ContainsData();
+                return UserData.First(u=>u.UserID==userID).ContainsData();
             }
             catch (Exception)
             {

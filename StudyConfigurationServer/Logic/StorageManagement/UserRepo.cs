@@ -1,72 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Web;
-using Storage.Repository;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
-    public class TeamRepo
+    public class UserRepo
     {
         private readonly StudyContext _context;
 
-        public TeamRepo()
+        public UserRepo()
         {
             _context = new StudyContext();
         }
 
-        public TeamRepo(StudyContext context)
+        public UserRepo(StudyContext context)
         {
             _context = context;
         }
 
-        public int CreateTeam(Team entity)
+        public int CreateUser(User entity)
         {
-            _context.Set<Team>().Add(entity);
+            _context.Set<User>().Add(entity);
             _context.SaveChanges();
             return entity.Id;
         }
 
-        public bool Delete(Team team)
+        public bool Delete(User user)
         {
-            var found = _context.Set<Team>().FindAsync(team.Id);
+            var found = _context.Set<User>().FindAsync(user.Id);
 
             if (found == null)
             {
                 return false;
             }
 
-            _context.Set<Team>().Remove(team);
+            _context.Set<User>().Remove(user);
             _context.SaveChanges();
             return true;
         }
 
-        public IQueryable<Team> Read()
+        public IQueryable<User> Read()
         {
-            return _context.Set<Team>();
+            return _context.Set<User>();
         }
 
-        public Team Read(int teamID)
+        public User Read(int userID)
         {
-            return _context.Set<Team>().Find(teamID);
+            return _context.Set<User>().Find(userID);
         }
 
-        public bool UpdateTeam(Team entity)
+        public bool UpdateUser(User entity)
         {
 
-            var found = _context.Set<Team>().Find(entity.Id);
+            var found = _context.Set<User>().Find(entity.Id);
 
             if (found == null)
             {
                 return false;
             }
-            
 
-            _context.Set<Team>().Attach(entity);
-     
+            _context.Set<User>().Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
 

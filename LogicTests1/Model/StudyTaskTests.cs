@@ -26,9 +26,9 @@ namespace LogicTests1.Model
             var testItem = new Item(Item.ItemType.Book, new Dictionary<Item.FieldType, string>());
             var testUser1 = new User() { Id = 1, Name = "chris" };
             var testUser2 = new User() { Id = 2, Name = "ramos" };
-            var userData1 = new UserData() { User = testUser1, Data = new string[1] { "initialData" } };
-            var userData2 = new UserData() { User = testUser2, Data = new string[1] { "initialData2" } };
-            var userData3 = new UserData() { User = testUser2, Data = new string[1] };
+            var userData1 = new UserData() { UserID = 1, Data = new string[1] { "initialData" } };
+            var userData2 = new UserData() { UserID = 2, Data = new string[1] { "initialData2" } };
+            var userData3 = new UserData() { UserID = 2, Data = new string[1] };
             var dataFields1 = new List<DataField>() { new DataField() { UserData = new List<UserData>() {userData1} , Name = "testField", Description = "testDescription" } };
             var dataFields2 = new List<DataField>() { new DataField() { UserData = new List<UserData>(){ userData2, userData1 }, Name = "testField2", Description = "testDescription2" } };
             var dataFields3 = new List<DataField>() { new DataField() { UserData = new List<UserData>() { userData3, userData1 }, Name = "testField3", Description = "testDescription" } };
@@ -71,7 +71,7 @@ namespace LogicTests1.Model
 
             //Assert
             var actualData = actualTask.DataFields.First(d => d.Name.Equals("testField"));
-            var actualUserData = actualData.UserData.First(d => d.User.Name.Equals("chris"));
+            var actualUserData = actualData.UserData.First(d => d.UserID.Equals(1));
       
             Assert.AreEqual(expectedData, actualUserData.Data);
         }
@@ -94,8 +94,8 @@ namespace LogicTests1.Model
 
             //Assert
             var actualData = actualTask.DataFields.First(d => d.Name.Equals("testField2"));
-            var actualUserData1 = actualData.UserData.First(d => d.User.Id.Equals(1));
-            var actualUserData2 = actualData.UserData.First(d => d.User.Id.Equals(2));
+            var actualUserData1 = actualData.UserData.First(d => d.UserID.Equals(1));
+            var actualUserData2 = actualData.UserData.First(d => d.UserID.Equals(2));
 
             Assert.AreEqual("initialData", actualUserData1.Data[0]);
             Assert.AreEqual("testDescription2", actualData.Description);

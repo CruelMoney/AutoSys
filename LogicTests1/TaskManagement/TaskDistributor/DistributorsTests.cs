@@ -67,9 +67,9 @@ namespace LogicTests1.TaskManagement.TaskDistributor
 
                 foreach (var dataField in task.DataFields)
                 {
-                    Assert.AreEqual(users[0], dataField.UserData[0].User);
-                    Assert.AreEqual(users[1], dataField.UserData[1].User);
-                    Assert.AreEqual(users[2], dataField.UserData[2].User);
+                    Assert.AreEqual(users[0].Id, dataField.UserData[0].UserID);
+                    Assert.AreEqual(users[1].Id, dataField.UserData[1].UserID);
+                    Assert.AreEqual(users[2].Id, dataField.UserData[2].UserID);
                 }
                 Assert.AreEqual(users[0], task.Users[0]);
                 Assert.AreEqual(users[1], task.Users[1]);
