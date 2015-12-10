@@ -133,6 +133,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\StorageManagement\StorageController.cs" />
     <Compile Include="Logic\StorageManagement\StudyStorageManager.cs" />
     <Compile Include="Logic\StorageManagement\TaskRepo.cs" />
     <Compile Include="Logic\StorageManagement\TaskStorageManager.cs" />

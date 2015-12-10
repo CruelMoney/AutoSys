@@ -40,6 +40,12 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             observers = new List<IObserver<Study>>();
         }
 
+        public StudyStorageManager(IGenericRepository repo)
+        {
+            _studyRepo = repo;
+            observers = new List<IObserver<Study>>();
+        }
+
         public StudyStorageManager(IGenericRepository repo, List<IObserver<Study>> observe)
         {
             _studyRepo = repo;

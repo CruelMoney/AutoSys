@@ -11,7 +11,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
     public class TeamManager
     {
         private readonly TeamStorageManager _teamStorageManager;
- 
+
         public TeamManager(TeamStorageManager storageManager)
         {
             _teamStorageManager = storageManager;
@@ -57,7 +57,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             var teamToUpdate = _teamStorageManager.GetTeam(teamId);
 
             teamToUpdate.Name = newTeamDto.Name;
-            
+
             foreach (var userID in newTeamDto.UserIDs)
             {
                 teamToUpdate.Users.Add(_teamStorageManager.GetUser(userID));
@@ -69,7 +69,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         public IEnumerable<TeamDTO> SearchTeams(string TeamName)
         {
             return
-                 (from Team dbTeam in _teamStorageManager.GetAllTeams()
+                 (from Team dbTeam in _storage.Team.GetAllTeams()
                   where dbTeam.Name.Equals(TeamName)
                   select new TeamDTO()
                   {
@@ -78,12 +78,11 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                       Metadata = dbTeam.Metadata,
                       UserIDs = dbTeam.Users.Select(u=>u.Id).ToArray()
                   }).ToList();
-
         }
 
         public TeamDTO GetTeam(int teamId)
         {
-            var dbTeam = _teamStorageManager.GetTeam(teamId);
+            var dbTeam = _storage.Team.GetTeam(teamId);
             return new TeamDTO()
             {
                 Id = dbTeam.Id,
@@ -96,21 +95,20 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         public IEnumerable<TeamDTO> GetAllTeams()
         {
             var dbTeams = _teamStorageManager.GetAllTeams();
-          
+               
             foreach (var team in dbTeams)
             {
                 var dbTeam = _teamStorageManager.GetTeam(team.Id);
                 yield return new TeamDTO()
-                {
-                    Id = dbTeam.Id,
-                    Name = dbTeam.Name,
-                    Metadata = dbTeam.Metadata,
-                    UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
+                  {
+                      Id = dbTeam.Id,
+                      Name = dbTeam.Name,
+                      Metadata = dbTeam.Metadata,
+                      UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
                 };
             }
            
         }
-
     }
 }
 
