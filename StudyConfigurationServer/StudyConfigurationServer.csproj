@@ -118,7 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Interfaces\IStudyController.cs" />
