@@ -16,8 +16,7 @@ namespace LogicTests1.IntegrationTests
     {
         private UserManager userManager;
         private UserStorageManager userStorageManager;
-        //private UserController userController;
-        //private User user = new User() { Id = 1, Name = "Bob" };
+        
         private UserDTO userDTO = new UserDTO() { Id = 1, Name = "Bob"};
         private IGenericRepository testRepo;
 
@@ -30,7 +29,6 @@ namespace LogicTests1.IntegrationTests
             testRepo = new EntityFrameworkGenericRepository<IntegrationTestContext>(testContext);
             userStorageManager = new UserStorageManager(testRepo);
             userManager = new UserManager(userStorageManager);
-            //userController = new UserController();
             
         }
 
