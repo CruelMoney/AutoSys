@@ -63,11 +63,10 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             {
                 return false;
             }
-            
 
-            _context.Set<Team>().Attach(entity);
-     
-            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.Entry(entity).CurrentValues.SetValues(found);
+           // _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
 
             return true;

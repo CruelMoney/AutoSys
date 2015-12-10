@@ -56,6 +56,8 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             var teamToUpdate = _teamStorageManager.GetTeam(teamId);
 
+            teamToUpdate.Users.Clear();
+
             teamToUpdate.Name = newTeamDto.Name;
 
             foreach (var userID in newTeamDto.UserIDs)
@@ -69,7 +71,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         public IEnumerable<TeamDTO> SearchTeams(string TeamName)
         {
             return
-                 (from Team dbTeam in _storage.Team.GetAllTeams()
+                 (from Team dbTeam in _teamStorageManager.GetAllTeams()
                   where dbTeam.Name.Equals(TeamName)
                   select new TeamDTO()
                   {
@@ -82,7 +84,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public TeamDTO GetTeam(int teamId)
         {
-            var dbTeam = _storage.Team.GetTeam(teamId);
+            var dbTeam = _teamStorageManager.GetTeam(teamId);
             return new TeamDTO()
             {
                 Id = dbTeam.Id,

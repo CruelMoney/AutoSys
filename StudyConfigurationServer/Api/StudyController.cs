@@ -11,6 +11,7 @@ namespace StudyConfigurationServer.Api
     /// <summary>
     /// Controller to access information about a study.
     /// </summary>
+    [RoutePrefix("api/Study")]
     public class StudyController : ApiController
     {
 
@@ -19,7 +20,8 @@ namespace StudyConfigurationServer.Api
         /// Retrieve an overview of the specified study.
         /// </summary>
         /// <param name="id">The ID of the study for which to retrieve an overview.</param>
-        public IHttpActionResult Get(int id)
+        [Route("{id}/Overview")]
+        public IHttpActionResult GetOverview(int id)
         {
             throw new NotImplementedException();
             // GET: api/Study/5/Overview

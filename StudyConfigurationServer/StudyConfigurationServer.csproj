@@ -160,15 +160,6 @@
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
     <Compile Include="Logic\StorageManagement\UserRepo.cs" />
-    <Compile Include="Migrations\201512092046083_initial.cs" />
-    <Compile Include="Migrations\201512092046083_initial.Designer.cs">
-      <DependentUpon>201512092046083_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512101529196_api.cs" />
-    <Compile Include="Migrations\201512101529196_api.Designer.cs">
-      <DependentUpon>201512101529196_api.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
     <Compile Include="Models\CriteriaValidator\CriteriaCheckers.cs" />
     <Compile Include="Models\CriteriaValidator\CriteriaValidator.cs" />
@@ -219,14 +210,6 @@
       <Project>{38abd49b-ad3c-41fb-9820-3779d5fb4d41}</Project>
       <Name>Storage</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512092046083_initial.resx">
-      <DependentUpon>201512092046083_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512101529196_api.resx">
-      <DependentUpon>201512101529196_api.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

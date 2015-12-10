@@ -62,6 +62,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         public UserDTO GetUser(int userId)
         {
             var dbUser = _userStorageManager.GetUser(userId);
+
             return new UserDTO()
             {
                 Id = dbUser.Id,
