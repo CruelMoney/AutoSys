@@ -9,7 +9,7 @@ using StudyConfigurationUI.Data;
 
 namespace StudyConfigurationUI.ViewModels
 {
-    class ViewModel
+    public class ViewModel
     {
         public Study studyToWorkOn { get; set; }
 
