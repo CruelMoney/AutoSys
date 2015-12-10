@@ -61,10 +61,8 @@ namespace Storage.Repository
                 return false;
             }
 
-     
-            
-            _context.Set<T>().Attach(entity);        
-            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.Entry(found).CurrentValues.SetValues(entity);
             _context.SaveChanges();
 
             return true;

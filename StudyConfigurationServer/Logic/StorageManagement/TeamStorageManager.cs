@@ -2,6 +2,7 @@
 using Storage.Repository;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
+using System.Linq;
 
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
@@ -33,19 +34,16 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return _teamRepo.Delete(_teamRepo.Read<Team>(TeamWithIDToDelete));
         }
 
-        public bool UpdateTeam(Team TeamToUpdate)
-        {
-            var storedTeam =_teamRepo.Read<Team>(TeamToUpdate.Id);
-            storedTeam.Name = TeamToUpdate.Name;
-            storedTeam.Metadata = TeamToUpdate.Metadata;
-            storedTeam.UserIDs = TeamToUpdate.UserIDs;
-            return _teamRepo.Update(storedTeam);
+        public bool UpdateTeam(Team team)
+        {            
+            return _teamRepo.Update(team);
         }
            
         public Team GetTeam(int TeamID)
         {
             return _teamRepo.Read<Team>(TeamID);
         }
+       
 
     }
    

@@ -9,19 +9,20 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 {
     public class TeamManager
     {
-        private readonly TeamStorageManager _teamStorageManager;
-        private readonly UserStorageManager _userStorageManager;
+        private StorageController _storage;
+        private TeamStorageManager _teamStorage;
+
 
         public TeamManager()
         {
-            _teamStorageManager = new TeamStorageManager();
-            _userStorageManager = new UserStorageManager();
+            _storage = new StorageController();
+           
         }
 
-        public TeamManager(TeamStorageManager storageManager, UserStorageManager userStorageManager)
+        public TeamManager(StorageController storage)
         {
-            _teamStorageManager = storageManager;
-            _userStorageManager = userStorageManager;
+            _storage = storage;
+            _teamStorage = storage.Team;
         }
 
         public int CreateTeam(TeamDTO teamDtoDto)
@@ -34,42 +35,36 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 UserIDs = teamDtoDto.UserIDs
             };
 
-            var users = (from User dbUser in _userStorageManager.GetAllUsers()
-                         where dbUser.Id.Equals(teamDtoDto.UserIDs)
-                         select dbUser).ToList();
+            var users = new List<User>();
+                foreach (var userID in teamDtoDto.UserIDs) {
+                users.Add(_storage.User.GetUser(userID));
+            }
+
+              
 
             teamToAdd.Users = users;
             
-            return _teamStorageManager.SaveTeam(teamToAdd);
+            return _storage.Team.SaveTeam(teamToAdd);
         }
 
         public Boolean RemoveTeam(int TeamID)
         {
-            return _teamStorageManager.RemoveTeam(TeamID);
+            return _storage.Team.RemoveTeam(TeamID);
         }
 
-        public bool UpdateTeam(int teamId, TeamDTO newTeamDto)
-        {
-            var updatedTeam = new Team()
-            {
-                Id = teamId,
-                Name = newTeamDto.Name,
-                Metadata = newTeamDto.Metadata,
-            };
-
-            var users = (from User dbUser in _userStorageManager.GetAllUsers()
-                         where dbUser.Id.Equals(newTeamDto.UserIDs)
-                         select dbUser).ToList();
-
-            updatedTeam.Users = users;
-
-            return _teamStorageManager.UpdateTeam(updatedTeam);
+        public bool UpdateTeam(int teamId, TeamDTO team)
+        {           
+            var teamToUpdate = _storage.GetTeam(teamId);
+             
+            //Do logic checks on the team
+                           
+            return _storage.UpdateTeam(team);
         }
 
         public IEnumerable<TeamDTO> SearchTeams(string TeamName)
         {
             return
-                 (from Team dbTeam in _teamStorageManager.GetAllTeams()
+                 (from Team dbTeam in _storage.Team.GetAllTeams()
                   where dbTeam.Name.Equals(TeamName)
                   select new TeamDTO()
                   {
@@ -78,12 +73,11 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                       Metadata = dbTeam.Metadata,
                       UserIDs = dbTeam.Users.Select(u=>u.Id).ToArray()
                   }).ToList();
-
         }
 
         public TeamDTO GetTeam(int teamId)
         {
-            var dbTeam = _teamStorageManager.GetTeam(teamId);
+            var dbTeam = _storage.Team.GetTeam(teamId);
             return new TeamDTO()
             {
                 Id = dbTeam.Id,
@@ -95,7 +89,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public IEnumerable<TeamDTO> GetAllTeams()
         {
-            var teams = _teamStorageManager.GetAllTeams();
+            var teams = _storage.Team.GetAllTeams();
             int i = 0;
             var list = new List<TeamDTO>();
             foreach(var team in teams)
@@ -111,7 +105,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 }
                 i = 0;*/
                 
-                list.Add( new TeamDTO { Id = team.Id, Name = team.Name, UserIDs = team.UserIDs}); // team.Users.Select(u=>u.Id).ToArray() };
+                list.Add( new TeamDTO { Id = team.Id, Name = team.Name, UserIDs = team.Users.Select(u=>u.Id).ToArray() });
                
             } return list;
            /* return
@@ -124,7 +118,6 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                       UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
                   }).ToList();*/
         }
-
     }
 }
 
