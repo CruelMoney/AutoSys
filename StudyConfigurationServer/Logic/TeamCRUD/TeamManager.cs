@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Models;
+using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.TeamCRUD
@@ -10,18 +11,17 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
     public class TeamManager
     {
         private readonly TeamStorageManager _teamStorageManager;
-        private readonly UserStorageManager _userStorageManager;
+
+        public TeamManager(TeamStorageManager storageManager)
+        {
+            _teamStorageManager = storageManager;
+          
+
+        }
 
         public TeamManager()
         {
-            _teamStorageManager = new TeamStorageManager();
-            _userStorageManager = new UserStorageManager();
-        }
-
-        public TeamManager(TeamStorageManager storageManager, UserStorageManager userStorageManager)
-        {
-            _teamStorageManager = storageManager;
-            _userStorageManager = userStorageManager;
+           _teamStorageManager = new TeamStorageManager();
         }
 
         public int CreateTeam(TeamDTO teamDtoDto)
@@ -31,39 +31,39 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 Name = teamDtoDto.Name,
                 Id = teamDtoDto.Id,
                 Metadata = teamDtoDto.Metadata,
-                UserIDs = teamDtoDto.UserIDs
+                UserIDs = teamDtoDto.UserIDs,
+                Users = new List<User>()
             };
 
-            var users = (from User dbUser in _userStorageManager.GetAllUsers()
-                         where dbUser.Id.Equals(teamDtoDto.UserIDs)
-                         select dbUser).ToList();
+            foreach (var userID in teamDtoDto.UserIDs)
+            {
+                teamToAdd.Users.Add(_teamStorageManager.GetUser(userID));
+            }
 
-            teamToAdd.Users = users;
-            
-            return _teamStorageManager.SaveTeam(teamToAdd);
+            return _teamStorageManager.CreateTeam(teamToAdd);
         }
 
-        public Boolean RemoveTeam(int TeamID)
+        public Boolean RemoveTeam(int teamID)
         {
-            return _teamStorageManager.RemoveTeam(TeamID);
+            var team = _teamStorageManager.GetTeam(teamID);
+
+            //remove logic can team be removed if having study?
+
+            return _teamStorageManager.RemoveTeam(teamID);
         }
 
         public bool UpdateTeam(int teamId, TeamDTO newTeamDto)
         {
-            var updatedTeam = new Team()
+            var teamToUpdate = _teamStorageManager.GetTeam(teamId);
+
+            teamToUpdate.Name = newTeamDto.Name;
+
+            foreach (var userID in newTeamDto.UserIDs)
             {
-                Id = teamId,
-                Name = newTeamDto.Name,
-                Metadata = newTeamDto.Metadata,
-            };
+                teamToUpdate.Users.Add(_teamStorageManager.GetUser(userID));
+            }
 
-            var users = (from User dbUser in _userStorageManager.GetAllUsers()
-                         where dbUser.Id.Equals(newTeamDto.UserIDs)
-                         select dbUser).ToList();
-
-            updatedTeam.Users = users;
-
-            return _teamStorageManager.UpdateTeam(updatedTeam);
+            return _teamStorageManager.UpdateTeam(teamToUpdate);
         }
 
         public IEnumerable<TeamDTO> SearchTeams(string TeamName)
@@ -78,7 +78,6 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                       Metadata = dbTeam.Metadata,
                       UserIDs = dbTeam.Users.Select(u=>u.Id).ToArray()
                   }).ToList();
-
         }
 
         public TeamDTO GetTeam(int teamId)
@@ -95,36 +94,21 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public IEnumerable<TeamDTO> GetAllTeams()
         {
-            var teams = _teamStorageManager.GetAllTeams();
-            int i = 0;
-            var list = new List<TeamDTO>();
-            foreach(var team in teams)
-            {
-                /*
-                var userIds = new int[team.Users.Count];
-                foreach (var user in team.Users)
-                {
-                    
-                    var userId = user.Id;
-                    userIds[i++] = user.Id;
-
-                }
-                i = 0;*/
-                
-                list.Add( new TeamDTO { Id = team.Id, Name = team.Name, UserIDs = team.UserIDs}); // team.Users.Select(u=>u.Id).ToArray() };
+            var dbTeams = _teamStorageManager.GetAllTeams();
                
-            } return list;
-           /* return
-                 (from Team dbTeam in _teamStorageManager.GetAllTeams()
-                  select new TeamDTO()
+            foreach (var team in dbTeams)
+            {
+                var dbTeam = _teamStorageManager.GetTeam(team.Id);
+                yield return new TeamDTO()
                   {
                       Id = dbTeam.Id,
                       Name = dbTeam.Name,
                       Metadata = dbTeam.Metadata,
                       UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
-                  }).ToList();*/
+                };
+            }
+           
         }
-
     }
 }
 

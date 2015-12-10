@@ -2,50 +2,73 @@
 using Storage.Repository;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
+using System.Linq;
 
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
     public class TeamStorageManager 
     {
-        IGenericRepository _teamRepo;
+        IGenericRepository _repo;
         public TeamStorageManager()
         {
-            _teamRepo = new EntityFrameworkGenericRepository<StudyContext>();
+            _repo = new EntityFrameworkGenericRepository<StudyContext>();
         }
         
         public TeamStorageManager(IGenericRepository repo)
         {
-            _teamRepo = repo;
+            _repo = repo;
         }
 
-        public int SaveTeam(Team TeamToSave)
+        public int CreateTeam(Team team)
         {
-            return _teamRepo.Create(TeamToSave);
+            return _repo.Create(team);
         }
 
         public IEnumerable<Team> GetAllTeams()
         {
-            return _teamRepo.Read<Team>();
+            return _repo.Read<Team>();
         }
 
         public bool RemoveTeam(int TeamWithIDToDelete)
         {
-            return _teamRepo.Delete(_teamRepo.Read<Team>(TeamWithIDToDelete));
+            return _repo.Delete(_repo.Read<Team>(TeamWithIDToDelete));
         }
 
-        public bool UpdateTeam(Team TeamToUpdate)
+        public bool UpdateTeam(Team team)
         {
-            var storedTeam =_teamRepo.Read<Team>(TeamToUpdate.Id);
-            storedTeam.Name = TeamToUpdate.Name;
-            storedTeam.Metadata = TeamToUpdate.Metadata;
-            storedTeam.UserIDs = TeamToUpdate.UserIDs;
-            return _teamRepo.Update(storedTeam);
+            return _repo.Update(team);
         }
            
         public Team GetTeam(int TeamID)
         {
-            return _teamRepo.Read<Team>(TeamID);
+            return _repo.Read<Team>(TeamID);
         }
+
+        public int SaveUser(User userToSave)
+        {
+            return _repo.Create(userToSave);
+        }
+
+        public bool RemoveUser(int userWithIdToDelete)
+        {
+            return _repo.Delete(_repo.Read<User>(userWithIdToDelete));
+        }
+
+        public bool UpdateUser(User user)
+        {
+           return _repo.Update(user);
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _repo.Read<User>();
+        }
+
+        public User GetUser(int userId)
+        {
+            return _repo.Read<User>(userId);
+        }
+
 
     }
    
