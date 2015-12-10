@@ -64,14 +64,34 @@ namespace StudyConfigurationUI
             CriteriaRule.Items.Clear();
             var selected = CriteriaDataType.SelectionBoxItem as DataField.DataType?;
             Debug.WriteLine(selected);
-            if (selected == DataField.DataType.String)
+            
+            switch (selected)
             {
-                return;
-            }
-            if (selected == DataField.DataType.Boolean)
-            {
-                CriteriaRule.Items.Add(Criteria.CriteriaRule.Equals);
-                return;
+                case DataField.DataType.String:
+                    foreach (Enum en in Enum.GetValues(typeof(Criteria.CriteriaRule)))
+                    {
+                        CriteriaRule.Items.Add(en);
+                    }
+                    break;
+
+                case DataField.DataType.Boolean:
+                    CriteriaRule.Items.Add(Criteria.CriteriaRule.Equals);
+                    break;
+
+                case DataField.DataType.Enumeration:
+                    CriteriaRule.Items.Add(Criteria.CriteriaRule.Equals);
+                    break;
+
+                case DataField.DataType.Flags:
+                    CriteriaRule.Items.Add(Criteria.CriteriaRule.Equals);
+                    CriteriaRule.Items.Add(Criteria.CriteriaRule.Contains);
+                    break;
+                case DataField.DataType.Resource:
+                    break;
+                case null:
+                    break;
+                default:
+                    return;
             }
         }
 
@@ -91,28 +111,29 @@ namespace StudyConfigurationUI
         private void MakeReviewer_OnClick(object sender, RoutedEventArgs e)
         {
             var takenUser = UserListBox.SelectedItem as User;
-            if (takenUser == null){return;}
+            if (takenUser == null)
+            {
+                return;
+            }
             UserStudies userToMakeReviewer = new UserStudies
             {
-                Stage = _stageToWorkOn,
-                User = takenUser,
-                Id = takenUser.Id,
-                StudyRole = UserStudies.Role.Reviewer
+                Stage = _stageToWorkOn, User = takenUser, Id = takenUser.Id, StudyRole = UserStudies.Role.Reviewer
             };
             _reviewers.Add(userToMakeReviewer);
             _users.Remove(takenUser);
             SetUpBoxes();
         }
+
         private void MakeValidator_OnClick(object sender, RoutedEventArgs e)
         {
             var takenUser = UserListBox.SelectedItem as User;
-            if (takenUser == null) { return; }
+            if (takenUser == null)
+            {
+                return;
+            }
             UserStudies userToMakeValidator = new UserStudies
             {
-                Stage = _stageToWorkOn,
-                User = takenUser,
-                Id = takenUser.Id,
-                StudyRole = UserStudies.Role.Validator
+                Stage = _stageToWorkOn, User = takenUser, Id = takenUser.Id, StudyRole = UserStudies.Role.Validator
             };
             _validators.Add(userToMakeValidator);
             _users.Remove(takenUser);
@@ -122,7 +143,10 @@ namespace StudyConfigurationUI
         private void RemoveValidator_Click(object sender, RoutedEventArgs e)
         {
             var takenValidator = ValidatorListBox.SelectedItem as UserStudies;
-            if (takenValidator == null) { return; }
+            if (takenValidator == null)
+            {
+                return;
+            }
             _users.Add(takenValidator.User);
             _validators.Remove(takenValidator);
             SetUpBoxes();
@@ -131,7 +155,10 @@ namespace StudyConfigurationUI
         private void RemoveReviewer_Click(object sender, RoutedEventArgs e)
         {
             var takenReviewer = ReviewerListBox.SelectedItem as UserStudies;
-            if (takenReviewer == null) { return; }
+            if (takenReviewer == null)
+            {
+                return;
+            }
             _users.Add(takenReviewer.User);
             _reviewers.Remove(takenReviewer);
             SetUpBoxes();
@@ -155,7 +182,7 @@ namespace StudyConfigurationUI
             _stageToWorkOn.Users.AddRange(_reviewers);
             _stageToWorkOn.Users.AddRange(_validators);
         }
-        
+
 
         private void AddDistribution()
         {
@@ -174,13 +201,10 @@ namespace StudyConfigurationUI
                 _stageToWorkOn.DistributionRule = Stage.Distribution.NoOverlap;
                 return;
             }
-            
-            
         }
 
         private void AddVisibleFields()
         {
-
             if (AddressCheckbox.IsChecked.Value)
             {
                 _stageToWorkOn.VisibleFields.Add(Item.FieldType.Address);
@@ -321,10 +345,6 @@ namespace StudyConfigurationUI
             {
                 _stageToWorkOn.VisibleFields.Add(Item.FieldType.Doi);
             }
-
         }
-
-
-        
     }
 }
