@@ -177,17 +177,17 @@ namespace StudyConfigurationServer.Logic.TaskManagement
 
         private static IEnumerable<StudyTask> GetFinishedTasks(Study study, User user)
         {
-            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.Users.Contains(user)).Where(t => !t.IsEditable));
+            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.UserIDs.Contains(user.Id)).Where(t => !t.IsEditable));
         }
 
         private static IEnumerable<StudyTask> GetRemainingTasks(Study study, User user)
         {
-            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.Users.Contains(user)).Where(t => !t.IsFinished(user.Id)));
+            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.UserIDs.Contains(user.Id)).Where(t => !t.IsFinished(user.Id)));
         }
 
         private static IEnumerable<StudyTask> GetEditableTasks(Study study, User user)
         {
-            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.Users.Contains(user)).Where(t => t.IsEditable));
+            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.UserIDs.Contains(user.Id)).Where(t => t.IsEditable));
         }
 
         /// <summary>

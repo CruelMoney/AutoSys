@@ -36,7 +36,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
 
         public bool UpdateTeam(Team team)
         {
-            return _repo.Update(TeamToUpdate);
+            return _repo.Update(team);
         }
            
         public Team GetTeam(int TeamID)

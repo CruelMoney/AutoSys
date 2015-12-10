@@ -38,12 +38,12 @@ namespace LogicTests1.TaskManagement.TaskDistributor
             var task1 = new StudyTask()
             {
                 DataFields = new List<DataField>() { dataField1, dataField2 },
-                Users = new List<User>()
+                UserIDs = new List<int>()
             };
             var task2 = new StudyTask()
             {
                 DataFields = new List<DataField>() { dataField3 },
-                Users = new List<User>()
+                UserIDs = new List<int>()
             };
 
             tasks = new List<StudyTask>() {task1, task2};
@@ -71,9 +71,9 @@ namespace LogicTests1.TaskManagement.TaskDistributor
                     Assert.AreEqual(users[1].Id, dataField.UserData[1].UserID);
                     Assert.AreEqual(users[2].Id, dataField.UserData[2].UserID);
                 }
-                Assert.AreEqual(users[0], task.Users[0]);
-                Assert.AreEqual(users[1], task.Users[1]);
-                Assert.AreEqual(users[2], task.Users[2]);
+                Assert.AreEqual(users[0].Id, task.UserIDs[0]);
+                Assert.AreEqual(users[1].Id, task.UserIDs[1]);
+                Assert.AreEqual(users[2].Id, task.UserIDs[2]);
             }
            
         }

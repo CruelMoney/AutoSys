@@ -8,15 +8,15 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 {
     public class UserManager
     {
-        private readonly UserStorageManager _userStorageManager;
+        private readonly TeamStorageManager _storageManager;
         public UserManager()
         {
-            _userStorageManager = new UserStorageManager();
+            _storageManager = new TeamStorageManager();
         }
 
-        public UserManager(UserStorageManager storageManager)
+        public UserManager(TeamStorageManager storageManager)
         {
-            _userStorageManager = storageManager;
+            _storageManager = storageManager;
         }
         public int CreateUser(UserDTO userDto)
         {
@@ -26,12 +26,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 Metadata = userDto.Metadata
             };
             
-            return _userStorageManager.SaveUser(userToAdd);
+            return _storageManager.SaveUser(userToAdd);
         }
 
         public bool RemoveUser(int userId)
         {
-            return _userStorageManager.RemoveUser(userId);
+            return _storageManager.RemoveUser(userId);
         }
 
         public bool UpdateUser(int userId, UserDTO newUserDto)
@@ -42,13 +42,13 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 Name = newUserDto.Name,
                 Metadata = newUserDto.Metadata
             };
-            return _userStorageManager.UpdateUser(updatedUser);
+            return _storageManager.UpdateUser(updatedUser);
         }
 
         public IEnumerable<UserDTO> SearchUsers(string userName)
         {
             return
-                (from User dbUser in _userStorageManager.GetAllUsers()
+                (from User dbUser in _storageManager.GetAllUsers()
                     where dbUser.Name.Equals(userName)
                     select new UserDTO()
                     {
@@ -61,7 +61,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public UserDTO GetUser(int userId)
         {
-            var dbUser = _userStorageManager.GetUser(userId);
+            var dbUser = _storageManager.GetUser(userId);
             return new UserDTO()
             {
                 Id = dbUser.Id,
@@ -73,7 +73,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         public IEnumerable<UserDTO> GetAllUsers()
         {
             return
-                (from User dbUser in _userStorageManager.GetAllUsers()
+                (from User dbUser in _storageManager.GetAllUsers()
                     select new UserDTO()
                     {
                         Id = dbUser.Id,

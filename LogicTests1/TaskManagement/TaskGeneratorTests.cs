@@ -79,7 +79,7 @@ namespace LogicTests1.TaskManagement
                 Paper = testItem1,
                 Stage = testStage1,
                 TaskType = StudyTask.Type.Review,
-                Users = new List<User>() { user1,user2}
+                UserIDs = new List<int>() { user1.Id ,user2.Id}
             };
 
         }
