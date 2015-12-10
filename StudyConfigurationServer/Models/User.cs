@@ -10,6 +10,7 @@ namespace StudyConfigurationServer.Models
         public string Name { get; set; }
         public List<Team> Teams { get; set; }
         public List<UserStudies> Stages { get; set; }
+        public List<int> StudyIds { get; set; }
         public string Metadata { get; set; }
        
        

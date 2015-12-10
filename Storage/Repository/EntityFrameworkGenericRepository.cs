@@ -29,12 +29,14 @@ namespace Storage.Repository
 
         public bool Delete<T>(T entity) where T : class, IEntity
         {
-            var found = _context.Set<T>().FindAsync(entity.Id);
-
-            if (found == null)
+            try
             {
-                return false;
+                var found = _context.Set<T>().FindAsync(entity.Id);
+            }catch(NullReferenceException)
+            {
+                throw new NullReferenceException("Item could not be found in the repository");              
             }
+            
 
             _context.Set<T>().Remove(entity);
             _context.SaveChanges();
@@ -43,23 +45,41 @@ namespace Storage.Repository
 
         public IQueryable<T> Read<T>() where T : class, IEntity
         {
-            return _context.Set<T>();
+            try
+            {
+                return _context.Set<T>();
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Item could not be found in the repository");
+            }
+            
         }
 
         public T Read<T>(int id) where T : class, IEntity
         {
-            return _context.Set<T>().Find(id);
+            try
+            {
+                return _context.Set<T>().Find(id);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Item could not be found in the repository");
+            }
+            
         }
 
         public bool Update<T>(T entity) where T : class, IEntity
         {
-
-            var found = _context.Set<T>().Find(entity.Id);
-
-            if (found == null)
+            try
             {
-                return false;
+                var found = _context.Set<T>().Find(entity.Id);
             }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("item could not be found in the repository");
+            }
+            
 
             _context.Set<T>().Attach(entity);        
             _context.Entry(entity).State = EntityState.Modified;
