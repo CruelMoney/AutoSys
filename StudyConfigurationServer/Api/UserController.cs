@@ -26,11 +26,17 @@ namespace StudyConfigurationServer.Api
         {
             // GET: api/User
             // GET: api/User?name=alice
-            IEnumerable<UserDTO> users;
-
-            users = name.Equals(string.Empty) ? _manager.GetAllUsers() : _manager.SearchUsers(name);
-
-            return Ok(users);
+                      
+            try
+            {
+                var users = name.Equals(string.Empty) ? _manager.GetAllUsers() : _manager.SearchUsers(name);
+                return Ok(users);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            
         }
 
         /// <summary>
@@ -40,7 +46,15 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult Get(int id)
         {
             // GET: api/User/5
-            return Ok(_manager.GetUser(id));
+            try
+            {
+                return Ok(_manager.GetUser(id));
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            
         }
 
         /// <summary>
@@ -69,8 +83,9 @@ namespace StudyConfigurationServer.Api
             }
 
             userDto.Id = _manager.CreateUser(userDto);
-            
+    
             return CreatedAtRoute("DefaultApi", new { id = userDto.Id }, userDto);
+           
         }
 
         /// <summary>
@@ -86,21 +101,16 @@ namespace StudyConfigurationServer.Api
             {
                 return BadRequest(ModelState);
             }
-
-            //Is the UserDTO id always entered?
-           /* if (id != userDto.Id)
+       
+            try
             {
-                return BadRequest();
-            }*/
-
-            var updated =  _manager.UpdateUser(id, userDto);
-
-            if (!updated)
+                var updated = _manager.UpdateUser(id, userDto);
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            catch (NullReferenceException)
             {
                 return NotFound();
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);           
+            }                    
         }
 
         /// <summary>
@@ -111,15 +121,15 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult Delete(int id)
         {
             // DELETE: api/User/5
-            var deleted = _manager.RemoveUser(id);
-
-            if (!deleted)
+            try
             {
-                return NotFound();
+                var deleted = _manager.RemoveUser(id);
+                return StatusCode(HttpStatusCode.NoContent);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
-
+            catch(ArgumentException)
+            {
+                return BadRequest();
+            }
         }
     }
 }

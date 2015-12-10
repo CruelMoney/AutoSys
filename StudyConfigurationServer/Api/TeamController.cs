@@ -4,6 +4,7 @@ using System.Web.Http;
 using StudyConfigurationServer.Api.Interfaces;
 using StudyConfigurationServer.Logic.TeamCRUD;
 using StudyConfigurationServer.Models.DTO;
+using System;
 
 namespace StudyConfigurationServer.Api
 {
@@ -21,12 +22,17 @@ namespace StudyConfigurationServer.Api
         {
             // GET: api/Team
             // GET: api/Team?name=untouchables
-
-            IEnumerable<TeamDTO> teams;
+        
+            try
+            {
+                var teams = name.Equals(string.Empty) ? _manager.GetAllTeams() : _manager.SearchTeams(name);           
+                return Ok(teams);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
             
-            teams = name.Equals(string.Empty) ? _manager.GetAllTeams() : _manager.SearchTeams(name);
-
-            return Ok(teams);
            
         }
 
@@ -37,7 +43,15 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult Get(int id)
         {
             // GET: api/Team/5
-            return Ok(_manager.GetTeam(id));
+            try
+            {
+                return Ok(_manager.GetTeam(id));
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+           
         }
 
         /// <summary>
@@ -51,9 +65,16 @@ namespace StudyConfigurationServer.Api
                 return BadRequest(ModelState);
             }
 
-            teamDto.Id = _manager.CreateTeam(teamDto);
-
-            return CreatedAtRoute("DefaultApi", new { id = teamDto.Id }, teamDto);
+            try
+            {
+                teamDto.Id = _manager.CreateTeam(teamDto);        
+                return CreatedAtRoute("DefaultApi", new { id = teamDto.Id }, teamDto);
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest();
+            }
+            
         }
 
         /// <summary>
@@ -70,19 +91,19 @@ namespace StudyConfigurationServer.Api
                 return BadRequest(ModelState);
             }
 
-            /*if (id != teamDto.Id)
+            try
+            {
+                var updated = _manager.UpdateTeam(id, teamDto);
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            catch (Exception e)
             {
                 return BadRequest();
-            }*/
-
-            var updated = _manager.UpdateTeam(id, teamDto);
-
-            if (!updated)
-            {
-                return NotFound();
             }
+            
 
-            return StatusCode(HttpStatusCode.NoContent);
+            
+            
         }
 
         /// <summary>

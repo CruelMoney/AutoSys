@@ -159,6 +159,10 @@
     <Compile Include="Migrations\201512101830340_initial.Designer.cs">
       <DependentUpon>201512101830340_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512102008496_changedStudyListInTeamToint.cs" />
+    <Compile Include="Migrations\201512102008496_changedStudyListInTeamToint.Designer.cs">
+      <DependentUpon>201512102008496_changedStudyListInTeamToint.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
     <Compile Include="Models\CriteriaValidator\CriteriaCheckers.cs" />
@@ -214,6 +218,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512101830340_initial.resx">
       <DependentUpon>201512101830340_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512102008496_changedStudyListInTeamToint.resx">
+      <DependentUpon>201512102008496_changedStudyListInTeamToint.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
