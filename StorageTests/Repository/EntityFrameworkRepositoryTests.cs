@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Storage.Repository;
+using System.Data.Entity.Infrastructure;
 
 namespace StorageTests.Repository
 {
@@ -49,7 +50,7 @@ namespace StorageTests.Repository
 
             EFRepo.Create(expectedItem);
 
-            context.Verify(c => c.SaveChangesAsync(), Times.Once);
+            context.Verify(c => c.SaveChanges(), Times.Once);
             dbset.Verify(m => m.Add(expectedItem), Times.Once);
         }
 
@@ -66,7 +67,7 @@ namespace StorageTests.Repository
             
             EFRepo.Delete(expectedItem);
 
-            context.Verify(c => c.SaveChangesAsync(), Times.Once);
+            context.Verify(c => c.SaveChanges(), Times.Once);
             dbset.Verify(m => m.Remove(expectedItem), Times.Once);
         }
 
@@ -114,9 +115,12 @@ namespace StorageTests.Repository
             var context = new Mock<MockContext>();
             var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
             var item = new MockEntity() { Id = 1, Name = "Name"};
+            var entry = new Mock<DbEntityEntry<MockEntity>>();
 
+            //entry.Setup(e => e.CurrentValues)
             DbSet.Setup(m => m.Find(item.Id)).Returns(item);
             context.Setup(c => c.Set<MockEntity>()).Returns(DbSet.Object);
+            context.Setup(c => c.Entry<MockEntity>(item)).Returns(entry.Object);
            
            
             EFRepo.Update(item);
