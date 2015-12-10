@@ -28,7 +28,7 @@ namespace StudyConfigurationServer.Api
             // GET: api/User?name=alice
             IEnumerable<UserDTO> users;
 
-            users = name.Equals(string.Empty) ? _manager.GetAllUsers() : _manager.SearchUsers(name);
+            users = name.Equals(string.Empty) ? _manager.GetAllUserDTOs() : _manager.SearchUserDTOs(name);
 
             return Ok(users);
         }
@@ -40,7 +40,7 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult Get(int id)
         {
             // GET: api/User/5
-            return Ok(_manager.GetUser(id));
+            return Ok(_manager.GetUserDTO(id));
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -14,7 +15,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using StudyConfigurationUI.Data;
-using StudyConfigurationUI.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,7 +25,7 @@ namespace StudyConfigurationUI
     /// </summary>
     public sealed partial class ManageStudyPage : Page
     {
-        private ViewModel _viewModel;
+        private Logic.Logic _logic;
         public ManageStudyPage()
         {
             this.InitializeComponent();
@@ -33,11 +33,11 @@ namespace StudyConfigurationUI
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
-            _viewModel = new ViewModel();
+            _logic = new Logic.Logic();
             if (args.Parameter.GetType() == typeof (Study))
             {
-                _viewModel.studyToWorkOn = args.Parameter as Study;
-                SetUpFromStudy(_viewModel.studyToWorkOn);
+                _logic._StudyToWorkOn = args.Parameter as Study;
+                SetUpFromStudy(_logic._StudyToWorkOn);
                 return;
             }
             // Make sure either a team, or study ID is passed, so that a suitable UI to manage the study can be created.
@@ -54,39 +54,55 @@ namespace StudyConfigurationUI
             }
             else if (studyArgs.TeamId != null)
             {
-                teamOutput.Text = _viewModel.getTeam(studyArgs.TeamId).Name;
+                teamOutput.Text = _logic.getTeam(studyArgs.TeamId).Name;
             }
         }
 
         private async void BibtexInputButton_OnClick(object sender, RoutedEventArgs e)
         {
-           var t =  await _viewModel.OpenPicker();
-            bibtexOutput.Text = t.Path;
+                var file = await _logic.OpenPicker();
+                bibtexOutput.Text = file.Path;
+                _logic._StudyToWorkOn.Items = new List<Item>();
+               await _logic.AddResources(file);
+            
+
+            if (_logic._StudyToWorkOn.Items.Count < 1)
+                {
+                    var dialog = new MessageDialog("No items were added from this file.") { Title = "No Items Added" };
+                    var res = await dialog.ShowAsync();
+                }
+                else
+            {
+                bibtexInputButton.IsEnabled = false;
+                    var dialog = new MessageDialog(_logic._StudyToWorkOn.Items.Count +"Items were added from the selected file") { Title = "Items added" };
+                    var res = await dialog.ShowAsync();
+                }
         }
 
         private void onNewPhase(object sender, RoutedEventArgs e)
         {
-            var teststudy = new Study();
-            teststudy.Team = new Team();
-            teststudy.Team.Users = new List<User>();
-            teststudy.Team.Users.Add(new User() {Name = "Thomas",Id = 1});
-            teststudy.Team.Users.Add(new User() { Name = "Ramos",Id = 2});
-            teststudy.Team.Users.Add(new User() { Name = "Timothy",Id = 3});
-            teststudy.Team.Users.Add(new User() { Name = "Kathrin",Id = 4});
-            teststudy.Team.Users.Add(new User() { Name = "Dengsø",Id = 5});
-            teststudy.Team.Users.Add(new User() { Name = "Mads",Id = 6});
-            teststudy.Team.Users.Add(new User() { Name = "Tor",Id = 7});
-            this.Frame.Navigate(typeof(ManagePhasePage),teststudy);
+            
+            this.Frame.Navigate(typeof(ManagePhasePage),_logic._StudyToWorkOn);
         }
+
+        private async void onDeletePhase(Object sender, RoutedEventArgs e)
+        {
+            if ((Stage) phaseComboBox.SelectionBoxItem == null) return;
+            var dialog = new MessageDialog("Are you sure?") {Title = "Really?"};
+            dialog.Commands.Add(new UICommand { Label = "Yes - Delete", Id = 0 });
+            dialog.Commands.Add(new UICommand { Label = "Cancel", Id = 1 });
+            var res = await dialog.ShowAsync();
+            if ((int)res.Id == 0)
+            {
+                _logic._StudyToWorkOn.Stages.Remove((Stage)phaseComboBox.SelectionBoxItem);
+            }
+            SetUpCombobox(_logic._StudyToWorkOn);
+        }   
 
         private void SetUpFromStudy(Study study)
         {
             nameInput.Text = study.Name;
-            foreach (Stage s in study.Stages)
-            {
-                phaseComboBox.Items.Add(s.Name);
-            }
-            phaseComboBox.SelectedIndex = 1;
+            SetUpCombobox(study);
             teamOutput.Text = study.Team.Name;
 
             if (study.Items == null || study.Items.Count < 1)
@@ -98,8 +114,16 @@ namespace StudyConfigurationUI
                 bibtexOutput.Text = "Items have already been selected";
                 bibtexInputButton.IsEnabled = false;
             }
-            
-            
+        }
+
+        private void SetUpCombobox(Study study)
+        {
+            phaseComboBox.Items.Clear();
+            foreach (Stage s in study.Stages)
+            {
+                phaseComboBox.Items.Add(s);
+            }
+            phaseComboBox.DisplayMemberPath = "Name";
         }
     }
 }

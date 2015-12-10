@@ -39,7 +39,7 @@ namespace LogicTests1.IntegrationTests
         {
 
             userManager.CreateUser(userDTO);
-            Assert.AreEqual("Bob", userManager.GetUser(userDTO.Id).Name);
+            Assert.AreEqual("Bob", userManager.GetUserDTO(userDTO.Id).Name);
         }
 
         [TestMethod]
@@ -57,14 +57,14 @@ namespace LogicTests1.IntegrationTests
             userManager.CreateUser(userDTO);
             userDTO.Name = "Bob2";
             Assert.IsTrue(userManager.UpdateUser(userDTO.Id, userDTO));
-            Assert.AreEqual("Bob2", userManager.GetUser(userDTO.Id).Name);
+            Assert.AreEqual("Bob2", userManager.GetUserDTO(userDTO.Id).Name);
         }
 
         [TestMethod]
         public void TestUserManagerIntegrationSearchUsers()
         {
             userManager.CreateUser(userDTO);
-            Assert.AreEqual(1, userManager.SearchUsers("Bob").Count());
+            Assert.AreEqual(1, userManager.SearchUserDTOs("Bob").Count());
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace LogicTests1.IntegrationTests
             UserDTO userDTO2 = new UserDTO() { Id = 2, Name = "Bob2" };
             userManager.CreateUser(userDTO);
             userManager.CreateUser(userDTO2);
-            Assert.AreEqual(2, userManager.GetAllUsers().Count());
+            Assert.AreEqual(2, userManager.GetAllUserDTOs().Count());
         }
     }
 }

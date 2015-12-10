@@ -45,7 +45,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             return _storageManager.UpdateUser(updatedUser);
         }
 
-        public IEnumerable<UserDTO> SearchUsers(string userName)
+        public IEnumerable<UserDTO> SearchUserDTOs(string userName)
         {
             return
                 (from User dbUser in _storageManager.GetAllUsers()
@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                     .ToList();
         }
 
-        public UserDTO GetUser(int userId)
+        public UserDTO GetUserDTO(int userId)
         {
             var dbUser = _storageManager.GetUser(userId);
             return new UserDTO()
@@ -70,7 +70,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             };
         }
 
-        public IEnumerable<UserDTO> GetAllUsers()
+        public IEnumerable<UserDTO> GetAllUserDTOs()
         {
             return
                 (from User dbUser in _storageManager.GetAllUsers()

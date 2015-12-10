@@ -45,7 +45,7 @@ namespace LogicTests1.IntegrationTests
         {
 
             teamManager.CreateTeam(teamDTO);
-            Assert.AreEqual("Team", teamManager.GetTeam(teamDTO.Id).Name);
+            Assert.AreEqual("Team", teamManager.GetTeamDTO(teamDTO.Id).Name);
         }
 
         [TestMethod]
@@ -63,14 +63,14 @@ namespace LogicTests1.IntegrationTests
             teamManager.CreateTeam(teamDTO);
             teamDTO.Name = "Team2";
             Assert.IsTrue(teamManager.UpdateTeam(teamDTO.Id, teamDTO));
-            Assert.AreEqual("Team2", teamManager.GetTeam(teamDTO.Id).Name);
+            Assert.AreEqual("Team2", teamManager.GetTeamDTO(teamDTO.Id).Name);
         }
 
         [TestMethod]
         public void TestTeamManagerIntegrationSearchTeam()
         {
             teamManager.CreateTeam(teamDTO);
-            Assert.AreEqual(1, teamManager.SearchTeams("Team").Count());
+            Assert.AreEqual(1, teamManager.SearchTeamDTOs("Team").Count());
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace LogicTests1.IntegrationTests
             TeamDTO teamDTO2 = new TeamDTO() { Id = 2, Name = "Team2", Metadata = "metadata", UserIDs = new int[] { 1, 2 } };
             teamManager.CreateTeam(teamDTO);
             teamManager.CreateTeam(teamDTO2);
-            Assert.AreEqual(2, teamManager.GetAllTeams().Count());
+            Assert.AreEqual(2, teamManager.GetAllTeamDTOs().Count());
         }
     }
 }

@@ -155,11 +155,6 @@
     <Compile Include="Logic\TaskManagement\TaskRequester.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
-    <Compile Include="Migrations\201512101830340_initial.cs" />
-    <Compile Include="Migrations\201512101830340_initial.Designer.cs">
-      <DependentUpon>201512101830340_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
     <Compile Include="Models\CriteriaValidator\CriteriaCheckers.cs" />
     <Compile Include="Models\CriteriaValidator\CriteriaValidator.cs" />
@@ -210,11 +205,6 @@
       <Project>{38abd49b-ad3c-41fb-9820-3779d5fb4d41}</Project>
       <Name>Storage</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512101830340_initial.resx">
-      <DependentUpon>201512101830340_initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

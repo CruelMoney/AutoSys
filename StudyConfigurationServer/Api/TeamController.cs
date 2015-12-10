@@ -24,7 +24,7 @@ namespace StudyConfigurationServer.Api
 
             IEnumerable<TeamDTO> teams;
             
-            teams = name.Equals(string.Empty) ? _manager.GetAllTeams() : _manager.SearchTeams(name);
+            teams = name.Equals(string.Empty) ? _manager.GetAllTeamDTOs() : _manager.SearchTeamDTOs(name);
 
             return Ok(teams);
            
@@ -37,7 +37,7 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult Get(int id)
         {
             // GET: api/Team/5
-            return Ok(_manager.GetTeam(id));
+            return Ok(_manager.GetTeamDTO(id));
         }
 
         /// <summary>

@@ -68,7 +68,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             return _teamStorageManager.UpdateTeam(teamToUpdate);
         }
 
-        public IEnumerable<TeamDTO> SearchTeams(string TeamName)
+        public IEnumerable<TeamDTO> SearchTeamDTOs(string TeamName)
         {
             return
                  (from Team dbTeam in _teamStorageManager.GetAllTeams()
@@ -82,7 +82,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                   }).ToList();
         }
 
-        public TeamDTO GetTeam(int teamId)
+        public TeamDTO GetTeamDTO(int teamId)
         {
             var dbTeam = _teamStorageManager.GetTeam(teamId);
              return new TeamDTO()
@@ -94,7 +94,14 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             };
         }
 
-        public IEnumerable<TeamDTO> GetAllTeams()
+        public Team GetTeam(int teamId)
+        {
+            return _teamStorageManager.GetTeam(teamId);
+        }
+
+        
+
+        public IEnumerable<TeamDTO> GetAllTeamDTOs()
         {
             var dbTeams = _teamStorageManager.GetAllTeams();
                

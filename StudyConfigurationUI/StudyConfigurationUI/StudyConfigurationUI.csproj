@@ -116,6 +116,14 @@
     <Compile Include="Data\User.cs" />
     <Compile Include="Data\UserData.cs" />
     <Compile Include="Data\UserStudies.cs" />
+    <Compile Include="Logic\BibliographyParser\bibTex\BibTexParser.cs" />
+    <Compile Include="Logic\BibliographyParser\DefaultFieldChecker.cs" />
+    <Compile Include="Logic\BibliographyParser\DefaultItemChecker.cs" />
+    <Compile Include="Logic\BibliographyParser\FieldValidator.cs" />
+    <Compile Include="Logic\BibliographyParser\IBibliographyParser.cs" />
+    <Compile Include="Logic\BibliographyParser\IFieldChecker.cs" />
+    <Compile Include="Logic\BibliographyParser\IItemChecker.cs" />
+    <Compile Include="Logic\BibliographyParser\ItemValidator.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -128,7 +136,7 @@
     <Compile Include="ManageStudyPageArgs.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Logic\Logic.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -137,6 +145,7 @@
     <None Include="StudyConfigurationUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Logic\BibliographyParser\ReadMe.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

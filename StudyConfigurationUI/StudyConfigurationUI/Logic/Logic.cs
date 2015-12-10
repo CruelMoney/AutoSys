@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using StudyConfigurationUI.Data;
+using StudyConfigurationUI.Logic.BibliographyParser;
+using StudyConfigurationUI.Logic.BibliographyParser.bibTex;
 
-namespace StudyConfigurationUI.ViewModels
+namespace StudyConfigurationUI.Logic
 {
-    public class ViewModel
+    public class Logic
     {
-        public Study studyToWorkOn { get; set; }
+        public Study _StudyToWorkOn { get; set; }
 
-        public ViewModel()
+        public Logic()
         {
-            studyToWorkOn = new Study();
+            _StudyToWorkOn = new Study();
         }
-        public ViewModel(int TeamID)
+        public Logic(int TeamID)
         {
             throw new NotImplementedException();
             //TODO HENT FRA API
@@ -49,6 +48,21 @@ namespace StudyConfigurationUI.ViewModels
             picker.FileTypeFilter.Add(".bib");
             picker.FileTypeFilter.Add(".txt");
             return await picker.PickSingleFileAsync();
+        }
+
+        public async Task AddResources( StorageFile file)
+        {
+            var parser = new BibTexParser(new ItemValidator());
+            try
+            {
+                var parsedStringFromFile = await FileIO.ReadTextAsync(file);
+                _StudyToWorkOn.Items = parser.Parse(parsedStringFromFile);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
         }
     }
 }

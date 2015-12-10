@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Height="716" Width="736">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,316,84">
+    <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}" Margin="0,0,316,84">
         <StackPanel x:Name="contentPanel" Margin="8,0,-2,0">
             <TextBlock Text="Study Configuration" Margin="0,0,0,40" FontSize="30"/>
             <TextBlock Text="Study Name"/>
@@ -31,8 +31,7 @@
             <StackPanel x:Name="phaseInputPanel" Orientation="Horizontal" Margin="0,20,0,20">
                 <ComboBox x:Name="phaseComboBox"  Width="206">
                 </ComboBox>
-                <Button x:Name="editPhasebutton" Content="Edit" Margin="5,0,0,0"/>
-                <Button x:Name="deletePhasebutton" Content="Delete" Margin="5,0,0,0"/>
+                <Button x:Name="deletePhasebutton" Click="onDeletePhase" Content="Delete" Margin="5,0,0,0"/>
                 <Button x:Name="newPhasebutton" Click="onNewPhase" Content="New" Margin="5,0,0,0"/>
             </StackPanel>
             <StackPanel x:Name="lastButtonsPanel" Orientation="Horizontal" Margin="0,20,0,20">
