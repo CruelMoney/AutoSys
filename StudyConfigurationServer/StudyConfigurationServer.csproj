@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Logic\StorageManagement\StudyStorageManager.cs" />
     <Compile Include="Logic\StorageManagement\TaskStorageManager.cs" />
+    <Compile Include="Logic\StorageManagement\TeamRepo.cs" />
     <Compile Include="Logic\StorageManagement\TeamStorageManager.cs" />
     <Compile Include="Logic\StorageManagement\UserStorageManager.cs" />
     <Compile Include="Logic\StudyConfiguration\BiblographyParser\bibTex\BibTexParser.cs" />
@@ -156,9 +157,9 @@
     <Compile Include="Logic\TaskManagement\TaskRequester.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
-    <Compile Include="Migrations\201512091607401_init.cs" />
-    <Compile Include="Migrations\201512091607401_init.Designer.cs">
-      <DependentUpon>201512091607401_init.cs</DependentUpon>
+    <Compile Include="Migrations\201512092046083_initial.cs" />
+    <Compile Include="Migrations\201512092046083_initial.Designer.cs">
+      <DependentUpon>201512092046083_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
@@ -213,8 +214,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512091607401_init.resx">
-      <DependentUpon>201512091607401_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512092046083_initial.resx">
+      <DependentUpon>201512092046083_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

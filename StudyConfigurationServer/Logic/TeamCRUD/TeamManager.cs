@@ -64,6 +64,31 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             updatedTeam.Users = users;
 
             return _teamStorageManager.UpdateTeam(updatedTeam);
+
+
+            //find the existing team in the db
+            var teamDTO = teamEntityRepository.Read(team.Id);
+
+            //create a new list of users
+            var userDtos = new User[team.Members.Count];
+
+
+            team.Members.CopyTo(userDtos);
+            teamDTO.Members.Clear();
+
+
+            foreach (var user in userDtos)
+            {
+                //find the user in the db
+                var user_01 = userEntityRepository.Read(user.Id);
+
+                //add the userto the team
+                teamDTO.Members.Add(user_01);
+            }
+            teamDTO.Name = team.Name;
+
+            teamEntityRepository.Update(teamDTO);
+
         }
 
         public IEnumerable<TeamDTO> SearchTeams(string TeamName)

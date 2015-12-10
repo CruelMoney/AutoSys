@@ -3,7 +3,7 @@ namespace StudyConfigurationServer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -28,7 +28,7 @@ namespace StudyConfigurationServer.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        StageType = c.Int(nullable: false),
+                        CurrentTaskType = c.Int(nullable: false),
                         DistributionRule = c.Int(nullable: false),
                         Study_Id = c.Int(),
                     })
@@ -66,6 +66,7 @@ namespace StudyConfigurationServer.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false),
+                        IsEditable = c.Boolean(nullable: false),
                         TaskType = c.Int(nullable: false),
                         Stage_Id = c.Int(),
                     })
@@ -96,12 +97,15 @@ namespace StudyConfigurationServer.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         User_Id = c.Int(),
                         DataField_Id = c.Int(),
+                        DataField_Id1 = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.User_Id)
                 .ForeignKey("dbo.DataFields", t => t.DataField_Id)
+                .ForeignKey("dbo.DataFields", t => t.DataField_Id1)
                 .Index(t => t.User_Id)
-                .Index(t => t.DataField_Id);
+                .Index(t => t.DataField_Id)
+                .Index(t => t.DataField_Id1);
             
             CreateTable(
                 "dbo.Users",
@@ -164,6 +168,7 @@ namespace StudyConfigurationServer.Migrations
             DropForeignKey("dbo.StudyTasks", "Stage_Id", "dbo.Stages");
             DropForeignKey("dbo.StudyTasks", "Id", "dbo.Items");
             DropForeignKey("dbo.DataFields", "StudyTask_Id", "dbo.StudyTasks");
+            DropForeignKey("dbo.UserDatas", "DataField_Id1", "dbo.DataFields");
             DropForeignKey("dbo.UserDatas", "DataField_Id", "dbo.DataFields");
             DropForeignKey("dbo.TeamUsers", "User_Id", "dbo.Users");
             DropForeignKey("dbo.TeamUsers", "Team_Id", "dbo.Teams");
@@ -177,6 +182,7 @@ namespace StudyConfigurationServer.Migrations
             DropIndex("dbo.UserStudies", new[] { "User_Id" });
             DropIndex("dbo.UserStudies", new[] { "Stage_Id" });
             DropIndex("dbo.Users", new[] { "StudyTask_Id" });
+            DropIndex("dbo.UserDatas", new[] { "DataField_Id1" });
             DropIndex("dbo.UserDatas", new[] { "DataField_Id" });
             DropIndex("dbo.UserDatas", new[] { "User_Id" });
             DropIndex("dbo.DataFields", new[] { "StudyTask_Id" });
