@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -21,7 +22,9 @@ namespace StudyConfigurationUI.Model
             }
         }
 
-        static async Task GetStudy(int StudyId)
+         
+
+        /*static async Task<Study> GetStudy(int StudyId)
         {
             using (var client = new HttpClient())
             {
@@ -29,19 +32,17 @@ namespace StudyConfigurationUI.Model
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             }
-        }
+        }*/
 
-        static async Task PostStudy(Study study)
+        public static async Task PostStudy(Study study)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:6735/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.PostAsJsonAsync("api/products", study);
-                if (response.IsSuccessStatusCode)
-                {
-                }
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/StudyConfiguration", study);
+                Debug.WriteLine(response.StatusCode.ToString());
             }
         }
     }

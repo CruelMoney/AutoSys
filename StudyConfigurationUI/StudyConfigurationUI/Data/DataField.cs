@@ -1,4 +1,9 @@
-﻿namespace StudyConfigurationUI.Data
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+namespace StudyConfigurationUI.Data
 {
     public class DataField : IEntity
     {
@@ -42,21 +47,64 @@
         /// The type of data this data Field holds.
         /// </summary>
         public DataType FieldType { get; set; }
-
+       
         /// <summary>
-        /// For <see cref="DataType.Enumeration"/> and <see cref="DataType.Flags"/> data types, a collection of the predefined values.
+        /// For <see cref="DataField.DataType.Enumeration"/> and <see cref="DataField.DataType.Flags"/> data types, a collection of the predefined values.
         /// </summary>
         public string[] TypeInfo { get; set; }
 
         /// <summary>
-        /// This property holds the data for the Field and can be used to provide default data to the User, as well as by the User to submit the StudyTask.
-        /// The data this Field holds depends on the data type.
-        /// For all but <see cref="DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).
-        /// For <see cref="DataType.Flags" /> it can contain several flags, either existing ones listed in <see cref="TypeInfo" />, or new ones.
-        /// For <see cref="DataType.Resource" /> it contains a JSON representation of <see cref="ResourceDTO" />.
+        /// The list of data entered by users. 
         /// </summary>
-        public string[] Data { get; set; }
+        public List<UserData> UserData { get; set; }
+
+        /// <summary>
+        /// A list of conflicting userData in case of a <see cref="StudyTask.Type.Conflict" /> task.
+        /// The user is meant to choose one and copy it to the UserData list as the answer.
+        /// </summary>
+        public List<UserData> ConflictingData { get; set; } 
 
         public int Id { get; set; }
+
+        public DataField SubmitData(int userId, string[] data)
+        {
+            //We expect that the user only exists once per dataField
+            UserData dataToUpdate;
+
+            try
+            {
+                dataToUpdate = UserData.First(d => d.User.Id == userId);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("User not associated with task");
+            }
+
+            dataToUpdate.Data = data;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Returns true the given user has entered data for this field. If no userID is given
+        /// it checks for all users associated with this field.
+        /// </summary>
+        /// <param name="userID">The user to check if has entered data</ram>
+        /// <returns></returns>
+        public bool DataEntered(int? userID = null )
+        {
+            if (userID==null)
+            {
+                return UserData.TrueForAll(d => d.ContainsData());
+            }
+            try
+            {
+                return UserData.First(u=>u.User.Id==userID).ContainsData();
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("The user is not associated with this task");
+            }
+        }
     }
 }

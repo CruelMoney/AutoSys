@@ -64,19 +64,31 @@ namespace StudyConfigurationUI
             bibtexOutput.Text = t.Path;
         }
 
-        private void ReturnFromStageManager(ViewModel vm)
-        {
-            
-        }
-
         private void onNewPhase(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(ManagePhasePage));
+            var teststudy = new Study();
+            teststudy.Team = new Team();
+            teststudy.Team.Users = new List<User>();
+            teststudy.Team.Users.Add(new User() {Name = "Thomas",Id = 1});
+            teststudy.Team.Users.Add(new User() { Name = "Ramos",Id = 2});
+            teststudy.Team.Users.Add(new User() { Name = "Timothy",Id = 3});
+            teststudy.Team.Users.Add(new User() { Name = "Kathrin",Id = 4});
+            teststudy.Team.Users.Add(new User() { Name = "Dengsø",Id = 5});
+            teststudy.Team.Users.Add(new User() { Name = "Mads",Id = 6});
+            teststudy.Team.Users.Add(new User() { Name = "Tor",Id = 7});
+            this.Frame.Navigate(typeof(ManagePhasePage),teststudy);
         }
 
         private void SetUpFromStudy(Study study)
         {
             nameInput.Text = study.Name;
+            foreach (Stage s in study.Stages)
+            {
+                phaseComboBox.Items.Add(s.Name);
+            }
+            phaseComboBox.SelectedIndex = 1;
+            teamOutput.Text = study.Team.Name;
+
             if (study.Items == null || study.Items.Count < 1)
             {
                 bibtexOutput.Text = "No items selected yet";
@@ -84,10 +96,10 @@ namespace StudyConfigurationUI
             else
             {
                 bibtexOutput.Text = "Items have already been selected";
-                bibtexInputButton.
+                bibtexInputButton.IsEnabled = false;
             }
             
-                
+            
         }
     }
 }

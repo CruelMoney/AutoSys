@@ -11,6 +11,10 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel x:Name="contentPanel" Margin="8,32,0,0">
             <Button Click="OnOpenStudy">Open Existing Study</Button>
+            <Button Click="OnOpenStudyWithStudy">LavetStudy</Button>
+            <Button Click="PostStudy">Post A study</Button>
+            <Button Click="callAPI">StartSTUDYFROM AN AP AI</Button>
+            
         </StackPanel>
     </Grid>
 </Page>

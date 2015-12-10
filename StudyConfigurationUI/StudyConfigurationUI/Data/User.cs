@@ -9,7 +9,7 @@ namespace StudyConfigurationUI.Data
         public List<Team> Teams { get; set; }
         public List<UserStudies> Stages { get; set; }
         public string Metadata { get; set; }
-        public List<TaskRequestedData> Tasks { get; set; }
+        public List<UserData> Tasks { get; set; }
        
     }
 }

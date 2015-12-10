@@ -3,24 +3,11 @@ namespace StudyConfigurationServer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
-            CreateTable(
-                "dbo.Criteria",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Description = c.String(),
-                        DataType = c.Int(nullable: false),
-                        Rule = c.Int(nullable: false),
-                        Stage_Id = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Stages", t => t.Stage_Id)
-                .Index(t => t.Stage_Id);
+           
             
             CreateTable(
                 "dbo.Stages",
@@ -35,7 +22,22 @@ namespace StudyConfigurationServer.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Studies", t => t.Study_Id)
                 .Index(t => t.Study_Id);
-            
+
+            CreateTable(
+               "dbo.Criteria",
+               c => new
+               {
+                   Id = c.Int(nullable: false, identity: true),
+                   Name = c.String(),
+                   Description = c.String(),
+                   DataType = c.Int(nullable: false),
+                   Rule = c.Int(nullable: false),
+                   Stage_Id = c.Int(),
+               })
+               .PrimaryKey(t => t.Id)
+               .ForeignKey("dbo.Stages", t => t.Stage_Id)
+               .Index(t => t.Stage_Id);
+
             CreateTable(
                 "dbo.Studies",
                 c => new
@@ -66,6 +68,7 @@ namespace StudyConfigurationServer.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false),
+                        IsEditable = c.Boolean(nullable: false),
                         TaskType = c.Int(nullable: false),
                         Stage_Id = c.Int(),
                     })
@@ -76,22 +79,6 @@ namespace StudyConfigurationServer.Migrations
                 .Index(t => t.Stage_Id);
             
             CreateTable(
-                "dbo.TaskRequestedDatas",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsFinished = c.Boolean(nullable: false),
-                        IsDeliverable = c.Boolean(nullable: false),
-                        StudyTask_Id = c.Int(),
-                        User_Id = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.StudyTasks", t => t.StudyTask_Id)
-                .ForeignKey("dbo.Users", t => t.User_Id)
-                .Index(t => t.StudyTask_Id)
-                .Index(t => t.User_Id);
-            
-            CreateTable(
                 "dbo.DataFields",
                 c => new
                     {
@@ -99,11 +86,28 @@ namespace StudyConfigurationServer.Migrations
                         Name = c.String(),
                         Description = c.String(),
                         FieldType = c.Int(nullable: false),
-                        TaskRequestedData_Id = c.Int(),
+                        StudyTask_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.TaskRequestedDatas", t => t.TaskRequestedData_Id)
-                .Index(t => t.TaskRequestedData_Id);
+                .ForeignKey("dbo.StudyTasks", t => t.StudyTask_Id)
+                .Index(t => t.StudyTask_Id);
+            
+            CreateTable(
+                "dbo.UserDatas",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        User_Id = c.Int(),
+                        DataField_Id = c.Int(),
+                        DataField_Id1 = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Users", t => t.User_Id)
+                .ForeignKey("dbo.DataFields", t => t.DataField_Id)
+                .ForeignKey("dbo.DataFields", t => t.DataField_Id1)
+                .Index(t => t.User_Id)
+                .Index(t => t.DataField_Id)
+                .Index(t => t.DataField_Id1);
             
             CreateTable(
                 "dbo.Users",
@@ -112,8 +116,11 @@ namespace StudyConfigurationServer.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Metadata = c.String(),
+                        StudyTask_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.StudyTasks", t => t.StudyTask_Id)
+                .Index(t => t.StudyTask_Id);
             
             CreateTable(
                 "dbo.UserStudies",
@@ -159,24 +166,28 @@ namespace StudyConfigurationServer.Migrations
         {
             DropForeignKey("dbo.Stages", "Study_Id", "dbo.Studies");
             DropForeignKey("dbo.Items", "Study_Id", "dbo.Studies");
+            DropForeignKey("dbo.Users", "StudyTask_Id", "dbo.StudyTasks");
             DropForeignKey("dbo.StudyTasks", "Stage_Id", "dbo.Stages");
+            DropForeignKey("dbo.StudyTasks", "Id", "dbo.Items");
+            DropForeignKey("dbo.DataFields", "StudyTask_Id", "dbo.StudyTasks");
+            DropForeignKey("dbo.UserDatas", "DataField_Id1", "dbo.DataFields");
+            DropForeignKey("dbo.UserDatas", "DataField_Id", "dbo.DataFields");
             DropForeignKey("dbo.TeamUsers", "User_Id", "dbo.Users");
             DropForeignKey("dbo.TeamUsers", "Team_Id", "dbo.Teams");
             DropForeignKey("dbo.Studies", "Team_Id", "dbo.Teams");
-            DropForeignKey("dbo.TaskRequestedDatas", "User_Id", "dbo.Users");
+            DropForeignKey("dbo.UserDatas", "User_Id", "dbo.Users");
             DropForeignKey("dbo.UserStudies", "User_Id", "dbo.Users");
             DropForeignKey("dbo.UserStudies", "Stage_Id", "dbo.Stages");
-            DropForeignKey("dbo.TaskRequestedDatas", "StudyTask_Id", "dbo.StudyTasks");
-            DropForeignKey("dbo.DataFields", "TaskRequestedData_Id", "dbo.TaskRequestedDatas");
-            DropForeignKey("dbo.StudyTasks", "Id", "dbo.Items");
             DropForeignKey("dbo.Criteria", "Stage_Id", "dbo.Stages");
             DropIndex("dbo.TeamUsers", new[] { "User_Id" });
             DropIndex("dbo.TeamUsers", new[] { "Team_Id" });
             DropIndex("dbo.UserStudies", new[] { "User_Id" });
             DropIndex("dbo.UserStudies", new[] { "Stage_Id" });
-            DropIndex("dbo.DataFields", new[] { "TaskRequestedData_Id" });
-            DropIndex("dbo.TaskRequestedDatas", new[] { "User_Id" });
-            DropIndex("dbo.TaskRequestedDatas", new[] { "StudyTask_Id" });
+            DropIndex("dbo.Users", new[] { "StudyTask_Id" });
+            DropIndex("dbo.UserDatas", new[] { "DataField_Id1" });
+            DropIndex("dbo.UserDatas", new[] { "DataField_Id" });
+            DropIndex("dbo.UserDatas", new[] { "User_Id" });
+            DropIndex("dbo.DataFields", new[] { "StudyTask_Id" });
             DropIndex("dbo.StudyTasks", new[] { "Stage_Id" });
             DropIndex("dbo.StudyTasks", new[] { "Id" });
             DropIndex("dbo.Items", new[] { "Study_Id" });
@@ -187,8 +198,8 @@ namespace StudyConfigurationServer.Migrations
             DropTable("dbo.Teams");
             DropTable("dbo.UserStudies");
             DropTable("dbo.Users");
+            DropTable("dbo.UserDatas");
             DropTable("dbo.DataFields");
-            DropTable("dbo.TaskRequestedDatas");
             DropTable("dbo.StudyTasks");
             DropTable("dbo.Items");
             DropTable("dbo.Studies");
