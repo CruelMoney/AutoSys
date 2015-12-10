@@ -17,16 +17,15 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         private TaskGenerator _taskGenerator;
         private TaskRequester _taskRequester;
         private TaskStorageManager _storageManager;
-        private StudyStorageManager _studyStorage;
         private CriteriaValidator _criteriaValidator;
 
         private IDisposable _unsubscriber;
 
-        public TaskController(TaskRequester taskRequester, StudyStorageManager taskStorage, TaskGenerator taskGenerator, TaskStorageManager storageManager)
+        public TaskController(TaskStorageManager taskStorage)
         {
-            _taskRequester = taskRequester;
-            _taskGenerator = taskGenerator;
-            _storageManager = storageManager;
+            _taskGenerator = new TaskGenerator();
+            _storageManager = taskStorage;
+            _taskRequester = new TaskRequester();
         }
 
         public TaskController()
@@ -35,7 +34,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             _storageManager = new TaskStorageManager();
             _taskRequester = new TaskRequester();
 
-         
+            
         }
 
 

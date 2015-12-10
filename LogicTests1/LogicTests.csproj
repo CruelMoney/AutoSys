@@ -92,7 +92,10 @@
     <Compile Include="BibTexParserTests\DefaultItemCheckerTest.cs" />
     <Compile Include="BibTexParserTests\FieldValidatorTest.cs" />
     <Compile Include="BibTexParserTests\ItemValidatorTest.cs" />
+    <Compile Include="IntegrationTests\DBInitializers\EmptyDBInitializer.cs" />
+    <Compile Include="IntegrationTests\DBInitializers\MultipleStuidesDBInitializer.cs" />
     <Compile Include="IntegrationTests\IntegrationTestContext.cs" />
+    <Compile Include="IntegrationTests\TaskControllerIntegratesStorage.cs" />
     <Compile Include="IntegrationTests\UserControllerIntegrationTest.cs" />
     <Compile Include="Model\CriteriaTests.cs" />
     <Compile Include="Model\DataFieldTests.cs" />
