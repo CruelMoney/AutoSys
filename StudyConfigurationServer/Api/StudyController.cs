@@ -43,10 +43,7 @@ namespace StudyConfigurationServer.Api
         {
             // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
 
-           
-
-            TaskController controller = new TaskController();
-            return Ok(controller.GetTasksForUser(id, userId, count, filter, type));
+           throw new NotImplementedException();
         }
 
         /// <summary>

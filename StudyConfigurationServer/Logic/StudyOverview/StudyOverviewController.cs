@@ -12,16 +12,16 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 {
     public class StudyOverviewController
     {
-        private StudyManager _studyManager;
+        private StudyStorageManager _studyManager;
 
-        public StudyOverviewController(StudyManager studyManager)
+        public StudyOverviewController(StudyStorageManager studyManager)
         {
             _studyManager = studyManager;
         }
 
         public StudyOverviewController()
         {
-            _studyManager = new StudyManager();
+            _studyManager = new StudyStorageManager();
         }
 
         public StudyOverviewDTO GetOverview(int id)
