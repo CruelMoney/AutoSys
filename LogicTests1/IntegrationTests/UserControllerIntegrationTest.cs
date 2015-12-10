@@ -17,7 +17,7 @@ namespace LogicTests1.IntegrationTests
         private UserManager userManager;
         private UserStorageManager userStorageManager;
         //private UserController userController;
-        private User user = new User() { Id = 1, Name = "Bob" };
+        //private User user = new User() { Id = 1, Name = "Bob" };
         private UserDTO userDTO = new UserDTO() { Id = 1, Name = "Bob"};
         private IGenericRepository testRepo;
 
@@ -40,6 +40,25 @@ namespace LogicTests1.IntegrationTests
 
             userManager.CreateUser(userDTO);
             Assert.AreEqual("Bob", userManager.GetUser(userDTO.Id).Name);
+        }
+
+        [TestMethod]
+        public void TestIntegrationRemoveUser()
+        {
+
+            userManager.CreateUser(userDTO);
+            
+            Assert.IsTrue(userManager.RemoveUser(userDTO.Id));
+        }
+
+        [TestMethod]
+        public void TestIntegrationUpdateUser()
+        {
+
+            userManager.CreateUser(userDTO);
+            userDTO.Name = "Bob Sveskebob";
+            Assert.IsTrue(userManager.UpdateUser(userDTO.Id, userDTO));
+            Assert.AreEqual("Bob Sveskebob", userManager.GetUser(userDTO.Id).Name);
         }
     }
 }
