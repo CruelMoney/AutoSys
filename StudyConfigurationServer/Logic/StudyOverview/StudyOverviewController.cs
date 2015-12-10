@@ -87,11 +87,11 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach(var task in stage.Tasks)
             {
-                foreach (var user in task.Users)
+                foreach (var user in task.UserIDs)
                 {
-                    if (task.IsFinished(user.Id))
+                    if (task.IsFinished(user))
                     {
-                        completedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
+                        completedTasks.AddOrUpdate(user, 1, (id, count) => count + 1);
                     }
                 }
             }           
@@ -104,11 +104,11 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach (var task in stage.Tasks)
             {
-                foreach (var user in task.Users)
+                foreach (var user in task.UserIDs)
                 {
-                    if (!task.IsFinished(user.Id))
+                    if (!task.IsFinished(user))
                     {
-                        inCompletedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
+                        inCompletedTasks.AddOrUpdate(user, 1, (id, count) => count + 1);
                     }
                 }
             }

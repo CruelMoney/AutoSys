@@ -65,11 +65,17 @@ namespace StudyConfigurationServer.Models.DTO
 
             if (task.TaskType == StudyTask.Type.Conflict)
             {
+                //Creating the conflicting Data
                 ConflictingDataDTO[][] conflictinData = new ConflictingDataDTO[task.DataFields.Count][];
+
+                //For each dataField
                 for (int d = 0; d < task.DataFields.Count; d++)
                 {
-                    conflictinData[d] = new ConflictingDataDTO[task.Users.Count];
-                    for (int u = 0; u < task.Users.Count; u++)
+                    //Create new conflicting data
+                    conflictinData[d] = new ConflictingDataDTO[task.UserIDs.Count];
+
+                    //Add each users data and id to the conflicting data
+                    for (int u = 0; u < task.UserIDs.Count; u++)
                     {
                         var userData = task.DataFields[d].ConflictingData[u];
                         conflictinData[d][u] = new ConflictingDataDTO() { Data = userData.Data, UserId = userData.UserID };

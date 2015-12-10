@@ -30,11 +30,11 @@ namespace StudyConfigurationServer.Models
         /// The StudyTask is connected to a certain paper
         /// </summary>
         [Required]
-        public Item Paper { get; set; }
+        public virtual Item Paper { get; set; }
 
         public Stage Stage { get; set; } // reference to Stage (many to one)
 
-        public List<User> Users { get; set; } 
+        public List<int> UserIDs { get; set; } 
         
         /// <summary>
         /// Defines wether the task can still be edited. Changes to false when all tasks for a stage has been delivered. 
@@ -49,7 +49,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// A the data which need to be filled out as part of the StudyTask.
         /// </summary>
-        public List<DataField> DataFields { get; set; }
+        public virtual List<DataField> DataFields { get; set; }
 
         public StudyTask SubmitData(TaskSubmissionDTO taskToDeliver)
         {

@@ -17,7 +17,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
             {
                 foreach (var user in users)
                 {
-                    task.Users.Add(user);
+                    task.UserIDs.Add(user.Id);
 
                     foreach (var dataField in task.DataFields)
                     {
