@@ -11,14 +11,14 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
     public class TeamManager
     {
         private readonly TeamStorageManager _teamStorageManager;
-        
+
         
 
         public TeamManager(TeamStorageManager storageManager)
         {
             _teamStorageManager = storageManager;
-            
           
+
 
         }
 
@@ -43,13 +43,13 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 try
                 {
-                    teamToAdd.Users.Add(_teamStorageManager.GetUser(userID));
-                }
+                teamToAdd.Users.Add(_teamStorageManager.GetUser(userID));
+            }
                 catch (NullReferenceException)
                 {
                     throw new NullReferenceException("User can't be added to team, because user does not exist");
                 }
-                
+
             }
 
             return _teamStorageManager.CreateTeam(teamToAdd);
@@ -57,12 +57,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public Boolean RemoveTeam(int teamID)
         {
-            
+
             var team = _teamStorageManager.GetTeam(teamID);
             if (team.StudyIDs != null)
             {
-                return _teamStorageManager.RemoveTeam(teamID);
-            }
+            return _teamStorageManager.RemoveTeam(teamID);
+        }
             else
             {
                 throw new ArgumentException("Can't delete team because it is in a study");
@@ -91,20 +91,20 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             teamToUpdate.Users.Clear();
 
             teamToUpdate.Name = newTeamDto.Name;
-            
+
 
             foreach (var userID in newTeamDto.UserIDs)
             {
                 try
                 {
-                    teamToUpdate.Users.Add(_teamStorageManager.GetUser(userID));
-                }
+                teamToUpdate.Users.Add(_teamStorageManager.GetUser(userID));
+            }
                 catch (NullReferenceException)
                 {
                     throw new NullReferenceException("User can't be added to team, because user does not exist");
                 }                    
             }           
-                return _teamStorageManager.UpdateTeam(teamToUpdate);                     
+            return _teamStorageManager.UpdateTeam(teamToUpdate);
         }
 
         public IEnumerable<TeamDTO> SearchTeams(string TeamName)
@@ -144,7 +144,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         public IEnumerable<TeamDTO> GetAllTeams()
         {
             var dbTeams = _teamStorageManager.GetAllTeams();
-
+               
             if(dbTeams == null)
             {
                 throw new NullReferenceException("teams could not be found, probably doesn't exist in database");
