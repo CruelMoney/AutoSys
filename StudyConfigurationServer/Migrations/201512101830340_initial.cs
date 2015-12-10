@@ -1,9 +1,9 @@
-namespace LogicTests1.Migrations
+namespace StudyConfigurationServer.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class inital : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
