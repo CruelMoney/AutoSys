@@ -42,12 +42,12 @@ namespace StudyConfigurationServer.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         StudyRole = c.Int(nullable: false),
-                        Stage_Id = c.Int(),
-                        User_Id = c.Int(),
+                        Stage_Id = c.Int(nullable: false),
+                        User_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Stages", t => t.Stage_Id)
-                .ForeignKey("dbo.Users", t => t.User_Id)
+                .ForeignKey("dbo.Stages", t => t.Stage_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.User_Id, cascadeDelete: true)
                 .Index(t => t.Stage_Id)
                 .Index(t => t.User_Id);
             
@@ -161,9 +161,9 @@ namespace StudyConfigurationServer.Migrations
             DropForeignKey("dbo.DataFields", "StudyTask_Id", "dbo.StudyTasks");
             DropForeignKey("dbo.UserDatas", "DataField_Id1", "dbo.DataFields");
             DropForeignKey("dbo.UserDatas", "DataField_Id", "dbo.DataFields");
+            DropForeignKey("dbo.UserStudies", "User_Id", "dbo.Users");
             DropForeignKey("dbo.TeamUsers", "User_Id", "dbo.Users");
             DropForeignKey("dbo.TeamUsers", "Team_Id", "dbo.Teams");
-            DropForeignKey("dbo.UserStudies", "User_Id", "dbo.Users");
             DropForeignKey("dbo.UserStudies", "Stage_Id", "dbo.Stages");
             DropForeignKey("dbo.Criteria", "Stage_Id", "dbo.Stages");
             DropIndex("dbo.TeamUsers", new[] { "User_Id" });
