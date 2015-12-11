@@ -66,7 +66,15 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetStudyIDs(int id)
         {
             // GET: api/UserDTO/5/StudyIDs
-            throw new NotImplementedException();
+            try
+            {
+                
+                return Ok(_manager.GetStudyIds(id));
+            }
+            catch(NullReferenceException)
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
