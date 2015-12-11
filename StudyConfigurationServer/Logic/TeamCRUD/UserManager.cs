@@ -32,82 +32,100 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public bool RemoveUser(int userId)
         {
-            var user = _storageManager.GetUser(userId);
-            if (user.StudyIds != null)
+            try
             {
-                throw new ArgumentException("User is part of one or more studies, and can therefore not be deleted");
+                var user = _storageManager.GetUser(userId);
+                if (user.StudyIds != null)
+                {
+                    throw new ArgumentException("User is part of one or more studies, and can therefore not be deleted");
+                }
+                return _storageManager.RemoveUser(userId);
             }
-            return _storageManager.RemoveUser(userId);             
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("User could not be found, probably doesn't exist in database");
+            }
+                        
         }
 
         public bool UpdateUser(int userId, UserDTO newUserDto)
         {
-            var userToUpdate = _storageManager.GetUser(userId);
-            if (userToUpdate == null)
+            try
             {
-                throw new NullReferenceException("user could not be found, problably doesn't exist in database");
+                var userToUpdate = _storageManager.GetUser(userId);
+
+                userToUpdate.Name = newUserDto.Name;
+                userToUpdate.Metadata = newUserDto.Metadata;
+              
+                return _storageManager.UpdateUser(userToUpdate);
             }
-            userToUpdate.Name = newUserDto.Name;
-            userToUpdate.Metadata = newUserDto.Metadata;
-            /*var updatedUser = new User()
+            catch (NullReferenceException)
             {
-                Id = userId,
-                Name = newUserDto.Name,
-                Metadata = newUserDto.Metadata
-            };*/
-            return _storageManager.UpdateUser(userToUpdate);
+                throw new NullReferenceException("user could not be found, probably doesn't exist in database");
+            }
         }
 
         public IEnumerable<UserDTO> SearchUserDTOs(string userName)
         {
-            var users = _storageManager.GetAllUsers();
-            if (users == null)
+            try
+            {
+                var users = _storageManager.GetAllUsers();
+                return
+                    (from User dbUser in _storageManager.GetAllUsers()
+                     where dbUser.Name.Equals(userName)
+                     select new UserDTO()
+                     {
+                         Id = dbUser.Id,
+                         Name = dbUser.Name,
+                         Metadata = dbUser.Metadata
+                     })
+                        .ToList();
+            }
+            catch (NullReferenceException)
             {
                 throw new NullReferenceException("There are no users in the database");
             }
-            return
-                (from User dbUser in _storageManager.GetAllUsers()
-                    where dbUser.Name.Equals(userName)
-                    select new UserDTO()
-                    {
-                        Id = dbUser.Id,
-                        Name = dbUser.Name,
-                        Metadata = dbUser.Metadata
-                    })
-                    .ToList();
         }
 
         public UserDTO GetUserDTO(int userId)
         {
-            var dbUser = _storageManager.GetUser(userId);
-            if(dbUser == null)
+            try
+            {
+                var dbUser = _storageManager.GetUser(userId);
+
+                return new UserDTO()
+                {
+                    Id = dbUser.Id,
+                    Name = dbUser.Name,
+                    Metadata = dbUser.Metadata
+                };
+            }
+            catch (NullReferenceException)
             {
                 throw new NullReferenceException("User could not be found, probably doesn't exist in database");
             }
-            return new UserDTO()
-            {
-                Id = dbUser.Id,
-                Name = dbUser.Name,
-                Metadata = dbUser.Metadata
-            };
         }
 
         public IEnumerable<UserDTO> GetAllUserDTOs()
         {
-            var users = _storageManager.GetAllUsers();
-            if(users == null)
+            try
+            {
+                var users = _storageManager.GetAllUsers();
+
+
+                return
+                    (from User dbUser in _storageManager.GetAllUsers()
+                     select new UserDTO()
+                     {
+                         Id = dbUser.Id,
+                         Name = dbUser.Name,
+                         Metadata = dbUser.Metadata
+                     }).ToList();
+            }
+            catch (NullReferenceException)
             {
                 throw new NullReferenceException("There are no users in the database");
             }
-            return
-                (from User dbUser in _storageManager.GetAllUsers()
-                    select new UserDTO()
-                    {
-                        Id = dbUser.Id,
-                        Name = dbUser.Name,
-                        Metadata = dbUser.Metadata
-                    }).ToList();
-
         }
     }
 } 
