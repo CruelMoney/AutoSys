@@ -16,8 +16,6 @@ namespace StudyConfigurationServer.Models
             Exists
         }
 
-        public Stage Stage { get; set; } // reference to Stage (many to one)
-
         public int Id { get; set; }
 
         /// <summary>

@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Logic\StudyConfiguration\TaskManagement\TaskRequester\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Interfaces\IStudyController.cs" />
@@ -145,37 +146,39 @@
     <Compile Include="Logic\StudyConfiguration\BiblographyParser\IItemChecker.cs" />
     <Compile Include="Logic\StudyConfiguration\BiblographyParser\ItemValidator.cs" />
     <Compile Include="Logic\StudyConfiguration\StudyManager.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\CriteriaValidation\CriteriaCheckers.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\CriteriaValidation\CriteriaValidator.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\CriteriaValidation\ICriteriaChecker.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\CriteriaValidation\ICriteriaValidator.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\CriteriaValidation\IRuleChecker.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\CriteriaValidation\RuleCheckers.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskDistributor\Distributors.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskDistributor\DistributorSelector.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskDistributor\IDistributor.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskGenerator.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskManager.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskRequester.cs" />
     <Compile Include="Logic\StudyOverview\StudyOverviewController.cs" />
-    <Compile Include="Logic\TaskManagement\TaskController.cs" />
-    <Compile Include="Logic\TaskManagement\TaskDeliver.cs" />
-    <Compile Include="Logic\TaskManagement\TaskDistributor\Distributors.cs" />
-    <Compile Include="Logic\TaskManagement\TaskDistributor\DistributorSelector.cs" />
-    <Compile Include="Logic\TaskManagement\TaskDistributor\IDistributor.cs" />
-    <Compile Include="Logic\TaskManagement\TaskGenerator.cs" />
-    <Compile Include="Logic\TaskManagement\TaskRequester.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
-    <Compile Include="Migrations\201512110014566_initial.cs" />
-    <Compile Include="Migrations\201512110014566_initial.Designer.cs">
-      <DependentUpon>201512110014566_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201512111226524_initial.cs" />
+    <Compile Include="Migrations\201512111226524_initial.Designer.cs">
+      <DependentUpon>201512111226524_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
-    <Compile Include="Models\CriteriaValidator\CriteriaCheckers.cs" />
-    <Compile Include="Models\CriteriaValidator\CriteriaValidator.cs" />
-    <Compile Include="Models\CriteriaValidator\ICriteriaChecker.cs" />
-    <Compile Include="Models\CriteriaValidator\ICriteriaValidator.cs" />
-    <Compile Include="Models\CriteriaValidator\IRuleChecker.cs" />
-    <Compile Include="Models\CriteriaValidator\RuleCheckers.cs" />
     <Compile Include="Models\DataField.cs" />
     <Compile Include="Models\Data\StudyContext.cs" />
     <Compile Include="Models\Data\StudyContext.Designer.cs">
       <DependentUpon>StudyContext.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\ConflictingDataDTO.cs" />
+    <Compile Include="Models\DTO\CriteriaDTO.cs" />
     <Compile Include="Models\DTO\DataFieldDTO.cs" />
     <Compile Include="Models\DTO\ResourceDTO.cs" />
+    <Compile Include="Models\DTO\StageDTO.cs" />
     <Compile Include="Models\DTO\StageOverviewDTO.cs" />
+    <Compile Include="Models\DTO\StudyDTO.cs" />
     <Compile Include="Models\DTO\StudyOverviewDTO.cs" />
     <Compile Include="Models\DTO\TaskRequestDTO.cs" />
     <Compile Include="Models\DTO\TaskSubmissionDTO.cs" />
@@ -212,8 +215,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512110014566_initial.resx">
-      <DependentUpon>201512110014566_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512111226524_initial.resx">
+      <DependentUpon>201512111226524_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

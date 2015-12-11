@@ -3,7 +3,6 @@ using System.Net;
 using System.Web.Http;
 using StudyConfigurationServer.Api.Interfaces;
 using StudyConfigurationServer.Logic.StudyConfiguration;
-using StudyConfigurationServer.Logic.TaskManagement;
 using StudyConfigurationServer.Models.DTO;
 using StudyConfigurationServer.Logic.StudyOverview;
 
@@ -74,7 +73,7 @@ namespace StudyConfigurationServer.Api
         {
             // GET: api/Study/4/StudyTask/5
             throw new NotImplementedException();
-            TaskController controller = new TaskController();
+            
             
         }
 

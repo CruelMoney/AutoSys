@@ -21,7 +21,7 @@ namespace StudyConfigurationServer.Models
         public bool IsFinished { get; set; }
 
         /// <summary>
-        /// Finds the next stage db ID and returns it. 
+        /// Changes the currentstage id to the next and returns it. 
         /// We rely on the database to keep the study's list of stages in order.
         /// </summary>
         /// <returns></returns>

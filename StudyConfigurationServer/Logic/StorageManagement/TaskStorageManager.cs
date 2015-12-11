@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Storage.Repository;
-using StudyConfigurationServer.Logic.TaskManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 
@@ -36,7 +36,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return _taskRepo.Update(studyTask);
         }
 
-        public IEnumerable<StudyTask> GetAllTasks() 
+        public IQueryable<StudyTask> GetAllTasks() 
         {
             return _taskRepo.Read<StudyTask>();
         }

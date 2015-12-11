@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using StudyConfigurationServer.Models;
 
-namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor
 {
     /// <summary>
     /// A Distributor that gives each user each of the tasks. The users share 100% of the tasks. 

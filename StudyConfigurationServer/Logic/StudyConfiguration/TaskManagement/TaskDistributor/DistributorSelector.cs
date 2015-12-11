@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
 using StudyConfigurationServer.Models;
-using StudyConfigurationServer.Models.CriteriaValidator;
 
-namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor
 {
     public class DistributorSelector
     {
@@ -18,10 +14,9 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
         ///  </summary>
         public DistributorSelector(Dictionary<Stage.Distribution, IDistributor> distributors = null)
         {
-            throw new NotImplementedException();
             _distributors = distributors ?? new Dictionary<Stage.Distribution, IDistributor>()
             {
-
+                {Stage.Distribution.FiftyPercentOverlap, new EqualDistributor() }
             };
         }
 
@@ -39,7 +34,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement.TaskDistributor
             }
             else
             {
-               return _defaultDistributor.Distribute(users, tasks);
+              throw new NotImplementedException("The distributer is not implemented");
             }
         }
     }

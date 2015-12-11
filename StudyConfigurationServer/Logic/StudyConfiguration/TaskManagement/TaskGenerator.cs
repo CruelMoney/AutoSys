@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using StudyConfigurationServer.Logic.StorageManagement;
-using StudyConfigurationServer.Logic.TaskManagement.TaskDistributor;
+﻿using System.Collections.Generic;
 using StudyConfigurationServer.Models;
-using StudyConfigurationServer.Models.DTO;
 
-namespace StudyConfigurationServer.Logic.TaskManagement
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 {
     public class TaskGenerator
     {

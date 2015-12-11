@@ -1,8 +1,8 @@
-﻿using System;
 using System.Collections.Generic;
 using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
+using StudyConfigurationServer.Models;
 
-namespace StudyConfigurationServer.Models.CriteriaValidator
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
     public class CriteriaValidator : ICriteriaValidator
     {

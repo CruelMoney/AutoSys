@@ -108,7 +108,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             }
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IQueryable<User> GetAllUsers()
         {
             try
             {

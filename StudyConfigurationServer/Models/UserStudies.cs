@@ -1,11 +1,15 @@
-﻿using Storage.Repository;
+﻿using System.ComponentModel.DataAnnotations;
+using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
 {
     public class UserStudies : IEntity
     {
+        [Required]
         public virtual User User { get; set; }
+        [Required]
         public Stage Stage { get; set; }
+        [Required]
         public Role StudyRole { get; set; }
         public int Id { get; set; }
 

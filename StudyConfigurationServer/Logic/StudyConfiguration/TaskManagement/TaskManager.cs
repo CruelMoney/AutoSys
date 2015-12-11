@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Ajax.Utilities;
-using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
-using StudyConfigurationServer.Logic.TaskManagement.TaskDistributor;
+using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation;
+using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor;
 using StudyConfigurationServer.Models;
-using StudyConfigurationServer.Models.CriteriaValidator;
 using StudyConfigurationServer.Models.DTO;
-using static StudyConfigurationServer.Models.DTO.TaskRequestDTO;
 
-namespace StudyConfigurationServer.Logic.TaskManagement
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 {
-    public class TaskController 
+    public class TaskManager 
     {
         private readonly DistributorSelector _taskDistributor;
         private readonly TaskGenerator _taskGenerator;
@@ -20,12 +18,20 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         private readonly CriteriaValidator _criteriaValidator;
         private IDisposable _unsubscriber;
 
-        public TaskController()
+        public TaskManager()
         {
             _taskDistributor = new DistributorSelector();
-            _criteriaValidator = new CriteriaValidator();
+            _criteriaValidator = new CriteriaValidation.CriteriaValidator();
             _taskGenerator = new TaskGenerator();
             _storageManager = new TaskStorageManager();
+        }
+
+        public TaskManager(TaskStorageManager storageManager)
+        {
+            _taskDistributor = new DistributorSelector();
+            _criteriaValidator = new CriteriaValidation.CriteriaValidator();
+            _taskGenerator = new TaskGenerator();
+            _storageManager = storageManager;
         }
 
         public bool DeliverTask(int taskID, TaskSubmissionDTO task)
@@ -50,6 +56,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         /// </summary>
         /// <param name="taskID"></param>
         /// <returns>itemIDs to be excluded from study</returns>
+        /// TODO what happens if there are no validators for this stage
         public IEnumerable<int> GenerateValidationTasks(ICollection<int> taskIDs, ICollection<Criteria> criteria, ICollection<User> users, Stage.Distribution distributionRule)
         {
             var validationTasks = new List<StudyTask>();
@@ -120,82 +127,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         }
 
 
-      public IEnumerable<TaskRequestDTO> GetTasksForUser(Study study, int userID, int count = 1, Filter filter = Filter.Remaining, StudyTask.Type type = StudyTask.Type.Both)
-        {
-            var visibleFields = study.CurrentStage().VisibleFields;
-
-            switch (filter)
-            {
-                case Filter.Remaining:
-                    return GetRemainingTasks(study, userID).
-                        Where(t => t.TaskType == type).
-                        Take(count).
-                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
-                case Filter.Done:
-                    return GetFinishedTasks(study, userID).
-                        Where(t => t.TaskType == type).
-                        Take(count).
-                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
-                case Filter.Editable:
-                    return GetEditableTasks(study, userID).
-                        Where(t => t.TaskType == type).
-                        Take(count).
-                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
-            }
-        }
-
-        /// <summary>
-        /// Get requested StudyTask IDs for a specific User of a given study. By default, delivered but still editable StudyTask IDs are returned.
-        /// Optionally, the type of StudyTask IDs to retrieve are specified.
-        /// </summary>
-        /// <param name="user">The User to get tasks for</param>
-        /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
-        /// <param name="type">The type of tasks to retrieve.</param>
-        /// <param name="study">The study to get tasks for.</param>
-        public IEnumerable<int> GetTaskIDs(Study study, int userID, Filter filter = Filter.Editable, StudyTask.Type type = StudyTask.Type.Both)
-        {
-            switch (filter)
-            {
-                case Filter.Remaining:
-                    return GetRemainingTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
-                case Filter.Done:
-                    return GetFinishedTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
-                case Filter.Editable:
-                    return GetEditableTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
-            }
-        }
-
-        private IEnumerable<StudyTask> GetFinishedTasks(Study study, int userID)
-        {
-            return study.Stages.
-                SelectMany(stage => stage.TaskIDs).
-                Select(t=> _storageManager.GetTask(t)).
-                Where(t => t.UserIDs.Contains(userID)).
-                Where(t => !t.IsEditable);
-        }
-
-        private IEnumerable<StudyTask> GetRemainingTasks(Study study, int userID)
-        {
-            return study.Stages.
-              SelectMany(stage => stage.TaskIDs).
-              Select(t => _storageManager.GetTask(t)).
-              Where(t => t.UserIDs.Contains(userID)).
-              Where(t => !t.IsFinished(userID));
-        }
-
-        private IEnumerable<StudyTask> GetEditableTasks(Study study, int userID)
-        {
-            return study.Stages.
-              SelectMany(stage => stage.TaskIDs).
-              Select(t => _storageManager.GetTask(t)).
-              Where(t => t.UserIDs.Contains(userID)).
-              Where(t => t.IsEditable);
-        }
-
+     
         /// <summary>
         /// Get the taskRequestDTO for a user
         /// </summary>

@@ -117,8 +117,9 @@ namespace StorageTests.Repository
             var item = new MockEntity() { Id = 1, Name = "Name"};
             var entry = new Mock<DbEntityEntry<MockEntity>>();
 
-            //entry.Setup(e => e.CurrentValues)
+            //entry.Setup(m => m.
             DbSet.Setup(m => m.Find(item.Id)).Returns(item);
+
             context.Setup(c => c.Set<MockEntity>()).Returns(DbSet.Object);
             context.Setup(c => c.Entry<MockEntity>(item)).Returns(entry.Object);
            
