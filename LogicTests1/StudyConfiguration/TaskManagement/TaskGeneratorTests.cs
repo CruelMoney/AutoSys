@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using StudyConfigurationServer.Logic.TaskManagement;
+using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.TaskManagement
+namespace LogicTests1.StudyConfiguration.TaskManagement
 {
     [TestClass()]
     public class TaskGeneratorTests

@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using StudyConfigurationServer.Models;
 
-namespace StudyConfigurationServer.Models.CriteriaValidator
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
     public class DefaultCriteriaChecker : ICriteriaChecker
     {

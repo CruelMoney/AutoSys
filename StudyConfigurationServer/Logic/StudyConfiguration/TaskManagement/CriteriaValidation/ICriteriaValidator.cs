@@ -1,4 +1,6 @@
-﻿namespace StudyConfigurationServer.Models.CriteriaValidator
+using StudyConfigurationServer.Models;
+
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
     public interface ICriteriaValidator
     {

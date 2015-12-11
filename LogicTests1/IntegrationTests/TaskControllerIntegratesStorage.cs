@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using LogicTests1.IntegrationTests.DBInitializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Logic.StorageManagement;
-using StudyConfigurationServer.Logic.TaskManagement;
+using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
@@ -18,7 +18,7 @@ namespace LogicTests1.IntegrationTests
     public class TaskControllerIntegratesStorage
     {
         TaskStorageManager _storageManager;
-        TaskController _controller;
+        TaskManager _manager;
 
 
 
@@ -44,13 +44,13 @@ namespace LogicTests1.IntegrationTests
         public void Initialize()
         {
              setupMultipleDB();
-            _controller = new TaskController();
-
+            _storageManager = new TaskStorageManager();
+            _manager = new TaskManager(_storageManager);
             var testItem = new Item(Item.ItemType.Book, new Dictionary<Item.FieldType, string>());
             var testUser1 = new User() { Id = 1, Name = "chris" };
             var testUser2 = new User() { Id = 2, Name = "ramos" };
             var userData1 = new UserData() { UserID = 1, Data = new string[1] { "initialData" } };
-            var userData2 = new UserData() { UserID = 2, Data = new string[1] { "initialData2" } };
+            var userData2 = new UserData() { UserID = 2, Data = new string[1] { "" } };
             var userData3 = new UserData() { UserID = 2, Data = new string[1] };
             var dataFields1 = new List<DataField>() { new DataField() { UserData = new List<UserData>() { userData1 }, Name = "testField", Description = "testDescription" } };
             var dataFields2 = new List<DataField>() { new DataField() { UserData = new List<UserData>() { userData2, userData1 }, Name = "testField2", Description = "testDescription2" } };
@@ -83,7 +83,7 @@ namespace LogicTests1.IntegrationTests
             };
 
             //Action
-            _controller.DeliverTask(1, dto);
+            _manager.DeliverTask(1, dto);
             var actualTask = _storageManager.GetTask(1);
             var actualData = actualTask.DataFields.SelectMany(d => d.UserData).FirstOrDefault(u => u.UserID == 1).Data;
             

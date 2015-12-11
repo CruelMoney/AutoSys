@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StudyConfigurationServer.Models.CriteriaValidator
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
     public interface IRuleChecker
     {

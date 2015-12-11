@@ -20,7 +20,7 @@ namespace StudyConfigurationUI
 
         private void OnOpenStudy(object sender, RoutedEventArgs e)
         {
-            var args = ManageStudyPageArgs.CreateForExistingTeam(0);
+            var args = ManageStudyPageArgs.CreateForExistingTeam(1);
             this.Frame.Navigate(typeof(ManageStudyPage), args);
         }
 

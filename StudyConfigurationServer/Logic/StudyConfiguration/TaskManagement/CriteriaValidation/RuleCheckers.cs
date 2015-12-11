@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StudyConfigurationServer.Models.CriteriaValidator
+namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
 
     public class DefaultRuleChecker : IRuleChecker
