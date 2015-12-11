@@ -8,6 +8,7 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Api
 {
+    [RoutePrefix("api/StudyConfiguration")]
     public class StudyConfigurationController : ApiController
     {
         private readonly StudyManager _manager = new StudyManager();
@@ -36,13 +37,14 @@ namespace StudyConfigurationServer.Api
             _manager.UpdateStudy(id, study);
         }
 
+
         // DELETE: api/StudyConfiguration/5
         public void Delete(int id)
         {
             _manager.RemoveStudy(id);
         }
 
-        [Route("Team/{id}")]
+        [Route("{id}/Team")]
         public Team GetTeam(int id)
         {
             return _teamManager.GetTeam(id);
