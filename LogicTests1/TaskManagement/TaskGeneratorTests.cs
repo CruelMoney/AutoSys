@@ -77,7 +77,6 @@ namespace LogicTests1.TaskManagement
                     }
                 },
                 Paper = testItem1,
-                Stage = testStage1,
                 TaskType = StudyTask.Type.Review,
                 UserIDs = new List<int>() { user1.Id ,user2.Id}
             };
@@ -90,7 +89,7 @@ namespace LogicTests1.TaskManagement
             //Arrange
             
             //Action
-            var result = items.Select(item => _taskGenerator.GenerateReviewTask(item, testStage1)).ToList();
+            var result = items.Select(item => _taskGenerator.GenerateReviewTask(item, testStage1.Criteria)).ToList();
             
             //Assert 
             Assert.AreEqual(3, result.Count());
@@ -100,7 +99,7 @@ namespace LogicTests1.TaskManagement
             {
                 Assert.AreEqual(items[i], result[i].Paper);
                 Assert.AreEqual(testStage1.CurrentTaskType, result[i].TaskType);
-                Assert.AreEqual(testStage1, result[i].Stage);
+            
                 Assert.AreEqual(1, result[i].DataFields.Count);
                 Assert.AreEqual("expectedDescription", result[i].DataFields[0].Description);
                 Assert.AreEqual(expectedDataType, result[i].DataFields[0].FieldType);
@@ -121,7 +120,6 @@ namespace LogicTests1.TaskManagement
             //Assert 
             Assert.AreEqual(items[0], result.Paper);
             Assert.AreEqual(StudyTask.Type.Conflict, result.TaskType);
-            Assert.AreEqual(testStage1, result.Stage);
             Assert.AreEqual(1, result.DataFields.Count);
             Assert.AreEqual("dataFieldDescription1", result.DataFields[0].Description);
             Assert.AreEqual(expectedDataType, result.DataFields[0].FieldType);
@@ -131,15 +129,6 @@ namespace LogicTests1.TaskManagement
             Assert.AreEqual(2, result.DataFields[0].ConflictingData.Count);
             Assert.AreEqual(expectedUserData1, result.DataFields[0].ConflictingData[0]);
             Assert.AreEqual(expectedUserData2, result.DataFields[0].ConflictingData[1]);
-        }
-
-        [ExpectedException(typeof(ArgumentException))]
-        [TestMethod]
-        public void TestTaskGeneratorStageInvalidType()
-        {
-            //Action
-            items.Select(item => _taskGenerator.GenerateReviewTask(item, new Stage() { CurrentTaskType = StudyTask.Type.Conflict })).ToList();
-
         }
 
       

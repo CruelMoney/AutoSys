@@ -12,21 +12,24 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 {
     public class StudyOverviewController
     {
-        private StudyStorageManager _studyManager;
+        private StudyStorageManager _studyStorageManager;
+        private TaskStorageManager _taskStorageManager;
 
-        public StudyOverviewController(StudyStorageManager studyManager)
+        public StudyOverviewController(StudyStorageManager studyStorageManager, TaskStorageManager taskStorageManager)
         {
-            _studyManager = studyManager;
+            _studyStorageManager = studyStorageManager;
+            _taskStorageManager = taskStorageManager;
         }
 
         public StudyOverviewController()
         {
-            _studyManager = new StudyStorageManager();
+            _studyStorageManager = new StudyStorageManager();
+            _taskStorageManager = new TaskStorageManager();
         }
 
         public StudyOverviewDTO GetOverview(int id)
         {
-            Study study = _studyManager.GetStudy(id);
+            Study study = _studyStorageManager.GetStudy(id);
 
             StudyOverviewDTO studyOverview = new StudyOverviewDTO()
             {
@@ -85,8 +88,9 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             var completedTasks = new ConcurrentDictionary<int, int>();
 
-            foreach(var task in stage.Tasks)
+            foreach(var taskID in stage.TaskIDs)
             {
+                var task = _taskStorageManager.GetTask(taskID);
                 foreach (var user in task.UserIDs)
                 {
                     if (task.IsFinished(user))
@@ -102,8 +106,9 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             var inCompletedTasks = new ConcurrentDictionary<int, int>();
 
-            foreach (var task in stage.Tasks)
+            foreach (var taskID in stage.TaskIDs)
             {
+                var task = _taskStorageManager.GetTask(taskID);
                 foreach (var user in task.UserIDs)
                 {
                     if (!task.IsFinished(user))

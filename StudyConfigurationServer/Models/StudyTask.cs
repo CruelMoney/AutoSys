@@ -32,8 +32,6 @@ namespace StudyConfigurationServer.Models
         [Required]
         public virtual Item Paper { get; set; }
 
-        public Stage Stage { get; set; } // reference to Stage (many to one)
-
         public List<int> UserIDs { get; set; } 
         
         /// <summary>

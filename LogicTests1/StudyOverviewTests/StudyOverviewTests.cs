@@ -56,7 +56,7 @@ namespace LogicTests1.StudyOverviewTests
                 Stages = new List<Stage>() {
             new Stage() {
                 Name = "stage1" ,
-                Id = 1, Tasks = new List<StudyTask>()
+                Id = 1, TaskIDs = new List<StudyTask>()
                 {
                 new StudyTask() {
                      UserIDs = new List<int>() {user1.Id,user2.Id,user3.Id},
@@ -85,7 +85,7 @@ namespace LogicTests1.StudyOverviewTests
                 } } } } },
              new Stage() {
                 Name = "stage2" ,
-                Id = 2, Tasks = new List<StudyTask>()
+                Id = 2, TaskIDs = new List<StudyTask>()
                 {
                new StudyTask() {
                    UserIDs = new List<int>() {user1.Id,user2.Id,user4.Id},

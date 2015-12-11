@@ -15,9 +15,9 @@ namespace StudyConfigurationServer.Models
         /// The DB id for the current stage
         /// </summary>
         public int CurrentStageID { get; set; }
-        public List<Stage> Stages { get; set; } // reference til Stages (one to many)
+        public virtual List<Stage> Stages { get; set; } // reference til Stages (one to many)
         public Team Team { get; set; }
-        public List<Item> Items { get; set; } // where to place?
+        public virtual List<Item> Items { get; set; } // where to place?
         public bool IsFinished { get; set; }
 
         /// <summary>
@@ -29,6 +29,11 @@ namespace StudyConfigurationServer.Models
         {
             var currentIndex = Stages.FindIndex(s => s.Id.Equals(CurrentStageID));
             return CurrentStageID = Stages[currentIndex + 1].Id;
+        }
+
+        public Stage CurrentStage()
+        {
+            return Stages.First(s => s.Id == CurrentStageID);
         }
     }
 }

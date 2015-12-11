@@ -4,7 +4,7 @@ namespace StudyConfigurationServer.Models
 {
     public class UserStudies : IEntity
     {
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public Stage Stage { get; set; }
         public Role StudyRole { get; set; }
         public int Id { get; set; }

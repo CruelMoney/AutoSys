@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web.Http;
 using StudyConfigurationServer.Api.Interfaces;
+using StudyConfigurationServer.Logic.StudyConfiguration;
 using StudyConfigurationServer.Logic.TaskManagement;
 using StudyConfigurationServer.Models.DTO;
 using StudyConfigurationServer.Logic.StudyOverview;
@@ -14,8 +15,9 @@ namespace StudyConfigurationServer.Api
     [RoutePrefix("api/Study")]
     public class StudyController : ApiController
     {
+        StudyOverviewController controller = new StudyOverviewController();
+        StudyManager _studyManager = new StudyManager();
 
-        TaskController _controller = new TaskController();
         /// <summary>
         /// Retrieve an overview of the specified study.
         /// </summary>
@@ -23,10 +25,8 @@ namespace StudyConfigurationServer.Api
         [Route("{id}/Overview")]
         public IHttpActionResult GetOverview(int id)
         {
-            throw new NotImplementedException();
-            // GET: api/Study/5/Overview
-            StudyOverviewController controller = new StudyOverviewController();
-            return Ok(controller.GetOverview(id));
+          // GET: api/Study/5/Overview
+           return Ok(controller.GetOverview(id));
          
         }
         
@@ -44,8 +44,8 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
+            _studyManager.getTasks(id, userId, count, filter, type);
 
-           throw new NotImplementedException();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the study the StudyTask is part of.</param>
         /// <param name="taskId">The ID of the StudyTask.</param>
         /// <param name="task">The completed StudyTask.</param>
-        public IHttpActionResult Post( int taskId, [FromBody]TaskSubmissionDTO task)
+        public IHttpActionResult Post(int id, int taskId, [FromBody]TaskSubmissionDTO task)
         {
             // POST: api/Study/4/StudyTask/5
 
