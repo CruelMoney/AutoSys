@@ -98,6 +98,12 @@
     <Compile Include="IntegrationTests\TaskControllerIntegratesStorage.cs" />
     <Compile Include="IntegrationTests\TeamManagerIntegrationTest.cs" />
     <Compile Include="IntegrationTests\UserControllerIntegrationTest.cs" />
+    <Compile Include="IntegrationTests\UserManagerIntegrationTest.cs" />
+    <Compile Include="Migrations\201512102334324_initial.cs" />
+    <Compile Include="Migrations\201512102334324_initial.Designer.cs">
+      <DependentUpon>201512102334324_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\CriteriaTests.cs" />
     <Compile Include="Model\DataFieldTests.cs" />
     <Compile Include="Model\ItemTests.cs" />
@@ -137,6 +143,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201512102334324_initial.resx">
+      <DependentUpon>201512102334324_initial.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

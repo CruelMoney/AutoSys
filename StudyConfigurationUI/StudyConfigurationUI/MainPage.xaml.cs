@@ -1,27 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using StudyConfigurationUI;
 using StudyConfigurationUI.Data;
 using StudyConfigurationUI.Model;
-using StudyConfigurationUI.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace StudyConfiguration
+namespace StudyConfigurationUI
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -35,7 +20,7 @@ namespace StudyConfiguration
 
         private void OnOpenStudy(object sender, RoutedEventArgs e)
         {
-            var args = ManageStudyPageArgs.CreateForExistingTeam(1);
+            var args = ManageStudyPageArgs.CreateForExistingTeam(0);
             this.Frame.Navigate(typeof(ManageStudyPage), args);
         }
 
@@ -47,6 +32,15 @@ namespace StudyConfiguration
             s.Stages.Add(new Stage() {Name = "stage1 LOL"});
             s.Stages.Add(new Stage() { Name = "stage441 LOL" });
             s.Team = new Team() {Name = "vinderholdet"};
+            s.Stages = new List<Stage>();
+            s.Team.Users = new List<User>();
+            s.Team.Users.Add(new User() { Name = "Thomas", Id = 1 });
+            s.Team.Users.Add(new User() { Name = "Ramos", Id = 2 });
+            s.Team.Users.Add(new User() { Name = "Timothy", Id = 3 });
+            s.Team.Users.Add(new User() { Name = "Kathrin", Id = 4 });
+            s.Team.Users.Add(new User() { Name = "Dengsø", Id = 5 });
+            s.Team.Users.Add(new User() { Name = "Mads", Id = 6 });
+            s.Team.Users.Add(new User() { Name = "Tor", Id = 7 });
             this.Frame.Navigate(typeof (ManageStudyPage), s);
         }
 

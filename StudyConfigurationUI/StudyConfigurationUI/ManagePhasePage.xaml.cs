@@ -13,19 +13,17 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using StudyConfigurationUI.Data;
-using StudyConfigurationUI.ViewModels;
 using System.Diagnostics;
+using System.Reflection;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace StudyConfigurationUI
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+
     public sealed partial class ManagePhasePage : Page
     {
-        private ViewModel _viewModel;
+        private Logic.Logic _viewModel;
         private Stage _stageToWorkOn;
         private List<User> _users;
         private List<UserStudies> _reviewers;
@@ -37,15 +35,15 @@ namespace StudyConfigurationUI
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
-            _viewModel = new ViewModel();
+            _viewModel = new Logic.Logic();
             var studyArgs = args.Parameter as Study;
             if (studyArgs == null)
             {
                 throw new ArgumentException("this page needs to recieve a study as parameter", nameof(args));
             }
             
-            _viewModel.studyToWorkOn = studyArgs;
-            SetUpFromStudy(_viewModel.studyToWorkOn);
+            _viewModel._StudyToWorkOn = studyArgs;
+            SetUpFromStudy(_viewModel._StudyToWorkOn);
             SetUpCriteria();
         }
 
@@ -55,15 +53,41 @@ namespace StudyConfigurationUI
             {
                 CriteriaDataType.Items.Add(en);
             }
-            CriteriaDataType.SelectedIndex = 1;
 
         }
+
+        public void SaveCriteria()
+        {
+            _stageToWorkOn.Criteria = new List<Criteria>();
+            var criteriaToAdd = new Criteria
+            {
+                Name = CriteriaName.Text,
+                Description = CriteriaDescription.Text,
+                Stage = _stageToWorkOn,
+                DataType = (DataField.DataType) CriteriaDataType.SelectionBoxItem,
+                Rule = (Criteria.CriteriaRule) CriteriaRule.SelectionBoxItem
+            };
+            if (criteriaToAdd.DataType == DataField.DataType.Enumeration ||
+                criteriaToAdd.DataType == DataField.DataType.Flags)
+            {
+                criteriaToAdd.TypeInfo = dataMatchDescription.Text.Split(',');
+            }
+            else
+            {
+                criteriaToAdd.DataMatch = new string[]
+                {
+                    dataMatchDescription.Text
+                };
+            }
+            _stageToWorkOn.Criteria.Add(criteriaToAdd);
+        }
+
+        
 
         public void SelectionChanged(object sender, Object e)
         {
             CriteriaRule.Items.Clear();
             var selected = CriteriaDataType.SelectionBoxItem as DataField.DataType?;
-            Debug.WriteLine(selected);
             
             switch (selected)
             {
@@ -98,10 +122,11 @@ namespace StudyConfigurationUI
         private void SetUpFromStudy(Study study)
         {
             _stageToWorkOn = new Stage();
-            _stageToWorkOn.Study = _viewModel.studyToWorkOn;
+            _stageToWorkOn.Study = _viewModel._StudyToWorkOn;
             _stageToWorkOn.Users = new List<UserStudies>();
             _stageToWorkOn.VisibleFields = new List<Item.FieldType>();
-            _users = _viewModel.studyToWorkOn.Team.Users;
+            _users = new List<User>();
+            _users.AddRange(_viewModel._StudyToWorkOn.Team.Users);
             _reviewers = new List<UserStudies>();
             _validators = new List<UserStudies>();
             SetUpBoxes();
@@ -203,8 +228,10 @@ namespace StudyConfigurationUI
             }
         }
 
+
         private void AddVisibleFields()
         {
+            _stageToWorkOn.VisibleFields.Clear();
             if (AddressCheckbox.IsChecked.Value)
             {
                 _stageToWorkOn.VisibleFields.Add(Item.FieldType.Address);
@@ -345,6 +372,28 @@ namespace StudyConfigurationUI
             {
                 _stageToWorkOn.VisibleFields.Add(Item.FieldType.Doi);
             }
+        }
+
+
+
+        private void SaveAndReturn_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _stageToWorkOn.Name = nameInput.Text;
+                SaveCriteria();
+                AddReviewersAndValidators();
+                AddDistribution();
+                AddVisibleFields();
+                _viewModel._StudyToWorkOn.Stages.Add(_stageToWorkOn);
+                this.Frame.Navigate(typeof (ManageStudyPage), _viewModel._StudyToWorkOn);
+            }
+            catch (NullReferenceException)
+            {
+                ErrorBox.Text = " ERROR : Make sure that all fields are filled out.";
+            }
+
+
         }
     }
 }

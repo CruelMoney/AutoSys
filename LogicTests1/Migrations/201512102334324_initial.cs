@@ -1,4 +1,4 @@
-namespace StudyConfigurationServer.Migrations
+namespace LogicTests1.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -157,11 +157,11 @@ namespace StudyConfigurationServer.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Studies", "Team_Id", "dbo.Teams");
             DropForeignKey("dbo.UserTeams", "Team_Id", "dbo.Teams");
             DropForeignKey("dbo.UserTeams", "User_Id", "dbo.Users");
             DropForeignKey("dbo.UserStudies", "User_Id", "dbo.Users");
             DropForeignKey("dbo.UserStudies", "Stage_Id", "dbo.Stages");
-            DropForeignKey("dbo.Studies", "Team_Id", "dbo.Teams");
             DropForeignKey("dbo.Stages", "Study_Id", "dbo.Studies");
             DropForeignKey("dbo.Items", "Study_Id", "dbo.Studies");
             DropForeignKey("dbo.StudyTasks", "Stage_Id", "dbo.Stages");

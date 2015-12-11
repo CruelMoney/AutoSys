@@ -18,8 +18,11 @@ namespace LogicTests1.IntegrationTests
         private TeamManager teamManager;
         private TeamStorageManager teamStorageManager;
 
-        private TeamDTO teamDTO = new TeamDTO() { Id = 1, Name = "Team" };
+        private TeamDTO teamDTO = new TeamDTO() { Id = 1, Name = "Team", Metadata = "Metadata" ,UserIDs = new int[] { 1, 2, 3 } };
         private IGenericRepository testRepo;
+        private User user1 = new User() { Id = 1, Name = "user1" };
+        private User user2 = new User() { Id = 2, Name = "user2" };
+        private User user3 = new User() { Id = 3, Name = "user3" };
 
         [TestInitialize]
         public void InitializeTest()
@@ -30,8 +33,11 @@ namespace LogicTests1.IntegrationTests
 
             testRepo = new EntityFrameworkGenericRepository<IntegrationTestContext>(testContext);
             teamStorageManager = new TeamStorageManager(testRepo);
+            teamStorageManager.SaveUser(user1);
+            teamStorageManager.SaveUser(user2);
+            teamStorageManager.SaveUser(user3);
             teamManager = new TeamManager(teamStorageManager);
-
+            
         }
 
         [TestMethod]
@@ -39,7 +45,7 @@ namespace LogicTests1.IntegrationTests
         {
 
             teamManager.CreateTeam(teamDTO);
-            Assert.AreEqual("Team", teamManager.GetTeam(teamDTO.Id).Name);
+            Assert.AreEqual("Team", teamManager.GetTeamDTO(teamDTO.Id).Name);
         }
 
         [TestMethod]
@@ -57,23 +63,23 @@ namespace LogicTests1.IntegrationTests
             teamManager.CreateTeam(teamDTO);
             teamDTO.Name = "Team2";
             Assert.IsTrue(teamManager.UpdateTeam(teamDTO.Id, teamDTO));
-            Assert.AreEqual("Team2", teamManager.GetTeam(teamDTO.Id).Name);
+            Assert.AreEqual("Team2", teamManager.GetTeamDTO(teamDTO.Id).Name);
         }
 
         [TestMethod]
         public void TestTeamManagerIntegrationSearchTeam()
         {
             teamManager.CreateTeam(teamDTO);
-            Assert.AreEqual(1, teamManager.SearchTeams("Team").Count());
+            Assert.AreEqual(1, teamManager.SearchTeamDTOs("Team").Count());
         }
 
         [TestMethod]
         public void TestTeamManagerIntegrationGetAllTeams()
         {
-            TeamDTO teamDTO2 = new TeamDTO() { Id = 2, Name = "Team2" };
+            TeamDTO teamDTO2 = new TeamDTO() { Id = 2, Name = "Team2", Metadata = "metadata", UserIDs = new int[] { 1, 2 } };
             teamManager.CreateTeam(teamDTO);
             teamManager.CreateTeam(teamDTO2);
-            Assert.AreEqual(2, teamManager.GetAllTeams().Count());
+            Assert.AreEqual(2, teamManager.GetAllTeamDTOs().Count());
         }
     }
 }

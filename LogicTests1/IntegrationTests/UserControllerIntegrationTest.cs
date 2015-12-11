@@ -39,7 +39,7 @@ namespace LogicTests1.IntegrationTests
         {
 
             userManager.CreateUser(userDTO);
-            Assert.AreEqual("Bob", userManager.GetUser(userDTO.Id).Name);
+            Assert.AreEqual("Bob", userManager.GetUserDTO(userDTO.Id).Name);
         }
     }
 }
