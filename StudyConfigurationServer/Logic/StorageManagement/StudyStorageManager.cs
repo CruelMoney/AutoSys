@@ -46,7 +46,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return returnValue;
         }
 
-        public IEnumerable<Study> GetAllStudies()
+        public IQueryable<Study> GetAllStudies()
         {
             return _studyRepo.Read<Study>();
         }

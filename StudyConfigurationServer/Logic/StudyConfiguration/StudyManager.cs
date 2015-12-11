@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using Microsoft.Ajax.Utilities;
 using Storage.Repository;
+using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
+using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bibTex;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
@@ -15,7 +17,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
     public class StudyManager
     {
         private readonly StudyStorageManager _studyStorageManager;
+        private readonly TeamStorageManager _teamStorageManager;
         private readonly TaskManager _taskManager;
+        
 
         public StudyManager()
         {
@@ -29,7 +33,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             _taskManager = taskManager;
         }
         
-
+        //TODO check if whole study finished
         public bool DeliverTask(int studyID, int taskID, TaskSubmissionDTO taskDTO)
         {
 
@@ -112,9 +116,61 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         }
 
 
-        public int CreateStudy(Study study)
+        public int CreateStudy(StudyDTO studyDTO)
         {
+            var study = new Study()
+            {
+                IsFinished = false,
+                Name = studyDTO.Name,
+                Team = _teamStorageManager.GetTeam(studyDTO.TeamID),
+                Items = new List<Item>(),
+                Stages = new List<Stage>()
+            };
+
+            //Parse items
+            var parser = new BibTexParser(new ItemValidator());
+            var fileString = System.Text.Encoding.Default.GetString(studyDTO.Items);
+            study.Items = parser.Parse(fileString);
+
+            foreach (var stageDto in studyDTO.Stages)
+            {
+                var stage = new Stage()
+                {
+                    Criteria = stageDto.Criteria,
+                    CurrentTaskType = StudyTask.Type.Review,
+                    DistributionRule = stageDto.DistributionRule,
+                    VisibleFields = stageDto.VisibleFields,
+                    Users = new List<UserStudies>(),
+                    Name = stageDto.Name
+                };
+
+                foreach (var reviewer in stageDto.ReviewerIDs)
+                {
+                    stage.Users.Add(new UserStudies()
+                    {
+                        StudyRole = UserStudies.Role.Reviewer,
+                        User = _teamStorageManager.GetUser(reviewer)
+                    });
+                }
+
+                foreach (var validator in stageDto.ValidatorIDs)
+                {
+                    stage.Users.Add(new UserStudies()
+                    {
+                        StudyRole = UserStudies.Role.Validator,
+                        User = _teamStorageManager.GetUser(validator)
+                    });
+                }
+
+                study.Stages.Add(stage);
+            }
+
+            //TODO This will not work, the stage havent got an id yet
+            study.CurrentStageID = study.Stages.First().Id;
+
             var studyID = _studyStorageManager.SaveStudy(study);
+
+           
 
             //Find the users that are reviewers for this stage.
             var reviewers = study.CurrentStage().Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
@@ -154,8 +210,8 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         {
             throw new NotImplementedException();
             var study = _studyStorageManager.GetStudy(studyId);
-            var taskType = (StudyTask.Type) Enum.Parse(typeof (StudyTask.Type), type.ToString());
-            return _taskManager.GetTasksForUser(study, userId, count, filter, taskType);
+            var taskType = (StudyTask.Type)Enum.Parse(typeof(StudyTask.Type), type.ToString());
+           // return _taskManager.GetTasksForUser(study, userId, count, filter, taskType);
         }
     }
 }

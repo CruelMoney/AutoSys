@@ -26,7 +26,7 @@ namespace StudyConfigurationServer.Api
         }
 
         // POST: api/StudyConfiguration
-        public void Post([FromBody]Study study)
+        public void Post([FromBody]StudyDTO study)
         {
             _manager.CreateStudy(study);
         }

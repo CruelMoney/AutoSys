@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Logic\StudyConfiguration\TaskManagement\TaskRequester\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Interfaces\IStudyController.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskDistributor\IDistributor.cs" />
     <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskGenerator.cs" />
     <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskManager.cs" />
+    <Compile Include="Logic\StudyConfiguration\TaskManagement\TaskRequester.cs" />
     <Compile Include="Logic\StudyOverview\StudyOverviewController.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
@@ -173,7 +175,9 @@
     <Compile Include="Models\DTO\ConflictingDataDTO.cs" />
     <Compile Include="Models\DTO\DataFieldDTO.cs" />
     <Compile Include="Models\DTO\ResourceDTO.cs" />
+    <Compile Include="Models\DTO\StageDTO.cs" />
     <Compile Include="Models\DTO\StageOverviewDTO.cs" />
+    <Compile Include="Models\DTO\StudyDTO.cs" />
     <Compile Include="Models\DTO\StudyOverviewDTO.cs" />
     <Compile Include="Models\DTO\TaskRequestDTO.cs" />
     <Compile Include="Models\DTO\TaskSubmissionDTO.cs" />

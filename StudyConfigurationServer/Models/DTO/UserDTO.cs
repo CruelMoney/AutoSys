@@ -6,8 +6,7 @@ namespace StudyConfigurationServer.Models.DTO
     /// A User of the systematic study service.
     /// </summary>
     public class UserDTO
-    {
-        
+    {   
         /// <summary>
         /// A unique identifier for the User.
         /// </summary>
