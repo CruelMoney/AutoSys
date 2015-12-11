@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.StudyConfiguration;
@@ -8,12 +9,12 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Api
 {
-    [RoutePrefix("api/StudyConfiguration")]
+ 
     public class StudyConfigurationController : ApiController
     {
-        private readonly StudyManager _manager = new StudyManager();
+        //private readonly StudyManager _manager = new StudyManager();
         private readonly TeamManager _teamManager = new TeamManager();
-        // GET: api/StudyConfiguration
+       /* // GET: api/StudyConfiguration
         public IEnumerable<Study> Get()
         {
             return _manager.GetAllStudies();
@@ -42,9 +43,10 @@ namespace StudyConfigurationServer.Api
         public void Delete(int id)
         {
             _manager.RemoveStudy(id);
-        }
+        }*/
 
-        [Route("{id}/Team")]
+        [Route("api/StudyConfiguration/{id}/Team")]
+        [HttpGet]
         public Team GetTeam(int id)
         {
             return _teamManager.GetTeam(id);
