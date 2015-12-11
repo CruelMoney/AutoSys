@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Ajax.Utilities;
+using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.TaskManagement.TaskDistributor;
 using StudyConfigurationServer.Models;
@@ -11,32 +12,21 @@ using static StudyConfigurationServer.Models.DTO.TaskRequestDTO;
 
 namespace StudyConfigurationServer.Logic.TaskManagement
 {
-    public class TaskController : IObserver<Study>
+    public class TaskController 
     {
-        private DistributorSelector _taskDistributor;
-        private TaskGenerator _taskGenerator;
-        private TaskRequester _taskRequester;
-        private TaskStorageManager _storageManager;
-        private CriteriaValidator _criteriaValidator;
-
+        private readonly DistributorSelector _taskDistributor;
+        private readonly TaskGenerator _taskGenerator;
+        private readonly TaskStorageManager _storageManager;
+        private readonly CriteriaValidator _criteriaValidator;
         private IDisposable _unsubscriber;
-
-        public TaskController(TaskStorageManager taskStorage)
-        {
-            _taskGenerator = new TaskGenerator();
-            _storageManager = taskStorage;
-            _taskRequester = new TaskRequester();
-        }
 
         public TaskController()
         {
+            _taskDistributor = new DistributorSelector();
+            _criteriaValidator = new CriteriaValidator();
             _taskGenerator = new TaskGenerator();
             _storageManager = new TaskStorageManager();
-            _taskRequester = new TaskRequester();
-
-            
         }
-
 
         public bool DeliverTask(int taskID, TaskSubmissionDTO task)
         {
@@ -52,101 +42,105 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             _storageManager.UpdateTask(taskToUpdate);
 
             return true;
-
-            //Determine if the stage is finished
-            /*
-            var currentStage = taskToUpdate.Stage;
-            
-            if (currentStage.IsFinished())
-            {
-               MoveToNextStage(currentStage);
-            }
-            */
-        }
-
-   
-
-        private void MoveToNextStage(Stage currentStage)
-        {
-            if (currentStage.CurrentTaskType == StudyTask.Type.Review)
-            {
-                //Generate Validationtask for next phase
-                var validationTasks = new List<StudyTask>();
-                foreach (var task in currentStage.Tasks)
-                {
-                   
-                    if (task.ContainsConflictingData())
-                    {
-                        validationTasks.Add(_taskGenerator.GenerateValidateTasks(task));
-                    }
-                    else
-                    {
-                        CriteriaValidateTask(task.Stage, task);
-                    }
-                }
-                
-                //Get validators for this stage
-                var validators = currentStage.Users.Where(u => u.StudyRole == UserStudies.Role.Validator).Select(u => u.User).ToList();
-
-                //Distribute the tasks to the validators
-                var distributedTasks = _taskDistributor.Distribute(currentStage, validators, validationTasks);
-
-                //Save the tasks in the db
-                distributedTasks.ForEach(t => _storageManager.CreateTask(t));
-
-                //Change the stage type to conflict
-                currentStage.CurrentTaskType = StudyTask.Type.Conflict;
-            }
-
-            //If the stage is at a conflict phase we simply criteriaValidate all the tasks since they cant contain conflicting data.
-            else if (currentStage.CurrentTaskType == StudyTask.Type.Conflict)
-            {
-                foreach (var studyTask in currentStage.Tasks)
-                {
-                    CriteriaValidateTask(currentStage, studyTask);
-                }
-                currentStage.Study.MoveToNextStage();
-            }
         }
 
         /// <summary>
-        /// CriteriaValidates a task and exclude or include it from the study
+        /// Generates a validating task and saves it.
+        /// If the task does not contain conflicting and it doesn't fulfill the criteria data we return it's item.
         /// </summary>
-        /// <param name="stage"></param>
-        /// <param name="task"></param>
-        private void CriteriaValidateTask(Stage stage, StudyTask task)
+        /// <param name="taskID"></param>
+        /// <returns>itemIDs to be excluded from study</returns>
+        public IEnumerable<int> GenerateValidationTasks(ICollection<int> taskIDs, ICollection<Criteria> criteria, ICollection<User> users, Stage.Distribution distributionRule)
         {
-            task.IsEditable = false;
-
-            //Include or exclude based on the stage criteria
-            if (!TaskMeetsStageCriteria(stage.Criteria, task))
+            var validationTasks = new List<StudyTask>();
+            
+            foreach (var task in taskIDs.Select(taskID => _storageManager.GetTask(taskID)))
             {
-                stage.Study.Items.Remove(task.Paper);
+                task.IsEditable = false;
+                _storageManager.UpdateTask(task);
+
+                //If the task contains conflicting data we create the validate task and save it
+                if (task.ContainsConflictingData())
+                {
+                    validationTasks.Add(_taskGenerator.GenerateValidateTasks(task));
+                }
+                //If the task fullfills the criteria we return the itemId to be excluded. 
+                else if (!TaskMeetsCriteria(criteria, task))
+                {
+                    yield return task.Paper.Id;
+                }
             }
 
-            _storageManager.UpdateTask(task);
-        }
-       
+            //Distribute the tasks and save them
+            _taskDistributor.Distribute(distributionRule, users, validationTasks).
+                ForEach(t=>_storageManager.CreateTask(t));
+            
+            //If the criteria is fullfilled we dont exclude it and return nothing
 
-        public IEnumerable<TaskRequestDTO> GetTasksForUser(Study study, User user, int count = 1, Filter filter = Filter.Remaining, StudyTask.Type type = StudyTask.Type.Both)
+        }
+
+        
+        public void GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, Stage.Distribution distributionRule, ICollection<Criteria> criteria)
         {
+            var reviewTasks = new List<StudyTask>();
+
+            //Generate the tasks for the currentstage
+            foreach (var item in items)
+            {
+                reviewTasks.Add(_taskGenerator.GenerateReviewTask(item, criteria));
+            }
+            
+            //Distribute the tasks and save them
+            _taskDistributor.Distribute(distributionRule, users, reviewTasks).
+                ForEach(t => _storageManager.CreateTask(t));
+        }
+
+
+        /// <summary>
+        /// Validates the tasks using the criteria
+        /// </summary>
+        /// <param name="criteria">The criteria to validate against</param>
+        /// <param name="taskIDs">The tasks to validate</param>
+        /// <returns>null if the criteria is met, the id of the tasks item if the criteria is not met</returns>
+        public IEnumerable<int> CriteriaValidateTasks(ICollection<Criteria> criteria, ICollection<int> taskIDs)
+        {
+            foreach (var taskID in taskIDs)
+            {
+                //The task can no longer be edited at this point
+                var task = _storageManager.GetTask(taskID);
+                task.IsEditable = false;
+                _storageManager.UpdateTask(task);
+
+                if (!TaskMeetsCriteria(criteria, task))
+                {
+                    yield return task.Paper.Id;
+                }
+            }
+          
+        }
+
+
+      public IEnumerable<TaskRequestDTO> GetTasksForUser(Study study, int userID, int count = 1, Filter filter = Filter.Remaining, StudyTask.Type type = StudyTask.Type.Both)
+        {
+            var visibleFields = study.CurrentStage().VisibleFields;
+
             switch (filter)
             {
                 case Filter.Remaining:
-                    return GetRemainingTasks(study, user).
+                    return GetRemainingTasks(study, userID).
                         Where(t => t.TaskType == type).
                         Take(count).
-                        Select(task => new TaskRequestDTO(task, user.Id));
+                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
                 case Filter.Done:
-                    return GetFinishedTasks(study, user).
+                    return GetFinishedTasks(study, userID).
                         Where(t => t.TaskType == type).
                         Take(count).
-                        Select(task => new TaskRequestDTO(task, user.Id));
+                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
                 case Filter.Editable:
-                    return GetEditableTasks(study, user).
+                    return GetEditableTasks(study, userID).
                         Where(t => t.TaskType == type).
                         Take(count).
-                        Select(task => new TaskRequestDTO(task, user.Id));
+                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
                 default:
                     throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
             }
@@ -160,34 +154,46 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
         /// <param name="study">The study to get tasks for.</param>
-        public IEnumerable<int> GetTaskIDs(Study study, User user, Filter filter = Filter.Editable, StudyTask.Type type = StudyTask.Type.Both)
+        public IEnumerable<int> GetTaskIDs(Study study, int userID, Filter filter = Filter.Editable, StudyTask.Type type = StudyTask.Type.Both)
         {
             switch (filter)
             {
                 case Filter.Remaining:
-                    return GetRemainingTasks(study, user).Where(t => t.TaskType == type).Select(t => t.Id);
+                    return GetRemainingTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
                 case Filter.Done:
-                    return GetFinishedTasks(study, user).Where(t => t.TaskType == type).Select(t => t.Id);
+                    return GetFinishedTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
                 case Filter.Editable:
-                    return GetEditableTasks(study, user).Where(t => t.TaskType == type).Select(t => t.Id);
+                    return GetEditableTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
             }
         }
 
-        private static IEnumerable<StudyTask> GetFinishedTasks(Study study, User user)
+        private IEnumerable<StudyTask> GetFinishedTasks(Study study, int userID)
         {
-            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.UserIDs.Contains(user.Id)).Where(t => !t.IsEditable));
+            return study.Stages.
+                SelectMany(stage => stage.TaskIDs).
+                Select(t=> _storageManager.GetTask(t)).
+                Where(t => t.UserIDs.Contains(userID)).
+                Where(t => !t.IsEditable);
         }
 
-        private static IEnumerable<StudyTask> GetRemainingTasks(Study study, User user)
+        private IEnumerable<StudyTask> GetRemainingTasks(Study study, int userID)
         {
-            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.UserIDs.Contains(user.Id)).Where(t => !t.IsFinished(user.Id)));
+            return study.Stages.
+              SelectMany(stage => stage.TaskIDs).
+              Select(t => _storageManager.GetTask(t)).
+              Where(t => t.UserIDs.Contains(userID)).
+              Where(t => !t.IsFinished(userID));
         }
 
-        private static IEnumerable<StudyTask> GetEditableTasks(Study study, User user)
+        private IEnumerable<StudyTask> GetEditableTasks(Study study, int userID)
         {
-            return study.Stages.SelectMany(stage => stage.Tasks.Where(t => t.UserIDs.Contains(user.Id)).Where(t => t.IsEditable));
+            return study.Stages.
+              SelectMany(stage => stage.TaskIDs).
+              Select(t => _storageManager.GetTask(t)).
+              Where(t => t.UserIDs.Contains(userID)).
+              Where(t => t.IsEditable);
         }
 
         /// <summary>
@@ -196,7 +202,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         /// <param name="userId">The userId</param>
         /// <param name="taskId">The taskId</param>
         /// <returns></returns>
-        public TaskRequestDTO GetTask(int userId, int taskId)
+        public TaskRequestDTO GetTask(int userId, int taskId, ICollection<Item.FieldType> visibleFields)
         {
             StudyTask task;
             try
@@ -208,10 +214,21 @@ namespace StudyConfigurationServer.Logic.TaskManagement
                 throw;
             }
 
-            return new TaskRequestDTO(task, userId);
+            return new TaskRequestDTO(task, userId, visibleFields);
+        }
+
+        public bool StageIsFinished(Stage stage)
+        {
+            return stage.TaskIDs.All(taskID => _storageManager.GetTask(taskID).IsFinished());
+        }
+
+        public int CreateTask(StudyTask task)
+        {
+            return _storageManager.CreateTask(task);
         }
 
 
+        
         /// <summary>
         /// Returns the resource with the specified ID.
         /// </summary>
@@ -229,7 +246,7 @@ namespace StudyConfigurationServer.Logic.TaskManagement
         /// <param name="criteria"></param>
         /// <param name="task">The task we are checking</param>
         /// <returns></returns>
-        private bool TaskMeetsStageCriteria(ICollection<Criteria> criteria, StudyTask task)
+        private bool TaskMeetsCriteria(ICollection<Criteria> criteria, StudyTask task)
         {
             if (criteria.Count == 0)
             {
@@ -249,49 +266,13 @@ namespace StudyConfigurationServer.Logic.TaskManagement
             return true;
         }
 
-        /// <summary>
-        /// Generates the tasks and distributes them when a new study is created or updated in the db.
-        /// </summary>
-        /// <param name="study"></param>
+
+     
         public void OnNext(Study study)
         {
-            var currentStage = study.Stages.Find(s => s.Id.Equals(study.CurrentStageID));
+            
 
-            //Generate the tasks for the currentstage
-            var tasks = study.Items.Select(item => _taskGenerator.GenerateReviewTask(item, currentStage));
-
-            //Find the users that are reviewers for this stage.
-            var reviewers = currentStage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
-
-            //Distribute the task to the reviewers
-            tasks = _taskDistributor.Distribute(currentStage, reviewers, tasks);
-
-            //Save the stages in the db
-            foreach (var task in tasks)
-            {
-                _storageManager.CreateTask(task);
-            }
         }
 
-        public void OnError(Exception error)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnCompleted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void Subscribe(IObservable<Study> provider)
-        {
-            _unsubscriber = provider.Subscribe(this);
-        }
-
-
-        public virtual void Unsubscribe()
-        {
-            _unsubscriber.Dispose();
-        }
     }
 }

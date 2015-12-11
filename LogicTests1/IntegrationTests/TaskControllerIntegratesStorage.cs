@@ -44,8 +44,7 @@ namespace LogicTests1.IntegrationTests
         public void Initialize()
         {
              setupMultipleDB();
-            _storageManager = new TaskStorageManager();
-            _controller = new TaskController(_storageManager);
+            _controller = new TaskController();
 
             var testItem = new Item(Item.ItemType.Book, new Dictionary<Item.FieldType, string>());
             var testUser1 = new User() { Id = 1, Name = "chris" };

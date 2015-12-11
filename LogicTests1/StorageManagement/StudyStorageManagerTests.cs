@@ -26,7 +26,7 @@ namespace LogicTests1.StorageManagement
             mockStudyRepo = new Mock<IGenericRepository>();
             observer = new List<IObserver<Study>>();
             _studies = new Dictionary<int, Study>();
-            testStudyStorageManager = new StudyStorageManager(mockStudyRepo.Object, observer);
+            testStudyStorageManager = new StudyStorageManager(mockStudyRepo.Object);
 
             // Read item
             mockStudyRepo.Setup(r => r.Read<Study>(It.IsAny<int>())).Returns<int>((id) => _studies.First(e => e.Key == id).Value);

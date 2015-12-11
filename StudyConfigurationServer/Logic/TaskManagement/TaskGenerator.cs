@@ -10,24 +10,17 @@ namespace StudyConfigurationServer.Logic.TaskManagement
 {
     public class TaskGenerator
     {
-        public StudyTask GenerateReviewTask(Item item, Stage stage)
+        public StudyTask GenerateReviewTask(Item item, ICollection<Criteria> criteria)
         {
-            if (stage.CurrentTaskType!=StudyTask.Type.Review)
-            {
-                throw new ArgumentException("The stage is not a review stage");
-            }
-
-          
                 var task = new StudyTask()
                 {
                     Paper = item,
-                    TaskType = stage.CurrentTaskType,
-                    Stage = stage,
+                    TaskType = StudyTask.Type.Review,
                     DataFields = new List<DataField>(),
                     IsEditable = true
                 };
 
-                foreach (var criterion in stage.Criteria)
+                foreach (var criterion in criteria)
                 {
                     var dataField = new DataField()
                     {
@@ -55,7 +48,6 @@ namespace StudyConfigurationServer.Logic.TaskManagement
                 {
                     Paper = conflictingTask.Paper,
                     TaskType = StudyTask.Type.Conflict,
-                    Stage = conflictingTask.Stage,
                     DataFields = new List<DataField>(),
                     IsEditable = true
                 };

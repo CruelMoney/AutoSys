@@ -23,7 +23,7 @@ namespace LogicTests1.Model
         [TestInitialize]
         public void Initialize()
         {
-            testStage = new Stage() {Tasks = new List<StudyTask>()};
+            testStage = new Stage() {TaskIDs = new List<int>()};
             var user1 = new User() {Id = 1, Name = "user1"};
             var user2 = new User() {Id = 2, Name = "user2"};
             var userData1 = new UserData() { Data = new string[] {"done"}, UserID = 1 };
@@ -55,7 +55,7 @@ namespace LogicTests1.Model
                 DataFields = new List<DataField>() { completeDataField, incompletedataField, completeDataField }
             };
         }
-
+        /*
         [TestMethod]
         public void TestStageFinished()
         {
@@ -70,23 +70,23 @@ namespace LogicTests1.Model
         public void TestStageNotFinished()
         {
             //Arrange
-            testStage.Tasks.AddRange(new List<StudyTask>() { incompleteTask });
+            testStage.Tasks.Add( incompleteTask );
 
             //Assert
             Assert.IsFalse(testStage.IsFinished());
             
             //Arrange
-            testStage.Tasks.AddRange(new List<StudyTask>() { incompleteTask2 });
+            testStage.Tasks.Add( incompleteTask2 );
 
             //Assert
             Assert.IsFalse(testStage.IsFinished());
             //Arrange
-            testStage.Tasks.AddRange(new List<StudyTask>() { incompleteTask3 });
+            testStage.Tasks.Add( incompleteTask3 );
 
             //Assert
             Assert.IsFalse(testStage.IsFinished());
             //Arrange
-            testStage.Tasks.AddRange(new List<StudyTask>() { incompleteTask4 });
+            testStage.Tasks.Add( incompleteTask4 );
 
             //Assert
             Assert.IsFalse(testStage.IsFinished());
@@ -97,11 +97,13 @@ namespace LogicTests1.Model
         public void TestStageNotFinishedMultipleTasks()
         {
             //Arrange
-            testStage.Tasks.AddRange(new List<StudyTask>() { incompleteTask4, completeTask });
+            testStage.Tasks.Add( incompleteTask4);
+            testStage.Tasks.Add(completeTask);
 
             //Assert
             Assert.IsFalse(testStage.IsFinished());
 
         }
+        */
     }
 }

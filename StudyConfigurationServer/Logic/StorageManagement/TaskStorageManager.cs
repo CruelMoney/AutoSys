@@ -21,9 +21,9 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             _taskRepo = repo;
         }
     
-        public void CreateTask(StudyTask studyTask)
+        public int CreateTask(StudyTask studyTask)
         {
-            _taskRepo.Create(studyTask);
+           return _taskRepo.Create(studyTask);
         }
 
         public bool RemoveTask(int taskWithIdToDelete)

@@ -41,7 +41,7 @@ namespace StudyConfigurationServer.Models.DTO
 
         public TaskRequestDTO() { }
 
-        public TaskRequestDTO(StudyTask task, int userId)
+        public TaskRequestDTO(StudyTask task, int userId, ICollection<Item.FieldType> visibleFieldTypes) 
         {
             var editableFields = new List<DataFieldDTO>();
 
@@ -52,7 +52,7 @@ namespace StudyConfigurationServer.Models.DTO
 
             var visibleFields = new List<DataFieldDTO>();
 
-            foreach (var dataType in task.Stage.VisibleFields)
+            foreach (var dataType in visibleFieldTypes)
             {
                 visibleFields.Add(new DataFieldDTO(dataType, task.Paper));
             }
