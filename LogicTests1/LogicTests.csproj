@@ -115,10 +115,10 @@
     <Compile Include="StorageManagement\TaskStorageManagerTests.cs" />
     <Compile Include="StorageManagement\TeamStorageManagerTests.cs" />
     <Compile Include="StorageManagement\UserStorageManagerTests.cs" />
+    <Compile Include="StudyConfiguration\TestStudyManager.cs" />
     <Compile Include="StudyOverviewTests\StudyOverviewTests.cs" />
-    <Compile Include="TaskManagement\TaskDistributor\DistributorsTests.cs" />
-    <Compile Include="TaskManagement\TaskGeneratorTests.cs" />
-    <Compile Include="TaskManagement\TaskRequesterTests.cs" />
+    <Compile Include="StudyConfiguration\TaskManagement\TaskDistributor\DistributorsTests.cs" />
+    <Compile Include="StudyConfiguration\TaskManagement\TaskGeneratorTests.cs" />
     <Compile Include="TeamCRUD\TeamManagementTests.cs" />
     <Compile Include="TeamCRUD\UserManagementTests.cs" />
   </ItemGroup>
@@ -143,9 +143,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="StudyConfiguration\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

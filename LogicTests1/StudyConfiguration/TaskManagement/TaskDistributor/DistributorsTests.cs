@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StudyConfigurationServer.Logic.TaskManagement.TaskDistributor;
+using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.TaskManagement.TaskDistributor
+namespace LogicTests1.StudyConfiguration.TaskManagement.TaskDistributor
 {
     [TestClass]
     public class DistributorsTests
