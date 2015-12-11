@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using StudyConfigurationUI.Data;
+using StudyConfigurationUI.Model;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,7 +32,7 @@ namespace StudyConfigurationUI
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs args)
+        protected override async void OnNavigatedTo(NavigationEventArgs args)
         {
             _logic = new Logic.Logic();
             if (args.Parameter.GetType() == typeof (Study))
@@ -54,7 +55,9 @@ namespace StudyConfigurationUI
             }
             else if (studyArgs.TeamId != null)
             {
-                teamOutput.Text = _logic.getTeam(studyArgs.TeamId).Name;
+                _logic._StudyToWorkOn = new Study();
+                _logic._StudyToWorkOn.Team = await Service.GetTeam((int)studyArgs.TeamId);
+                SetUpFromStudy(_logic._StudyToWorkOn);
             }
         }
 
