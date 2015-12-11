@@ -1,18 +1,18 @@
-namespace LogicTests1.Migrations
+namespace StudyConfigurationServer.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<StudyConfigurationServer.Models.Data.IntegrationTestContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<StudyConfigurationServer.Models.Data.StudyContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(StudyConfigurationServer.Models.Data.IntegrationTestContext context)
+        protected override void Seed(StudyConfigurationServer.Models.Data.StudyContext context)
         {
             //  This method will be called after migrating to the latest version.
 

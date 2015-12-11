@@ -44,7 +44,7 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
-            _studyManager.getTasks(id, userId, count, filter, type);
+            return Ok(_studyManager.getTasks(id, userId, count, filter, type));
 
         }
 
@@ -101,7 +101,7 @@ namespace StudyConfigurationServer.Api
                 return BadRequest();
             }*/
 
-            var updated = _controller.DeliverTask(taskId, task);
+            var updated = _studyManager.DeliverTask(id, taskId, task);
 
             if (!updated)
             {
