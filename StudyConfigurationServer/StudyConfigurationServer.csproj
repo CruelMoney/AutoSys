@@ -173,6 +173,7 @@
       <DependentUpon>StudyContext.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\ConflictingDataDTO.cs" />
+    <Compile Include="Models\DTO\CriteriaDTO.cs" />
     <Compile Include="Models\DTO\DataFieldDTO.cs" />
     <Compile Include="Models\DTO\ResourceDTO.cs" />
     <Compile Include="Models\DTO\StageDTO.cs" />

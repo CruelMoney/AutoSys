@@ -136,31 +136,41 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             {
                 var stage = new Stage()
                 {
-                    Criteria = stageDto.Criteria,
+                    Name = stageDto.Name,
                     CurrentTaskType = StudyTask.Type.Review,
-                    DistributionRule = stageDto.DistributionRule,
-                    VisibleFields = stageDto.VisibleFields,
+                    DistributionRule = (Stage.Distribution) Enum.Parse(typeof(Stage.Distribution), stageDto.DistributionRule.ToString()),
+                    VisibleFields = new List<Item.FieldType>(),
                     Users = new List<UserStudies>(),
-                    Name = stageDto.Name
+                    Criteria = new List<Criteria>(),
                 };
 
-                foreach (var reviewer in stageDto.ReviewerIDs)
-                {
+                stageDto.VisibleFields.ForEach(
+                    f => stage.VisibleFields.Add((Item.FieldType) Enum.Parse(typeof (Item.FieldType), f.ToString())));
+
+                stageDto.ReviewerIDs.ForEach(u=>
                     stage.Users.Add(new UserStudies()
                     {
                         StudyRole = UserStudies.Role.Reviewer,
-                        User = _teamStorageManager.GetUser(reviewer)
-                    });
-                }
-
-                foreach (var validator in stageDto.ValidatorIDs)
-                {
+                        User = _teamStorageManager.GetUser(u)
+                    }));
+               
+                stageDto.ValidatorIDs.ForEach(u=>
                     stage.Users.Add(new UserStudies()
                     {
                         StudyRole = UserStudies.Role.Validator,
-                        User = _teamStorageManager.GetUser(validator)
-                    });
-                }
+                        User = _teamStorageManager.GetUser(u)
+                    }));
+                
+                stageDto.Criteria.ForEach(
+                    c=> stage.Criteria.Add(new Criteria()
+                {
+                    Name = c.Name,
+                    DataMatch = c.DataMatch,
+                    DataType = (DataField.DataType) Enum.Parse(typeof(DataField.DataType), c.DataType.ToString()),
+                    Description = c.Description,
+                    Rule = (Criteria.CriteriaRule) Enum.Parse(typeof(Criteria.CriteriaRule), c.Rule.ToString()),
+                    TypeInfo = c.TypeInfo
+                    }));
 
                 study.Stages.Add(stage);
             }
@@ -169,9 +179,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             study.CurrentStageID = study.Stages.First().Id;
 
             var studyID = _studyStorageManager.SaveStudy(study);
-
-           
-
+            
             //Find the users that are reviewers for this stage.
             var reviewers = study.CurrentStage().Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
 
