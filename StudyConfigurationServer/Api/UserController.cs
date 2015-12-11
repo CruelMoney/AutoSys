@@ -30,8 +30,8 @@ namespace StudyConfigurationServer.Api
             try
             {
                 var users = name.Equals(string.Empty) ? _manager.GetAllUserDTOs() : _manager.SearchUserDTOs(name);
-            return Ok(users);
-        }
+                return Ok(users);
+            }
             catch (NullReferenceException)
             {
                 return NotFound();
@@ -126,7 +126,7 @@ namespace StudyConfigurationServer.Api
             var deleted = _manager.RemoveUser(id);
                 return StatusCode(HttpStatusCode.NoContent);
             }
-            catch(ArgumentException)
+            catch(Exception)
             {
                 return BadRequest();
             }

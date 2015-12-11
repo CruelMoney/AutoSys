@@ -26,7 +26,7 @@ namespace StudyConfigurationServer.Api
             try
             {
                 var teams = name.Equals(string.Empty) ? _manager.GetAllTeamDTOs() : _manager.SearchTeamDTOs(name);           
-            return Ok(teams);
+                return Ok(teams);
             }
             catch (NullReferenceException)
             {
@@ -45,8 +45,8 @@ namespace StudyConfigurationServer.Api
             // GET: api/Team/5
             try
             {
-                return Ok(_manager.GetTeam(id));
-        }
+                return Ok(_manager.GetTeamDTO(id));
+            }
             catch (NullReferenceException)
             {
                 return NotFound();
@@ -100,10 +100,6 @@ namespace StudyConfigurationServer.Api
             {
                 return BadRequest();
             }
-            
-
-
-
         }
 
         /// <summary>
@@ -114,13 +110,15 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult Delete(int id)
         {
             // DELETE: api/Team/5
-            var deleted = _manager.RemoveTeam(id);
-            if (!deleted)
+            try
             {
-                return NotFound();
+                var deleted = _manager.RemoveTeam(id);
+                return StatusCode(HttpStatusCode.NoContent);
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }

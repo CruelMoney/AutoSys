@@ -30,6 +30,13 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public int CreateTeam(TeamDTO teamDtoDto)
         {
+            foreach(var userId in teamDtoDto.UserIDs)
+            {
+                if (_teamStorageManager.GetUser(userId) == null)
+                {
+                    throw new NullReferenceException("User doesn't exist in database");
+                }
+            }
             var teamToAdd = new Team()
             {
                 Name = teamDtoDto.Name,
@@ -41,15 +48,9 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
             foreach (var userID in teamDtoDto.UserIDs)
             {
-                try
-                {
+                
                 teamToAdd.Users.Add(_teamStorageManager.GetUser(userID));
-            }
-                catch (NullReferenceException)
-                {
-                    throw new NullReferenceException("User can't be added to team, because user does not exist");
-                }
-
+            
             }
 
             return _teamStorageManager.CreateTeam(teamToAdd);
@@ -57,116 +58,142 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public Boolean RemoveTeam(int teamID)
         {
+            try
+            {
+                var team = _teamStorageManager.GetTeam(teamID);
+                if (team.StudyIDs != null)
+                {
+                    throw new ArgumentException("Can't delete team because it is in a study");
+                }
+                return _teamStorageManager.RemoveTeam(teamID);
 
-            var team = _teamStorageManager.GetTeam(teamID);
-            if (team.StudyIDs != null)
-            {
-            return _teamStorageManager.RemoveTeam(teamID);
-        }
-            else
-            {
-                throw new ArgumentException("Can't delete team because it is in a study");
             }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Can't find team in database");
+            }       
         }
 
         public bool UpdateTeam(int teamId, TeamDTO newTeamDto)
         {
-            var teamToUpdate = _teamStorageManager.GetTeam(teamId);
-            if(teamToUpdate == null)
+            try
+            {
+                var teamToUpdate = _teamStorageManager.GetTeam(teamId);
+                foreach (var userId in newTeamDto.UserIDs)
+                {
+                    foreach (var user in teamToUpdate.Users)
+                    {
+                        if (user.Id == userId)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("You can't add or delete users from a team, only change its name, you dipwit");
+                        }
+                    }
+                  
+                }
+
+                teamToUpdate.Users.Clear();
+                teamToUpdate.Name = newTeamDto.Name;
+
+                foreach (var userID in newTeamDto.UserIDs)
+                {
+                    try
+                    {
+                        teamToUpdate.Users.Add(_teamStorageManager.GetUser(userID));
+                    }
+                    catch (NullReferenceException)
+                    {
+                        throw new NullReferenceException("User can't be added to team, because user does not exist");
+                    }
+                }
+                return _teamStorageManager.UpdateTeam(teamToUpdate);
+            }
+            catch (NullReferenceException)
             {
                 throw new NullReferenceException("team does not exist");
             }
-            foreach(var userId in newTeamDto.UserIDs)
-            {
-                if (teamToUpdate.UserIDs.Contains(userId))
-                {
-                    continue;
-                }
-                else
-                {
-                    throw new ArgumentException("You can't add or delete users from a team, only change its name, you dipwit");
-                }
-            }
-
-            teamToUpdate.Users.Clear();
-
-            teamToUpdate.Name = newTeamDto.Name;
-
-
-            foreach (var userID in newTeamDto.UserIDs)
-            {
-                try
-                {
-                teamToUpdate.Users.Add(_teamStorageManager.GetUser(userID));
-            }
-                catch (NullReferenceException)
-                {
-                    throw new NullReferenceException("User can't be added to team, because user does not exist");
-                }                    
-            }           
-            return _teamStorageManager.UpdateTeam(teamToUpdate);
+                       
         }
 
         public IEnumerable<TeamDTO> SearchTeamDTOs(string TeamName)
         {
-            if (_teamStorageManager.GetAllTeams() == null)
+            try
+            {
+              return
+                     (from Team dbTeam in _teamStorageManager.GetAllTeams()
+                      where dbTeam.Name.Equals(TeamName)
+                      select new TeamDTO()
+                      {
+                          Id = dbTeam.Id,
+                          Name = dbTeam.Name,
+                          Metadata = dbTeam.Metadata,
+                          UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
+                      }).ToList();
+            }
+            catch (NullReferenceException)
             {
                 throw new NullReferenceException("No teams in database, no reason to search my friend");
             }
-            return
-                 (from Team dbTeam in _teamStorageManager.GetAllTeams()
-                  where dbTeam.Name.Equals(TeamName)
-                  select new TeamDTO()
-                  {
-                      Id = dbTeam.Id,
-                      Name = dbTeam.Name,
-                      Metadata = dbTeam.Metadata,
-                      UserIDs = dbTeam.Users.Select(u=>u.Id).ToArray()
-                  }).ToList();
         }
 
         public TeamDTO GetTeamDTO(int teamId)
         {
-            var dbTeam = _teamStorageManager.GetTeam(teamId);
-            if(dbTeam == null)
+            try
+            {
+                var dbTeam = _teamStorageManager.GetTeam(teamId);
+                return new TeamDTO()
+                {
+                    Id = dbTeam.Id,
+                    Name = dbTeam.Name,
+                    Metadata = dbTeam.Metadata,
+                    UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
+                };
+            }
+            catch (NullReferenceException)
             {
                 throw new NullReferenceException("team could not be found, probably does not exist in database");
             }
-            return new TeamDTO()
-            {
-                Id = dbTeam.Id,
-                Name = dbTeam.Name,
-                Metadata = dbTeam.Metadata,
-                UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
-            };
         }
 
         public Team GetTeam(int teamId)
         {
-            return _teamStorageManager.GetTeam(teamId);
+            try
+            {
+                return _teamStorageManager.GetTeam(teamId);
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Team could not be found, probably does not exist in database");
+            }
+            
         }
 
         
 
         public IEnumerable<TeamDTO> GetAllTeamDTOs()
         {
-            var dbTeams = _teamStorageManager.GetAllTeams();
-               
-            if(dbTeams == null)
+            try
+            {
+                var dbTeams = _teamStorageManager.GetAllTeams();
+                var list = new List<TeamDTO>();
+                foreach (var team in dbTeams)
+                {
+                    list.Add(new TeamDTO()
+                    {
+                        Id = team.Id,
+                        Name = team.Name,
+                        Metadata = team.Metadata,
+                        UserIDs = team.Users.Select(u => u.Id).ToArray()
+                    });
+                }
+                return list;
+            }
+            catch (NullReferenceException)
             {
                 throw new NullReferenceException("teams could not be found, probably doesn't exist in database");
-            }
-               
-            foreach (var team in dbTeams)
-            {
-                var dbTeam = _teamStorageManager.GetTeam(team.Id);
-                yield return new TeamDTO()
-                  {
-                      Id = dbTeam.Id,
-                      Name = dbTeam.Name,
-                      Metadata = dbTeam.Metadata,
-                      UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
-                };
             }
            
         }
