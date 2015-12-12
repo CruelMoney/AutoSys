@@ -66,13 +66,14 @@ namespace StudyConfigurationServer.Migrations
                 "dbo.StudyTasks",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         IsEditable = c.Boolean(nullable: false),
                         TaskType = c.Int(nullable: false),
+                        Paper_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Items", t => t.Id)
-                .Index(t => t.Id);
+                .ForeignKey("dbo.Items", t => t.Paper_Id, cascadeDelete: true)
+                .Index(t => t.Paper_Id);
             
             CreateTable(
                 "dbo.Stages",
@@ -162,7 +163,7 @@ namespace StudyConfigurationServer.Migrations
             DropForeignKey("dbo.TeamUsers", "Team_Id", "dbo.Teams");
             DropForeignKey("dbo.UserStudies", "Stage_Id", "dbo.Stages");
             DropForeignKey("dbo.Criteria", "Stage_Id", "dbo.Stages");
-            DropForeignKey("dbo.StudyTasks", "Id", "dbo.Items");
+            DropForeignKey("dbo.StudyTasks", "Paper_Id", "dbo.Items");
             DropForeignKey("dbo.DataFields", "StudyTask_Id", "dbo.StudyTasks");
             DropForeignKey("dbo.UserDatas", "DataField_Id1", "dbo.DataFields");
             DropForeignKey("dbo.UserDatas", "DataField_Id", "dbo.DataFields");
@@ -172,7 +173,7 @@ namespace StudyConfigurationServer.Migrations
             DropIndex("dbo.UserStudies", new[] { "User_Id" });
             DropIndex("dbo.UserStudies", new[] { "Stage_Id" });
             DropIndex("dbo.Stages", new[] { "StudyID" });
-            DropIndex("dbo.StudyTasks", new[] { "Id" });
+            DropIndex("dbo.StudyTasks", new[] { "Paper_Id" });
             DropIndex("dbo.Items", new[] { "Study_Id" });
             DropIndex("dbo.UserDatas", new[] { "DataField_Id1" });
             DropIndex("dbo.UserDatas", new[] { "DataField_Id" });

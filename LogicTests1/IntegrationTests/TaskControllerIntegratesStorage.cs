@@ -15,12 +15,11 @@ using StudyConfigurationServer.Models.DTO;
 namespace LogicTests1.IntegrationTests
 {
     [TestClass]
-    public class TaskControllerIntegratesStorage
+    public class TaskManagerIntegratesStorage
     {
         TaskStorageManager _storageManager;
         TaskManager _manager;
-
-
+        
 
         //This can reset the database before each test or set it up with custom context
         private void setupEmptyDB()

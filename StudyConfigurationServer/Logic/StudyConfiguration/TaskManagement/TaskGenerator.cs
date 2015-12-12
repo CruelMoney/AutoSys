@@ -5,14 +5,15 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 {
     public class TaskGenerator
     {
-        public StudyTask GenerateReviewTask(Item item, ICollection<Criteria> criteria)
+        public StudyTask GenerateReviewTask(Item item, List<Criteria> criteria)
         {
                 var task = new StudyTask()
                 {
                     Paper = item,
                     TaskType = StudyTask.Type.Review,
                     DataFields = new List<DataField>(),
-                    IsEditable = true
+                    IsEditable = true,
+                    UserIDs = new List<int>(),
                 };
 
                 foreach (var criterion in criteria)
@@ -44,7 +45,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                     Paper = conflictingTask.Paper,
                     TaskType = StudyTask.Type.Conflict,
                     DataFields = new List<DataField>(),
-                    IsEditable = true
+                    IsEditable = true,
+                    UserIDs = new List<int>(),
+                    
                 };
 
                 foreach (var dataField in conflictingTask.DataFields)

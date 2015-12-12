@@ -1,6 +1,7 @@
 ﻿using StudyConfigurationServer.Logic.StorageManagement;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using Microsoft.Ajax.Utilities;
@@ -17,7 +18,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
     public class StudyManager
     {
         private readonly StudyStorageManager _studyStorageManager;
-        private readonly TeamStorageManager _teamStorageManager;
+        private readonly TeamStorageManager _teamStorage;
         private readonly TaskManager _taskManager;
         
 
@@ -27,17 +28,21 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             _studyStorageManager = new StudyStorageManager();
         }
 
-        public StudyManager(StudyStorageManager storageManager, TaskManager taskManager)
+        public StudyManager(StudyStorageManager storageManager, TaskManager taskManager, TeamStorageManager teamStorage)
         {
             _studyStorageManager = storageManager;
             _taskManager = taskManager;
+            _teamStorage = teamStorage;
         }
         
         //TODO check if whole study finished
         public bool DeliverTask(int studyID, int taskID, TaskSubmissionDTO taskDTO)
         {
+            var currentStudy = _studyStorageManager.GetAllStudies()
+                .Where(s => s.Id == studyID)
+                .Include(s => s.Stages.Select(t => t.TaskIDs))
+                .FirstOrDefault();
 
-            var currentStudy = _studyStorageManager.GetStudy(studyID);
             bool deliverSucces;
 
             try
@@ -50,13 +55,12 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             }
             
             //Determine if the stage is finished
-            if (_taskManager.StageIsFinished(currentStudy.CurrentStage()))
+            if (currentStudy.CurrentStage().TaskIDs.ToList().TrueForAll(t=>_taskManager.TaskIsFinished(t)))
             {
                MoveToNextPhase(currentStudy);
             }
 
             return deliverSucces;
-           
         }
 
         private void MoveToNextPhase(Study study)
@@ -83,7 +87,11 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             var validators = currentStage.Users.Where(u => u.StudyRole == UserStudies.Role.Validator).Select(u => u.User).ToList();
 
             //Generate the validation tasks and get id's on the items to be excluded
-            var excludedItemIDs = _taskManager.GenerateValidationTasks(currentStage.TaskIDs, criteria, validators, currentStage.DistributionRule);
+            var excludedItemIDs = _taskManager.GenerateValidationTasks(
+                currentStage.TaskIDs.ToList(), 
+                criteria, 
+                validators, 
+                currentStage.DistributionRule);
 
             //Remove the excluded items from the study
             var currentStudy = _studyStorageManager.GetStudy(currentStage.StudyID);
@@ -98,7 +106,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         private void FinishConflictPhase(Stage currentStage)
         {
-            var excludedItems = _taskManager.CriteriaValidateTasks(currentStage.Criteria, currentStage.TaskIDs);
+            var excludedItems = _taskManager.CriteriaValidateTasks(currentStage.Criteria, currentStage.TaskIDs.ToList());
 
             //Remove the excluded items from the study, and move to next stage
             var currentStudy = _studyStorageManager.GetStudy(currentStage.StudyID);
@@ -112,7 +120,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             var reviewers = currentStage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
 
             //Generate the new review tasks
-            _taskManager.GenerateReviewTasks(currentStudy.Items, reviewers, currentStudy.CurrentStage().DistributionRule, currentStudy.CurrentStage().Criteria);
+            _taskManager.GenerateReviewTasks(currentStudy.Items, reviewers, currentStage.Criteria, currentStage.DistributionRule);
         }
 
 
@@ -122,7 +130,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             {
                 IsFinished = false,
                 Name = studyDTO.Name,
-                Team = _teamStorageManager.GetTeam(studyDTO.TeamID),
+                Team = _teamStorage.GetTeam(studyDTO.Team.Id),
                 Items = new List<Item>(),
                 Stages = new List<Stage>()
             };
@@ -151,14 +159,14 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                     stage.Users.Add(new UserStudies()
                     {
                         StudyRole = UserStudies.Role.Reviewer,
-                        User = _teamStorageManager.GetUser(u)
+                        User = _teamStorage.GetUser(u)
                     }));
                
                 stageDto.ValidatorIDs.ForEach(u=>
                     stage.Users.Add(new UserStudies()
                     {
                         StudyRole = UserStudies.Role.Validator,
-                        User = _teamStorageManager.GetUser(u)
+                        User = _teamStorage.GetUser(u)
                     }));
                 
                 /*stageDto.Criteria.ForEach(
@@ -174,17 +182,22 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
                 study.Stages.Add(stage);
             }
-
-            //TODO This will not work, the stage havent got an id yet
-            study.CurrentStageID = study.Stages.First().Id;
-
-            var studyID = _studyStorageManager.SaveStudy(study);
             
-            //Find the users that are reviewers for this stage.
+            var studyID = _studyStorageManager.SaveStudy(study);
+
+            //Move to next stage to get the right currentStageID
+            study.MoveToNextStage();
+
+            _studyStorageManager.UpdateStudy(study);
+
+           //Find the users that are reviewers for this stage.
             var reviewers = study.CurrentStage().Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
 
+            var currentStage = study.CurrentStage();
+
             //Generate the new review tasks
-            _taskManager.GenerateReviewTasks(study.Items, reviewers, study.CurrentStage().DistributionRule, study.CurrentStage().Criteria);
+            _taskManager.GenerateReviewTasks(study.Items, reviewers, currentStage.Criteria, currentStage.DistributionRule);
+            
 
             return studyID;
         }
@@ -211,15 +224,17 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public IEnumerable<Study> GetAllStudies()
         {
-            return (from Study dbStudy in _studyStorageManager.GetAllStudies() select dbStudy).ToList();
+            return (from Study dbStudy in _studyStorageManager.GetAllStudies() select dbStudy);
         }
 
         public IEnumerable<TaskRequestDTO> getTasks(int studyId, int userId, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            throw new NotImplementedException();
             var study = _studyStorageManager.GetStudy(studyId);
-            var taskType = (StudyTask.Type)Enum.Parse(typeof(StudyTask.Type), type.ToString());
-           // return _taskManager.GetTasksForUser(study, userId, count, filter, taskType);
+
+            var taskIDs = study.CurrentStage().TaskIDs.ToList();
+            var visibleFields = study.CurrentStage().VisibleFields;
+
+            return _taskManager.GetTasksDTOs(visibleFields, taskIDs, userId, count, filter, type);
         }
     }
 }
