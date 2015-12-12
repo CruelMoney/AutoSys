@@ -182,16 +182,16 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                         User = _teamStorage.GetUser(u)
                     }));
                 
-                stageDto.Criteria.ForEach(
-                    c=> stage.Criteria.Add(new Criteria()
-                {
-                    Name = c.Name,
-                    DataMatch = c.DataMatch,
-                    DataType = (DataField.DataType) Enum.Parse(typeof(DataField.DataType), c.DataType.ToString()),
-                    Description = c.Description,
-                    Rule = (Criteria.CriteriaRule) Enum.Parse(typeof(Criteria.CriteriaRule), c.Rule.ToString()),
-                    TypeInfo = c.TypeInfo
-                    }));
+                
+                  stage.Criteria.Add(new Criteria()
+                  {
+                    Name = stageDto.Criteria.Name,
+                    DataMatch = stageDto.Criteria.DataMatch,
+                    DataType = (DataField.DataType) Enum.Parse(typeof(DataField.DataType), stageDto.Criteria.DataType.ToString()),
+                    Description = stageDto.Criteria.Description,
+                    Rule = (Criteria.CriteriaRule) Enum.Parse(typeof(Criteria.CriteriaRule), stageDto.Criteria.Rule.ToString()),
+                    TypeInfo = stageDto.Criteria.TypeInfo
+                    });
 
                 if (firstStage)
                 {
@@ -246,6 +246,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             var study = _studyStorageManager.GetAllStudies()
                 .Where(s => s.Id == studyId)
                 .Include(s => s.Stages.Select(t => t.Tasks))
+                .Include(s=>s.Stages.Select(t=>t.Users))
                 .FirstOrDefault();
 
             var taskIDs = study.CurrentStage().Tasks.Select(t=>t.Id).ToList();

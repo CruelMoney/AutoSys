@@ -104,8 +104,8 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             }
             
             //Distribute the tasks and save them
-            _taskDistributor.Distribute(distribution, users, reviewTasks).
-                ForEach(t => _storageManager.CreateTask(t));
+            var tasks = _taskDistributor.Distribute(distribution, users, reviewTasks).ToList();
+                tasks.ForEach(t => _storageManager.CreateTask(t));
 
             return reviewTasks.Select(t => t);
         }
@@ -140,7 +140,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         /// <returns></returns>
         public IEnumerable<TaskRequestDTO> GetTasksDTOs(ICollection<FieldType> visibleFields, List<int> taskIDs, int userID, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            var tasks = _taskRequester.GetTasks(taskIDs, userID, count, filter, type);
+            var tasks = _taskRequester.GetTasks(taskIDs, userID, count, filter, type).ToList();
 
             return from StudyTask task in tasks
                 select new TaskRequestDTO(task, userID, visibleFields);

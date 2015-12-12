@@ -64,7 +64,7 @@ namespace LogicTests1.IntegrationTests
             var stage1 = new StageDTO()
             {
                 Name = "stage1",
-                Criteria = new CriteriaDTO[] {criteria1},
+                Criteria = criteria1,
                 DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
                 ReviewerIDs = new int[] {1, 2},
                 ValidatorIDs = new int[] {3},
@@ -75,7 +75,7 @@ namespace LogicTests1.IntegrationTests
             var stage2 = new StageDTO()
             {
                 Name = "stage2",
-                Criteria = new CriteriaDTO[] {criteria2},
+                Criteria = criteria2,
                 DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
                 ReviewerIDs = new int[] {3, 2},
                 ValidatorIDs = new int[] {4},
