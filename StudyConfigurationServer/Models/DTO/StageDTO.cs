@@ -8,6 +8,15 @@ namespace StudyConfigurationServer.Models.DTO
 {
     public class StageDTO
     {
+        public StageDTO(Stage stage)
+        {
+            Name = stage.Name;
+            Id = stage.Id;
+            Criteria = Criteria;
+        }
+        public StageDTO()
+        {
+        }
         public string Name { get; set; }
         public int Id { get; set; }
         //The critderia are defining what fields are going to be editable for this stage

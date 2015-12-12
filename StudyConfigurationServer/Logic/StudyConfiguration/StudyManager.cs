@@ -234,6 +234,14 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         public Study GetStudy(int studyId)
         {
             return _studyStorageManager.GetStudy(studyId);
+            /*var StudyToConvert = _studyStorageManager.GetStudy(studyId);
+            return new StudyDTO()
+            {
+                Id = StudyToConvert.Id,
+                IsFinished = StudyToConvert.IsFinished,
+                Name = StudyToConvert.Name,
+                Team = new TeamDTO(StudyToConvert.Team)
+            };*/
         }
 
         public IEnumerable<Study> GetAllStudies()
