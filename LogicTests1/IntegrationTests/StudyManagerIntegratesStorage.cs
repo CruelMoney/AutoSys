@@ -19,10 +19,7 @@ namespace LogicTests1.IntegrationTests
     [TestClass]
     public class StudyManagerIntegratesStorageAndTaskManager
     {
-        TaskManager _taskManager;
-        StudyStorageManager _studyStorage;
-        TeamStorageManager _teamStorage;
-        TaskStorageManager _taskStorage;
+    
         StudyManager _manager;
         EntityFrameworkGenericRepository<StudyContext> _repo;
 
@@ -34,15 +31,9 @@ namespace LogicTests1.IntegrationTests
             context.Database.Initialize(true);
 
             _repo = new EntityFrameworkGenericRepository<StudyContext>();
+          
 
-            
-            
-            _studyStorage = new StudyStorageManager(_repo);
-            _teamStorage = new TeamStorageManager(_repo);
-            _taskStorage = new TaskStorageManager(_repo);
-            _taskManager = new TaskManager(_taskStorage);
-
-            _manager = new StudyManager(_studyStorage, _taskManager, _teamStorage);
+            _manager = new StudyManager(_repo);
         }
 
         public StudyDTO CreaStudyDto()

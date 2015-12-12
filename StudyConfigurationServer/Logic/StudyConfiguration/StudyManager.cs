@@ -25,9 +25,10 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public StudyManager()
         {
-            _teamStorage = new TeamStorageManager();
-           _taskManager = new TaskManager();
-            _studyStorageManager = new StudyStorageManager();
+            var repo = new EntityFrameworkGenericRepository<StudyContext>();
+            _teamStorage = new TeamStorageManager(repo);
+            _taskManager = new TaskManager(repo);
+            _studyStorageManager = new StudyStorageManager(repo);
         }
 
         public StudyManager(StudyStorageManager storageManager, TaskManager taskManager, TeamStorageManager teamStorage)
@@ -36,7 +37,14 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             _taskManager = taskManager;
             _teamStorage = teamStorage;
         }
-        
+
+        public StudyManager(EntityFrameworkGenericRepository<StudyContext> repo)
+        {
+            _studyStorageManager = new StudyStorageManager(repo);
+            _taskManager = new TaskManager(repo);
+            _teamStorage = new TeamStorageManager(repo);
+        }
+
         //TODO check if whole study finished
         public bool DeliverTask(int studyID, int taskID, TaskSubmissionDTO taskDTO)
         {

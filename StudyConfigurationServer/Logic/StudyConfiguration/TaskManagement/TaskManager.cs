@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Ajax.Utilities;
+using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor;
 using StudyConfigurationServer.Models;
+using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
 using FieldType = StudyConfigurationServer.Models.FieldType;
 
@@ -29,12 +31,12 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             _taskRequester = new TaskRequester(_storageManager);
         }
 
-        public TaskManager(TaskStorageManager storageManager)
+        public TaskManager(EntityFrameworkGenericRepository<StudyContext> repo)
         {
             _taskDistributor = new DistributorSelector();
             _criteriaValidator = new CriteriaValidator();
             _taskGenerator = new TaskGenerator();
-            _storageManager = storageManager;
+            _storageManager = new TaskStorageManager(repo);
             _taskRequester = new TaskRequester(_storageManager);
         }
 
