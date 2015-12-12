@@ -88,6 +88,8 @@ namespace StudyConfigurationServer.Models
 
         public int Id { get; set; }
 
-        public StudyTask Task { get; set; }
+        public ICollection<StudyTask> Tasks { get; set; }
+
+        public Item() { }
     }
 }

@@ -20,9 +20,9 @@ namespace LogicTests1.IntegrationTests
 
         private TeamDTO teamDTO = new TeamDTO() { Id = 1, Name = "Team", Metadata = "Metadata" ,UserIDs = new int[] { 1, 2, 3 } };
         private IGenericRepository testRepo;
-        private User user1 = new User() { Id = 1, Name = "user1" };
-        private User user2 = new User() { Id = 2, Name = "user2" };
-        private User user3 = new User() { Id = 3, Name = "user3" };
+        private User user1 = new User() { Name = "user1" };
+        private User user2 = new User() { Name = "user2" };
+        private User user3 = new User() { Name = "user3" };
 
         [TestInitialize]
         public void InitializeTest()
@@ -43,9 +43,19 @@ namespace LogicTests1.IntegrationTests
         [TestMethod]
         public void TestTeamManagerIntegrationCreateTeam()
         {
+            //ACtion
+           var actualID = teamManager.CreateTeam(teamDTO);
+           var actualTeamDTO = teamManager.GetTeamDTO(actualID);
+           var actualUser1 = teamStorageManager.GetUser(actualTeamDTO.UserIDs[0]);
+           var actualUser2 = teamStorageManager.GetUser(actualTeamDTO.UserIDs[1]);
+           var actualUser3 = teamStorageManager.GetUser(actualTeamDTO.UserIDs[2]);
 
-            teamManager.CreateTeam(teamDTO);
-            Assert.AreEqual("Team", teamManager.GetTeamDTO(teamDTO.Id).Name);
+            //Assert
+            Assert.AreEqual("Team", actualTeamDTO.Name);
+            Assert.AreEqual(3, actualTeamDTO.UserIDs.Length);
+            Assert.AreEqual("user1", actualUser1.Name);
+            Assert.AreEqual("user2", actualUser2.Name);
+            Assert.AreEqual("user3", actualUser3.Name);
         }
 
         [TestMethod]
@@ -55,15 +65,6 @@ namespace LogicTests1.IntegrationTests
             teamManager.CreateTeam(teamDTO);
 
             Assert.IsTrue(teamManager.RemoveTeam(teamDTO.Id));
-        }
-
-        [TestMethod]
-        public void TestTeamManagerIntegrationUpdateTeam()
-        {
-            teamManager.CreateTeam(teamDTO);
-            teamDTO.Name = "Team2";
-            Assert.IsTrue(teamManager.UpdateTeam(teamDTO.Id, teamDTO));
-            Assert.AreEqual("Team2", teamManager.GetTeamDTO(teamDTO.Id).Name);
         }
 
         [TestMethod]

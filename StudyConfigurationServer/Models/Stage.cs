@@ -9,7 +9,7 @@ namespace StudyConfigurationServer.Models
         public string Name { get; set;}
         public int Id { get; set; }
         //The criteria are defining what fields are editable for this stage
-        public virtual ICollection<Criteria> Criteria { get; set; } 
+        public virtual List<Criteria> Criteria { get; set; } 
         public ICollection<int> TaskIDs { get; set; }
         public int StudyID { get; set; } 
         //The fields that can only be seen in adddition to the editable fields.
