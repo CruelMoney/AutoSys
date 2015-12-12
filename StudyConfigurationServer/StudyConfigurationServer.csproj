@@ -161,9 +161,9 @@
     <Compile Include="Logic\StudyOverview\StudyOverviewController.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
-    <Compile Include="Migrations\201512121654484_initial.cs" />
-    <Compile Include="Migrations\201512121654484_initial.Designer.cs">
-      <DependentUpon>201512121654484_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201512122105526_initial.cs" />
+    <Compile Include="Migrations\201512122105526_initial.Designer.cs">
+      <DependentUpon>201512122105526_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
@@ -184,8 +184,10 @@
     <Compile Include="Models\DTO\TaskSubmissionDTO.cs" />
     <Compile Include="Models\DTO\TeamDTO.cs" />
     <Compile Include="Models\DTO\UserDTO.cs" />
+    <Compile Include="Models\FieldType.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Stage.cs" />
+    <Compile Include="Models\StoredString.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Models\StudyTask.cs" />
     <Compile Include="Models\UserData.cs" />
@@ -215,8 +217,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512121654484_initial.resx">
-      <DependentUpon>201512121654484_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512122105526_initial.resx">
+      <DependentUpon>201512122105526_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -13,7 +13,7 @@ namespace StudyConfigurationServer.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201512121654484_initial"; }
+            get { return "201512122105526_initial"; }
         }
         
         string IMigrationMetadata.Source

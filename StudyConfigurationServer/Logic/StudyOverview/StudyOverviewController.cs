@@ -32,7 +32,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             Study study = _studyStorageManager.GetAllStudies()
                 .Where(s => s.Id == id)
-                .Include(s => s.Stages.Select(t => t.TaskIDs))
+                .Include(s => s.Stages.Select(t => t.Tasks))
                 .FirstOrDefault();
 
             StudyOverviewDTO studyOverview = new StudyOverviewDTO()
@@ -88,14 +88,14 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             var completedTasks = new ConcurrentDictionary<int, int>();
 
-            foreach(var taskID in stage.TaskIDs)
+            foreach(var task in stage.Tasks)
             {
-                var task = _taskStorage.GetTask(taskID);
-                foreach (var user in task.UserIDs)
+               
+                foreach (var user in task.Users)
                 {
-                    if (task.IsFinished(user))
+                    if (task.IsFinished(user.Id))
                     {
-                        completedTasks.AddOrUpdate(user, 1, (id, count) => count + 1);
+                        completedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
                 }
             }           
@@ -106,14 +106,14 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             var inCompletedTasks = new ConcurrentDictionary<int, int>();
 
-            foreach (var taskID in stage.TaskIDs)
+            foreach (var task in stage.Tasks)
             {
-                var task = _taskStorage.GetTask(taskID);
-                foreach (var user in task.UserIDs)
+               
+                foreach (var user in task.Users)
                 {
-                    if (!task.IsFinished(user))
+                    if (!task.IsFinished(user.Id))
                     {
-                        inCompletedTasks.AddOrUpdate(user, 1, (id, count) => count + 1);
+                        inCompletedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
                 }
             }

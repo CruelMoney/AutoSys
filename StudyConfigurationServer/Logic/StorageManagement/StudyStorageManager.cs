@@ -56,9 +56,13 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return _studyRepo.Read<Study>(studyId);
         }
 
+        public bool UpdateStage(Stage stage)
+        {
+            var returnValue = _studyRepo.Update(stage);
 
-      
 
+            return returnValue;
+        }
 
     }
 
