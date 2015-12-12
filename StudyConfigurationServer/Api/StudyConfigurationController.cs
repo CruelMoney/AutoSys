@@ -12,9 +12,9 @@ namespace StudyConfigurationServer.Api
  
     public class StudyConfigurationController : ApiController
     {
-        //private readonly StudyManager _manager = new StudyManager();
+        private readonly StudyManager _manager = new StudyManager();
         private readonly TeamManager _teamManager = new TeamManager();
-       /* // GET: api/StudyConfiguration
+        // GET: api/StudyConfiguration
         public IEnumerable<Study> Get()
         {
             return _manager.GetAllStudies();
@@ -43,6 +43,6 @@ namespace StudyConfigurationServer.Api
         public void Delete(int id)
         {
             _manager.RemoveStudy(id);
-        }*/
+        }
     }
 }

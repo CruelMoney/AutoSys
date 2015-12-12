@@ -26,6 +26,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         {
            _taskManager = new TaskManager();
             _studyStorageManager = new StudyStorageManager();
+            _teamStorage = new TeamStorageManager();
         }
 
         public StudyManager(StudyStorageManager storageManager, TaskManager taskManager, TeamStorageManager teamStorage)
