@@ -11,7 +11,7 @@
         /// The DB id for the current stage
         /// </summary>
         public StageDTO[] Stages { get; set; } // reference til Stages (one to many)
-        public int TeamID { get; set; }
+        public TeamDTO Team { get; set; }
         public byte[] Items { get; set; } // where to place?
         public bool IsFinished { get; set; }
     }

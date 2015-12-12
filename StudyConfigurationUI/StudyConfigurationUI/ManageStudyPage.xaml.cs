@@ -77,6 +77,7 @@ namespace StudyConfigurationUI
 
         private void onNewPhase(object sender, RoutedEventArgs e)
         {
+            _logic._StudyToWorkOn.Name = nameInput.Text;
             this.Frame.Navigate(typeof(ManagePhasePage),_logic);
         }
 
@@ -129,6 +130,7 @@ namespace StudyConfigurationUI
 
         private async void SaveAndClose(object sender, RoutedEventArgs e)
         {
+            _logic._StudyToWorkOn.Name = nameInput.Text;
             if (_logic._IsNewStudy)
             {
                 await Service.PostStudy(_logic._StudyToWorkOn);

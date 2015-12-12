@@ -30,7 +30,10 @@ namespace StudyConfigurationUI.Logic
         {
             
             _TeamAssociated = await Service.GetTeam(id);
-            _StudyToWorkOn = new StudyDTO();
+            _StudyToWorkOn = new StudyDTO()
+            {
+                Team = _TeamAssociated
+            };
             _Users = new List<UserDTO>();
             _Users.AddRange( await GetUserNames(_TeamAssociated.UserIDs));
         }
@@ -38,7 +41,7 @@ namespace StudyConfigurationUI.Logic
         public async Task SetUpFromStudy(int id)
         {
             _StudyToWorkOn = await Service.GetStudy(id);
-            _TeamAssociated = await Service.GetTeam(_StudyToWorkOn.TeamID);
+            _TeamAssociated = await Service.GetTeam(_StudyToWorkOn.Team.Id);
             _Users = new List<UserDTO>();
             _Users.AddRange(await GetUserNames(_TeamAssociated.UserIDs));
         }
