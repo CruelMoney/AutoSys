@@ -44,12 +44,5 @@ namespace StudyConfigurationServer.Api
         {
             _manager.RemoveStudy(id);
         }*/
-
-        [Route("api/StudyConfiguration/{id}/Team")]
-        [HttpGet]
-        public Team GetTeam(int id)
-        {
-            return _teamManager.GetTeam(id);
-        }
     }
 }

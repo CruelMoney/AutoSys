@@ -3,7 +3,7 @@
 namespace StudyConfigurationServer.Models
 {
     public class Criteria : IEntity
-    {    
+    {
         public enum CriteriaRule
         {
             Contains,
@@ -50,6 +50,6 @@ namespace StudyConfigurationServer.Models
         /// A rule for when the criteria is met / true. 
         /// </summary>
         public CriteriaRule Rule { get; set; }
-        
+
     }
 }

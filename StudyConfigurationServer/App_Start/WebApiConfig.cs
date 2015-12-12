@@ -14,7 +14,7 @@ namespace StudyConfigurationServer
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            
 
 
             config.Routes.MapHttpRoute(
@@ -22,10 +22,7 @@ namespace StudyConfigurationServer
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+            
         }
     }
 }

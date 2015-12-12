@@ -161,7 +161,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                         User = _teamStorageManager.GetUser(u)
                     }));
                 
-                stageDto.Criteria.ForEach(
+                /*stageDto.Criteria.ForEach(
                     c=> stage.Criteria.Add(new Criteria()
                 {
                     Name = c.Name,
@@ -170,7 +170,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                     Description = c.Description,
                     Rule = (Criteria.CriteriaRule) Enum.Parse(typeof(Criteria.CriteriaRule), c.Rule.ToString()),
                     TypeInfo = c.TypeInfo
-                    }));
+                    }));*/
 
                 study.Stages.Add(stage);
             }
