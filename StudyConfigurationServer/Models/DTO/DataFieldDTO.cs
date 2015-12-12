@@ -80,10 +80,10 @@ namespace StudyConfigurationServer.Models.DTO
         /// </summary>
         /// <param name="fieldType"></param>
         /// <param name="item"></param>
-        public DataFieldDTO(Item.FieldType fieldType, Item item)
+        public DataFieldDTO(FieldType fieldType, Item item)
         {
             Name = fieldType.ToString();
-            Data = new string[] {item.Fields[fieldType]};
+            Data = new string[] {item.FindFieldValue(fieldType)};
             FieldType = DataFieldDTO.DataType.String;
         }
 

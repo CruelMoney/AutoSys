@@ -15,6 +15,8 @@ namespace StudyConfigurationServer.Models.Data
         public DbSet<Item> Items { get; set; }
         public DbSet<DataField> DataFields { get; set; }
         public DbSet<UserData> EnteredData { get; set; }
+        public DbSet<FieldType> FieldTypes { get; set; }
+        public DbSet<StoredString> Strings { get; set; }
     }
     
 }

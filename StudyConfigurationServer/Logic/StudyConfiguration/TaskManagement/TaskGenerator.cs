@@ -13,7 +13,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                     TaskType = StudyTask.Type.Review,
                     DataFields = new List<DataField>(),
                     IsEditable = true,
-                    UserIDs = new List<int>(),
+                    Users = new List<User>(),
                 };
 
                 foreach (var criterion in criteria)
@@ -46,7 +46,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                     TaskType = StudyTask.Type.Conflict,
                     DataFields = new List<DataField>(),
                     IsEditable = true,
-                    UserIDs = new List<int>(),
+                    Users = new List<User>(),
                     
                 };
 

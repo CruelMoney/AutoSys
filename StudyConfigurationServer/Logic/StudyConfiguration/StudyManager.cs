@@ -12,6 +12,7 @@ using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
+using FieldType = StudyConfigurationServer.Models.FieldType;
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration
 {
@@ -24,6 +25,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public StudyManager()
         {
+            _teamStorage = new TeamStorageManager();
            _taskManager = new TaskManager();
             _studyStorageManager = new StudyStorageManager();
         }
@@ -40,7 +42,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         {
             var currentStudy = _studyStorageManager.GetAllStudies()
                 .Where(s => s.Id == studyID)
-                .Include(s => s.Stages.Select(t => t.TaskIDs))
+                .Include(s => s.Stages.Select(t => t.Tasks))
                 .FirstOrDefault();
 
             bool deliverSucces;
@@ -55,7 +57,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             }
             
             //Determine if the stage is finished
-            if (currentStudy.CurrentStage().TaskIDs.ToList().TrueForAll(t=>_taskManager.TaskIsFinished(t)))
+            if (currentStudy.CurrentStage().Tasks.Select(t=>t.Id).ToList().TrueForAll(t=>_taskManager.TaskIsFinished(t)))
             {
                MoveToNextPhase(currentStudy);
             }
@@ -88,7 +90,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
             //Generate the validation tasks and get id's on the items to be excluded
             var excludedItemIDs = _taskManager.GenerateValidationTasks(
-                currentStage.TaskIDs.ToList(), 
+                currentStage.Tasks.Select(t=>t.Id).ToList(), 
                 criteria, 
                 validators, 
                 currentStage.DistributionRule);
@@ -106,7 +108,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         private void FinishConflictPhase(Stage currentStage)
         {
-            var excludedItems = _taskManager.CriteriaValidateTasks(currentStage.Criteria, currentStage.TaskIDs.ToList());
+            var excludedItems = _taskManager.CriteriaValidateTasks(currentStage.Criteria, currentStage.Tasks.Select(t=>t.Id).ToList());
 
             //Remove the excluded items from the study, and move to next stage
             var currentStudy = _studyStorageManager.GetStudy(currentStage.StudyID);
@@ -140,6 +142,8 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             var fileString = System.Text.Encoding.Default.GetString(studyDTO.Items);
             study.Items = parser.Parse(fileString);
 
+            var firstStage = true;
+
             foreach (var stageDto in studyDTO.Stages)
             {
                 var stage = new Stage()
@@ -147,13 +151,14 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                     Name = stageDto.Name,
                     CurrentTaskType = StudyTask.Type.Review,
                     DistributionRule = (Stage.Distribution) Enum.Parse(typeof(Stage.Distribution), stageDto.DistributionRule.ToString()),
-                    VisibleFields = new List<Item.FieldType>(),
+                    VisibleFields = new List<FieldType>(),
                     Users = new List<UserStudies>(),
                     Criteria = new List<Criteria>(),
+                    
                 };
 
                 stageDto.VisibleFields.ForEach(
-                    f => stage.VisibleFields.Add((Item.FieldType) Enum.Parse(typeof (Item.FieldType), f.ToString())));
+                    f => stage.VisibleFields.Add(new FieldType (f.ToString())));
 
                 stageDto.ReviewerIDs.ForEach(u=>
                     stage.Users.Add(new UserStudies()
@@ -180,6 +185,16 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                     TypeInfo = c.TypeInfo
                     }));
 
+                if (firstStage)
+                {
+                    //Find the users that are reviewers for this stage.
+                    var reviewers = stage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
+
+                    stage.Tasks = _taskManager.GenerateReviewTasks(study.Items, reviewers, stage.Criteria, stage.DistributionRule).ToList();
+                }
+
+                firstStage = false;
+
                 study.Stages.Add(stage);
             }
             
@@ -187,18 +202,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
             //Move to next stage to get the right currentStageID
             study.MoveToNextStage();
-
-            _studyStorageManager.UpdateStudy(study);
-
-           //Find the users that are reviewers for this stage.
-            var reviewers = study.CurrentStage().Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
-
-            var currentStage = study.CurrentStage();
-
-            //Generate the new review tasks
-            _taskManager.GenerateReviewTasks(study.Items, reviewers, currentStage.Criteria, currentStage.DistributionRule);
             
-
+            _studyStorageManager.UpdateStudy(study);
+        
             return studyID;
         }
 
@@ -229,9 +235,12 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public IEnumerable<TaskRequestDTO> getTasks(int studyId, int userId, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            var study = _studyStorageManager.GetStudy(studyId);
+            var study = _studyStorageManager.GetAllStudies()
+                .Where(s => s.Id == studyId)
+                .Include(s => s.Stages.Select(t => t.Tasks))
+                .FirstOrDefault();
 
-            var taskIDs = study.CurrentStage().TaskIDs.ToList();
+            var taskIDs = study.CurrentStage().Tasks.Select(t=>t.Id).ToList();
             var visibleFields = study.CurrentStage().VisibleFields;
 
             return _taskManager.GetTasksDTOs(visibleFields, taskIDs, userId, count, filter, type);

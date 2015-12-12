@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using StudyConfigurationServer.Logic.StorageManagement;
@@ -68,7 +69,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         {
             return (from StudyTask task in _storageManager.GetAllTasks()
                    where taskIDs.Contains(task.Id)
-                   where task.UserIDs.Contains(userID)
+                   where task.Users.Select(u=>u.Id).Contains(userID)
                    where !task.IsEditable
                    select task).ToList();
 
@@ -76,18 +77,22 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 
         private IEnumerable<StudyTask> GetRemainingTasks(List<int> taskIDs, int userID)
         {
-            return (from StudyTask task in _storageManager.GetAllTasks()
-                   where taskIDs.Contains(task.Id)
-                   where task.UserIDs.Contains(userID)
-                   where !task.IsFinished(userID)
-                   select task).ToList();
+            var tasks = _storageManager.GetAllTasks()
+                .Where(t=>taskIDs.Contains(t.Id))
+                .Include(t=>t.Users)
+                .ToList();
+
+            return tasks
+                .Where(t => t.Users.Select(u => u.Id).Contains(userID))
+                .Where(t => !t.IsFinished(userID));
+            
         }
 
         private IEnumerable<StudyTask> GetEditableTasks(List<int> taskIDs, int userID)
         {
             return (from StudyTask task in _storageManager.GetAllTasks()
                    where taskIDs.Contains(task.Id)
-                   where task.UserIDs.Contains(userID)
+                   where task.Users.Select(u => u.Id).Contains(userID)
                    where !task.IsEditable
                    select task).ToList();
         }

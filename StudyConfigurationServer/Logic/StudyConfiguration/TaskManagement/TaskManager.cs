@@ -7,6 +7,7 @@ using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaV
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.DTO;
+using FieldType = StudyConfigurationServer.Models.FieldType;
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 {
@@ -90,7 +91,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         }
 
         
-        public IEnumerable<int> GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, List<Criteria> criteria, Stage.Distribution distribution)
+        public IEnumerable<StudyTask> GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, List<Criteria> criteria, Stage.Distribution distribution)
         {
             var reviewTasks = new List<StudyTask>();
 
@@ -104,7 +105,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             _taskDistributor.Distribute(distribution, users, reviewTasks).
                 ForEach(t => _storageManager.CreateTask(t));
 
-            return reviewTasks.Select(t => t.Id);
+            return reviewTasks.Select(t => t);
         }
 
 
@@ -135,7 +136,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         /// Get the taskRequestDTO for a user
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<TaskRequestDTO> GetTasksDTOs(ICollection<Item.FieldType> visibleFields, List<int> taskIDs, int userID, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
+        public IEnumerable<TaskRequestDTO> GetTasksDTOs(ICollection<FieldType> visibleFields, List<int> taskIDs, int userID, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
             var tasks = _taskRequester.GetTasks(taskIDs, userID, count, filter, type);
 

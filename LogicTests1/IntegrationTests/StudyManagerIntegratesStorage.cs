@@ -22,6 +22,7 @@ namespace LogicTests1.IntegrationTests
         TaskManager _taskManager;
         StudyStorageManager _studyStorage;
         TeamStorageManager _teamStorage;
+        TaskStorageManager _taskStorage;
         StudyManager _manager;
         EntityFrameworkGenericRepository<StudyContext> _repo;
 
@@ -34,9 +35,12 @@ namespace LogicTests1.IntegrationTests
 
             _repo = new EntityFrameworkGenericRepository<StudyContext>();
 
-            _taskManager = new TaskManager();
+            
+            
             _studyStorage = new StudyStorageManager(_repo);
             _teamStorage = new TeamStorageManager(_repo);
+            _taskStorage = new TaskStorageManager(_repo);
+            _taskManager = new TaskManager(_taskStorage);
 
             _manager = new StudyManager(_studyStorage, _taskManager, _teamStorage);
         }
@@ -111,17 +115,23 @@ namespace LogicTests1.IntegrationTests
 
             var newStorageManager = new StudyStorageManager();
 
-            var actualStudy = newStorageManager.GetStudy(studyID);
+            var actualStudy = newStorageManager.GetAllStudies()
+                .Where(s=>s.Id==studyID)
+                .Include(s=>s.Stages.Select(t=>t.Tasks))
+                .FirstOrDefault();
+
             var actualCurrentStage = actualStudy.CurrentStage();
-
-
+            
             //Assert
             Assert.AreEqual("testStudy", actualStudy.Name);
-            Assert.AreEqual("stage1", actualStudy.CurrentStage().Name);
+            Assert.AreEqual("stage1", actualCurrentStage.Name);
             Assert.AreEqual(false, actualStudy.IsFinished);
             Assert.AreEqual(23, actualStudy.Items.Count);
             Assert.AreEqual(2, actualStudy.Stages.Count);
             Assert.AreEqual("team1", actualStudy.Team.Name);
+            Assert.AreEqual(23, actualCurrentStage.Tasks.Count);
+
+
         }
 
 

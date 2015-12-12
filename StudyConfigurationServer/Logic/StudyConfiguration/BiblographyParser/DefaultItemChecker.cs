@@ -13,7 +13,20 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser
 
         public bool Validate(Item item)
         {
-            return item.Fields.All(field => _validator.IsFieldValid(field.Value, field.Key));
+            
+            for (int i =0; i<item.fieldKeys.Count; i++)
+            {
+                var key = item.fieldKeys.ToList()[i];
+                var value = item.fieldValues.ToList()[i];
+
+                if (!item.fieldKeys.All(field => _validator.IsFieldValid(value.Value, key)))
+                {
+                    return false;
+                }
+              
+            }
+            return true;
+
         }
 
     }
