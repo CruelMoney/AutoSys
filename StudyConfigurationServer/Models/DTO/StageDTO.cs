@@ -10,7 +10,7 @@ namespace StudyConfigurationServer.Models.DTO
     {
         public string Name { get; set; }
         public int Id { get; set; }
-        //The criteria are defining what fields are going to be editable for this stage
+        //The critderia are defining what fields are going to be editable for this stage
         [Required]
         public CriteriaDTO Criteria { get; set; }
         public int StudyID { get; set; }
