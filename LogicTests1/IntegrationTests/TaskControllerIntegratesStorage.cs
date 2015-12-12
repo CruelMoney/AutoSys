@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LogicTests1.IntegrationTests.DBInitializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement;
 using StudyConfigurationServer.Models;
@@ -19,7 +20,7 @@ namespace LogicTests1.IntegrationTests
     {
         TaskStorageManager _storageManager;
         TaskManager _manager;
-        
+        EntityFrameworkGenericRepository<StudyContext> _repo; 
 
         //This can reset the database before each test or set it up with custom context
         private void setupEmptyDB()
@@ -43,8 +44,10 @@ namespace LogicTests1.IntegrationTests
         public void Initialize()
         {
              setupMultipleDB();
-            _storageManager = new TaskStorageManager();
-            _manager = new TaskManager(_storageManager);
+
+            _repo = new EntityFrameworkGenericRepository<StudyContext>();
+            _storageManager = new TaskStorageManager(_repo);
+            _manager = new TaskManager(_repo);
             var testItem = new Item(Item.ItemType.Book, new Dictionary<FieldType, string>());
             var testUser1 = new User() { Id = 1, Name = "chris" };
             var testUser2 = new User() { Id = 2, Name = "ramos" };
