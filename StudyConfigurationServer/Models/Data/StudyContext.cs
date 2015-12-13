@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using Storage.Repository;
 
 namespace StudyConfigurationServer.Models.Data
@@ -17,6 +18,9 @@ namespace StudyConfigurationServer.Models.Data
         public DbSet<UserData> EnteredData { get; set; }
         public DbSet<FieldType> FieldTypes { get; set; }
         public DbSet<StoredString> Strings { get; set; }
+
+
+       
     }
     
 }

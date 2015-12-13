@@ -71,8 +71,8 @@ namespace StudyConfigurationServer.Models.DTO
             Name = field.Name;
             Description = field.Description;
             FieldType = (DataFieldDTO.DataType) Enum.Parse(typeof (DataFieldDTO.DataType), field.FieldType.ToString());
-            TypeInfo = field.TypeInfo;
-            Data = field.UserData.First(u => u.UserID == userId).Data;
+            TypeInfo = field.TypeInfo.Select(s => s.Value).ToArray();
+            Data = field.UserData.First(u => u.UserID == userId).Data.Select(s=>s.Value).ToArray();
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace StudyConfigurationServer.Models.DTO
         /// <param name="item"></param>
         public DataFieldDTO(FieldType fieldType, Item item)
         {
-            Name = fieldType.ToString();
+            Name = fieldType.Type.ToString();
             Data = new string[] {item.FindFieldValue(fieldType)};
-            FieldType = DataFieldDTO.DataType.String;
+            FieldType = DataType.String;
         }
 
         public DataFieldDTO() { }

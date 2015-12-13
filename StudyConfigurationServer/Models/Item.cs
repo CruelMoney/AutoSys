@@ -48,7 +48,7 @@ namespace StudyConfigurationServer.Models
             fields.Values.ForEach(s => fieldValues.Add(new StoredString() {Value = s}));
         }
 
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         public ICollection<StudyTask> Tasks { get; set; }
 
@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Models
 
         public string FindFieldValue(FieldType field)
         {
-            var fieldIndex = fieldKeys.ToList().FindIndex(t => t.ToString().Equals(field.ToString()));
+            var fieldIndex = fieldKeys.ToList().FindIndex(t => t.Type.ToString().Equals(field.Type.ToString()));
             return fieldValues.ToList()[fieldIndex].Value;
         }
     }

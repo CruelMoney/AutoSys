@@ -15,10 +15,10 @@ namespace LogicTests1.TeamCRUD
 
         [TestInitialize]
         public void InitializeTeamTests() {
-            testUser1 = new User() { Id = 1, Name = "testUser1" };
-            testUser2 = new User() { Id = 2, Name = "testUser2" };
+            testUser1 = new User() { ID = 1, Name = "testUser1" };
+            testUser2 = new User() { ID = 2, Name = "testUser2" };
             _users.Add(testUser1);
-            testTeam = new Team() { Id = 1, Name = "Test Team", Users = _users };
+            testTeam = new Team() { ID = 1, Name = "Test Team", Users = _users };
         }
 
         [TestMethod()]

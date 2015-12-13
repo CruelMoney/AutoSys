@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,11 +25,11 @@ namespace LogicTests1.Model
         {
 
             var testItem = new Item(Item.ItemType.Book, new Dictionary<FieldType, string>());
-            var testUser1 = new User() { Id = 1, Name = "chris" };
-            var testUser2 = new User() { Id = 2, Name = "ramos" };
-            var userData1 = new UserData() { UserID = 1, Data = new string[1] { "initialData" } };
-            var userData2 = new UserData() { UserID = 2, Data = new string[1] { "initialData2" } };
-            var userData3 = new UserData() { UserID = 2, Data = new string[1] };
+            var testUser1 = new User() { ID = 1, Name = "chris" };
+            var testUser2 = new User() { ID = 2, Name = "ramos" };
+            var userData1 = new UserData() { UserID = 1, Data = new List<StoredString>() { new StoredString() { Value = "initialData" } }};
+            var userData2 = new UserData() { UserID = 2, Data = new List<StoredString>() { new StoredString() { Value = "initialData2" } }};
+            var userData3 = new UserData() { UserID = 2, Data = new List<StoredString>() { new StoredString()} };
             var dataFields1 = new List<DataField>() { new DataField() { UserData = new List<UserData>() {userData1} , Name = "testField", Description = "testDescription" } };
             var dataFields2 = new List<DataField>() { new DataField() { UserData = new List<UserData>(){ userData2, userData1 }, Name = "testField2", Description = "testDescription2" } };
             var dataFields3 = new List<DataField>() { new DataField() { UserData = new List<UserData>() { userData3, userData1 }, Name = "testField3", Description = "testDescription" } };
@@ -73,7 +74,7 @@ namespace LogicTests1.Model
             var actualData = actualTask.DataFields.First(d => d.Name.Equals("testField"));
             var actualUserData = actualData.UserData.First(d => d.UserID.Equals(1));
       
-            Assert.AreEqual(expectedData, actualUserData.Data);
+            Assert.AreEqual(expectedData[0], actualUserData.Data[0].Value);
         }
 
         [TestMethod]
@@ -97,14 +98,14 @@ namespace LogicTests1.Model
             var actualUserData1 = actualData.UserData.First(d => d.UserID.Equals(1));
             var actualUserData2 = actualData.UserData.First(d => d.UserID.Equals(2));
 
-            Assert.AreEqual("initialData", actualUserData1.Data[0]);
+            Assert.AreEqual("initialData", actualUserData1.Data[0].Value);
             Assert.AreEqual("testDescription2", actualData.Description);
-            Assert.AreEqual(expectedData, actualUserData2.Data);
+            Assert.AreEqual(expectedData[0], actualUserData2.Data[0].Value);
         }
 
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(TargetException))]
         public void TestTaskSubmitDataInvalidUser()
         {
             //Arrange

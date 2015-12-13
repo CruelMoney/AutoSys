@@ -9,7 +9,7 @@ namespace StudyConfigurationServer.Models.DTO
     {
         public CriteriaDTO(Criteria criteria)
         {
-            Id = criteria.Id;
+            Id = criteria.ID;
             Name = criteria.Name;
             DataType = (DataFieldDTO.DataType)Enum.Parse(typeof(DataField.DataType), criteria.DataType.ToString());
             Description = criteria.Description;

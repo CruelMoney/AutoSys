@@ -24,11 +24,10 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// A unique identifier for the StudyTask.
         /// </summary>
-        public int Id { get; set; }
+        public int ID { get; set; }
         /// <summary>
         /// The StudyTask is connected to a certain paper
         /// </summary>
-        [Required]
         public virtual Item Paper { get; set; }
         public List<User> Users { get; set; } 
         /// <summary>
@@ -46,6 +45,8 @@ namespace StudyConfigurationServer.Models
         /// </summary>
         public virtual List<DataField> DataFields { get; set; }
 
+        public Stage Stage { get; set; }
+
         public StudyTask SubmitData(TaskSubmissionDTO taskToDeliver)
         {
             var userID = taskToDeliver.UserId;
@@ -61,9 +62,7 @@ namespace StudyConfigurationServer.Models
                 {
                     throw new InvalidOperationException("A Corresponding dataField is not found in the task");
                 }
-
                 fieldToUpdate.SubmitData(userID, field.Data);
-
             }
 
             return this;

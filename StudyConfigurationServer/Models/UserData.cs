@@ -19,22 +19,18 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// The Data entered
         /// </summary>
-        public virtual string[] Data { get; set; } 
+        public virtual List<StoredString> Data { get; set; } 
 
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         public bool ContainsData()
         {
-            if (Data==null)
-            {
-                return false;
-            }
-            return Data.Where(d => !d.IsNullOrWhiteSpace()).Any();
+            return Data != null && Data.Any(d => !d.Value.IsNullOrWhiteSpace());
         }
 
         public bool DataEquals(UserData userData)
         {
-            return Data.Equals(userData.Data);
+            return Data.SequenceEqual(userData.Data);
         }
     }
 }

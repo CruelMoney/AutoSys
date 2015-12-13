@@ -31,11 +31,11 @@ namespace LogicTests1.StudyOverviewTests
         [TestInitialize]
         public void InitializeTests()
         {
-            var user1 = new User() { Id = 1 };
-            var user2 = new User() { Id = 2 };
-            var user3 = new User() { Id = 3 };
-            var user4 = new User() { Id = 4 };
-            var finishedData = new UserData() { Data = new [] { "finished" } };
+            var user1 = new User() { ID = 1 };
+            var user2 = new User() { ID = 2 };
+            var user3 = new User() { ID = 3 };
+            var user4 = new User() { ID = 4 };
+            var finishedData = new UserData() { Data = new List<StoredString>() { new StoredString() { Value = "finished" }} };
             var userData2 = new UserData() { };
             var userData3 = new UserData() { };
             var userData4 = new UserData() { };
@@ -110,7 +110,7 @@ namespace LogicTests1.StudyOverviewTests
             testStudyStorageManager.SaveStudy(_testStudy);
             StudyOverviewController controller = new StudyOverviewController();
 
-            Assert.AreEqual(2, controller.GetCurrentStage(_testStudy).Id);
+            Assert.AreEqual(2, controller.GetCurrentStage(_testStudy).ID);
         }
 
 

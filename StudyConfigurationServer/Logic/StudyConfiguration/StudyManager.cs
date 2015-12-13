@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using Microsoft.Ajax.Utilities;
 using Storage.Repository;
@@ -48,24 +51,27 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         //TODO check if whole study finished
         public bool DeliverTask(int studyID, int taskID, TaskSubmissionDTO taskDTO)
         {
-            var currentStudy = _studyStorageManager.GetAllStudies()
-                .Where(s => s.Id == studyID)
-                .Include(s => s.Stages.Select(t => t.Tasks))
-                .FirstOrDefault();
-
-            bool deliverSucces;
+           
+            bool deliverSucces ;
 
             try
             {
                deliverSucces =  _taskManager.DeliverTask(taskID, taskDTO);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+               
+               throw;
             }
             
+             var currentStudy = _studyStorageManager.GetAllStudies()
+                .Where(s => s.ID == studyID)
+                .Include(s => s.Stages.Select(t => t.Tasks))
+                .FirstOrDefault();
+
+             
             //Determine if the stage is finished
-            if (currentStudy.CurrentStage().Tasks.Select(t=>t.Id).ToList().TrueForAll(t=>_taskManager.TaskIsFinished(t)))
+            if (currentStudy.CurrentStage().Tasks.Select(t=>t.ID).ToList().TrueForAll(t=>_taskManager.TaskIsFinished(t)))
             {
                MoveToNextPhase(currentStudy);
             }
@@ -80,57 +86,89 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             switch (currentStage.CurrentTaskType)
             {
                 case StudyTask.Type.Review:
-                    FinishReviewPhase(currentStage);
+                    FinishReviewPhase(study);
                     break;
                 case StudyTask.Type.Conflict:
-                    FinishConflictPhase(currentStage);
+                    FinishConflictPhase(study);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void FinishReviewPhase(Stage currentStage)
+        private void FinishReviewPhase(Study study)
         {
+            var currentStage = study.CurrentStage();
+            var taskIDs = currentStage.Tasks.Select(t => t.ID).ToList();
             var criteria = currentStage.Criteria;
-
-            var validators = currentStage.Users.Where(u => u.StudyRole == UserStudies.Role.Validator).Select(u => u.User).ToList();
-
+            
             //Generate the validation tasks and get id's on the items to be excluded
-            var excludedItemIDs = _taskManager.GenerateValidationTasks(
-                currentStage.Tasks.Select(t=>t.Id).ToList(), 
-                criteria, 
-                validators, 
-                currentStage.DistributionRule);
+            var excludedItemIDs = _taskManager.GetExcludedItems(
+                taskIDs, criteria).ToList();
 
             //Remove the excluded items from the study
-            var currentStudy = _studyStorageManager.GetStudy(currentStage.StudyID);
-            currentStudy.Items.RemoveAll(i => excludedItemIDs.Contains(i.Id));
+            study.Items.RemoveAll(i => excludedItemIDs.Contains(i.ID));
 
-            //Update stage to start the validations
-            currentStage.CurrentTaskType = StudyTask.Type.Conflict;
+            //Generate the validation tasks
+            var validationTasks = StartValidationPhase(study).ToList();
 
-            //save the study with the updated items and updated stage
-            _studyStorageManager.UpdateStudy(currentStudy);
+            if (!validationTasks.Any())
+            {
+                //Start the next review phase if no validation tasks
+                StartReviewPhase(study);
+            }
+            else
+            {
+                StartValidationPhase(study);
+            }
+
+            _studyStorageManager.UpdateStudy(study);
         }
 
-        private void FinishConflictPhase(Stage currentStage)
+        private void FinishConflictPhase(Study study)
         {
-            var excludedItems = _taskManager.CriteriaValidateTasks(currentStage.Criteria, currentStage.Tasks.Select(t=>t.Id).ToList());
+            var currentStage = study.CurrentStage();
+            var taskIDs = currentStage.Tasks.Select(t => t.ID).ToList();
+            var criteria = currentStage.Criteria;
+
+            var excludedItems = _taskManager.GetExcludedItems(taskIDs, criteria);
 
             //Remove the excluded items from the study, and move to next stage
-            var currentStudy = _studyStorageManager.GetStudy(currentStage.StudyID);
-            currentStudy.Items.RemoveAll(i => excludedItems.Contains(i.Id));
-            currentStudy.MoveToNextStage();
+            study.Items.RemoveAll(i => excludedItems.Contains(i.ID));
 
-            //save the study with the updated items and updated stage
-            _studyStorageManager.UpdateStudy(currentStudy);
+            StartReviewPhase(study);
 
-            //Find the users that are reviewers for this stage.
-            var reviewers = currentStage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
+            _studyStorageManager.UpdateStudy(study);
+        }
 
-            //Generate the new review tasks
-            _taskManager.GenerateReviewTasks(currentStudy.Items, reviewers, currentStage.Criteria, currentStage.DistributionRule);
+        private IEnumerable<StudyTask> StartReviewPhase(Study study)
+        {
+            var stage = study.CurrentStage();
+            var reviewers =
+                stage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
+           var reviewTasks =
+                _taskManager.GenerateReviewTasks(study.Items, reviewers, stage.Criteria,
+                    stage.DistributionRule).ToList();
+            stage.Tasks = reviewTasks;
+            stage.CurrentTaskType = StudyTask.Type.Review;
+            
+            return reviewTasks;
+        }
+
+        private IEnumerable<StudyTask> StartValidationPhase(Study study)
+        {
+            var stage = study.CurrentStage();
+
+            var taskIDs = stage.Tasks.Where(t => t.ContainsConflictingData()).Select(t=>t.ID).ToList();
+            var criteria = stage.Criteria;
+            var validators = stage.Users.Where(u => u.StudyRole == UserStudies.Role.Validator).Select(u => u.User).ToList();
+
+            //Update stage to start the validations and generate the validation tasks
+            stage.CurrentTaskType = StudyTask.Type.Conflict;
+            var validationTasks = _taskManager.GenerateValidationTasks(taskIDs, criteria, validators, stage.DistributionRule);
+            stage.Tasks.AddRange(validationTasks);
+            
+            return validationTasks;
         }
 
 
@@ -161,8 +199,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                     DistributionRule = (Stage.Distribution) Enum.Parse(typeof(Stage.Distribution), stageDto.DistributionRule.ToString()),
                     VisibleFields = new List<FieldType>(),
                     Users = new List<UserStudies>(),
-                    Criteria = new List<Criteria>(),
-                    
+                    Criteria = new List<Criteria>(),                   
                 };
 
                 stageDto.VisibleFields.ForEach(
@@ -193,27 +230,22 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                     TypeInfo = stageDto.Criteria.TypeInfo
                     });
 
+
+                study.Stages.Add(stage);
+
                 if (firstStage)
                 {
-                    //Find the users that are reviewers for this stage.
-                    var reviewers = stage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
-
-                    stage.Tasks = _taskManager.GenerateReviewTasks(study.Items, reviewers, stage.Criteria, stage.DistributionRule).ToList();
+                    stage.IsCurrentStage = true;
+                    StartReviewPhase(study);
                 }
 
                 firstStage = false;
-
-                study.Stages.Add(stage);
+                
             }
-            
-            var studyID = _studyStorageManager.SaveStudy(study);
 
-            //Move to next stage to get the right currentStageID
-            study.MoveToNextStage();
-            
-            _studyStorageManager.UpdateStudy(study);
-        
-            return studyID;
+            _studyStorageManager.SaveStudy(study);
+
+            return study.ID;
         }
 
         public bool RemoveStudy(int studyId)
@@ -241,18 +273,46 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return (from Study dbStudy in _studyStorageManager.GetAllStudies() select dbStudy);
         }
 
-        public IEnumerable<TaskRequestDTO> getTasks(int studyId, int userId, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
+        public IEnumerable<TaskRequestDTO> GetTasks(int studyId, int userId, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
             var study = _studyStorageManager.GetAllStudies()
-                .Where(s => s.Id == studyId)
+                .Where(s => s.ID == studyId)
                 .Include(s => s.Stages.Select(t => t.Tasks))
-                .Include(s=>s.Stages.Select(t=>t.Users))
                 .FirstOrDefault();
 
-            var taskIDs = study.CurrentStage().Tasks.Select(t=>t.Id).ToList();
+            if (study==null)
+            {
+                throw new NullReferenceException("Study not found");
+            }
+
+            var taskIDs = study.CurrentStage().Tasks.Select(t=>t.ID).ToList();
             var visibleFields = study.CurrentStage().VisibleFields;
 
             return _taskManager.GetTasksDTOs(visibleFields, taskIDs, userId, count, filter, type);
+        }
+
+        public IEnumerable<int> GetTasksIDs(int studyId, int userId, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
+        {
+            var study = _studyStorageManager.GetAllStudies()
+                .Where(s => s.ID == studyId)
+                .Include(s => s.Stages.Select(t => t.Tasks))
+                .FirstOrDefault();
+
+            if (study == null)
+            {
+                throw new NullReferenceException("Study not found");
+            }
+
+            var taskIDs = study.CurrentStage().Tasks.Select(t => t.ID).ToList();
+
+            return _taskManager.GetTasksIDs(taskIDs, userId, filter, type);
+        }
+
+        public TaskRequestDTO GetTask(int userID, int taskID)
+        {
+
+
+            return _taskManager.GetTaskDTO(userID, taskID);
         }
     }
 }

@@ -14,19 +14,25 @@ namespace LogicTests1.StorageManagement
     {
         Dictionary<int, Study> _studies;
         Mock<IGenericRepository> mockStudyRepo;
-        List<IObserver<Study>> observer;
+        
+
         int id;
-        Study _testStudy = new Study() { Id = 1, CurrentStageID = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() };
+        Study _testStudy = new Study() { ID = 1,  IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() };
         StudyStorageManager testStudyStorageManager;
+        TaskStorageManager testTaskStorageManager;
 
         [TestInitialize]
         public void InitializeRepo()
         {
             id = 1;
             mockStudyRepo = new Mock<IGenericRepository>();
-            observer = new List<IObserver<Study>>();
+            
+
             _studies = new Dictionary<int, Study>();
+
             testStudyStorageManager = new StudyStorageManager(mockStudyRepo.Object);
+
+           
 
             // Read item
             mockStudyRepo.Setup(r => r.Read<Study>(It.IsAny<int>())).Returns<int>((id) => _studies.First(e => e.Key == id).Value);
@@ -38,16 +44,16 @@ namespace LogicTests1.StorageManagement
             mockStudyRepo.Setup(r => r.Create<Study>(It.IsAny<Study>())).Callback<Study>(study =>
             {
                 int nextId = id++;
-                study.Id = nextId;
+                study.ID = nextId;
                 _studies.Add(nextId, study);
             });
 
             // Update
             mockStudyRepo.Setup(r => r.Update<Study>(It.IsAny<Study>())).Callback<Study>(study =>
             {
-                if (_studies.ContainsKey(study.Id))
+                if (_studies.ContainsKey(study.ID))
                 {
-                    _studies[study.Id] = study;   
+                    _studies[study.ID] = study;   
                     
                 }
 
@@ -57,7 +63,7 @@ namespace LogicTests1.StorageManagement
             // Delete
             mockStudyRepo.Setup(r => r.Delete<Study>(It.IsAny<Study>())).Callback<Study>(study =>
             {
-                _studies.Remove(study.Id);
+                _studies.Remove(study.ID);
             });
 
         }
@@ -105,7 +111,7 @@ namespace LogicTests1.StorageManagement
         {
             testStudyStorageManager.SaveStudy(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
-            testStudyStorageManager.RemoveStudy(_testStudy.Id);
+            testStudyStorageManager.RemoveStudy(_testStudy.ID);
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             
         }
@@ -120,7 +126,7 @@ namespace LogicTests1.StorageManagement
         public void TestStorageNoStudyToRemove()
         {
             Assert.AreEqual(0, _studies.Values.ToList().Count);
-            Assert.IsFalse(testStudyStorageManager.RemoveStudy(_testStudy.Id));
+            Assert.IsFalse(testStudyStorageManager.RemoveStudy(_testStudy.ID));
         }
 
         /// <summary>
@@ -130,11 +136,11 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void TestStorageUpdateStudy()
         {
-            var stageTestStudy = new Study() { Id = 1, CurrentStageID = 1 };
+            var stageTestStudy = new Study() { ID = 1, Name = "study"};
             testStudyStorageManager.SaveStudy(stageTestStudy);
-            stageTestStudy.CurrentStageID = 2;
+            stageTestStudy.Name = "updatedname";
             testStudyStorageManager.UpdateStudy(stageTestStudy);
-            Assert.AreEqual(2, testStudyStorageManager.GetStudy(1).CurrentStageID);
+            Assert.AreEqual("updatedname", testStudyStorageManager.GetStudy(1).Name);
             
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Reflection;
 using System.Web.Http;
 using StudyConfigurationServer.Api.Interfaces;
 using StudyConfigurationServer.Logic.StudyConfiguration;
@@ -43,7 +44,16 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
-            return Ok(_studyManager.getTasks(id, userId, count, filter, type));
+
+            try
+            {
+                return Ok(_studyManager.GetTasks(id, userId, count, filter, type));
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            } 
+
 
         }
 
@@ -59,22 +69,28 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetTaskIDs(int id, int userId, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Editable, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/TaskIDs?userId=5&filter=Editable
-            throw new NotImplementedException();
+            try
+            {
+                return Ok(_studyManager.GetTasksIDs(id, userId, filter, type));
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
         /// Get a requested StudyTask with a specific ID.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The id of the user</param>
         /// <param name="taskId"></param>
         /// <returns></returns>
         [Route("{id}/StudyTask/{taskId}")]
         public IHttpActionResult GetTask(int id, int taskId)
         {
             // GET: api/Study/4/StudyTask/5
-            throw new NotImplementedException();
-            
-            
+           return Ok(_studyManager.GetTask(id, taskId));
+
         }
 
         /// <summary>
@@ -86,6 +102,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the study the StudyTask is part of.</param>
         /// <param name="taskId">The ID of the StudyTask.</param>
         /// <param name="task">The completed StudyTask.</param>
+        [Route("{id}/StudyTask/{taskId}")]
         public IHttpActionResult Post(int id, int taskId, [FromBody]TaskSubmissionDTO task)
         {
             // POST: api/Study/4/StudyTask/5
@@ -95,13 +112,20 @@ namespace StudyConfigurationServer.Api
                 return BadRequest(ModelState);
             }
 
-            /*if (id != teamDto.Id)
+
+            var updated = false;
+
+            try
             {
-                return BadRequest();
-            }*/
-
-            var updated = _studyManager.DeliverTask(id, taskId, task);
-
+                updated = _studyManager.DeliverTask(id, taskId, task);
+            }
+            catch (Exception e)
+            {
+                if (e.GetType().Equals(typeof(TargetException)))
+                {
+                    return BadRequest();
+                }
+            }
             if (!updated)
             {
                 return NotFound();

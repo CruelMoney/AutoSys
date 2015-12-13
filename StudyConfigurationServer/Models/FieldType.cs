@@ -48,7 +48,7 @@ namespace StudyConfigurationServer.Models
         }
 
 
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         public TypEField Type { get; set; }
 

@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Models.DTO
 
             IsDeliverable = task.IsEditable;
             TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), task.TaskType.ToString());
-            Id = task.Id;
+            Id = task.ID;
             RequestedFieldsDto = editableFields.ToArray();
             VisibleFieldsDto = visibleFields.ToArray();
 
@@ -78,7 +78,7 @@ namespace StudyConfigurationServer.Models.DTO
                     for (int u = 0; u < task.Users.Count; u++)
                     {
                         var userData = task.DataFields[d].ConflictingData[u];
-                        conflictinData[d][u] = new ConflictingDataDTO() { Data = userData.Data, UserId = userData.UserID };
+                        conflictinData[d][u] = new ConflictingDataDTO() { Data = userData.Data.Select(s=>s.Value).ToArray(), UserId = userData.UserID };
                     }
                 }
 

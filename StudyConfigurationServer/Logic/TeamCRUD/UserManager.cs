@@ -75,7 +75,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                      where dbUser.Name.Equals(userName)
                      select new UserDTO()
                      {
-                         Id = dbUser.Id,
+                         Id = dbUser.ID,
                          Name = dbUser.Name,
                          Metadata = dbUser.Metadata
                      })
@@ -95,7 +95,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
                 return new UserDTO()
                 {
-                    Id = dbUser.Id,
+                    Id = dbUser.ID,
                     Name = dbUser.Name,
                     Metadata = dbUser.Metadata
                 };
@@ -117,7 +117,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                     (from User dbUser in _storageManager.GetAllUsers()
                      select new UserDTO()
                      {
-                         Id = dbUser.Id,
+                         Id = dbUser.ID,
                          Name = dbUser.Name,
                          Metadata = dbUser.Metadata
                      }).ToList();
@@ -125,6 +125,19 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             catch (NullReferenceException)
             {
                 throw new NullReferenceException("There are no users in the database");
+            }
+        }
+
+        public IEnumerable<int> GetStudyIds(int userId)
+        {
+            try
+            {
+                var user = _storageManager.GetUser(userId);
+                return user.StudyIds.ToList();
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Could not find the user, probably doesn't exist in the database");
             }
         }
     }

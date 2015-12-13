@@ -36,7 +36,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return _taskRepo.Update(studyTask);
         }
 
-        public IQueryable<StudyTask> GetAllTasks() 
+        public IQueryable<StudyTask> GetAllTasks()
         {
             return _taskRepo.Read<StudyTask>();
         }
