@@ -41,6 +41,7 @@ namespace StudyConfigurationUI.Model
                 }
             }
         }
+
         public static async Task<Team> GetTeam(int TeamId)
         {
             using (var client = new HttpClient())
@@ -51,8 +52,8 @@ namespace StudyConfigurationUI.Model
 
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync("api/StudyConfiguration/Team/"+TeamId);
-                    response.EnsureSuccessStatusCode();    // Throw if not a success code.
+                    HttpResponseMessage response = await client.GetAsync("api/StudyConfiguration/"+TeamId+"/Team");
+                    //response.EnsureSuccessStatusCode();    // Throw if not a success code.
                     return await response.Content.ReadAsAsync<Team>();
                 }
                 catch (HttpRequestException e)

@@ -161,9 +161,9 @@
     <Compile Include="Logic\StudyOverview\StudyOverviewController.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
-    <Compile Include="Migrations\201512111327343_initial.cs" />
-    <Compile Include="Migrations\201512111327343_initial.Designer.cs">
-      <DependentUpon>201512111327343_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201512111226524_initial.cs" />
+    <Compile Include="Migrations\201512111226524_initial.Designer.cs">
+      <DependentUpon>201512111226524_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
@@ -215,8 +215,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512111327343_initial.resx">
-      <DependentUpon>201512111327343_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512111226524_initial.resx">
+      <DependentUpon>201512111226524_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
