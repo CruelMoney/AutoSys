@@ -94,7 +94,7 @@
     <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\FieldValidatorTest.cs" />
     <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\ItemValidatorTest.cs" />
     <Compile Include="IntegrationTests\DBInitializers\EmptyDBInitializer.cs" />
-    <Compile Include="IntegrationTests\DBInitializers\MultipleStuidesDBInitializer.cs" />
+    <Compile Include="IntegrationTests\DBInitializers\StudyDBInitializer.cs" />
     <Compile Include="IntegrationTests\DBInitializers\MultipleTeamsDB.cs" />
     <Compile Include="IntegrationTests\IntegrationTestContext.cs" />
     <Compile Include="IntegrationTests\StudyManagerIntegratesStorage.cs" />

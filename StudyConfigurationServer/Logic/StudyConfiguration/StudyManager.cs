@@ -199,8 +199,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                     DistributionRule = (Stage.Distribution) Enum.Parse(typeof(Stage.Distribution), stageDto.DistributionRule.ToString()),
                     VisibleFields = new List<FieldType>(),
                     Users = new List<UserStudies>(),
-                    Criteria = new List<Criteria>(),
-                    
+                    Criteria = new List<Criteria>(),                   
                 };
 
                 stageDto.VisibleFields.ForEach(
