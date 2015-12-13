@@ -19,7 +19,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskD
 
                     foreach (var dataField in task.DataFields)
                     {
-                        dataField.UserData.Add(new UserData() {UserID = user.Id});
+                        dataField.UserData.Add(new UserData() {UserID = user.ID});
                     }
                   
                    }

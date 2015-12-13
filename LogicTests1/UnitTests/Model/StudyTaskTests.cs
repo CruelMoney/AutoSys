@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,8 +25,8 @@ namespace LogicTests1.Model
         {
 
             var testItem = new Item(Item.ItemType.Book, new Dictionary<FieldType, string>());
-            var testUser1 = new User() { Id = 1, Name = "chris" };
-            var testUser2 = new User() { Id = 2, Name = "ramos" };
+            var testUser1 = new User() { ID = 1, Name = "chris" };
+            var testUser2 = new User() { ID = 2, Name = "ramos" };
             var userData1 = new UserData() { UserID = 1, Data = new List<StoredString>() { new StoredString() { Value = "initialData" } }};
             var userData2 = new UserData() { UserID = 2, Data = new List<StoredString>() { new StoredString() { Value = "initialData2" } }};
             var userData3 = new UserData() { UserID = 2, Data = new List<StoredString>() { new StoredString()} };
@@ -104,7 +105,7 @@ namespace LogicTests1.Model
 
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(TargetException))]
         public void TestTaskSubmitDataInvalidUser()
         {
             //Arrange

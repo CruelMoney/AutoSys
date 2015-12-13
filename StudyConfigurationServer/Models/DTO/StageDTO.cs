@@ -11,7 +11,7 @@ namespace StudyConfigurationServer.Models.DTO
         public StageDTO(Stage stage)
         {
             Name = stage.Name;
-            Id = stage.Id;
+            Id = stage.ID;
             Criteria = Criteria;
         }
         public StageDTO()

@@ -27,7 +27,7 @@ namespace LogicTests1.StorageManagement
             id = 1;
             _users = new Dictionary<int, User>();
             mockUserRepo = new Mock<IGenericRepository>();
-            testUser = new User() { Id = 1 };
+            testUser = new User() { ID = 1 };
             testUserStorageManager = new TeamStorageManager(mockUserRepo.Object);
 
             // Read item - User
@@ -40,7 +40,7 @@ namespace LogicTests1.StorageManagement
             mockUserRepo.Setup(r => r.Create<User>(It.IsAny<User>())).Callback<User>(user =>
             {
                 int nextId = id++;
-                user.Id = nextId;
+                user.ID = nextId;
                 _users.Add(nextId, user);
 
             });
@@ -48,16 +48,16 @@ namespace LogicTests1.StorageManagement
             // Update - User
             mockUserRepo.Setup(r => r.Update<User>(It.IsAny<User>())).Callback<User>(user =>
             {
-                if (_users.ContainsKey(user.Id))
+                if (_users.ContainsKey(user.ID))
                 {
-                    _users[user.Id] = user;
+                    _users[user.ID] = user;
                 }
             });
 
             // Delete - User
             mockUserRepo.Setup(r => r.Delete<User>(It.IsAny<User>())).Callback<User>(user =>
             {
-                _users.Remove(user.Id);
+                _users.Remove(user.ID);
             });
 
         }
@@ -82,7 +82,7 @@ namespace LogicTests1.StorageManagement
         {
             testUserStorageManager.SaveUser(testUser);
             Assert.AreEqual(testUser, testUserStorageManager.GetUser(1));
-            Assert.AreEqual(1, testUserStorageManager.GetUser(1).Id);
+            Assert.AreEqual(1, testUserStorageManager.GetUser(1).ID);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void TestStorageUpdateUser()
         {
-            var testUser = new User() { Id = 1, Name = "Bob" };
+            var testUser = new User() { ID = 1, Name = "Bob" };
             testUserStorageManager.SaveUser(testUser);
             testUser.Name = "Bob Sveskebob";
             testUserStorageManager.UpdateUser(testUser);

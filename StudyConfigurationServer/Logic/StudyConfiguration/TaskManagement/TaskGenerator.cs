@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using StudyConfigurationServer.Models;
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
@@ -28,7 +29,11 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 
                     if (criterion.DataType == DataField.DataType.Enumeration || criterion.DataType == DataField.DataType.Flags)
                     {
-                        dataField.TypeInfo = criterion.TypeInfo;
+                    foreach (var s in criterion.TypeInfo)
+                    {
+                        dataField.TypeInfo.ToList().Add(new StoredString() { Value = s });
+                    }
+               
                     }
 
                     task.DataFields.Add(dataField);

@@ -64,7 +64,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         /// <param name="taskID"></param>
         /// <returns>itemIDs to be excluded from study</returns>
         /// TODO what happens if there are no validators for this stage
-        public IEnumerable<int> GenerateValidationTasks(ICollection<int> taskIDs, ICollection<Criteria> criteria, ICollection<User> users, Stage.Distribution distributionRule)
+        public IEnumerable<StudyTask> GenerateValidationTasks(ICollection<int> taskIDs, ICollection<Criteria> criteria, ICollection<User> users, Stage.Distribution distributionRule)
         {
             var validationTasks = new List<StudyTask>();
             
@@ -76,24 +76,16 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                 //If the task contains conflicting data we create the validate task and save it
                 if (task.ContainsConflictingData())
                 {
-                    validationTasks.Add(_taskGenerator.GenerateValidateTasks(task));
-                }
-                //If the task fullfills the criteria we return the itemId to be excluded. 
-                else if (!TaskMeetsCriteria(criteria, task))
-                {
-                    yield return task.Paper.Id;
+                   yield return _taskGenerator.GenerateValidateTasks(task);
                 }
             }
 
             //Distribute the tasks and save them
-            _taskDistributor.Distribute(distributionRule, users, validationTasks).
-                ForEach(t=>_storageManager.CreateTask(t));
-            
-            //If the criteria is fullfilled we dont exclude it and return nothing
+            _taskDistributor.Distribute(distributionRule, users, validationTasks);
 
         }
 
-        
+      
         public IEnumerable<StudyTask> GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, List<Criteria> criteria, Stage.Distribution distribution)
         {
             var reviewTasks = new List<StudyTask>();
@@ -106,33 +98,32 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             
             //Distribute the tasks and save them
             var tasks = _taskDistributor.Distribute(distribution, users, reviewTasks).ToList();
-                tasks.ForEach(t => _storageManager.CreateTask(t));
-
+              
             return tasks;
         }
 
 
         /// <summary>
-        /// Validates the tasks using the criteria
+        /// Generates a validating task and saves it.
+        /// If the task does not contain conflicting and it doesn't fulfill the criteria data we return it's item.
         /// </summary>
-        /// <param name="criteria">The criteria to validate against</param>
-        /// <param name="taskIDs">The tasks to validate</param>
-        /// <returns>null if the criteria is met, the id of the tasks item if the criteria is not met</returns>
-        public IEnumerable<int> CriteriaValidateTasks(ICollection<Criteria> criteria, ICollection<int> taskIDs)
+        /// <param name="taskID"></param>
+        /// <returns>itemIDs to be excluded from study</returns>
+        /// TODO what happens if there are no validators for this stage
+        public IEnumerable<int> GetExcludedItems(ICollection<int> taskIDs, ICollection<Criteria> criteria)
         {
-            foreach (var taskID in taskIDs)
+            foreach (var task in taskIDs.Select(taskID => _storageManager.GetTask(taskID)))
             {
-                //The task can no longer be edited at this point
-                var task = _storageManager.GetTask(taskID);
-                task.IsEditable = false;
-                _storageManager.UpdateTask(task);
-
-                if (!TaskMeetsCriteria(criteria, task))
+                //If the task contains conflicting data we create the validate task and save it
+                if (!task.ContainsConflictingData())
                 {
-                    yield return task.Paper.Id;
+                    //If the task does not meet the criteria we return the itemId to be excluded. 
+                    if (!TaskMeetsCriteria(criteria, task))
+                    {
+                        yield return task.Paper.ID;
+                    }
                 }
             }
-          
         }
 
         /// <summary>
@@ -209,7 +200,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         public TaskRequestDTO GetTaskDTO(int userID, int taskId)
         {
             var task = _storageManager.GetAllTasks()
-                .Where(t=>t.Id==taskId)
+                .Where(t=>t.ID==taskId)
                 .Include(t=>t.Stage)
                 .FirstOrDefault();
 

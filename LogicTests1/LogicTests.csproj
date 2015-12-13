@@ -87,11 +87,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BibTexParserTests\BibTexParserTest.cs" />
-    <Compile Include="BibTexParserTests\DefaultFieldCheckerTest.cs" />
-    <Compile Include="BibTexParserTests\DefaultItemCheckerTest.cs" />
-    <Compile Include="BibTexParserTests\FieldValidatorTest.cs" />
-    <Compile Include="BibTexParserTests\ItemValidatorTest.cs" />
+    <Compile Include="IntegrationTests\WEBAPI\StudyAPI.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\BibTexParserTest.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\DefaultFieldCheckerTest.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\DefaultItemCheckerTest.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\FieldValidatorTest.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\ItemValidatorTest.cs" />
     <Compile Include="IntegrationTests\DBInitializers\EmptyDBInitializer.cs" />
     <Compile Include="IntegrationTests\DBInitializers\MultipleStuidesDBInitializer.cs" />
     <Compile Include="IntegrationTests\DBInitializers\MultipleTeamsDB.cs" />
@@ -101,28 +102,27 @@
     <Compile Include="IntegrationTests\TeamManagerIntegrationTest.cs" />
     <Compile Include="IntegrationTests\UserControllerIntegrationTest.cs" />
     <Compile Include="IntegrationTests\UserManagerIntegrationTest.cs" />
-    <Compile Include="Model\CriteriaTests.cs" />
-    <Compile Include="Model\DataFieldTests.cs" />
-    <Compile Include="Model\ItemTests.cs" />
-    <Compile Include="Model\StageTests.cs" />
-    <Compile Include="Model\StudyTaskTests.cs" />
-    <Compile Include="Model\UserDataTests.cs" />
+    <Compile Include="UnitTests\Model\CriteriaTests.cs" />
+    <Compile Include="UnitTests\Model\DataFieldTests.cs" />
+    <Compile Include="UnitTests\Model\ItemTests.cs" />
+    <Compile Include="UnitTests\Model\StageTests.cs" />
+    <Compile Include="UnitTests\Model\StudyTaskTests.cs" />
+    <Compile Include="UnitTests\Model\UserDataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StorageManagement\StudyStorageManagerTests.cs" />
-    <Compile Include="StorageManagement\TaskStorageManagerTests.cs" />
-    <Compile Include="StorageManagement\TeamStorageManagerTests.cs" />
-    <Compile Include="StorageManagement\UserStorageManagerTests.cs" />
-    <Compile Include="StudyConfiguration\TestStudyManager.cs" />
-    <Compile Include="StudyOverviewTests\StudyOverviewTests.cs" />
-    <Compile Include="StudyConfiguration\TaskManagement\TaskDistributor\DistributorsTests.cs" />
-    <Compile Include="StudyConfiguration\TaskManagement\TaskGeneratorTests.cs" />
-    <Compile Include="TeamCRUD\TeamManagementTests.cs" />
-    <Compile Include="TeamCRUD\UserManagementTests.cs" />
+    <Compile Include="UnitTests\StorageManagement\StudyStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StorageManagement\TaskStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StorageManagement\TeamStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StorageManagement\UserStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StudyOverviewTests\StudyOverviewTests.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\TaskManagement\TaskDistributor\DistributorsTests.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\TaskManagement\TaskGeneratorTests.cs" />
+    <Compile Include="UnitTests\TeamCRUD\TeamManagementTests.cs" />
+    <Compile Include="UnitTests\TeamCRUD\UserManagementTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Storage\Storage.csproj">
@@ -136,7 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="BibTexParserTests\Resources\bibtex.bib" />
+    <None Include="UnitTests\StudyConfiguration\BibTexParserTests\Resources\bibtex.bib" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

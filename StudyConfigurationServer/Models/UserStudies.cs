@@ -11,7 +11,7 @@ namespace StudyConfigurationServer.Models
         public Stage Stage { get; set; }
         [Required]
         public Role StudyRole { get; set; }
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// The users role in the given study.

@@ -13,8 +13,8 @@ namespace LogicTests1.IntegrationTests.DBInitializers
 
             //Here it is possible to initialize the db with a custom context
 
-            var testUser1 = new User() { Id = 1, Name = "chris" };
-            var testUser2 = new User() { Id = 2, Name = "ramos" };
+            var testUser1 = new User() { ID = 1, Name = "chris" };
+            var testUser2 = new User() { ID = 2, Name = "ramos" };
 
             context.Users.AddRange(new List<User>() {testUser1, testUser2});
 

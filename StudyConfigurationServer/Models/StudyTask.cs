@@ -24,7 +24,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// A unique identifier for the StudyTask.
         /// </summary>
-        public int Id { get; set; }
+        public int ID { get; set; }
         /// <summary>
         /// The StudyTask is connected to a certain paper
         /// </summary>

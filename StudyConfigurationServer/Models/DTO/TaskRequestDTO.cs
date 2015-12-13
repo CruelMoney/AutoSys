@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Models.DTO
 
             IsDeliverable = task.IsEditable;
             TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), task.TaskType.ToString());
-            Id = task.Id;
+            Id = task.ID;
             RequestedFieldsDto = editableFields.ToArray();
             VisibleFieldsDto = visibleFields.ToArray();
 

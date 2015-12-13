@@ -35,8 +35,8 @@ namespace LogicTests1.StudyConfiguration.TaskManagement
 
              items = new List<Item>() {testItem1,testItem2,testItem3};
           
-             var user1 = new User() {Id = 1};
-             var user2 = new User() { Id = 2 };
+             var user1 = new User() {ID = 1};
+             var user2 = new User() { ID = 2 };
 
             var testCriteria = new Criteria()
             {
@@ -54,8 +54,8 @@ namespace LogicTests1.StudyConfiguration.TaskManagement
                 TypeInfo = new string[1] { "expectedInfo2" }
             };
 
-            testStage1 = new Stage() {Id = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, CurrentTaskType = StudyTask.Type.Review};
-            var testStage2 = new Stage() { Id = 2, Name = "stage2" };
+            testStage1 = new Stage() {ID = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, CurrentTaskType = StudyTask.Type.Review};
+            var testStage2 = new Stage() { ID = 2, Name = "stage2" };
 
             
             expectedUserData1 = new UserData() {Data = new List<StoredString>() { new StoredString() { Value = "conflictingData1" }}, UserID = 1};
