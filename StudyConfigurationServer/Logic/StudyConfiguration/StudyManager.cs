@@ -253,9 +253,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return _studyStorageManager.RemoveStudy(studyId);
         }
 
-        public bool UpdateStudy(int studyId, Study study)
+        public bool UpdateStudy(int studyId, StudyDTO study)
         {
-            return _studyStorageManager.UpdateStudy(study);
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Study> SearchStudies(string studyName)
@@ -302,17 +302,19 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             {
                 throw new NullReferenceException("Study not found");
             }
+            if (!study.Team.Users.Select(u => u.ID).Contains(userId))
+            {
+                throw new ArgumentException("The user is not part of this study");
+            }
 
             var taskIDs = study.CurrentStage().Tasks.Select(t => t.ID).ToList();
 
             return _taskManager.GetTasksIDs(taskIDs, userId, filter, type);
         }
 
-        public TaskRequestDTO GetTask(int userID, int taskID)
+        public TaskRequestDTO GetTask(int taskID)
         {
-
-
-            return _taskManager.GetTaskDTO(userID, taskID);
+            return _taskManager.GetTaskDTO(taskID);
         }
     }
 }

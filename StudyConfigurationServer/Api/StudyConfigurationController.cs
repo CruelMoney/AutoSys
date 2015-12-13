@@ -22,17 +22,34 @@ namespace StudyConfigurationServer.Api
         // GET: api/StudyConfiguration/5
         public StudyDTO Get(int id)
         {
-            return _manager.GetStudy(id);
+          
+                return _manager.GetStudy(id);
+            
+        
+         
         }
 
         // POST: api/StudyConfiguration
-        public void Post([FromBody]StudyDTO study)
+        public IHttpActionResult Post([FromBody]StudyDTO study)
         {
-            _manager.CreateStudy(study);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                return Ok(_manager.CreateStudy(study));
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest();
+            }
+            
         }
 
         // PUT: api/StudyConfiguration/5
-        public void Put(int id, [FromBody]Study study)
+        public void Put(int id, [FromBody]StudyDTO study)
         {
             _manager.UpdateStudy(id, study);
         }

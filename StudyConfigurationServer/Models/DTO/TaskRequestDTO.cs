@@ -41,7 +41,7 @@ namespace StudyConfigurationServer.Models.DTO
 
         public TaskRequestDTO() { }
 
-        public TaskRequestDTO(StudyTask task, int userId, ICollection<FieldType> visibleFieldTypes) 
+        public TaskRequestDTO(StudyTask task, ICollection<FieldType> visibleFieldTypes, int? userId = null) 
         {
             var editableFields = new List<DataFieldDTO>();
 

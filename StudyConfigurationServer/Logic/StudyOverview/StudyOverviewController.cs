@@ -35,6 +35,11 @@ namespace StudyConfigurationServer.Logic.StudyOverview
                 .Include(s => s.Stages.Select(t => t.Tasks))
                 .FirstOrDefault();
 
+            if (study==null)
+            {
+                throw new NullReferenceException("A study with the id was not found");
+            }
+
             StudyOverviewDTO studyOverview = new StudyOverviewDTO()
             {
 
