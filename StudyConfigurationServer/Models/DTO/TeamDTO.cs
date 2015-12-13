@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace StudyConfigurationServer.Models.DTO
 {
@@ -29,5 +30,16 @@ namespace StudyConfigurationServer.Models.DTO
         /// Metadata can be used to store additional data related to the team, specific to a particular consumer of the API.
         /// </summary>
         public string Metadata { get; set; }
+
+        public TeamDTO(Team team)
+        {
+            Id = team.Id;
+            Name = team.Name;
+            UserIDs = team.Users.Select(u => u.Id).ToArray();
+            Metadata = team.Metadata;
+        }
+        public TeamDTO()
+        {
+        }
     }
 }

@@ -9,9 +9,13 @@
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <StackPanel x:Name="contentPanel" Margin="8,0,-2,0" Orientation="Vertical">
-            <TextBlock Text="Add Phase" Margin="0,0,0,40" FontSize="30"/>
-            <TextBlock Text="Phase Name"/>
-            <StackPanel x:Name="namePanel" Orientation="Horizontal" Margin="0,20,0,20">
+            <TextBlock Text="Add Phase" Margin="0,0,0,0" FontSize="30"/>
+
+            <StackPanel Orientation="Vertical" Margin="0,0,0,0">
+                
+                <TextBlock Text="Phase Name"/>
+            </StackPanel>
+            <StackPanel x:Name="namePanel" Orientation="Horizontal" Margin="0,0,0,0">
                 <TextBox x:Name="nameInput" Width="280" HorizontalAlignment="Left" Margin="0,0,50,0"/>
                 <TextBlock Name="ErrorBox" FontSize="20" Foreground="Red" ></TextBlock>
             </StackPanel>
@@ -110,14 +114,14 @@
                         <Button Click="MakeValidator_OnClick" Margin="10,0,0,0">Make Validator</Button>
                         <Button Click="MakeReviewer_OnClick" Margin="10,0,0,0">Make Reviewer</Button>
                     </StackPanel>
-                    <ListBox Margin="0,0,0,0" x:Name="UserListBox" Width="327" Height="218" />
+                    <ListBox  Margin="0,0,0,0" x:Name="UserListBox" Width="327" Height="218" />
                 </StackPanel>
                 <StackPanel x:Name="taskDifstributiondPanel2" Orientation="Vertical" Margin="40,0,0,0">
                     <StackPanel x:Name="taskDifstributiondPanel4" Orientation="Horizontal" Margin="0,0,0,0">
                         <TextBlock FontSize="20" Margin="66,0,0,0">Validators</TextBlock>
                         <Button Margin="10,0,0,0" Click="RemoveValidator_Click">Remove selected</Button>
                     </StackPanel>
-                    <ListBox Margin="0,0,0,0" x:Name="ValidatorListBox" Width="327" Height="218" />
+                    <ListBox  Margin="0,0,0,0" x:Name="ValidatorListBox" Width="327" Height="218" />
                 </StackPanel>
                 <StackPanel x:Name="taskDidstributiondPanel2" Orientation="Vertical" Margin="40,0,0,0">
                     <StackPanel x:Name="taskDistdributiondPanel4" Orientation="Horizontal" Margin="0,0,0,0">
@@ -127,11 +131,10 @@
                     <ListBox Margin="0,0,0,0" x:Name="ReviewerListBox" Width="327" Height="218" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                <Button Click="SaveAndReturn_OnClick" Margin="30,0,0,0">Save Phase and return</Button>
-                <Button Margin="500,0,0,0">Cancel and return</Button>
+            <StackPanel Orientation="Vertical" Margin="0,0,0,0">
+                <Button Click="SaveAndReturn_OnClick" Margin="0,0,0,0">Save Phase and return</Button>
+                <Button Margin="0,0,0,0">Cancel and return</Button>
             </StackPanel>
-            
         </StackPanel>
 
     </Grid>

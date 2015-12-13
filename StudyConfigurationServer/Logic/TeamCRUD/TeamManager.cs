@@ -77,9 +77,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             try
             {
+                
                 var teamToUpdate = _teamStorageManager.GetTeam(teamId);
+                if (newTeamDto.UserIDs.Length == 0) { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
                 foreach (var userId in newTeamDto.UserIDs)
                 {
+                    if(teamToUpdate.UserIDs.Length == 0) { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
                     foreach (var user in teamToUpdate.Users)
                     {
                         if (user.Id == userId)
@@ -88,7 +91,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                         }
                         else
                         {
-                            throw new ArgumentException("You can't add or delete users from a team, only change its name, you dipwit");
+                            throw new ArgumentException("You can't add or delete users from a team, only change its name");
                         }
                     }
                   

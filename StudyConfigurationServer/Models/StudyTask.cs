@@ -62,9 +62,7 @@ namespace StudyConfigurationServer.Models
                 {
                     throw new InvalidOperationException("A Corresponding dataField is not found in the task");
                 }
-
                 fieldToUpdate.SubmitData(userID, field.Data);
-
             }
 
             return this;

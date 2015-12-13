@@ -127,5 +127,18 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 throw new NullReferenceException("There are no users in the database");
             }
         }
+
+        public IEnumerable<int> GetStudyIds(int userId)
+        {
+            try
+            {
+                var user = _storageManager.GetUser(userId);
+                return user.StudyIds.ToList();
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Could not find the user, probably doesn't exist in the database");
+            }
+        }
     }
 } 

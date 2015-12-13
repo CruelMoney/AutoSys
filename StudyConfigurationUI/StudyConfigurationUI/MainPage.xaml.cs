@@ -26,7 +26,8 @@ namespace StudyConfigurationUI
 
         private void OnOpenStudyWithStudy(object sender, RoutedEventArgs e)
         {
-            
+            var args = ManageStudyPageArgs.CreateForExistingStudy(1);
+            this.Frame.Navigate(typeof(ManageStudyPage), args);
         }
 
         private async void PostStudy(object sender, RoutedEventArgs e)
