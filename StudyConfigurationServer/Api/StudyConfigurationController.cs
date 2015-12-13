@@ -20,7 +20,7 @@ namespace StudyConfigurationServer.Api
         }
 
         // GET: api/StudyConfiguration/5
-        public Study Get(int id)
+        public StudyDTO Get(int id)
         {
             return _manager.GetStudy(id);
         }
