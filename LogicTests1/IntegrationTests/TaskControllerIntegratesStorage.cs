@@ -35,7 +35,7 @@ namespace LogicTests1.IntegrationTests
 
         private void setupMultipleDB()
         {
-            Database.SetInitializer(new MultipleStuidesDBInitializer());
+            Database.SetInitializer(new StudyDBInitializer());
 
             var context = new StudyContext();
             context.Database.Initialize(true);

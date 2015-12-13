@@ -93,7 +93,7 @@
     <Compile Include="BibTexParserTests\FieldValidatorTest.cs" />
     <Compile Include="BibTexParserTests\ItemValidatorTest.cs" />
     <Compile Include="IntegrationTests\DBInitializers\EmptyDBInitializer.cs" />
-    <Compile Include="IntegrationTests\DBInitializers\MultipleStuidesDBInitializer.cs" />
+    <Compile Include="IntegrationTests\DBInitializers\StudyDBInitializer.cs" />
     <Compile Include="IntegrationTests\DBInitializers\MultipleTeamsDB.cs" />
     <Compile Include="IntegrationTests\IntegrationTestContext.cs" />
     <Compile Include="IntegrationTests\StudyManagerIntegratesStorage.cs" />

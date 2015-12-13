@@ -70,7 +70,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
         public StageOverviewDTO[] GetStages(Study study)
         {
-            int index = 0;
+            
             var numbOfStages = study.Stages.Count();
             var stageOverview = new StageOverviewDTO[numbOfStages];
       

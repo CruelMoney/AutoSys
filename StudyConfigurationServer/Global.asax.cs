@@ -36,19 +36,7 @@ namespace StudyConfigurationServer
             var studyManager = new StudyManager();
 
             studyManager.CreateStudy(CreaStudyDto());
-
-            task = new TaskSubmissionDTO()
-            {
-                SubmittedFieldsDto = new DataFieldDTO[]
-                {
-                    new DataFieldDTO()
-                    {
-                        Data = new string[] {"2000"},
-                        Name = "Year",
-                    }, 
-                },
-                UserId = 1
-            };
+            
 
       
 

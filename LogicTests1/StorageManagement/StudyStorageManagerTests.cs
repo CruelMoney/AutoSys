@@ -14,19 +14,25 @@ namespace LogicTests1.StorageManagement
     {
         Dictionary<int, Study> _studies;
         Mock<IGenericRepository> mockStudyRepo;
-        List<IObserver<Study>> observer;
+        
+
         int id;
         Study _testStudy = new Study() { Id = 1, CurrentStageID = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() };
         StudyStorageManager testStudyStorageManager;
+        TaskStorageManager testTaskStorageManager;
 
         [TestInitialize]
         public void InitializeRepo()
         {
             id = 1;
             mockStudyRepo = new Mock<IGenericRepository>();
-            observer = new List<IObserver<Study>>();
+            
+
             _studies = new Dictionary<int, Study>();
+
             testStudyStorageManager = new StudyStorageManager(mockStudyRepo.Object);
+
+           
 
             // Read item
             mockStudyRepo.Setup(r => r.Read<Study>(It.IsAny<int>())).Returns<int>((id) => _studies.First(e => e.Key == id).Value);
