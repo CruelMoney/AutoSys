@@ -52,6 +52,21 @@ namespace StudyConfigurationServer.Migrations
                 .Index(t => t.DataField_Id1);
             
             CreateTable(
+                "dbo.StoredStrings",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Value = c.String(),
+                        UserData_Id = c.Int(),
+                        Item_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.UserDatas", t => t.UserData_Id)
+                .ForeignKey("dbo.Items", t => t.Item_Id)
+                .Index(t => t.UserData_Id)
+                .Index(t => t.Item_Id);
+            
+            CreateTable(
                 "dbo.FieldTypes",
                 c => new
                     {
@@ -78,45 +93,34 @@ namespace StudyConfigurationServer.Migrations
                 .Index(t => t.Study_Id);
             
             CreateTable(
-                "dbo.StoredStrings",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Value = c.String(),
-                        Item_Id = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Items", t => t.Item_Id)
-                .Index(t => t.Item_Id);
-            
-            CreateTable(
                 "dbo.StudyTasks",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         IsEditable = c.Boolean(nullable: false),
                         TaskType = c.Int(nullable: false),
-                        Paper_Id = c.Int(nullable: false),
+                        Paper_Id = c.Int(),
                         Stage_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Items", t => t.Paper_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Items", t => t.Paper_Id)
                 .ForeignKey("dbo.Stages", t => t.Stage_Id)
                 .Index(t => t.Paper_Id)
                 .Index(t => t.Stage_Id);
             
             CreateTable(
-                "dbo.Users",
+                "dbo.Stages",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        Metadata = c.String(),
-                        StudyTask_Id = c.Int(),
+                        StudyID = c.Int(nullable: false),
+                        CurrentTaskType = c.Int(nullable: false),
+                        DistributionRule = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.StudyTasks", t => t.StudyTask_Id)
-                .Index(t => t.StudyTask_Id);
+                .ForeignKey("dbo.Studies", t => t.StudyID, cascadeDelete: true)
+                .Index(t => t.StudyID);
             
             CreateTable(
                 "dbo.UserStudies",
@@ -134,18 +138,14 @@ namespace StudyConfigurationServer.Migrations
                 .Index(t => t.User_Id);
             
             CreateTable(
-                "dbo.Stages",
+                "dbo.Users",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        StudyID = c.Int(nullable: false),
-                        CurrentTaskType = c.Int(nullable: false),
-                        DistributionRule = c.Int(nullable: false),
+                        Metadata = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Studies", t => t.StudyID, cascadeDelete: true)
-                .Index(t => t.StudyID);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Teams",
@@ -172,6 +172,19 @@ namespace StudyConfigurationServer.Migrations
                 .Index(t => t.Team_Id);
             
             CreateTable(
+                "dbo.UserStudyTasks",
+                c => new
+                    {
+                        User_Id = c.Int(nullable: false),
+                        StudyTask_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.User_Id, t.StudyTask_Id })
+                .ForeignKey("dbo.Users", t => t.User_Id, cascadeDelete: true)
+                .ForeignKey("dbo.StudyTasks", t => t.StudyTask_Id, cascadeDelete: true)
+                .Index(t => t.User_Id)
+                .Index(t => t.StudyTask_Id);
+            
+            CreateTable(
                 "dbo.TeamUsers",
                 c => new
                     {
@@ -191,12 +204,13 @@ namespace StudyConfigurationServer.Migrations
             DropForeignKey("dbo.Studies", "Team_Id", "dbo.Teams");
             DropForeignKey("dbo.Stages", "StudyID", "dbo.Studies");
             DropForeignKey("dbo.Items", "Study_Id", "dbo.Studies");
-            DropForeignKey("dbo.Users", "StudyTask_Id", "dbo.StudyTasks");
+            DropForeignKey("dbo.FieldTypes", "Stage_Id", "dbo.Stages");
+            DropForeignKey("dbo.UserStudies", "User_Id", "dbo.Users");
             DropForeignKey("dbo.TeamUsers", "User_Id", "dbo.Users");
             DropForeignKey("dbo.TeamUsers", "Team_Id", "dbo.Teams");
-            DropForeignKey("dbo.UserStudies", "User_Id", "dbo.Users");
+            DropForeignKey("dbo.UserStudyTasks", "StudyTask_Id", "dbo.StudyTasks");
+            DropForeignKey("dbo.UserStudyTasks", "User_Id", "dbo.Users");
             DropForeignKey("dbo.UserStudies", "Stage_Id", "dbo.Stages");
-            DropForeignKey("dbo.FieldTypes", "Stage_Id", "dbo.Stages");
             DropForeignKey("dbo.StudyTasks", "Stage_Id", "dbo.Stages");
             DropForeignKey("dbo.Criteria", "Stage_Id", "dbo.Stages");
             DropForeignKey("dbo.StudyTasks", "Paper_Id", "dbo.Items");
@@ -205,33 +219,37 @@ namespace StudyConfigurationServer.Migrations
             DropForeignKey("dbo.FieldTypes", "Item_Id", "dbo.Items");
             DropForeignKey("dbo.UserDatas", "DataField_Id1", "dbo.DataFields");
             DropForeignKey("dbo.UserDatas", "DataField_Id", "dbo.DataFields");
+            DropForeignKey("dbo.StoredStrings", "UserData_Id", "dbo.UserDatas");
             DropIndex("dbo.TeamUsers", new[] { "User_Id" });
             DropIndex("dbo.TeamUsers", new[] { "Team_Id" });
+            DropIndex("dbo.UserStudyTasks", new[] { "StudyTask_Id" });
+            DropIndex("dbo.UserStudyTasks", new[] { "User_Id" });
             DropIndex("dbo.Studies", new[] { "Team_Id" });
-            DropIndex("dbo.Stages", new[] { "StudyID" });
             DropIndex("dbo.UserStudies", new[] { "User_Id" });
             DropIndex("dbo.UserStudies", new[] { "Stage_Id" });
-            DropIndex("dbo.Users", new[] { "StudyTask_Id" });
+            DropIndex("dbo.Stages", new[] { "StudyID" });
             DropIndex("dbo.StudyTasks", new[] { "Stage_Id" });
             DropIndex("dbo.StudyTasks", new[] { "Paper_Id" });
-            DropIndex("dbo.StoredStrings", new[] { "Item_Id" });
             DropIndex("dbo.Items", new[] { "Study_Id" });
             DropIndex("dbo.FieldTypes", new[] { "Stage_Id" });
             DropIndex("dbo.FieldTypes", new[] { "Item_Id" });
+            DropIndex("dbo.StoredStrings", new[] { "Item_Id" });
+            DropIndex("dbo.StoredStrings", new[] { "UserData_Id" });
             DropIndex("dbo.UserDatas", new[] { "DataField_Id1" });
             DropIndex("dbo.UserDatas", new[] { "DataField_Id" });
             DropIndex("dbo.DataFields", new[] { "StudyTask_Id" });
             DropIndex("dbo.Criteria", new[] { "Stage_Id" });
             DropTable("dbo.TeamUsers");
+            DropTable("dbo.UserStudyTasks");
             DropTable("dbo.Studies");
             DropTable("dbo.Teams");
-            DropTable("dbo.Stages");
-            DropTable("dbo.UserStudies");
             DropTable("dbo.Users");
+            DropTable("dbo.UserStudies");
+            DropTable("dbo.Stages");
             DropTable("dbo.StudyTasks");
-            DropTable("dbo.StoredStrings");
             DropTable("dbo.Items");
             DropTable("dbo.FieldTypes");
+            DropTable("dbo.StoredStrings");
             DropTable("dbo.UserDatas");
             DropTable("dbo.DataFields");
             DropTable("dbo.Criteria");

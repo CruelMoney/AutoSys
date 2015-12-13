@@ -35,7 +35,7 @@ namespace LogicTests1.StudyOverviewTests
             var user2 = new User() { Id = 2 };
             var user3 = new User() { Id = 3 };
             var user4 = new User() { Id = 4 };
-            var finishedData = new UserData() { Data = new [] { "finished" } };
+            var finishedData = new UserData() { Data = new List<StoredString>() { new StoredString() { Value = "finished" }} };
             var userData2 = new UserData() { };
             var userData3 = new UserData() { };
             var userData4 = new UserData() { };

@@ -136,7 +136,7 @@ namespace LogicTests1.IntegrationTests
             var newManager = new StudyManager();
 
             //Action
-            var tasks = newManager.getTasks(1, 1, 20, TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type.Review).ToList();
+            var tasks = newManager.GetTasks(1, 1, 20, TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type.Review).ToList();
 
 
         }

@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Models
 
         public string FindFieldValue(FieldType field)
         {
-            var fieldIndex = fieldKeys.ToList().FindIndex(t => t.ToString().Equals(field.ToString()));
+            var fieldIndex = fieldKeys.ToList().FindIndex(t => t.Type.ToString().Equals(field.Type.ToString()));
             return fieldValues.ToList()[fieldIndex].Value;
         }
     }

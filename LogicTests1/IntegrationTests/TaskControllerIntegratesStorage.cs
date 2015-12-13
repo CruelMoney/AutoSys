@@ -53,12 +53,14 @@ namespace LogicTests1.IntegrationTests
             var testItem = new Item(Item.ItemType.Book, new Dictionary<FieldType, string>());
             var testUser1 = new User() { Id = 1, Name = "chris" };
             var testUser2 = new User() { Id = 2, Name = "ramos" };
-            var userData1 = new UserData() { UserID = 1, Data = new string[1] { "initialData" } };
-            var userData2 = new UserData() { UserID = 2, Data = new string[1] { "" } };
-            var userData3 = new UserData() { UserID = 2, Data = new string[1] };
+            var userData1 = new UserData() { UserID = 1, Data = new List<StoredString>() { new StoredString() { Value ="initialData" }}};
+            var userData2 = new UserData() { UserID = 2, Data = new List<StoredString>() { new StoredString() { Value = "" } }};
+            var userData3 = new UserData() { UserID = 2, Data = new List<StoredString>() };
             var dataFields1 = new List<DataField>() { new DataField() { UserData = new List<UserData>() { userData1 }, Name = "testField", Description = "testDescription" } };
             var dataFields2 = new List<DataField>() { new DataField() { UserData = new List<UserData>() { userData2, userData1 }, Name = "testField2", Description = "testDescription2" } };
             var dataFields3 = new List<DataField>() { new DataField() { UserData = new List<UserData>() { userData3, userData1 }, Name = "testField3", Description = "testDescription" } };
+
+       
 
             users = new List<User>() {testUser1, testUser2};
 
@@ -110,11 +112,14 @@ namespace LogicTests1.IntegrationTests
 
             //Action
             _manager.DeliverTask(1, dto);
-            var actualTask = _storageManager.GetTask(1);
+            
+            var newStorage = new TaskStorageManager();
+
+            var actualTask = newStorage.GetTask(1);
             var actualData = actualTask.DataFields.SelectMany(d => d.UserData).FirstOrDefault(u => u.UserID == 1).Data;
             
             //Assert
-            Assert.AreEqual(expectedData, actualData);
+            Assert.AreEqual(expectedData[0], actualData[0].Value);
         }
 
         [TestMethod]

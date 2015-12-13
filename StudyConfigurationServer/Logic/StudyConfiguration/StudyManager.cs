@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using Microsoft.Ajax.Utilities;
 using Storage.Repository;
@@ -41,29 +44,32 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         public StudyManager(EntityFrameworkGenericRepository<StudyContext> repo)
         {
             _studyStorageManager = new StudyStorageManager(repo);
-            _taskManager = new TaskManager(repo);
+            _taskManager = new TaskManager();
             _teamStorage = new TeamStorageManager(repo);
         }
 
         //TODO check if whole study finished
         public bool DeliverTask(int studyID, int taskID, TaskSubmissionDTO taskDTO)
         {
-            var currentStudy = _studyStorageManager.GetAllStudies()
-                .Where(s => s.Id == studyID)
-                .Include(s => s.Stages.Select(t => t.Tasks))
-                .FirstOrDefault();
-
-            bool deliverSucces;
+           
+            bool deliverSucces ;
 
             try
             {
                deliverSucces =  _taskManager.DeliverTask(taskID, taskDTO);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+               
+               throw;
             }
             
+             var currentStudy = _studyStorageManager.GetAllStudies()
+                .Where(s => s.Id == studyID)
+                .Include(s => s.Stages.Select(t => t.Tasks))
+                .FirstOrDefault();
+
+             
             //Determine if the stage is finished
             if (currentStudy.CurrentStage().Tasks.Select(t=>t.Id).ToList().TrueForAll(t=>_taskManager.TaskIsFinished(t)))
             {
@@ -101,7 +107,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 currentStage.Tasks.Select(t=>t.Id).ToList(), 
                 criteria, 
                 validators, 
-                currentStage.DistributionRule);
+                currentStage.DistributionRule).ToList();
 
             //Remove the excluded items from the study
             var currentStudy = _studyStorageManager.GetStudy(currentStage.StudyID);
@@ -130,7 +136,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             var reviewers = currentStage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
 
             //Generate the new review tasks
-            _taskManager.GenerateReviewTasks(currentStudy.Items, reviewers, currentStage.Criteria, currentStage.DistributionRule);
+            var tasks = _taskManager.GenerateReviewTasks(currentStudy.Items, reviewers, currentStage.Criteria, currentStage.DistributionRule);
+
+            tasks.ForEach(t => _taskManager.CreateTask(t));
         }
 
 
@@ -241,18 +249,46 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return (from Study dbStudy in _studyStorageManager.GetAllStudies() select dbStudy);
         }
 
-        public IEnumerable<TaskRequestDTO> getTasks(int studyId, int userId, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
+        public IEnumerable<TaskRequestDTO> GetTasks(int studyId, int userId, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
             var study = _studyStorageManager.GetAllStudies()
                 .Where(s => s.Id == studyId)
                 .Include(s => s.Stages.Select(t => t.Tasks))
-                .Include(s=>s.Stages.Select(t=>t.Users))
                 .FirstOrDefault();
+
+            if (study==null)
+            {
+                throw new NullReferenceException("Study not found");
+            }
 
             var taskIDs = study.CurrentStage().Tasks.Select(t=>t.Id).ToList();
             var visibleFields = study.CurrentStage().VisibleFields;
 
             return _taskManager.GetTasksDTOs(visibleFields, taskIDs, userId, count, filter, type);
+        }
+
+        public IEnumerable<int> GetTasksIDs(int studyId, int userId, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
+        {
+            var study = _studyStorageManager.GetAllStudies()
+                .Where(s => s.Id == studyId)
+                .Include(s => s.Stages.Select(t => t.Tasks))
+                .FirstOrDefault();
+
+            if (study == null)
+            {
+                throw new NullReferenceException("Study not found");
+            }
+
+            var taskIDs = study.CurrentStage().Tasks.Select(t => t.Id).ToList();
+
+            return _taskManager.GetTasksIDs(taskIDs, userId, filter, type);
+        }
+
+        public TaskRequestDTO GetTask(int userID, int taskID)
+        {
+
+
+            return _taskManager.GetTaskDTO(userID, taskID);
         }
     }
 }

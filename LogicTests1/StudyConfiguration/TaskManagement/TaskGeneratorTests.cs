@@ -58,8 +58,8 @@ namespace LogicTests1.StudyConfiguration.TaskManagement
             var testStage2 = new Stage() { Id = 2, Name = "stage2" };
 
             
-            expectedUserData1 = new UserData() {Data = new string[] {"conflictingData1"}, UserID = 1};
-            expectedUserData2 = new UserData() {Data = new string[] {"conflictingData2"}, UserID = 2};
+            expectedUserData1 = new UserData() {Data = new List<StoredString>() { new StoredString() { Value = "conflictingData1" }}, UserID = 1};
+            expectedUserData2 = new UserData() {Data = new List<StoredString>() { new StoredString() { Value = "conflictingData2" }}, UserID = 2};
 
             conflictingTask = new StudyTask()
             {

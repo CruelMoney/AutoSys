@@ -19,10 +19,10 @@ namespace LogicTests1.Model
         [TestInitialize]
         public void Initialize()
         {
-            var completeData = new string[1] { "testData" };
-            var completeData2 = new string[4] { "", "", "dataTest", "" };
-            var nullData = new string[3];
-            var emptyStringsData = new string[3] { "", "", "" };
+            var completeData = new List<StoredString>() { new StoredString() { Value = "testData" }};
+            var completeData2 = new List<StoredString>() { new StoredString() { Value = ""}, new StoredString() { Value = ""}, new StoredString() { Value = "dataTest"}, new StoredString() { Value = "" }};
+            var nullData = new List<StoredString>();
+            var emptyStringsData = new List<StoredString>() { new StoredString() { Value = ""}, new StoredString() { Value = ""}, new StoredString() { Value = ""} };
 
             completedData = new UserData() { Data = completeData };
             completedData2 = new UserData() { Data = completeData2 };

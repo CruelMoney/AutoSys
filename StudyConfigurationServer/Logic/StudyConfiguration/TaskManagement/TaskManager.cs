@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Microsoft.Ajax.Utilities;
 using Storage.Repository;
@@ -107,7 +108,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             var tasks = _taskDistributor.Distribute(distribution, users, reviewTasks).ToList();
                 tasks.ForEach(t => _storageManager.CreateTask(t));
 
-            return reviewTasks.Select(t => t);
+            return tasks;
         }
 
 
@@ -140,11 +141,21 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         /// <returns></returns>
         public IEnumerable<TaskRequestDTO> GetTasksDTOs(ICollection<FieldType> visibleFields, List<int> taskIDs, int userID, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            var tasks = _taskRequester.GetTasks(taskIDs, userID, count, filter, type).ToList();
+            var tasks = _taskRequester.GetTasks(taskIDs, userID, count, filter, type);
 
             return from StudyTask task in tasks
                 select new TaskRequestDTO(task, userID, visibleFields);
         }
+
+        /// <summary>
+        /// Get all the taskIDs for a user
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<int> GetTasksIDs(List<int> taskIDs, int userID, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
+        {
+            return _taskRequester.GetTaskIDs(taskIDs, userID, filter, type);
+        }
+
 
         public int CreateTask(StudyTask task)
         {
@@ -182,7 +193,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                 //Finds the corresponding field for the criteria using the name...
                 var correspondingField = task.DataFields.First(f => f.Name.Equals(criterion.Name)).UserData.First();
 
-                if (!_criteriaValidator.CriteriaIsMet(criterion, correspondingField.Data))
+                if (!_criteriaValidator.CriteriaIsMet(criterion, correspondingField.Data.Select(s=>s.Value).ToArray()))
                 {
                     return false;
                 }
@@ -195,11 +206,14 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             return _storageManager.GetTask(taskID).IsFinished();
         }
      
-        public void OnNext(Study study)
+        public TaskRequestDTO GetTaskDTO(int userID, int taskId)
         {
-            
+            var task = _storageManager.GetAllTasks()
+                .Where(t=>t.Id==taskId)
+                .Include(t=>t.Stage)
+                .FirstOrDefault();
 
+            return new TaskRequestDTO(task, userID, task.Stage.VisibleFields);
         }
-
     }
 }

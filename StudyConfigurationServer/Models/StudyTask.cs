@@ -28,7 +28,6 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// The StudyTask is connected to a certain paper
         /// </summary>
-        [Required]
         public virtual Item Paper { get; set; }
         public List<User> Users { get; set; } 
         /// <summary>
@@ -45,6 +44,8 @@ namespace StudyConfigurationServer.Models
         /// A the data which need to be filled out as part of the StudyTask.
         /// </summary>
         public virtual List<DataField> DataFields { get; set; }
+
+        public Stage Stage { get; set; }
 
         public StudyTask SubmitData(TaskSubmissionDTO taskToDeliver)
         {
