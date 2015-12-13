@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using StudyConfigurationServer.Api;
 
-namespace StudyConfigurationServer.Models.DTO
+namespace StudyConfigurationUI.Data
 {
     /// <summary>
     /// A data Field part of a <see cref="TaskRequestDTO" />.
@@ -66,26 +65,6 @@ namespace StudyConfigurationServer.Models.DTO
         /// </summary>
         public string[] Data { get; set; }
 
-        public DataFieldDTO(DataField field, int userId)
-        {
-            Name = field.Name;
-            Description = field.Description;
-            FieldType = (DataFieldDTO.DataType) Enum.Parse(typeof (DataFieldDTO.DataType), field.FieldType.ToString());
-            TypeInfo = field.TypeInfo;
-            Data = field.UserData.First(u => u.UserID == userId).Data;
-        }
-
-        /// <summary>
-        /// Used to create dataFields for visible fields
-        /// </summary>
-        /// <param name="fieldType"></param>
-        /// <param name="item"></param>
-        public DataFieldDTO(FieldType fieldType, Item item)
-        {
-            Name = fieldType.ToString();
-            Data = new string[] {item.FindFieldValue(fieldType)};
-            FieldType = DataFieldDTO.DataType.String;
-        }
 
         public DataFieldDTO() { }
     }

@@ -7,6 +7,17 @@ namespace StudyConfigurationServer.Models.DTO
 {
     public class CriteriaDTO
     {
+        public CriteriaDTO(Criteria criteria)
+        {
+            Id = criteria.Id;
+            Name = criteria.Name;
+            DataType = (DataFieldDTO.DataType)Enum.Parse(typeof(DataField.DataType), criteria.DataType.ToString());
+            Description = criteria.Description;
+            TypeInfo = criteria.TypeInfo;
+            DataMatch = criteria.DataMatch;
+            Rule = (CriteriaRule)Enum.Parse(typeof(Criteria.CriteriaRule), criteria.DataType.ToString()); ;
+
+        }
         public enum CriteriaRule
         {
             Contains,
@@ -54,5 +65,8 @@ namespace StudyConfigurationServer.Models.DTO
         /// </summary>
         public CriteriaRule Rule { get; set; }
 
+        public CriteriaDTO()
+        {
+        }
     }
 }

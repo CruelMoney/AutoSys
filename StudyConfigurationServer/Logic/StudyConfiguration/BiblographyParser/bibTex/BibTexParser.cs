@@ -54,7 +54,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bi
                     // Get the BibTex item and associated Field values.
                     string key = match.Groups[2].Value;
                     Item.ItemType type = (Item.ItemType)Enum.Parse(typeof(Item.ItemType), match.Groups[1].Value, true);
-                    Dictionary<Item.FieldType, string> fields = ParseItem(match.Groups[3].Value);
+                    Dictionary<FieldType, string> fields = ParseItem(match.Groups[3].Value);
                     var item = new Item(type, fields);
 
                     // Validate the item.
@@ -74,13 +74,13 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bi
             return items;
         }
 
-        private Dictionary<Item.FieldType, string> ParseItem(string data)
+        private Dictionary<FieldType, string> ParseItem(string data)
         {
             // Compute regex matches from the data.
             var matchCollection = _fieldRegex.Matches(data);
 
             // Collection to store the BibTex items.
-            var items = new Dictionary<Item.FieldType, string>();
+            var items = new Dictionary<FieldType, string>();
 
             // Iterate over every Field.
             foreach (Match match in matchCollection)
@@ -88,7 +88,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bi
                 try
                 {
                     // Get the Field type and value.
-                    var key = (Item.FieldType)Enum.Parse(typeof(Item.FieldType), match.Groups[1].Value, true);
+                    var key = new FieldType(match.Groups[1].Value);
                     var value = match.Groups[2].Value;
 
                     items.Add(key, value);

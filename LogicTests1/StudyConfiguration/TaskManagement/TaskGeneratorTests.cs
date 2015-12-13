@@ -29,9 +29,9 @@ namespace LogicTests1.StudyConfiguration.TaskManagement
         {
             _taskGenerator = new TaskGenerator();
 
-             testItem1 = new Item(Item.ItemType.Book, new Dictionary<Item.FieldType, string>());
-             testItem2 = new Item(Item.ItemType.Article, new Dictionary<Item.FieldType, string>());
-             testItem3 = new Item(Item.ItemType.PhDThesis, new Dictionary<Item.FieldType, string>());
+             testItem1 = new Item(Item.ItemType.Book, new Dictionary<FieldType, string>());
+             testItem2 = new Item(Item.ItemType.Article, new Dictionary<FieldType, string>());
+             testItem3 = new Item(Item.ItemType.PhDThesis, new Dictionary<FieldType, string>());
 
              items = new List<Item>() {testItem1,testItem2,testItem3};
           
@@ -57,6 +57,7 @@ namespace LogicTests1.StudyConfiguration.TaskManagement
             testStage1 = new Stage() {Id = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, CurrentTaskType = StudyTask.Type.Review};
             var testStage2 = new Stage() { Id = 2, Name = "stage2" };
 
+            
             expectedUserData1 = new UserData() {Data = new string[] {"conflictingData1"}, UserID = 1};
             expectedUserData2 = new UserData() {Data = new string[] {"conflictingData2"}, UserID = 2};
 
@@ -77,7 +78,7 @@ namespace LogicTests1.StudyConfiguration.TaskManagement
                 },
                 Paper = testItem1,
                 TaskType = StudyTask.Type.Review,
-                UserIDs = new List<int>() { user1.Id ,user2.Id}
+                Users = new List<User>() { user1 ,user2}
             };
 
         }

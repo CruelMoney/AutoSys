@@ -24,16 +24,13 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// A unique identifier for the StudyTask.
         /// </summary>
-       
         public int Id { get; set; }
         /// <summary>
         /// The StudyTask is connected to a certain paper
         /// </summary>
         [Required]
         public virtual Item Paper { get; set; }
-
-        public List<int> UserIDs { get; set; } 
-        
+        public List<User> Users { get; set; } 
         /// <summary>
         /// Defines wether the task can still be edited. Changes to false when all tasks for a stage has been delivered. 
         /// </summary>

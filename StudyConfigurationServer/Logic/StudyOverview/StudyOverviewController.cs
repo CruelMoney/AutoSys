@@ -7,29 +7,33 @@ using StudyConfigurationServer.Models.DTO;
 using StudyConfigurationServer.Logic.StudyConfiguration;
 using StudyConfigurationServer.Models;
 using System.Collections.Concurrent;
+using System.Data.Entity;
 
 namespace StudyConfigurationServer.Logic.StudyOverview
 {
     public class StudyOverviewController
     {
         private StudyStorageManager _studyStorageManager;
-        private TaskStorageManager _taskStorageManager;
+        private TaskStorageManager _taskStorage;
 
         public StudyOverviewController(StudyStorageManager studyStorageManager, TaskStorageManager taskStorageManager)
         {
             _studyStorageManager = studyStorageManager;
-            _taskStorageManager = taskStorageManager;
+            _taskStorage = taskStorageManager;
         }
 
         public StudyOverviewController()
         {
             _studyStorageManager = new StudyStorageManager();
-            _taskStorageManager = new TaskStorageManager();
+            _taskStorage = new TaskStorageManager();
         }
 
         public StudyOverviewDTO GetOverview(int id)
         {
-            Study study = _studyStorageManager.GetStudy(id);
+            Study study = _studyStorageManager.GetAllStudies()
+                .Where(s => s.Id == id)
+                .Include(s => s.Stages.Select(t => t.Tasks))
+                .FirstOrDefault();
 
             StudyOverviewDTO studyOverview = new StudyOverviewDTO()
             {
@@ -45,7 +49,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
         public int[] GetUserIDs(Study study)
         {
-            return study.Team.UserIDs;    
+            return study.Team.Users.Select(u=>u.Id).ToArray();    
         }
 
 
@@ -70,10 +74,6 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             var numbOfStages = study.Stages.Count();
             var stageOverview = new StageOverviewDTO[numbOfStages];
       
-        
-            
-            
-
             for(int i = 0; i < numbOfStages; i++)
             {
                 stageOverview[i] = new StageOverviewDTO();
@@ -88,14 +88,14 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             var completedTasks = new ConcurrentDictionary<int, int>();
 
-            foreach(var taskID in stage.TaskIDs)
+            foreach(var task in stage.Tasks)
             {
-                var task = _taskStorageManager.GetTask(taskID);
-                foreach (var user in task.UserIDs)
+               
+                foreach (var user in task.Users)
                 {
-                    if (task.IsFinished(user))
+                    if (task.IsFinished(user.Id))
                     {
-                        completedTasks.AddOrUpdate(user, 1, (id, count) => count + 1);
+                        completedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
                 }
             }           
@@ -106,14 +106,14 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             var inCompletedTasks = new ConcurrentDictionary<int, int>();
 
-            foreach (var taskID in stage.TaskIDs)
+            foreach (var task in stage.Tasks)
             {
-                var task = _taskStorageManager.GetTask(taskID);
-                foreach (var user in task.UserIDs)
+               
+                foreach (var user in task.Users)
                 {
-                    if (!task.IsFinished(user))
+                    if (!task.IsFinished(user.Id))
                     {
-                        inCompletedTasks.AddOrUpdate(user, 1, (id, count) => count + 1);
+                        inCompletedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
                 }
             }

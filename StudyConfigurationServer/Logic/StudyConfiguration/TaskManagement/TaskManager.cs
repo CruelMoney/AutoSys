@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Ajax.Utilities;
+using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor;
 using StudyConfigurationServer.Models;
+using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
+using FieldType = StudyConfigurationServer.Models.FieldType;
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 {
@@ -14,6 +17,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
     {
         private readonly DistributorSelector _taskDistributor;
         private readonly TaskGenerator _taskGenerator;
+        private readonly TaskRequester _taskRequester;
         private readonly TaskStorageManager _storageManager;
         private readonly CriteriaValidator _criteriaValidator;
         private IDisposable _unsubscriber;
@@ -21,17 +25,19 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         public TaskManager()
         {
             _taskDistributor = new DistributorSelector();
-            _criteriaValidator = new CriteriaValidation.CriteriaValidator();
+            _criteriaValidator = new CriteriaValidator();
             _taskGenerator = new TaskGenerator();
             _storageManager = new TaskStorageManager();
+            _taskRequester = new TaskRequester(_storageManager);
         }
 
-        public TaskManager(TaskStorageManager storageManager)
+        public TaskManager(EntityFrameworkGenericRepository<StudyContext> repo)
         {
             _taskDistributor = new DistributorSelector();
-            _criteriaValidator = new CriteriaValidation.CriteriaValidator();
+            _criteriaValidator = new CriteriaValidator();
             _taskGenerator = new TaskGenerator();
-            _storageManager = storageManager;
+            _storageManager = new TaskStorageManager(repo);
+            _taskRequester = new TaskRequester(_storageManager);
         }
 
         public bool DeliverTask(int taskID, TaskSubmissionDTO task)
@@ -87,7 +93,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         }
 
         
-        public void GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, Stage.Distribution distributionRule, ICollection<Criteria> criteria)
+        public IEnumerable<StudyTask> GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, List<Criteria> criteria, Stage.Distribution distribution)
         {
             var reviewTasks = new List<StudyTask>();
 
@@ -98,8 +104,10 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             }
             
             //Distribute the tasks and save them
-            _taskDistributor.Distribute(distributionRule, users, reviewTasks).
-                ForEach(t => _storageManager.CreateTask(t));
+            var tasks = _taskDistributor.Distribute(distribution, users, reviewTasks).ToList();
+                tasks.ForEach(t => _storageManager.CreateTask(t));
+
+            return reviewTasks.Select(t => t);
         }
 
 
@@ -126,32 +134,16 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
           
         }
 
-
-     
         /// <summary>
         /// Get the taskRequestDTO for a user
         /// </summary>
-        /// <param name="userId">The userId</param>
-        /// <param name="taskId">The taskId</param>
         /// <returns></returns>
-        public TaskRequestDTO GetTask(int userId, int taskId, ICollection<Item.FieldType> visibleFields)
+        public IEnumerable<TaskRequestDTO> GetTasksDTOs(ICollection<FieldType> visibleFields, List<int> taskIDs, int userID, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            StudyTask task;
-            try
-            {
-                task = _storageManager.GetTask(taskId);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var tasks = _taskRequester.GetTasks(taskIDs, userID, count, filter, type).ToList();
 
-            return new TaskRequestDTO(task, userId, visibleFields);
-        }
-
-        public bool StageIsFinished(Stage stage)
-        {
-            return stage.TaskIDs.All(taskID => _storageManager.GetTask(taskID).IsFinished());
+            return from StudyTask task in tasks
+                select new TaskRequestDTO(task, userID, visibleFields);
         }
 
         public int CreateTask(StudyTask task)
@@ -198,7 +190,10 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             return true;
         }
 
-
+        public bool TaskIsFinished(int taskID)
+        {
+            return _storageManager.GetTask(taskID).IsFinished();
+        }
      
         public void OnNext(Study study)
         {

@@ -1,0 +1,141 @@
+﻿<Page
+    x:Class="StudyConfigurationUI.ManagePhasePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StudyConfigurationUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
+        <StackPanel x:Name="contentPanel" Margin="8,0,-2,0" Orientation="Vertical">
+            <TextBlock Text="Add Phase" Margin="0,0,0,0" FontSize="30"/>
+
+            <StackPanel Orientation="Vertical" Margin="0,0,0,0">
+                
+                <TextBlock Text="Phase Name"/>
+            </StackPanel>
+            <StackPanel x:Name="namePanel" Orientation="Horizontal" Margin="0,0,0,0">
+                <TextBox x:Name="nameInput" Width="280" HorizontalAlignment="Left" Margin="0,0,50,0"/>
+                <TextBlock Name="ErrorBox" FontSize="20" Foreground="Red" ></TextBlock>
+            </StackPanel>
+            <TextBlock Text="Criteria Editor" Margin="0,0,0,0" FontSize="20"/>
+            <StackPanel x:Name="criteriaPanel" Orientation="Horizontal" Margin="5,0,0,0" Height="126" BorderThickness="1" BorderBrush="Black">
+                <StackPanel x:Name="criteriaNamePanel" Orientation="Vertical">
+                    <TextBlock Text="Criteria Name"/>
+                    <TextBox x:Name="CriteriaName" Width="239" HorizontalAlignment="Left" Margin="0,0,0,0"/>
+                </StackPanel>
+                <StackPanel x:Name="criteriaDescriptionPanel" Orientation="Vertical" Margin="20,0,0,0">
+                    <TextBlock Text="Criteria Description"/>
+                    <TextBox x:Name="CriteriaDescription" Width="191" HorizontalAlignment="Left" Margin="0,0,0,0" Height="72"/>
+                </StackPanel>
+                <StackPanel x:Name="criteriaDatatypePanel" Orientation="Vertical" Margin="20,0,0,0">
+                    <TextBlock Text="Datatype"/>
+                    <ComboBox x:Name="CriteriaDataType" DropDownClosed="SelectionChanged" Width="201" HorizontalAlignment="Left" Margin="0,0,0,0"/>
+                </StackPanel>
+                <StackPanel x:Name="criteriaRulePanel" Orientation="Vertical" Margin="20,0,0,0">
+                    <TextBlock Text="Criteria Rule"/>
+                    <ComboBox x:Name="CriteriaRule" Width="191" HorizontalAlignment="Left" Margin="0,0,0,0" Height="33"/>
+                </StackPanel>
+                <StackPanel x:Name="dataMatchPanel" Orientation="Vertical" Margin="20,0,0,0">
+                    <TextBlock Text="Data Match"/>
+                    <TextBox x:Name="dataMatchDescription" Width="191" HorizontalAlignment="Left" Margin="0,0,0,0" Height="33"/>
+                </StackPanel>
+            </StackPanel>
+            <TextBlock Text="Phase Editor" FontSize="20"/>
+            <StackPanel x:Name="phasePane1l" Orientation="Horizontal" Margin="5,0,0,0" Height="217" BorderThickness="1" BorderBrush="Black">
+                <StackPanel x:Name="phasePanel" Orientation="Horizontal" Margin="5,0,0,0" Height="217">
+                    <StackPanel x:Name="visibleFieldsPanel1" Orientation="Vertical" Margin="0,0.667,0,0" Width="135">
+                        <TextBlock Text="Visible Fields"/>
+                        <CheckBox Name="AddressCheckbox">Address</CheckBox>
+                        <CheckBox Name="AnnoteCheckbox">Annote</CheckBox>
+                        <CheckBox Name="AuthorCheckbox">Author</CheckBox>
+                        <CheckBox Name="BooktitleCheckbox">Booktitle</CheckBox>
+                        <CheckBox Name="ChapterCheckbox">Chapter</CheckBox>
+                        <CheckBox Name="CrossrefCheckbox">Crossref</CheckBox>
+                    </StackPanel>
+                    <StackPanel x:Name="visibleFieldsPanel2" Orientation="Vertical" Margin="0,0.667,0,2" Width="135">
+                        <TextBlock Text=" "/>
+                        <CheckBox Name="EditionCheckbox">Edition</CheckBox>
+                        <CheckBox Name="EditorCheckbox">Editor</CheckBox>
+                        <CheckBox Name="HowPublishedCheckbox">HowPublished</CheckBox>
+                        <CheckBox Name="InstritutionCheckbox">Instritution</CheckBox>
+                        <CheckBox Name="JournalCheckbox">Journal</CheckBox>
+                        <CheckBox Name="KeyCheckbox">Key</CheckBox>
+                    </StackPanel>
+                    <StackPanel x:Name="visibleFieldsPanel3" Orientation="Vertical" Margin="0,0.667,0,2" Width="135">
+                        <TextBlock Text=" "/>
+                        <CheckBox Name="MonthCheckbox">Month</CheckBox>
+                        <CheckBox Name="NoteCheckbox">Note</CheckBox>
+                        <CheckBox Name="NumberCheckbox">Number</CheckBox>
+                        <CheckBox Name="OrganizationCheckbox">Organization</CheckBox>
+                        <CheckBox Name="PagesCheckbox">Pages</CheckBox>
+                        <CheckBox Name="PublisherCheckbox">Publisher</CheckBox>
+                    </StackPanel>
+                    <StackPanel x:Name="visibleFieldsPanel4" Orientation="Vertical" Margin="0,0.667,0,2" Width="135">
+                        <TextBlock Text=" "/>
+                        <CheckBox Name="SchoolCheckbox">School</CheckBox>
+                        <CheckBox Name="SeriesCheckbox">Series</CheckBox>
+                        <CheckBox Name="TitleCheckbox">Title</CheckBox>
+                        <CheckBox Name="TypeCheckbox">Type</CheckBox>
+                        <CheckBox Name="VolumeCheckbox">Volume</CheckBox>
+                        <CheckBox Name="YearCheckbox">Year</CheckBox>
+                    </StackPanel>
+                    <StackPanel x:Name="visibleFieldsPanel5" Orientation="Vertical" Margin="0,0.667,0,2" Width="135">
+                        <TextBlock Text=" "/>
+                        <CheckBox Name="URLCheckbox">URL</CheckBox>
+                        <CheckBox Name="ISBNCheckbox">ISBN</CheckBox>
+                        <CheckBox Name="ISSNCheckbox">ISSN</CheckBox>
+                        <CheckBox Name="LCCNCheckbox">LCCN</CheckBox>
+                        <CheckBox Name="AbstractCheckbox">Abstract</CheckBox>
+                        <CheckBox Name="KeywordsCheckbox">Keywords</CheckBox>
+                    </StackPanel>
+                    <StackPanel x:Name="visibleFieldsPanel6" Orientation="Vertical" Margin="0,0.667,0,2" Width="135">
+                        <TextBlock Text=" "/>
+                        <CheckBox Name="PriceCheckbox">Price</CheckBox>
+                        <CheckBox Name="CopyrightCheckbox">Copyright</CheckBox>
+                        <CheckBox Name="LanguageCheckbox">Language</CheckBox>
+                        <CheckBox Name="ContentsCheckbox">Contents</CheckBox>
+                        <CheckBox Name="DoiCheckbox">Doi</CheckBox>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="taskDistributionPanel" Orientation="Vertical" Margin="0,0,0,0" Width="135" BorderThickness="1" BorderBrush="Black">
+                    <TextBlock Text="Way of Distribution"/>
+                    <RadioButton Name="HundredOverlap" GroupName="OverlapGroup">100% Overlap</RadioButton>
+                    <RadioButton Name="FiftyOverlap" GroupName="OverlapGroup">50% Overlap</RadioButton>
+                    <RadioButton Name="NoOverlap" GroupName="OverlapGroup">No Overlap</RadioButton>
+                </StackPanel>
+            </StackPanel>
+            <TextBlock FontSize="20">User Management</TextBlock>
+            <StackPanel x:Name="taskDistributiondPanel" Orientation="Horizontal" Margin="0,0,0,0" BorderThickness="1" BorderBrush="Black" Height="242">
+                <StackPanel x:Name="taskDistributiondPanel2" Orientation="Vertical" Margin="0,-0.333,0,0.667" Height="239" VerticalAlignment="Bottom">
+                    <StackPanel x:Name="taskDistributiondPanel4" Orientation="Horizontal" Margin="0,0,0,0">
+                        <TextBlock FontSize="15" Margin="10,0,0,0">Users in this Study</TextBlock>
+                        <Button Click="MakeValidator_OnClick" Margin="10,0,0,0">Make Validator</Button>
+                        <Button Click="MakeReviewer_OnClick" Margin="10,0,0,0">Make Reviewer</Button>
+                    </StackPanel>
+                    <ListBox  Margin="0,0,0,0" x:Name="UserListBox" Width="327" Height="218" />
+                </StackPanel>
+                <StackPanel x:Name="taskDifstributiondPanel2" Orientation="Vertical" Margin="40,0,0,0">
+                    <StackPanel x:Name="taskDifstributiondPanel4" Orientation="Horizontal" Margin="0,0,0,0">
+                        <TextBlock FontSize="20" Margin="66,0,0,0">Validators</TextBlock>
+                        <Button Margin="10,0,0,0" Click="RemoveValidator_Click">Remove selected</Button>
+                    </StackPanel>
+                    <ListBox  Margin="0,0,0,0" x:Name="ValidatorListBox" Width="327" Height="218" />
+                </StackPanel>
+                <StackPanel x:Name="taskDidstributiondPanel2" Orientation="Vertical" Margin="40,0,0,0">
+                    <StackPanel x:Name="taskDistdributiondPanel4" Orientation="Horizontal" Margin="0,0,0,0">
+                        <TextBlock FontSize="20" Margin="66,0,0,0">Reviewers</TextBlock>
+                        <Button Click="RemoveReviewer_Click" Margin="10,0,0,0">Remove selected</Button>
+                    </StackPanel>
+                    <ListBox Margin="0,0,0,0" x:Name="ReviewerListBox" Width="327" Height="218" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0,0,0,0">
+                <Button Click="SaveAndReturn_OnClick" Margin="0,0,0,0">Save Phase and return</Button>
+                <Button Margin="0,0,0,0">Cancel and return</Button>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Page>

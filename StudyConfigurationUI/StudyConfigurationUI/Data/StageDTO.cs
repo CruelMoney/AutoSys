@@ -1,25 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace StudyConfigurationServer.Models.DTO
+namespace StudyConfigurationUI.Data
 {
     public class StageDTO
     {
-        public StageDTO(Stage stage)
-        {
-            Name = stage.Name;
-            Id = stage.Id;
-            Criteria = Criteria;
-        }
-        public StageDTO()
-        {
-        }
         public string Name { get; set; }
         public int Id { get; set; }
-        //The critderia are defining what fields are going to be editable for this stage
+        //The criteria are defining what fields are going to be editable for this stage
         [Required]
         public CriteriaDTO Criteria { get; set; }
         public int StudyID { get; set; }

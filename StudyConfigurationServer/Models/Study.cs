@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Storage.Repository;
+using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Models
 {
     public class Study : IEntity
     {
+        
         public int Id { get; set; }
         /// <summary>
         /// The official Name of the study.
@@ -16,9 +18,10 @@ namespace StudyConfigurationServer.Models
         /// </summary>
         public int CurrentStageID { get; set; }
         public virtual List<Stage> Stages { get; set; } // reference til Stages (one to many)
-        public Team Team { get; set; }
+        public virtual Team Team { get; set; }
         public virtual List<Item> Items { get; set; } // where to place?
         public bool IsFinished { get; set; }
+
 
         /// <summary>
         /// Changes the currentstage id to the next and returns it. 
@@ -27,6 +30,10 @@ namespace StudyConfigurationServer.Models
         /// <returns></returns>
         public int MoveToNextStage()
         {
+            if (CurrentStageID == 0)
+            {
+                return CurrentStageID = Stages[0].Id;
+            }
             var currentIndex = Stages.FindIndex(s => s.Id.Equals(CurrentStageID));
             return CurrentStageID = Stages[currentIndex + 1].Id;
         }

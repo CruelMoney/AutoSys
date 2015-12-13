@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Ajax.Utilities;
 using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
@@ -8,48 +11,7 @@ namespace StudyConfigurationServer.Models
     /// </summary>
     public class Item :IEntity
     {
-        /// <summary>
-        ///     Type of a Field associated to a bibliographic item.
-        /// </summary>
-        public enum FieldType
-        {
-            Address,
-            Annote,
-            Author,
-            Booktitle,
-            Chapter,
-            Crossref,
-            Edition,
-            Editor,
-            HowPublished,
-            Instritution,
-            Journal,
-            Key,
-            Month,
-            Note,
-            Number,
-            Organization,
-            Pages,
-            Publisher,
-            School,
-            Series,
-            Title,
-            Type,
-            Volume,
-            Year,
-            URL,
-            ISBN,
-            ISSN,
-            LCCN,
-            Abstract,
-            Keywords,
-            Price,
-            Copyright,
-            Language,
-            Contents,
-            Doi
-        }
-
+    
         /// <summary>
         ///     Type of a bibliographic item.
         /// </summary>
@@ -70,10 +32,8 @@ namespace StudyConfigurationServer.Models
             Manual
         }
 
-        /// <summary>
-        ///     A collection of fields and associated values, contained within this bibliographic item.
-        /// </summary>
-        public readonly IReadOnlyDictionary<FieldType, string> Fields;
+        public virtual ICollection<FieldType> fieldKeys { get; set; }
+        public virtual List<StoredString> fieldValues { get; set; }
 
         /// <summary>
         ///     The type of this bibliographic item. (e.g., Article, Book, etc.)
@@ -83,11 +43,24 @@ namespace StudyConfigurationServer.Models
         public Item(ItemType type, IDictionary<FieldType, string> fields)
         {
             Type = type;
-            Fields = new Dictionary<FieldType, string>(fields);
+            fieldKeys = fields.Keys.ToList();
+            fieldValues = new List<StoredString>();
+            fields.Values.ForEach(s => fieldValues.Add(new StoredString() {Value = s}));
         }
 
         public int Id { get; set; }
 
-        public StudyTask Task { get; set; }
+        public ICollection<StudyTask> Tasks { get; set; }
+
+        public Item()
+        {
+            fieldValues = new List<StoredString>();
+        }
+
+        public string FindFieldValue(FieldType field)
+        {
+            var fieldIndex = fieldKeys.ToList().FindIndex(t => t.ToString().Equals(field.ToString()));
+            return fieldValues.ToList()[fieldIndex].Value;
+        }
     }
 }

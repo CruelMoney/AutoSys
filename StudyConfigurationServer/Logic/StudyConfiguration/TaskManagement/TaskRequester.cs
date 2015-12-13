@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using StudyConfigurationServer.Logic.StorageManagement;
@@ -19,80 +20,81 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
          
         }
 
-        public IEnumerable<TaskRequestDTO> GetTasksForUser(Study study, int userID, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, StudyTask.Type type = StudyTask.Type.Both)
-        {
-            var visibleFields = study.CurrentStage().VisibleFields;
-
-            switch (filter)
-            {
-                case TaskRequestDTO.Filter.Remaining:
-                    return GetRemainingTasks(study, userID).
-                        Where(t => t.TaskType == type).
-                        Take(count).
-                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
-                case TaskRequestDTO.Filter.Done:
-                    return GetFinishedTasks(study, userID).
-                        Where(t => t.TaskType == type).
-                        Take(count).
-                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
-                case TaskRequestDTO.Filter.Editable:
-                    return GetEditableTasks(study, userID).
-                        Where(t => t.TaskType == type).
-                        Take(count).
-                        Select(task => new TaskRequestDTO(task, userID, visibleFields));
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
-            }
-        }
-
         /// <summary>
-        /// Get requested StudyTask IDs for a specific User of a given study. By default, delivered but still editable StudyTask IDs are returned.
-        /// Optionally, the type of StudyTask IDs to retrieve are specified.
         /// </summary>
-        /// <param name="user">The User to get tasks for</param>
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
-        /// <param name="study">The study to get tasks for.</param>
-        public IEnumerable<int> GetTaskIDs(Study study, int userID, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Editable, StudyTask.Type type = StudyTask.Type.Both)
+        public IEnumerable<int> GetTaskIDs(List<int> taskIDs, int userID, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            switch (filter)
+            return GetTasks(taskIDs, userID, count, filter, type).Select(t=>t.Id);
+        }
+
+        public IEnumerable<StudyTask> GetTasks(List<int> taskIDs, int userID, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
+        {
+            switch (type)
             {
-                case TaskRequestDTO.Filter.Remaining:
-                    return GetRemainingTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
-                case TaskRequestDTO.Filter.Done:
-                    return GetFinishedTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
-                case TaskRequestDTO.Filter.Editable:
-                    return GetEditableTasks(study, userID).Where(t => t.TaskType == type).Select(t => t.Id);
+                case TaskRequestDTO.Type.Conflict:
+                    return (from task in GetTasksFiltered(taskIDs, userID, filter)
+                            where task.TaskType == StudyTask.Type.Conflict
+                            select task).Take(count);
+                case TaskRequestDTO.Type.Review:
+                    return (from task in GetTasksFiltered(taskIDs, userID, filter)
+                            where task.TaskType == StudyTask.Type.Review
+                            select task).Take(count);
+                case TaskRequestDTO.Type.Both:
+                    return (from task in GetTasksFiltered(taskIDs, userID, filter)
+                            select task).Take(count);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
             }
         }
 
-        private IEnumerable<StudyTask> GetFinishedTasks(Study study, int userID)
+        public IEnumerable<StudyTask> GetTasksFiltered(List<int> taskIDs, int userID, TaskRequestDTO.Filter filter)
         {
-            return study.Stages.
-                SelectMany(stage => stage.TaskIDs).
-                Select(t => _storageManager.GetTask(t)).
-                Where(t => t.UserIDs.Contains(userID)).
-                Where(t => !t.IsEditable);
+          
+            switch (filter)
+            {
+                case TaskRequestDTO.Filter.Remaining:
+                    return GetRemainingTasks(taskIDs, userID).ToList();
+                case TaskRequestDTO.Filter.Done:
+                    return GetFinishedTasks(taskIDs, userID).ToList();
+                case TaskRequestDTO.Filter.Editable:
+                    return GetEditableTasks(taskIDs, userID).ToList();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
+            }
         }
 
-        private IEnumerable<StudyTask> GetRemainingTasks(Study study, int userID)
+        private IEnumerable<StudyTask> GetFinishedTasks(List<int> taskIDs, int userID)
         {
-            return study.Stages.
-              SelectMany(stage => stage.TaskIDs).
-              Select(t => _storageManager.GetTask(t)).
-              Where(t => t.UserIDs.Contains(userID)).
-              Where(t => !t.IsFinished(userID));
+            return (from StudyTask task in _storageManager.GetAllTasks()
+                   where taskIDs.Contains(task.Id)
+                   where task.Users.Select(u=>u.Id).Contains(userID)
+                   where !task.IsEditable
+                   select task).ToList();
+
         }
 
-        private IEnumerable<StudyTask> GetEditableTasks(Study study, int userID)
+        private IEnumerable<StudyTask> GetRemainingTasks(List<int> taskIDs, int userID)
         {
-            return study.Stages.
-              SelectMany(stage => stage.TaskIDs).
-              Select(t => _storageManager.GetTask(t)).
-              Where(t => t.UserIDs.Contains(userID)).
-              Where(t => t.IsEditable);
+            var tasks = _storageManager.GetAllTasks()
+                .Where(t=>taskIDs.Contains(t.Id))
+                .Include(t=>t.Users)
+                .ToList();
+
+            return tasks
+                .Where(t => t.Users.Select(u => u.Id).Contains(userID))
+                .Where(t => !t.IsFinished(userID));
+            
+        }
+
+        private IEnumerable<StudyTask> GetEditableTasks(List<int> taskIDs, int userID)
+        {
+            return (from StudyTask task in _storageManager.GetAllTasks()
+                   where taskIDs.Contains(task.Id)
+                   where task.Users.Select(u => u.Id).Contains(userID)
+                   where !task.IsEditable
+                   select task).ToList();
         }
 
     }

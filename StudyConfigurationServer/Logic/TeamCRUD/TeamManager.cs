@@ -42,7 +42,6 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 Name = teamDtoDto.Name,
                 Id = teamDtoDto.Id,
                 Metadata = teamDtoDto.Metadata,
-                UserIDs = teamDtoDto.UserIDs,
                 Users = new List<User>()
             };
 
