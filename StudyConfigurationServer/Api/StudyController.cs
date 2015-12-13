@@ -40,7 +40,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="count">The amount of tasks to retrieve.</param>
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
-        [Route("{id}/StudyTask")]
+        [Route("{id}/Task")]
         public IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
@@ -85,7 +85,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The id of the user</param>
         /// <param name="taskId"></param>
         /// <returns></returns>
-        [Route("{id}/StudyTask/{taskId}")]
+        [Route("{id}/Task/{taskId}")]
         public IHttpActionResult GetTask(int id, int taskId)
         {
             // GET: api/Study/4/StudyTask/5
@@ -102,7 +102,7 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the study the StudyTask is part of.</param>
         /// <param name="taskId">The ID of the StudyTask.</param>
         /// <param name="task">The completed StudyTask.</param>
-        [Route("{id}/StudyTask/{taskId}")]
+        [Route("{id}/Task/{taskId}")]
         public IHttpActionResult Post(int id, int taskId, [FromBody]TaskSubmissionDTO task)
         {
             // POST: api/Study/4/StudyTask/5
@@ -142,7 +142,7 @@ namespace StudyConfigurationServer.Api
         /// </summary>
         /// <param name="id">The ID of the study this resource is part of.</param>
         /// <param name="resourceId">The ID of the requested resource.</param>
-        [Route("{id}/ResourceDTO/{resourceId}")]
+        [Route("{id}/Resource/{resourceId}")]
         public IHttpActionResult GetResource(int id, int resourceId)
         {
             // GET: api/Study/4/ResourceDTO/5

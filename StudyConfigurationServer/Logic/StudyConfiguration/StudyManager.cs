@@ -44,7 +44,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         public StudyManager(EntityFrameworkGenericRepository<StudyContext> repo)
         {
             _studyStorageManager = new StudyStorageManager(repo);
-            _taskManager = new TaskManager();
+            _taskManager = new TaskManager(repo);
             _teamStorage = new TeamStorageManager(repo);
         }
 

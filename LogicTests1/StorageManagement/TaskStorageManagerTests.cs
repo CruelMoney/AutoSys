@@ -27,7 +27,7 @@ namespace LogicTests1.StorageManagement
             mockTaskRepo = new Mock<IGenericRepository>();
             testTaskStorageManager = new TaskStorageManager(mockTaskRepo.Object);
 
-            // Read item - Team
+            // Read item - StudyTask
             mockTaskRepo.Setup(r => r.Read<StudyTask>(It.IsAny<int>())).Returns<int>((id) => _tasks.First(e => e.Key == id).Value);
 
             // Read items - StudyTask

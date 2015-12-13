@@ -18,60 +18,75 @@ namespace LogicTests1.StudyOverviewTests
        
 
         Dictionary<int, Study> _studies;
-        Dictionary<int, StudyTask> _studyTasks;
-       
-
+        Dictionary<int, StudyTask> _tasks;
+     
         int id;
 
         Study _testStudy;
 
         StudyStorageManager testStudyStorageManager;
         Mock<IGenericRepository> mockStudyRepo;
-       
+
+        TaskStorageManager testTaskStorageManager;
+        
+
+        StudyOverviewController testController;
      
 
         [TestInitialize]
         public void InitializeTests()
         {
 
-            _studies = new Dictionary<int, Study>();
-            _studyTasks = new Dictionary<int, StudyTask>();
-           
-            var task = new StudyTask() { };
-           
 
             var user1 = new User() { Id = 1 };
             var user2 = new User() { Id = 2 };
 
             var team1 = new Team() { Users = new List<User> { user1, user2 } };
-            
-            
-            var dataField = new DataField() { }
 
+
+            var dataString1 = new StoredString() { Value = "someData" };
+            var datastring2 = new StoredString() { Value = "someOtherData" };
+            var nullString = new StoredString() { Value = null };
+            
+
+            var userData1 = new UserData() { UserID = 1, Data = new List<StoredString>() {dataString1, datastring2 } };
+            var userData2 = new UserData() { UserID = 2, Data = new List<StoredString>() { nullString, nullString } };
+            var userData3 = new UserData() { UserID = 2, Data = new List<StoredString>() { dataString1, datastring2 } };
+            var userData4 = new UserData() { UserID = 1, Data = new List<StoredString>() { nullString, nullString } };
+
+            var dataField = new DataField() { UserData = new List<UserData> { userData1, userData3 } };
+            var dataField2 = new DataField() { UserData = new List<UserData> { userData2, userData4 } };
+
+            var task1 = new StudyTask() { DataFields = new List<DataField>() { dataField}, Users = new List<User> { user1, user2 } };
+            var task2 = new StudyTask() { DataFields = new List<DataField>() { dataField2 }, Users = new List<User> { user1, user2 } };
 
 
             var userstudy1 = new UserStudies { User = user1 };
             var userstudy2 = new UserStudies { User = user2 };
 
-            var stage1 = new Stage() { Name = "stage1", Id = 1, StudyID = 1, Users = new List<UserStudies> {userstudy1, userstudy2}, Tasks = new List<StudyTask>()};
-            var stage2 = new Stage() { Name = "stage2", Id = 2, StudyID = 1, Users = new List<UserStudies> {userstudy1, userstudy2} };
+            var stage1 = new Stage() { Name = "stage1", Id = 1, StudyID = 1, Users = new List<UserStudies> {userstudy1, userstudy2}, Tasks = new List<StudyTask>() { task1, task2 } };
+            var stage2 = new Stage() { Name = "stage2", Id = 2, StudyID = 1, Users = new List<UserStudies> {userstudy1, userstudy2}, Tasks = new List<StudyTask>() { task1, task2 } };
 
             id = 1;
             mockStudyRepo = new Mock<IGenericRepository>();
             
 
             _testStudy = new Study() { Id = 1, CurrentStageID = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() {stage1, stage2 }, Team = team1};
-           
-            testStudyStorageManager = new StudyStorageManager(mockStudyRepo.Object);
 
-            mockTask.Setup(r => r.IsFinished(user1.Id)).Returns(true);
+            _studies = new Dictionary<int, Study> { { 1, _testStudy } };
+          
+
+            testStudyStorageManager = new StudyStorageManager(mockStudyRepo.Object);
+         
+            testController = new StudyOverviewController(testStudyStorageManager,testTaskStorageManager);
+
 
             // Read item
             mockStudyRepo.Setup(r => r.Read<Study>(It.IsAny<int>())).Returns<int>((id) => _studies.First(e => e.Key == id).Value);
-
+          
             // Read items
             mockStudyRepo.Setup(r => r.Read<Study>()).Returns(_studies.Values.AsQueryable());
-
+         
             // Create 
             mockStudyRepo.Setup(r => r.Create<Study>(It.IsAny<Study>())).Callback<Study>(study =>
             {
@@ -96,41 +111,42 @@ namespace LogicTests1.StudyOverviewTests
                 _studies.Remove(study.Id);
             });
         }
+
+      
         
         [TestMethod]
         public void TestOverviewRetrieveAllUserIdsFromStudy()
         {
-            testStudyStorageManager.SaveStudy(_testStudy);
-            StudyOverviewController controller = new StudyOverviewController();
-        
-            Assert.AreEqual(2, controller.GetUserIDs(_testStudy).Length);
-            Assert.AreEqual(2, controller.GetUserIDs(_testStudy)[1]);         
+            //Action
+            var result = testController.GetUserIDs(_testStudy);
+
+
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual(2, result[1]);         
         }
 
         [TestMethod]
         public void TestOverviewCountAmountOfStages()
         {
-            testStudyStorageManager.SaveStudy(_testStudy);
-            StudyOverviewController controller = new StudyOverviewController();
-
-            Assert.AreEqual(2, controller.GetStages(_testStudy).Length);
+         
+            Assert.AreEqual(2, testController.GetStages(_testStudy).Length);
         }
 
         [TestMethod]
         public void TestOverviewCompletedTasks()
         {
-            testStudyStorageManager.SaveStudy(_testStudy);
-            StudyOverviewController controller = new StudyOverviewController();
 
+            
+          
             foreach(var stage in _testStudy.Stages)
             {
                 if (stage.Name.Equals("stage1"))
                 {
-                    Assert.AreEqual(2, controller.GetCompletedTasks(stage).Count);
+                    Assert.AreEqual(2, testController.GetCompletedTasks(stage).Count);
                 }
                 else
                 {
-                    Assert.AreEqual(1, controller.GetCompletedTasks(stage).Count);
+                    Assert.AreEqual(2, testController.GetCompletedTasks(stage).Count);
                 }
                 
             }           
@@ -139,29 +155,24 @@ namespace LogicTests1.StudyOverviewTests
         [TestMethod]
         public void TestOverviewIncompleteTasks()
         {
-            testStudyStorageManager.SaveStudy(_testStudy);
-            StudyOverviewController controller = new StudyOverviewController();
-
+         
             foreach(var stage in _testStudy.Stages)
             {
                 if (stage.Name.Equals("stage1"))
                 {
-                    Assert.AreEqual(1, controller.GetIncompleteTasks(stage).Count);
+                    Assert.AreEqual(2, testController.GetIncompleteTasks(stage).Count);
                 }
                 else
                 {
-                    Assert.AreEqual(2, controller.GetIncompleteTasks(stage).Count);
+                    Assert.AreEqual(2, testController.GetIncompleteTasks(stage).Count);
                 }               
             }
         }
 
         [TestMethod]
         public void TestOverviewCurrentStage()
-        {
-            testStudyStorageManager.SaveStudy(_testStudy);
-            StudyOverviewController controller = new StudyOverviewController();
-
-            Assert.AreEqual(2, controller.GetCurrentStage(_testStudy).Id);
+        {    
+            Assert.AreEqual(1, testController.GetCurrentStage(_testStudy).Id);
         }
 
 

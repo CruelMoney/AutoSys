@@ -90,13 +90,10 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach(var task in stage.Tasks)
             {
-                var loadedTask = _taskStorage.GetAllTasks()
-                    .Where(t => t.Id == task.Id)
-                    .Include(t=>t.Users).FirstOrDefault();
-
-                foreach (var user in loadedTask.Users)
+             
+                foreach (var user in task.Users)
                 {
-                    if (loadedTask.IsFinished(user.Id))
+                    if (task.IsFinished(user.Id))
                     {
                         completedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
@@ -111,13 +108,10 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach (var task in stage.Tasks)
             {
-                var loadedTask = _taskStorage.GetAllTasks()
-                    .Where(t => t.Id == task.Id)
-                    .Include(t => t.Users).FirstOrDefault();
-
-                foreach (var user in loadedTask.Users)
+             
+                foreach (var user in task.Users)
                 {
-                    if (!loadedTask.IsFinished(user.Id))
+                    if (!task.IsFinished(user.Id))
                     {
                         inCompletedTasks.AddOrUpdate(user.Id, 1, (id, count) => count + 1);
                     }
