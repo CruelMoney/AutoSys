@@ -16,7 +16,7 @@ namespace LogicTests1.StorageManagement
         Dictionary<int, StudyTask> _tasks;
         Mock<IGenericRepository> mockTaskRepo;
         int id;
-        StudyTask testTask = new StudyTask() { Id = 1 };
+        StudyTask testTask = new StudyTask() { ID = 1 };
         TaskStorageManager testTaskStorageManager;
 
         [TestInitialize]
@@ -37,7 +37,7 @@ namespace LogicTests1.StorageManagement
             mockTaskRepo.Setup(r => r.Create<StudyTask>(It.IsAny<StudyTask>())).Callback<StudyTask>(task =>
             {
                 int nextId = id++;
-                task.Id = nextId;
+                task.ID = nextId;
                 _tasks.Add(nextId, task);
 
             });
@@ -45,16 +45,16 @@ namespace LogicTests1.StorageManagement
             // Update - StudyTask
             mockTaskRepo.Setup(r => r.Update<StudyTask>(It.IsAny<StudyTask>())).Callback<StudyTask>(task =>
             {
-                if (_tasks.ContainsKey(task.Id))
+                if (_tasks.ContainsKey(task.ID))
                 {
-                    _tasks[task.Id] = task;
+                    _tasks[task.ID] = task;
                 }
             });
 
             // Delete - StudyTask
             mockTaskRepo.Setup(r => r.Delete<StudyTask>(It.IsAny<StudyTask>())).Callback<StudyTask>(task =>
             {
-                _tasks.Remove(task.Id);
+                _tasks.Remove(task.ID);
             });
 
         }
@@ -126,7 +126,7 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void TestStorageUpdateTask()
         {
-            var testTask = new StudyTask() { Id = 1, TaskType = StudyTask.Type.Review};
+            var testTask = new StudyTask() { ID = 1, TaskType = StudyTask.Type.Review};
             testTaskStorageManager.CreateTask(testTask);
             testTask.TaskType = StudyTask.Type.Conflict;
             testTaskStorageManager.UpdateTask(testTask);

@@ -8,7 +8,7 @@ namespace StudyConfigurationServer.Models
 {
     public class StoredString : IEntity
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         public string Value { get; set; }
     }

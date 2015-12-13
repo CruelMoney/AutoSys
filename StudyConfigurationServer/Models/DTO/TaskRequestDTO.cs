@@ -41,7 +41,7 @@ namespace StudyConfigurationServer.Models.DTO
 
         public TaskRequestDTO() { }
 
-        public TaskRequestDTO(StudyTask task, int userId, ICollection<FieldType> visibleFieldTypes) 
+        public TaskRequestDTO(StudyTask task, ICollection<FieldType> visibleFieldTypes, int? userId = null) 
         {
             var editableFields = new List<DataFieldDTO>();
 
@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Models.DTO
 
             IsDeliverable = task.IsEditable;
             TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), task.TaskType.ToString());
-            Id = task.Id;
+            Id = task.ID;
             RequestedFieldsDto = editableFields.ToArray();
             VisibleFieldsDto = visibleFields.ToArray();
 

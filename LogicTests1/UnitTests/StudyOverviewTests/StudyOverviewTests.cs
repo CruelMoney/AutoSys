@@ -7,8 +7,7 @@ using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
 using Moq;
 using System.Linq;
-using System.Data.Entity;
-using LogicTests1.IntegrationTests.DBInitializers;
+
 
 namespace LogicTests1.StudyOverviewTests
 {
@@ -25,10 +24,9 @@ namespace LogicTests1.StudyOverviewTests
         Study _testStudy;
 
         StudyStorageManager testStudyStorageManager;
-        Mock<IGenericRepository> mockStudyRepo;
-
+       
         TaskStorageManager testTaskStorageManager;
-        
+     
 
         StudyOverviewController testController;
      
@@ -36,8 +34,16 @@ namespace LogicTests1.StudyOverviewTests
         [TestInitialize]
         public void InitializeTests()
         {
+            var user1 = new User() { ID = 1 };
+            var user2 = new User() { ID = 2 };
+            var user3 = new User() { ID = 3 };
+            var user4 = new User() { ID = 4 };
+            var finishedData = new UserData() { Data = new List<StoredString>() { new StoredString() { Value = "finished" }} };
+            var userData2 = new UserData() { };
+            var userData3 = new UserData() { };
+            var userData4 = new UserData() { };
 
-
+           
             var user1 = new User() { Id = 1 };
             var user2 = new User() { Id = 2 };
 
@@ -111,7 +117,7 @@ namespace LogicTests1.StudyOverviewTests
                 _studies.Remove(study.Id);
             });
         }
-
+        
       
         
         [TestMethod]
@@ -119,7 +125,7 @@ namespace LogicTests1.StudyOverviewTests
         {
             //Action
             var result = testController.GetUserIDs(_testStudy);
-
+        
 
             Assert.AreEqual(2, result.Length);
             Assert.AreEqual(2, result[1]);         
@@ -128,7 +134,7 @@ namespace LogicTests1.StudyOverviewTests
         [TestMethod]
         public void TestOverviewCountAmountOfStages()
         {
-         
+
             Assert.AreEqual(2, testController.GetStages(_testStudy).Length);
         }
 
@@ -137,7 +143,7 @@ namespace LogicTests1.StudyOverviewTests
         {
 
             
-          
+
             foreach(var stage in _testStudy.Stages)
             {
                 if (stage.Name.Equals("stage1"))
@@ -155,7 +161,7 @@ namespace LogicTests1.StudyOverviewTests
         [TestMethod]
         public void TestOverviewIncompleteTasks()
         {
-         
+
             foreach(var stage in _testStudy.Stages)
             {
                 if (stage.Name.Equals("stage1"))
@@ -171,7 +177,7 @@ namespace LogicTests1.StudyOverviewTests
 
         [TestMethod]
         public void TestOverviewCurrentStage()
-        {    
+        {
             Assert.AreEqual(1, testController.GetCurrentStage(_testStudy).Id);
         }
 

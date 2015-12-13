@@ -15,9 +15,9 @@ namespace LogicTests1.StudyConfiguration.TaskManagement.TaskDistributor
         [TestInitialize]
         public void Initialize()
         {
-            var user1 = new User() {Id = 1 };
-            var user2 = new User() { Id = 2 };
-            var user3 = new User() { Id = 2 };
+            var user1 = new User() {ID = 1 };
+            var user2 = new User() { ID = 2 };
+            var user3 = new User() { ID = 2 };
 
             users = new List<User>() {user1,user2,user3};
 
@@ -66,9 +66,9 @@ namespace LogicTests1.StudyConfiguration.TaskManagement.TaskDistributor
 
                 foreach (var dataField in task.DataFields)
                 {
-                    Assert.AreEqual(users[0].Id, dataField.UserData[0].UserID);
-                    Assert.AreEqual(users[1].Id, dataField.UserData[1].UserID);
-                    Assert.AreEqual(users[2].Id, dataField.UserData[2].UserID);
+                    Assert.AreEqual(users[0].ID, dataField.UserData[0].UserID);
+                    Assert.AreEqual(users[1].ID, dataField.UserData[1].UserID);
+                    Assert.AreEqual(users[2].ID, dataField.UserData[2].UserID);
                 }
                 Assert.AreEqual(users[0], task.Users[0]);
                 Assert.AreEqual(users[1], task.Users[1]);

@@ -24,8 +24,8 @@ namespace LogicTests1.Model
         public void Initialize()
         {
             testStage = new Stage() {Tasks = new List<StudyTask>()};
-            var user1 = new User() {Id = 1, Name = "user1"};
-            var user2 = new User() {Id = 2, Name = "user2"};
+            var user1 = new User() {ID = 1, Name = "user1"};
+            var user2 = new User() {ID = 2, Name = "user2"};
             var userData1 = new UserData() { Data = new List<StoredString>() { new StoredString() { Value = "done" }}, UserID = 1 };
             var userData2 = new UserData() { Data = new List<StoredString>() { new StoredString()} , UserID = 2};
             var completeDataField = new DataField() {Name = "testField", UserData = new List<UserData>() {userData1}};

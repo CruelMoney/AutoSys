@@ -107,7 +107,7 @@ namespace LogicTests1.IntegrationTests
             var newStorageManager = new StudyStorageManager();
 
             var actualStudy = newStorageManager.GetAllStudies()
-                .Where(s=>s.Id==studyID)
+                .Where(s=>s.ID==studyID)
                 .Include(s=>s.Stages.Select(t=>t.Tasks))
                 .FirstOrDefault();
 

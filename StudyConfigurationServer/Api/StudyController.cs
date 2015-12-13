@@ -25,8 +25,21 @@ namespace StudyConfigurationServer.Api
         [Route("{id}/Overview")]
         public IHttpActionResult GetOverview(int id)
         {
-          // GET: api/Study/5/Overview
-           return Ok(controller.GetOverview(id));
+            // GET: api/Study/5/Overview
+            try
+            {
+                return Ok(controller.GetOverview(id));
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+                }
+                
+                throw;
+            }
+           
          
         }
         
@@ -73,9 +86,17 @@ namespace StudyConfigurationServer.Api
             {
                 return Ok(_studyManager.GetTasksIDs(id, userId, filter, type));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return NotFound();
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof(ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
             }
         }
 
@@ -89,7 +110,7 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetTask(int id, int taskId)
         {
             // GET: api/Study/4/StudyTask/5
-           return Ok(_studyManager.GetTask(id, taskId));
+           return Ok(_studyManager.GetTask(taskId));
 
         }
 
@@ -121,7 +142,7 @@ namespace StudyConfigurationServer.Api
             }
             catch (Exception e)
             {
-                if (e.GetType().Equals(typeof(TargetException)))
+                if (e.GetType() == typeof(TargetException))
                 {
                     return BadRequest();
                 }

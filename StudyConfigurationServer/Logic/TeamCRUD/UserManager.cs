@@ -75,7 +75,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                      where dbUser.Name.Equals(userName)
                      select new UserDTO()
                      {
-                         Id = dbUser.Id,
+                         Id = dbUser.ID,
                          Name = dbUser.Name,
                          Metadata = dbUser.Metadata
                      })
@@ -95,7 +95,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
                 return new UserDTO()
                 {
-                    Id = dbUser.Id,
+                    Id = dbUser.ID,
                     Name = dbUser.Name,
                     Metadata = dbUser.Metadata
                 };
@@ -117,7 +117,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                     (from User dbUser in _storageManager.GetAllUsers()
                      select new UserDTO()
                      {
-                         Id = dbUser.Id,
+                         Id = dbUser.ID,
                          Name = dbUser.Name,
                          Metadata = dbUser.Metadata
                      }).ToList();

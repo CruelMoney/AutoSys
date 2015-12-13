@@ -33,9 +33,9 @@ namespace StudyConfigurationServer.Models.DTO
 
         public TeamDTO(Team team)
         {
-            Id = team.Id;
+            Id = team.ID;
             Name = team.Name;
-            UserIDs = team.Users.Select(u => u.Id).ToArray();
+            UserIDs = team.Users.Select(u => u.ID).ToArray();
             Metadata = team.Metadata;
         }
         public TeamDTO()

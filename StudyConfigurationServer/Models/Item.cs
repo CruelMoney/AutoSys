@@ -48,7 +48,7 @@ namespace StudyConfigurationServer.Models
             fields.Values.ForEach(s => fieldValues.Add(new StoredString() {Value = s}));
         }
 
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         public ICollection<StudyTask> Tasks { get; set; }
 

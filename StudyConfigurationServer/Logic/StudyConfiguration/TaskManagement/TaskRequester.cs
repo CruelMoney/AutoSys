@@ -31,14 +31,14 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                 case TaskRequestDTO.Type.Conflict:
                     return (from task in GetTasksFiltered(taskIDs, userID, filter)
                         where task.TaskType == StudyTask.Type.Conflict
-                        select task.Id);
+                        select task.ID);
                 case TaskRequestDTO.Type.Review:
                     return (from task in GetTasksFiltered(taskIDs, userID, filter)
                         where task.TaskType == StudyTask.Type.Review
-                        select task.Id);
+                        select task.ID);
                 case TaskRequestDTO.Type.Both:
                     return (from task in GetTasksFiltered(taskIDs, userID, filter)
-                        select task.Id);
+                        select task.ID);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(filter), filter, null);
             }
@@ -83,11 +83,11 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         private IEnumerable<StudyTask> GetFinishedTasks(List<int> taskIDs, int userID)
         {
             var tasks = _storageManager.GetAllTasks()
-              .Where(t => taskIDs.Contains(t.Id))
+              .Where(t => taskIDs.Contains(t.ID))
               .Include(t => t.Users).AsEnumerable();
 
             tasks = tasks
-                .Where(t => t.Users.Select(u => u.Id).Contains(userID))
+                .Where(t => t.Users.Select(u => u.ID).Contains(userID))
                 .Where(t => !t.IsEditable);
             return tasks;
 
@@ -96,11 +96,11 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         private IEnumerable<StudyTask> GetRemainingTasks(List<int> taskIDs, int userID)
         {
             var tasks = _storageManager.GetAllTasks()
-                .Where(t => taskIDs.Contains(t.Id))
+                .Where(t => taskIDs.Contains(t.ID))
                 .Include(t => t.Users).AsEnumerable();
 
             tasks = tasks
-                .Where(t=>t.Users.Select(u=>u.Id).Contains(userID))
+                .Where(t=>t.Users.Select(u=>u.ID).Contains(userID))
                 .Where(t => !t.IsFinished(userID));
             return tasks;
         }
@@ -108,11 +108,11 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         private IEnumerable<StudyTask> GetEditableTasks(List<int> taskIDs, int userID)
         {
             var tasks = _storageManager.GetAllTasks()
-              .Where(t => taskIDs.Contains(t.Id))
+              .Where(t => taskIDs.Contains(t.ID))
               .Include(t => t.Users).AsEnumerable();
 
             tasks = tasks
-                .Where(t => t.Users.Select(u => u.Id).Contains(userID))
+                .Where(t => t.Users.Select(u => u.ID).Contains(userID))
                 .Where(t => t.IsEditable);
             return tasks;
         }

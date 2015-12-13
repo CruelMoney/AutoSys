@@ -16,7 +16,7 @@ namespace StudyConfigurationServer.Models
             Exists
         }
 
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// A name for the criteria.

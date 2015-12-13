@@ -35,7 +35,7 @@ namespace LogicTests1.IntegrationTests
 
         private void setupMultipleDB()
         {
-            Database.SetInitializer(new StudyDBInitializer());
+            Database.SetInitializer(new EmptyDBInitializer());
 
             var context = new StudyContext();
             context.Database.Initialize(true);
@@ -51,8 +51,8 @@ namespace LogicTests1.IntegrationTests
             _storageManager = new TaskStorageManager(_repo);
             _manager = new TaskManager(_repo);
             var testItem = new Item(Item.ItemType.Book, new Dictionary<FieldType, string>());
-            var testUser1 = new User() { Id = 1, Name = "chris" };
-            var testUser2 = new User() { Id = 2, Name = "ramos" };
+            var testUser1 = new User() { ID = 1, Name = "chris" };
+            var testUser2 = new User() { ID = 2, Name = "ramos" };
             var userData1 = new UserData() { UserID = 1, Data = new List<StoredString>() { new StoredString() { Value ="initialData" }}};
             var userData2 = new UserData() { UserID = 2, Data = new List<StoredString>() { new StoredString() { Value = "" } }};
             var userData3 = new UserData() { UserID = 2, Data = new List<StoredString>() };

@@ -55,7 +55,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// For <see cref="DataField.DataType.Enumeration"/> and <see cref="DataField.DataType.Flags"/> data types, a collection of the predefined values.
         /// </summary>
-        public string[] TypeInfo { get; set; }
+        public ICollection<StoredString> TypeInfo { get; set; }
 
         /// <summary>
         /// The list of data entered by users. 
@@ -68,7 +68,7 @@ namespace StudyConfigurationServer.Models
         /// </summary>
         public virtual List<UserData> ConflictingData { get; set; } 
 
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         public DataField SubmitData(int userId, string[] data)
         {
@@ -117,7 +117,11 @@ namespace StudyConfigurationServer.Models
 
         public bool UserDataIsConflicting()
         {
-           return UserData.Any(d => !d.DataEquals(UserData.First()));
+            var data = UserData.Select(d => d.Data.Select(s => s.Value).ToList()).ToList();
+
+           return data.Any(d => !d.SequenceEqual(data.First()));
+            
+
         }
     }
 }
