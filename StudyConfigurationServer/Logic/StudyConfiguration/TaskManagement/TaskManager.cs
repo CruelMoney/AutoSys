@@ -135,7 +135,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             var tasks = _taskRequester.GetTasks(taskIDs, userID, count, filter, type);
 
             return from StudyTask task in tasks
-                select new TaskRequestDTO(task, userID, visibleFields);
+                select new TaskRequestDTO(task, visibleFields, userID);
         }
 
         /// <summary>
@@ -197,14 +197,14 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             return _storageManager.GetTask(taskID).IsFinished();
         }
      
-        public TaskRequestDTO GetTaskDTO(int userID, int taskId)
+        public TaskRequestDTO GetTaskDTO(int taskId)
         {
             var task = _storageManager.GetAllTasks()
                 .Where(t=>t.ID==taskId)
                 .Include(t=>t.Stage)
                 .FirstOrDefault();
 
-            return new TaskRequestDTO(task, userID, task.Stage.VisibleFields);
+            return new TaskRequestDTO(task, task.Stage.VisibleFields);
         }
     }
 }
