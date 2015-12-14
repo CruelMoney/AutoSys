@@ -59,14 +59,14 @@ namespace LogicTests1.StudyOverviewTests
             var userstudy1 = new UserStudies { User = user1 };
             var userstudy2 = new UserStudies { User = user2 };
 
-            var stage1 = new Stage() { Name = "stage1", ID = 1, Users = new List<UserStudies> {userstudy1, userstudy2}, Tasks = new List<StudyTask>() { task1, task2 } };
-            var stage2 = new Stage() { Name = "stage2", ID = 2, Users = new List<UserStudies> {userstudy1, userstudy2}, Tasks = new List<StudyTask>() { task1, task2 } };
+            var stage1 = new Stage() { Name = "stage1", IsCurrentStage = true, ID = 1, Users = new List<UserStudies> {userstudy1, userstudy2}, Tasks = new List<StudyTask>() { task1, task2 } };
+            var stage2 = new Stage() { Name = "stage2", IsCurrentStage = false, ID = 2, Users = new List<UserStudies> {userstudy1, userstudy2}, Tasks = new List<StudyTask>() { task1, task2 } };
 
             id = 1;
             mockStudyRepo = new Mock<IGenericRepository>();
             
 
-            _testStudy = new Study() { ID = 1, CurrentStageID = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() {stage1, stage2 }, Team = team1};
+            _testStudy = new Study() { ID = 1, IsFinished = false, Items = new List<Item>(), Stages = new List<Stage>() {stage1, stage2 }, Team = team1};
 
             _studies = new Dictionary<int, Study> { { 1, _testStudy } };
           

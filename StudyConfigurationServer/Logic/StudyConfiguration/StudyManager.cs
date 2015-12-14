@@ -31,7 +31,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             var repo = new EntityFrameworkGenericRepository<StudyContext>();
             _teamStorage = new TeamStorageManager(repo);
             _studyStorageManager = new StudyStorageManager(repo);
-            _taskManager = new TaskManager();
+            _taskManager = new TaskManager(repo);
         }
 
         public StudyManager(StudyStorageManager storageManager, TaskManager taskManager, TeamStorageManager teamStorage)
@@ -85,81 +85,98 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            _studyStorageManager.Update(study);
         }
 
         private void FinishReviewPhase(Study study)
         {
             var currentStage = study.CurrentStage();
-            var taskIDs = currentStage.Tasks.Select(t => t.ID).ToList();
-            var criteria = currentStage.Criteria;
             
-            //Generate the validation tasks and get id's on the items to be excluded
-            var excludedItemIDs = _taskManager.GetExcludedItems(
-                taskIDs, criteria).ToList();
-
-            //Remove the excluded items from the study
-            study.Items.RemoveAll(i => excludedItemIDs.Contains(i.ID));
-
-            //Generate the validation tasks
-            var validationTasks = StartValidationPhase(study).ToList();
+            //Start the validation phase and check if any tasks have been generated
+            var validationTasks = StartConflictPhase(study).ToList();
 
             if (!validationTasks.Any())
             {
-                //Start the next review phase if no validation tasks
-                StartReviewPhase(study);
+                //Finish the phase if no validation tasks
+                FinishConflictPhase(study);
             }
-            else
-            {
-                StartValidationPhase(study);
-            }
-
-            _studyStorageManager.Update(study);
+            
         }
 
         private void FinishConflictPhase(Study study)
         {
             var currentStage = study.CurrentStage();
-            var taskIDs = currentStage.Tasks.Select(t => t.ID).ToList();
+            var tasks = currentStage.Tasks;
             var criteria = currentStage.Criteria;
 
-            var excludedItems = _taskManager.GetExcludedItems(taskIDs, criteria);
+            //If there's any validation tasks we validate them
+            if (tasks.Any())
+            {
+                var excludedItems = _taskManager.GetExcludedItems(tasks, criteria);
 
-            //Remove the excluded items from the study, and move to next stage
-            study.Items.RemoveAll(i => excludedItems.Contains(i.ID));
+                //Remove the excluded items from the study
+                study.Items.RemoveAll(i => excludedItems.Contains(i));
+            }
 
-            StartReviewPhase(study);
-
-            _studyStorageManager.Update(study);
+            //move to the next stage
+            study.MoveToNextStage();
+            if (!study.IsFinished)
+            {
+                StartReviewPhase(study);
+            }
         }
 
         private IEnumerable<StudyTask> StartReviewPhase(Study study)
         {
+            //Find the current stage
             var stage = study.CurrentStage();
-            var reviewers =
-                stage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User).ToList();
-           var reviewTasks =
-                _taskManager.GenerateReviewTasks(study.Items, reviewers, stage.Criteria,
-                    stage.DistributionRule).ToList();
-            stage.Tasks = reviewTasks;
             stage.CurrentTaskType = StudyTask.Type.Review;
+
+            //Find the reviewers
+            var reviewers =stage.Users.Where(u => u.StudyRole == UserStudies.Role.Reviewer).Select(u => u.User);
+
+            //Generate the tasks
+            var reviewTasks =_taskManager.GenerateReviewTasks(study.Items, stage.Criteria).ToList();
             
-            return reviewTasks;
+            //Autoexlcuded items that have been filled out  
+            var excludedItems = _taskManager.GetExcludedItems(reviewTasks, stage.Criteria).ToList();
+
+            //Remove the excluded items from the study, and move to next stage
+            study.Items.RemoveAll(i => excludedItems.Contains(i));
+
+            //Distribute the tasks
+            var tasks = _taskManager.Distribute(reviewers, stage.DistributionRule,
+                _taskManager.GenerateReviewTasks(study.Items, stage.Criteria)).ToList();
+
+            //Set the tasks in the stage to the reviewTasks
+            stage.Tasks = tasks.ToList();
+
+            if (!tasks.Any())
+            {
+               FinishConflictPhase(study);
+            }
+            
+            return tasks;
         }
 
-        private IEnumerable<StudyTask> StartValidationPhase(Study study)
+        private IEnumerable<StudyTask> StartConflictPhase(Study study)
         {
             var stage = study.CurrentStage();
 
-            var taskIDs = stage.Tasks.Where(t => t.ContainsConflictingData()).Select(t=>t.ID).ToList();
-            var criteria = stage.Criteria;
-            var validators = stage.Users.Where(u => u.StudyRole == UserStudies.Role.Validator).Select(u => u.User).ToList();
+            var tasks = stage.Tasks.Where(t => t.ContainsConflictingData());
+            var validators = stage.Users.Where(u => u.StudyRole == UserStudies.Role.Validator).Select(u => u.User);
 
             //Update stage to start the validations and generate the validation tasks
             stage.CurrentTaskType = StudyTask.Type.Conflict;
-            var validationTasks = _taskManager.GenerateValidationTasks(taskIDs, criteria, validators, stage.DistributionRule);
-            stage.Tasks.AddRange(validationTasks);
+            var validationTasks = _taskManager.GenerateValidationTasks(tasks);
+
+            //Always distribute validation tasks with no overlap
+            var distributedTasks = _taskManager.Distribute(validators, Stage.Distribution.NoOverlap, validationTasks);
+
+            stage.Tasks.AddRange(distributedTasks);
             
-            return validationTasks;
+            return distributedTasks;
         }
 
     
@@ -192,13 +209,13 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 if (firstStage)
                 {
                     stage.IsCurrentStage = true;
-                    StartReviewPhase(study);
                 }
 
                 firstStage = false;
 
             }
-            
+
+            StartReviewPhase(study);
 
             _studyStorageManager.Save(study);
 

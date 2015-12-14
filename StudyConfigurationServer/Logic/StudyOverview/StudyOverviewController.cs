@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
            
             foreach (var stage in study.Stages)
             {
-                if (stage.ID == study.CurrentStageID)
+                if (stage.IsCurrentStage)
                 {
                     currentStage = stage;
                     break;

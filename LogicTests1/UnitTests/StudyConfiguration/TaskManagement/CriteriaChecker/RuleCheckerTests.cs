@@ -403,6 +403,23 @@ namespace LogicTests1.UnitTests.StudyConfiguration.TaskManagement.CriteriaChecke
         }
 
         [TestMethod]
+        public void TestCriteraStringLargerThan()
+        {
+            //Arrange
+            testCriteria1.Rule = Criteria.CriteriaRule.LargerThan;
+            testCriteria1.DataType = DataField.DataType.String;
+
+
+            var actaulData = new string[1] { "2014" };
+
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "2013" } };
+
+            //Assert
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
+        }
+
+
+        [TestMethod]
         public void TestCriteriaCheckStringContainsTrueMoreWords()
         {
             //Arrange

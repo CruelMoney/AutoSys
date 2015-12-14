@@ -57,10 +57,16 @@ namespace StudyConfigurationServer.Models
             fieldValues = new List<StoredString>();
         }
 
-        public string FindFieldValue(FieldType field)
+        public string FindFieldValue(string fieldType)
         {
-            var fieldIndex = fieldKeys.ToList().FindIndex(t => t.Type.ToString().Equals(field.Type.ToString()));
-            return fieldValues.ToList()[fieldIndex].Value;
+            //Find the index of fieldType
+            var fieldIndex = fieldKeys.ToList().
+                FindIndex(t => t.Type.ToString().
+                Equals(fieldType));
+
+            //Return the matchin value
+            return fieldIndex != -1 ? 
+                fieldValues.ToList()[fieldIndex].Value : null;
         }
     }
 }

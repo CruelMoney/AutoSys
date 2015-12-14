@@ -14,7 +14,7 @@ namespace StudyConfigurationServer.Models
         /// The official Name of the study.
         /// </summary>
         public string Name { get; set; }
-        public int CurrentStageID { get; set; } 
+        
         /// <summary>
         /// The DB id for the current stage
         /// </summary>
@@ -32,10 +32,24 @@ namespace StudyConfigurationServer.Models
         /// <returns></returns>
         public void MoveToNextStage()
         {
-            var currentStage = Stages.ToList().First(s => s.IsCurrentStage);
-            currentStage.IsCurrentStage = false;
-            var currentIndex = Stages.ToList().FindIndex(s=>s.IsCurrentStage);
-            Stages.ToList()[currentIndex + 1].IsCurrentStage = true;
+            if (!Items.Any())
+            {
+                IsFinished = true;
+            }
+            else
+            {
+                var currentStage = Stages.ToList().First(s => s.IsCurrentStage);
+                var currentIndex = Stages.ToList().FindIndex(s => s.IsCurrentStage);
+                currentStage.IsCurrentStage = false;
+                if (currentIndex+1 == Stages.Count)
+                {
+                    IsFinished = true;
+                }
+                else
+                {
+                    Stages.ToList()[currentIndex + 1].IsCurrentStage = true;
+                }
+            }
         }
 
         public Stage CurrentStage()

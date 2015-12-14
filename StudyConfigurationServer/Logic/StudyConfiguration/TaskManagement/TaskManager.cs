@@ -64,43 +64,34 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         /// <param name="taskID"></param>
         /// <returns>itemIDs to be excluded from study</returns>
         /// TODO what happens if there are no validators for this stage
-        public IEnumerable<StudyTask> GenerateValidationTasks(ICollection<int> taskIDs, ICollection<Criteria> criteria, ICollection<User> users, Stage.Distribution distributionRule)
+        public IEnumerable<StudyTask> GenerateValidationTasks(IEnumerable<StudyTask> reviewTasks)
         {
-            var validationTasks = new List<StudyTask>();
-            
-            foreach (var task in taskIDs.Select(taskID => _storageManager.GetTask(taskID)))
+          foreach (var task in reviewTasks)
             {
-                task.IsEditable = false;
-                _storageManager.UpdateTask(task);
-
-                //If the task contains conflicting data we create the validate task and save it
+               //If the task contains conflicting data we create the validate task and save it
                 if (task.ContainsConflictingData())
                 {
-                   yield return _taskGenerator.GenerateValidateTasks(task);
+                    yield return _taskGenerator.GenerateValidateTasks(task);
                 }
             }
-
-            //Distribute the tasks and save them
-            _taskDistributor.Distribute(distributionRule, users, validationTasks);
-
         }
 
       
-        public IEnumerable<StudyTask> GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, List<Criteria> criteria, Stage.Distribution distribution)
+        public IEnumerable<StudyTask> GenerateReviewTasks(IEnumerable<Item> items, List<Criteria> criteria)
         {
-            var reviewTasks = new List<StudyTask>();
-
-            //Generate the tasks for the currentstage
+           //Generate the tasks for the currentstage
             foreach (var item in items)
             {
-                reviewTasks.Add(_taskGenerator.GenerateReviewTask(item, criteria));
+                yield return _taskGenerator.GenerateReviewTask(item, criteria);
             }
-            
-            //Distribute the tasks and save them
-            var tasks = _taskDistributor.Distribute(distribution, users, reviewTasks).ToList();
-              
-            return tasks;
         }
+
+        public IEnumerable<StudyTask> Distribute(IEnumerable<User> users, Stage.Distribution distributionRule, IEnumerable<StudyTask> tasks)
+        {
+            //Only distribute tasks that are editable
+           return _taskDistributor.Distribute(distributionRule, users, 
+               tasks.Where(t=>t.IsEditable));
+        } 
 
 
         /// <summary>
@@ -110,17 +101,16 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         /// <param name="taskID"></param>
         /// <returns>itemIDs to be excluded from study</returns>
         /// TODO what happens if there are no validators for this stage
-        public IEnumerable<int> GetExcludedItems(ICollection<int> taskIDs, ICollection<Criteria> criteria)
+        public IEnumerable<Item> GetExcludedItems(ICollection<StudyTask> tasks, ICollection<Criteria> criteria)
         {
-            foreach (var task in taskIDs.Select(taskID => _storageManager.GetTask(taskID)))
+            foreach (var task in tasks)
             {
-                //If the task contains conflicting data we create the validate task and save it
-                if (!task.ContainsConflictingData())
+                if (!task.ContainsConflictingData() && task.IsFinished())
                 {
                     //If the task does not meet the criteria we return the itemId to be excluded. 
                     if (!TaskMeetsCriteria(criteria, task))
                     {
-                        yield return task.Paper.ID;
+                        yield return task.Paper;
                     }
                 }
             }

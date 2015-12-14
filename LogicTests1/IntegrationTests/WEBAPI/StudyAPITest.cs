@@ -50,7 +50,7 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             var criteria1 = new CriteriaDTO()
             {
                 Name = "Year",
-                Rule = CriteriaDTO.CriteriaRule.BeforeDate,
+                Rule = CriteriaDTO.CriteriaRule.LargerThan,
                 DataMatch = new string[] { "2000" },
                 DataType = DataFieldDTO.DataType.String,
                 Description = "Write the year of the study",
@@ -225,7 +225,7 @@ namespace LogicTests1.IntegrationTests.WEBAPI
         {
             var expectedData = "updatedData";
 
-            //Arrange
+             //Arrange
              var taskSubmission = new TaskSubmissionDTO()
              {
                  UserId = 1,
