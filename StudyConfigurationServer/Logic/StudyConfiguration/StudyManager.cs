@@ -259,7 +259,8 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public bool RemoveStudy(int studyId)
         {
-            return _studyStorageManager.Remove(studyId);
+            
+            return _studyStorageManager.Remove (studyId);
         }
 
         public bool UpdateStudy(int studyId, StudyDTO studyDTO)
@@ -275,9 +276,13 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             updatedStudy.Items.AddRange(oldStudy.Items) ;
             updatedStudy.ID = oldStudy.ID;
                 List<Stage> tempList = new List<Stage>();
+            if (oldStudy.Stages.Count != updatedStudy.Stages.Count)
+            {
                 tempList.AddRange(oldStudy.Stages.ToList().GetRange(0, oldStudy.Stages.Count - 1));
                 tempList.AddRange(updatedStudy.Stages.ToList().GetRange(oldStudy.Stages.Count - 1, updatedStudy.Stages.Count - 1));
                 oldStudy.Stages = tempList;
+            }
+                
                 _studyStorageManager.Update(oldStudy);
                 return true;
             
