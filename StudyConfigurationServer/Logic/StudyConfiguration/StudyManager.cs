@@ -264,9 +264,8 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public bool UpdateStudy(int studyId, StudyDTO studyDTO)
         {
-            //try
-            //{
-                var oldStudy = _studyStorageManager.GetStudy(studyId);
+            
+                var oldStudy = _studyStorageManager.Get(studyId);
 
                 var updatedStudy = ConvertStudy(studyDTO);
 
@@ -275,13 +274,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 tempList.AddRange(oldStudy.Stages.ToList()
                     .GetRange(oldStudy.Stages.Count - 1, updatedStudy.Stages.Count - 1));
                 updatedStudy.Stages = tempList;
-                _studyStorageManager.UpdateStudy(updatedStudy);
+                _studyStorageManager.Update(updatedStudy);
                 return true;
-            //}
-            /*catch (Exception)
-            {
-                return false;
-            }*/
+            
             
 
         }
