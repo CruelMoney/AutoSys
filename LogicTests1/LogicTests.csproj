@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="IntegrationTests\WEBAPI\StudyAPITest.cs" />
     <Compile Include="IntegrationTests\WEBAPI\StudyConfigurationAPITest.cs" />
+    <Compile Include="IntegrationTests\WEBAPI\UserAPITests.cs" />
     <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\BibTexParserTest.cs" />
     <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\DefaultFieldCheckerTest.cs" />
     <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\DefaultItemCheckerTest.cs" />

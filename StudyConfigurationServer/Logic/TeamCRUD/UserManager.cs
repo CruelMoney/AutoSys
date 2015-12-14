@@ -4,6 +4,7 @@ using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.DTO;
 using System;
+using System.Data.Entity;
 
 namespace StudyConfigurationServer.Logic.TeamCRUD
 {
@@ -34,8 +35,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             try
             {
-                var user = _storageManager.GetUser(userId);
-                if (user.StudyIds != null)
+                var user = _storageManager.GetAllUsers()
+                    .Where(u => u.ID == userId)
+                    .Include(u => u.Studies)
+                    .FirstOrDefault();
+
+                if (user.Studies.Any())
                 {
                     throw new ArgumentException("User is part of one or more studies, and can therefore not be deleted");
                 }
@@ -132,8 +137,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             try
             {
-                var user = _storageManager.GetUser(userId);
-                return user.StudyIds.ToList();
+                var user = _storageManager.GetAllUsers()
+                    .Where(u => u.ID == userId)
+                    .Include(u => u.Studies)
+                    .FirstOrDefault();
+
+                return user.Studies.Select(s=>s.ID).ToList();
             }
             catch (NullReferenceException)
             {
