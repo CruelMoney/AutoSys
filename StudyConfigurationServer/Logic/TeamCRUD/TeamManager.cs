@@ -84,23 +84,20 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 
                 var teamToUpdate = _teamStorageManager.GetTeam(teamId);
+                if(teamToUpdate == null) { throw new NullReferenceException("Team Doesn't exist in database");}
                 if (newTeamDto.UserIDs.Length ==0) { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
-                foreach (var userId in newTeamDto.UserIDs)
+                if (!teamToUpdate.Users.Any()) { throw new ArgumentException("Team can't exist without users"); }
+                var teamToUpdateArray = teamToUpdate.Users.Select(u => u.ID).ToArray();
+                var newTeamArray = newTeamDto.UserIDs;
+                for (int i = 0; i < teamToUpdate.Users.Count; i++)
                 {
-                    if(teamToUpdate.Users.Any()) { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
-                    foreach (var user in teamToUpdate.Users)
+                    if (teamToUpdateArray[i] == newTeamArray[i])
                     {
-                        if (user.ID == userId)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            throw new ArgumentException("You can't add or delete users from a team, only change its name");
-                        }
+                        continue;
                     }
-                  
+                    else { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
                 }
+    
 
                 teamToUpdate.Users.Clear();
                 teamToUpdate.Name = newTeamDto.Name;
@@ -127,6 +124,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public IEnumerable<TeamDTO> SearchTeamDTOs(string TeamName)
         {
+            
             try
             {
               return

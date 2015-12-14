@@ -134,9 +134,19 @@ namespace StudyConfigurationServer.Api
             var deleted = _manager.RemoveUser(id);
                 return StatusCode(HttpStatusCode.NoContent);
             }
-            catch(Exception)
+            catch(Exception e)
             {
-                return BadRequest();
+                if (e.GetType() == typeof (NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof (ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
+
+
             }
         }
     }
