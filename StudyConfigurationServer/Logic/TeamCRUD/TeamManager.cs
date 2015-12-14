@@ -81,8 +81,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         public bool UpdateTeam(int teamId, TeamDTO newTeamDto)
         {
             try
-            {
-                
+            {               
                 var teamToUpdate = _teamStorageManager.GetTeam(teamId);
                 if(teamToUpdate == null) { throw new NullReferenceException("Team Doesn't exist in database");}
                 if (newTeamDto.UserIDs.Length ==0) { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }

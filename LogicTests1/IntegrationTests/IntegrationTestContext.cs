@@ -16,5 +16,4 @@ namespace StudyConfigurationServer.Models.Data
         public DbSet<DataField> DataFields { get; set; }
         public DbSet<UserData> EnteredData { get; set; }
     }
-
 }
