@@ -5,6 +5,7 @@ using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
+using System.Data.Entity;
 
 namespace StudyConfigurationServer.Logic.TeamCRUD
 {
@@ -59,8 +60,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             try
             {
-                var team = _teamStorageManager.GetTeam(teamID);
-                if (team.StudyIDs != null)
+                var team = _teamStorageManager.GetAllTeams()
+                    .Where(t => t.ID == teamID).
+                    Include(t => t.Studies)
+                    .FirstOrDefault();
+
+                if (team.Studies.Any())
                 {
                     throw new ArgumentException("Can't delete team because it is in a study");
                 }

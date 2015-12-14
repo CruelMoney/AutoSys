@@ -420,15 +420,15 @@ namespace LogicTests1.UnitTests.StudyConfiguration.TaskManagement.CriteriaChecke
         }
 
         [TestMethod]
-        public void TestCriteriaBeforeYear()
+        public void TestCriteriaBeforeDate()
         {
             //Arrange
-            testCriteria1.Rule = Criteria.CriteriaRule.BeforeYear;
+            testCriteria1.Rule = Criteria.CriteriaRule.BeforeDate;
             testCriteria1.DataType = DataField.DataType.String;
 
 
-            var actaulData = new string[1] { "1999" };
-            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "2000" } };
+            var actaulData = new string[1] { "1/12/1800" };
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "2/3/1999" } };
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));

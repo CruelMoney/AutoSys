@@ -37,10 +37,10 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 var user = _storageManager.GetAllUsers()
                     .Where(u => u.ID == userId)
-                    .Include(u => u.Studies)
+                    .Include(u => u.Teams.Select(t=>t.Studies))
                     .FirstOrDefault();
 
-                if (user.Studies.Any())
+                if (user.Teams.Any(t=>t.Studies.Any()))
                 {
                     throw new ArgumentException("User is part of one or more studies, and can therefore not be deleted");
                 }
@@ -139,10 +139,10 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 var user = _storageManager.GetAllUsers()
                     .Where(u => u.ID == userId)
-                    .Include(u => u.Studies)
+                    .Include(u => u.Teams.Select(t=>t.Studies))
                     .FirstOrDefault();
 
-                return user.Studies.Select(s=>s.ID).ToList();
+                return user.Teams.SelectMany(t=>t.Studies.Select(s=>s.ID)).ToList();
             }
             catch (NullReferenceException)
             {

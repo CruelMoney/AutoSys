@@ -24,8 +24,8 @@ namespace StudyConfigurationServer.Models.DTO
             Equals,
             LargerThan,
             SmallerThan,
-            BeforeYear,
-            AfterYear,
+            BeforeDate,
+            AfterDate,
             IsYear,
             Exists
         }
