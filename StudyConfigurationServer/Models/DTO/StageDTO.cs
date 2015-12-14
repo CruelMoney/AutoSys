@@ -12,7 +12,7 @@ namespace StudyConfigurationServer.Models.DTO
         public int Id { get; set; }
         //The criteria are defining what fields are going to be editable for this stage
         [Required]
-        public CriteriaDTO[] Criteria { get; set; }
+        public Criteria[] Criteria { get; set; }
         public int StudyID { get; set; }
         [Required]
         public int[] ReviewerIDs { get; set; }
@@ -40,7 +40,7 @@ namespace StudyConfigurationServer.Models.DTO
             Edition,
             Editor,
             HowPublished,
-            Instritution,
+            Institution,
             Journal,
             Key,
             Month,
