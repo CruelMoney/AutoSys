@@ -25,7 +25,7 @@ namespace StudyConfigurationServer.Models.DTO
 
         public UserDTO(User user)
         {
-            Id = user.Id;
+            Id = user.ID;
             Name = user.Name;
             Metadata = user.Metadata;
         }

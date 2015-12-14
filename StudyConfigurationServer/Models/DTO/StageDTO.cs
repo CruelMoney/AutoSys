@@ -11,11 +11,11 @@ namespace StudyConfigurationServer.Models.DTO
         public StageDTO(Stage stage)
         {
             Name = stage.Name;
-            Id = stage.Id;
+            Id = stage.ID;
             Criteria = new CriteriaDTO(stage.Criteria.ElementAt(0));
-            StudyID = stage.StudyID;
-            ReviewerIDs = (from u in stage.Users where u.StudyRole == UserStudies.Role.Reviewer select u.Id).ToArray();
-            ValidatorIDs = (from u in stage.Users where u.StudyRole == UserStudies.Role.Validator select u.Id).ToArray();
+            StudyID = stage.Study.ID;
+            ReviewerIDs = (from u in stage.Users where u.StudyRole == UserStudies.Role.Reviewer select u.ID).ToArray();
+            ValidatorIDs = (from u in stage.Users where u.StudyRole == UserStudies.Role.Validator select u.ID).ToArray();
             DistributionRule = (Distribution)Enum.Parse(typeof(Stage.Distribution), stage.DistributionRule.ToString());
             VisibleFields =  stage.VisibleFields.Select(vf => (FieldType) Enum.Parse(typeof (StudyConfigurationServer.Models.FieldType.TypEField), vf.Type.ToString())).ToArray();
             

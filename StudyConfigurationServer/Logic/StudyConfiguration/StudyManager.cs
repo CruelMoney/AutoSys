@@ -174,6 +174,15 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public int CreateStudy(StudyDTO studyDTO)
         {
+
+            var study = ConvertStudy(studyDTO);
+            _studyStorageManager.SaveStudy(study);
+
+            return study.ID;
+        }
+
+        public Study ConvertStudy(StudyDTO studyDTO)
+        {
             var study = new Study()
             {
                 IsFinished = false,
@@ -196,39 +205,39 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 {
                     Name = stageDto.Name,
                     CurrentTaskType = StudyTask.Type.Review,
-                    DistributionRule = (Stage.Distribution) Enum.Parse(typeof(Stage.Distribution), stageDto.DistributionRule.ToString()),
+                    DistributionRule = (Stage.Distribution)Enum.Parse(typeof(Stage.Distribution), stageDto.DistributionRule.ToString()),
                     VisibleFields = new List<FieldType>(),
                     Users = new List<UserStudies>(),
-                    Criteria = new List<Criteria>(),                   
+                    Criteria = new List<Criteria>(),
                 };
 
                 stageDto.VisibleFields.ForEach(
-                    f => stage.VisibleFields.Add(new FieldType (f.ToString())));
+                    f => stage.VisibleFields.Add(new FieldType(f.ToString())));
 
-                stageDto.ReviewerIDs.ForEach(u=>
+                stageDto.ReviewerIDs.ForEach(u =>
                     stage.Users.Add(new UserStudies()
                     {
                         StudyRole = UserStudies.Role.Reviewer,
                         User = _teamStorage.GetUser(u)
                     }));
-               
-                stageDto.ValidatorIDs.ForEach(u=>
+
+                stageDto.ValidatorIDs.ForEach(u =>
                     stage.Users.Add(new UserStudies()
                     {
                         StudyRole = UserStudies.Role.Validator,
                         User = _teamStorage.GetUser(u)
                     }));
-                
-                
-                  stage.Criteria.Add(new Criteria()
-                  {
+
+
+                stage.Criteria.Add(new Criteria()
+                {
                     Name = stageDto.Criteria.Name,
                     DataMatch = stageDto.Criteria.DataMatch,
-                    DataType = (DataField.DataType) Enum.Parse(typeof(DataField.DataType), stageDto.Criteria.DataType.ToString()),
+                    DataType = (DataField.DataType)Enum.Parse(typeof(DataField.DataType), stageDto.Criteria.DataType.ToString()),
                     Description = stageDto.Criteria.Description,
-                    Rule = (Criteria.CriteriaRule) Enum.Parse(typeof(Criteria.CriteriaRule), stageDto.Criteria.Rule.ToString()),
+                    Rule = (Criteria.CriteriaRule)Enum.Parse(typeof(Criteria.CriteriaRule), stageDto.Criteria.Rule.ToString()),
                     TypeInfo = stageDto.Criteria.TypeInfo
-                    });
+                });
 
 
                 study.Stages.Add(stage);
@@ -240,12 +249,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 }
 
                 firstStage = false;
-                
+
             }
-
-            _studyStorageManager.SaveStudy(study);
-
-            return study.ID;
+            return study;
         }
 
         public bool RemoveStudy(int studyId)
@@ -253,10 +259,13 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return _studyStorageManager.RemoveStudy(studyId);
         }
 
-        public bool UpdateStudy(int studyId, StudyDTO study)
+        /*public bool UpdateStudy(int studyId, StudyDTO study)
         {
-            throw new NotImplementedException();
-        }
+            var savedStudy = _studyStorageManager.GetStudy(studyId);
+            var updatedStudy = ConvertStudy(study);
+
+
+        }*/
 
         public IEnumerable<Study> SearchStudies(string studyName)
         {
