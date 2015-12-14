@@ -38,9 +38,6 @@ namespace StudyConfigurationServer
             studyManager.CreateStudy(CreaStudyDto());
             
 
-      
-
-
         }
 
         internal class MultipleTeamsDB : DropCreateDatabaseAlways<StudyContext>
