@@ -423,7 +423,7 @@ namespace LogicTests1.UnitTests.StudyConfiguration.TaskManagement.CriteriaChecke
         public void TestCriteriaBeforeYear()
         {
             //Arrange
-            testCriteria1.Rule = Criteria.CriteriaRule.BeforeYear;
+            testCriteria1.Rule = Criteria.CriteriaRule.BeforeDate;
             testCriteria1.DataType = DataField.DataType.String;
 
 

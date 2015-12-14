@@ -268,11 +268,11 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 var oldStudy = _studyStorageManager.Get(studyId);
 
                 var updatedStudy = ConvertStudy(studyDTO);
+                updatedStudy.Items = oldStudy.Items;
 
                 List<Stage> tempList = new List<Stage>();
                 tempList.AddRange(oldStudy.Stages.ToList().GetRange(0, oldStudy.Stages.Count - 1));
-                tempList.AddRange(oldStudy.Stages.ToList()
-                    .GetRange(oldStudy.Stages.Count - 1, updatedStudy.Stages.Count - 1));
+                tempList.AddRange(oldStudy.Stages.ToList().GetRange(oldStudy.Stages.Count - 1, updatedStudy.Stages.Count - 1));
                 updatedStudy.Stages = tempList;
                 _studyStorageManager.Update(updatedStudy);
                 return true;
