@@ -122,6 +122,10 @@ namespace StudyConfigurationUI
                 bibtexOutput.Text = "Items have already been selected";
                 bibtexInputButton.IsEnabled = false;
             }
+            if (!_logic._IsNewStudy)
+            {
+                deletePhasebutton.IsEnabled = false;
+            }
         }
 
         private void SetUpCombobox(StageDTO[] stages)
@@ -139,6 +143,12 @@ namespace StudyConfigurationUI
 
         private async void SaveAndClose(object sender, RoutedEventArgs e)
         {
+            if (_logic._StudyToWorkOn.Items == null)
+            {
+                var dialog = new MessageDialog("Remember to add items") { Title = "Error" };
+                await dialog.ShowAsync();
+                return;
+            }
             _logic._StudyToWorkOn.Name = nameInput.Text;
             if (_logic._IsNewStudy)
             {
@@ -146,10 +156,10 @@ namespace StudyConfigurationUI
             }
             else
             {
-                await Service.UpdateStudy(_logic._StudyToWorkOn);
+                await Service.UpdateStudy(_logic._StudyToWorkOn.Id,_logic._StudyToWorkOn);
             }
-            
-            
+
+            this.Frame.Navigate(_logic._Origin.SourcePageType);
         }
 
         private async void DeleteAndReturn(object sender, RoutedEventArgs e)
