@@ -13,8 +13,8 @@ namespace StudyConfigurationServer.Models.DTO
             Name = criteria.Name;
             DataType = (DataFieldDTO.DataType)Enum.Parse(typeof(DataField.DataType), criteria.DataType.ToString());
             Description = criteria.Description;
-            TypeInfo = criteria.TypeInfo.Select(s => s.Value).ToArray();
-            DataMatch = criteria.DataMatch.Select(s => s.Value).ToArray();
+            if (criteria.TypeInfo != null){TypeInfo = criteria.TypeInfo.Select(s => s.Value).ToArray();}
+            if (criteria.DataMatch != null){DataMatch = criteria.DataMatch.Select(s => s.Value).ToArray();}
             Rule = (CriteriaRule)Enum.Parse(typeof(Criteria.CriteriaRule), criteria.Rule.ToString()); ;
 
         }

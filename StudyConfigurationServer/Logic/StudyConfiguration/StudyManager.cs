@@ -162,9 +162,11 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return validationTasks;
         }
 
+    
 
         public int CreateStudy(StudyDTO studyDTO)
         {
+
             var study = new Study()
             {
                 IsFinished = false,
@@ -194,8 +196,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 }
 
                 firstStage = false;
-                
+
             }
+            
 
             _studyStorageManager.Save(study);
 
@@ -255,9 +258,26 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return _studyStorageManager.Remove(studyId);
         }
 
-        public bool UpdateStudy(int studyId, StudyDTO study)
+        public bool UpdateStudy(int studyId, StudyDTO studyDTO)
         {
             throw new NotImplementedException();
+        
+            /*
+            
+                var oldStudy = _studyStorageManager.Get(studyId);
+
+                var updatedStudy = ConvertStudy(studyDTO);
+
+                List<Stage> tempList = new List<Stage>();
+                tempList.AddRange(oldStudy.Stages.ToList().GetRange(0, oldStudy.Stages.Count - 1));
+                tempList.AddRange(oldStudy.Stages.ToList()
+                    .GetRange(oldStudy.Stages.Count - 1, updatedStudy.Stages.Count - 1));
+                updatedStudy.Stages = tempList;
+                _studyStorageManager.Update(updatedStudy);
+                return true;
+            
+            
+            */
         }
 
         public IEnumerable<Study> SearchStudies(string studyName)
