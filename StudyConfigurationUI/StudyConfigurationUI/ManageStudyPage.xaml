@@ -35,8 +35,8 @@
                 <Button x:Name="newPhasebutton" Click="onNewPhase" Content="New" Margin="5,0,0,0"/>
             </StackPanel>
             <StackPanel x:Name="lastButtonsPanel" Orientation="Horizontal" Margin="0,20,0,20">
-                <Button x:Name="saveAndCloseButton" Content="Save and Close"/>
-                <Button x:Name="deleteStudybutton" Content="Delete study" Margin="65,0,0,0"/>
+                <Button x:Name="saveAndCloseButton" Click="SaveAndClose" Content="Save and Close"/>
+                <Button x:Name="deleteStudybutton" Click="DeleteAndReturn" Content="Delete study" Margin="65,0,0,0"/>
             </StackPanel>
         </StackPanel>
     </Grid>

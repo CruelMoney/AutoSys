@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Reflection;
 using System.Web.Http;
 using StudyConfigurationServer.Api.Interfaces;
 using StudyConfigurationServer.Logic.StudyConfiguration;
@@ -24,8 +25,21 @@ namespace StudyConfigurationServer.Api
         [Route("{id}/Overview")]
         public IHttpActionResult GetOverview(int id)
         {
-          // GET: api/Study/5/Overview
-           return Ok(controller.GetOverview(id));
+            // GET: api/Study/5/Overview
+            try
+            {
+                return Ok(controller.GetOverview(id));
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+                }
+                
+                throw;
+            }
+           
          
         }
         
@@ -39,11 +53,28 @@ namespace StudyConfigurationServer.Api
         /// <param name="count">The amount of tasks to retrieve.</param>
         /// <param name="filter">Defines whether to get remaining tasks, delivered (but still editable) tasks, or completed tasks.</param>
         /// <param name="type">The type of tasks to retrieve.</param>
-        [Route("{id}/StudyTask")]
+        [Route("{id}/Task")]
         public IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
-            return Ok(_studyManager.getTasks(id, userId, count, filter, type));
+
+            try
+            {
+                return Ok(_studyManager.GetTasks(id, userId, count, filter, type));
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof(ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
+            }
+
 
         }
 
@@ -59,22 +90,52 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetTaskIDs(int id, int userId, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Editable, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
             // GET: api/Study/4/TaskIDs?userId=5&filter=Editable
-            throw new NotImplementedException();
+            try
+            {
+                return Ok(_studyManager.GetTasksIDs(id, userId, filter, type));
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof(ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
+            }
         }
 
         /// <summary>
-        /// Get a requested StudyTask with a specific ID.
+        /// Get a requested StudyTask with a specific ID. This method will not return the data entered by users because the user is not specified. 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The id of the study</param>
         /// <param name="taskId"></param>
         /// <returns></returns>
-        [Route("{id}/StudyTask/{taskId}")]
+        [Route("{id}/Task/{taskId}")]
         public IHttpActionResult GetTask(int id, int taskId)
         {
             // GET: api/Study/4/StudyTask/5
-            throw new NotImplementedException();
-            
-            
+           
+            try
+            {
+                return Ok(_studyManager.GetTask(taskId));
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+    }
+                if (e.GetType() == typeof(ArgumentException))
+                {
+                    return BadRequest();
+}
+                throw;
+            }
+
         }
 
         /// <summary>
@@ -86,25 +147,30 @@ namespace StudyConfigurationServer.Api
         /// <param name="id">The ID of the study the StudyTask is part of.</param>
         /// <param name="taskId">The ID of the StudyTask.</param>
         /// <param name="task">The completed StudyTask.</param>
+        [Route("{id}/Task/{taskId}")]
         public IHttpActionResult Post(int id, int taskId, [FromBody]TaskSubmissionDTO task)
         {
             // POST: api/Study/4/StudyTask/5
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            /*if (id != teamDto.Id)
+            try
             {
-                return BadRequest();
-            }*/
-
-            var updated = _studyManager.DeliverTask(id, taskId, task);
-
-            if (!updated)
+                 _studyManager.DeliverTask(id, taskId, task);
+            }
+            catch (Exception e)
             {
-                return NotFound();
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof(ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -118,7 +184,7 @@ namespace StudyConfigurationServer.Api
         /// </summary>
         /// <param name="id">The ID of the study this resource is part of.</param>
         /// <param name="resourceId">The ID of the requested resource.</param>
-        [Route("{id}/ResourceDTO/{resourceId}")]
+        [Route("{id}/Resource/{resourceId}")]
         public IHttpActionResult GetResource(int id, int resourceId)
         {
             // GET: api/Study/4/ResourceDTO/5

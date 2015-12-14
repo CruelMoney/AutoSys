@@ -13,7 +13,7 @@ namespace StudyConfigurationServer.Api
     /// Controller to access and modify users.
     /// </summary>
     //TODO should not be public, how to test? whaat?
-    [RoutePrefix("api/UserDTO")]
+    [RoutePrefix("api/User")]
     public class UserController : ApiController, IUserController
     {
         private readonly UserManager _manager = new UserManager();
@@ -66,7 +66,15 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult GetStudyIDs(int id)
         {
             // GET: api/UserDTO/5/StudyIDs
-            throw new NotImplementedException();
+            try
+            {
+                
+                return Ok(_manager.GetStudyIds(id));
+            }
+            catch(NullReferenceException)
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -126,9 +134,19 @@ namespace StudyConfigurationServer.Api
             var deleted = _manager.RemoveUser(id);
                 return StatusCode(HttpStatusCode.NoContent);
             }
-            catch(Exception)
+            catch(Exception e)
             {
-                return BadRequest();
+                if (e.GetType() == typeof (NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof (ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
+
+
             }
         }
     }

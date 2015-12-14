@@ -130,7 +130,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
     /// <param name="year1"></param>
     /// <param name="year2"></param>
     /// <returns></returns>
-    public class BeforeYearRule : IRuleChecker
+    public class BeforeDateRule : IRuleChecker
     {
         public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
@@ -140,9 +140,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
             }
             try
             {
-                var checkYear = Convert.ToDateTime(data.First());
-                var inputYear = Convert.ToDateTime(criteriaData.First());
-                return inputYear.Year > checkYear.Year;
+                var checkDate = Convert.ToDateTime(criteriaData.First());
+                var inputDate = Convert.ToDateTime(data.First());
+                return inputDate < checkDate;
             }
             catch (Exception)
             {
@@ -158,7 +158,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
     /// <param name="year1"></param>
     /// <param name="year2"></param>
     /// <returns></returns>
-    public class AfterYearRule : IRuleChecker
+    public class AfterDateRule : IRuleChecker
     {
         public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
@@ -168,9 +168,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
             }
             try
             {
-                var checkYear = Convert.ToDateTime(data.First());
-                var inputYear = Convert.ToDateTime(criteriaData.First());
-                return inputYear.Year < checkYear.Year;
+                var inputYear = Convert.ToDateTime(data.First());
+                var checkYear = Convert.ToDateTime(criteriaData.First());
+                return inputYear > checkYear;
             }
             catch (Exception)
             {

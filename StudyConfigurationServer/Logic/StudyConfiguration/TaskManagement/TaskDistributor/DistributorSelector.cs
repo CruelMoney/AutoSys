@@ -16,7 +16,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskD
         {
             _distributors = distributors ?? new Dictionary<Stage.Distribution, IDistributor>()
             {
-                {Stage.Distribution.FiftyPercentOverlap, new EqualDistributor() }
+                {Stage.Distribution.HundredPercentOverlap, new EqualDistributor() }
             };
         }
 

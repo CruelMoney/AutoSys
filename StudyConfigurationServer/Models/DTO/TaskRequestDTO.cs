@@ -41,7 +41,7 @@ namespace StudyConfigurationServer.Models.DTO
 
         public TaskRequestDTO() { }
 
-        public TaskRequestDTO(StudyTask task, int userId, ICollection<Item.FieldType> visibleFieldTypes) 
+        public TaskRequestDTO(StudyTask task, ICollection<FieldType> visibleFieldTypes, int? userId = null) 
         {
             var editableFields = new List<DataFieldDTO>();
 
@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Models.DTO
 
             IsDeliverable = task.IsEditable;
             TaskType = (TaskRequestDTO.Type)Enum.Parse(typeof(TaskRequestDTO.Type), task.TaskType.ToString());
-            Id = task.Id;
+            Id = task.ID;
             RequestedFieldsDto = editableFields.ToArray();
             VisibleFieldsDto = visibleFields.ToArray();
 
@@ -72,13 +72,13 @@ namespace StudyConfigurationServer.Models.DTO
                 for (int d = 0; d < task.DataFields.Count; d++)
                 {
                     //Create new conflicting data
-                    conflictinData[d] = new ConflictingDataDTO[task.UserIDs.Count];
+                    conflictinData[d] = new ConflictingDataDTO[task.Users.Count];
 
                     //Add each users data and id to the conflicting data
-                    for (int u = 0; u < task.UserIDs.Count; u++)
+                    for (int u = 0; u < task.Users.Count; u++)
                     {
                         var userData = task.DataFields[d].ConflictingData[u];
-                        conflictinData[d][u] = new ConflictingDataDTO() { Data = userData.Data, UserId = userData.UserID };
+                        conflictinData[d][u] = new ConflictingDataDTO() { Data = userData.Data.Select(s=>s.Value).ToArray(), UserId = userData.UserID };
                     }
                 }
 

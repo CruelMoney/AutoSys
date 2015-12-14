@@ -15,7 +15,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         {
             _taskRepo = new EntityFrameworkGenericRepository<StudyContext>();
         }
-
+        
         public TaskStorageManager(IGenericRepository repo)
         {
             _taskRepo = repo;
@@ -36,7 +36,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return _taskRepo.Update(studyTask);
         }
 
-        public IQueryable<StudyTask> GetAllTasks() 
+        public IQueryable<StudyTask> GetAllTasks()
         {
             return _taskRepo.Read<StudyTask>();
         }

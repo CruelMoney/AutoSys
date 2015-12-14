@@ -99,31 +99,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data\Criteria.cs" />
-    <Compile Include="Data\CriteriaValidator\CriteriaCheckers.cs" />
-    <Compile Include="Data\CriteriaValidator\CriteriaValidator.cs" />
-    <Compile Include="Data\CriteriaValidator\ICriteriaChecker.cs" />
-    <Compile Include="Data\CriteriaValidator\ICriteriaValidator.cs" />
-    <Compile Include="Data\CriteriaValidator\IRuleChecker.cs" />
-    <Compile Include="Data\CriteriaValidator\RuleCheckers.cs" />
-    <Compile Include="Data\DataField.cs" />
+    <Compile Include="Data\CriteriaDTO.cs" />
+    <Compile Include="Data\DataFieldDTO.cs" />
     <Compile Include="Data\IEntity.cs" />
-    <Compile Include="Data\Item.cs" />
-    <Compile Include="Data\Stage.cs" />
-    <Compile Include="Data\Study.cs" />
-    <Compile Include="Data\StudyTask.cs" />
-    <Compile Include="Data\Team.cs" />
-    <Compile Include="Data\User.cs" />
-    <Compile Include="Data\UserData.cs" />
-    <Compile Include="Data\UserStudies.cs" />
-    <Compile Include="Logic\BibliographyParser\bibTex\BibTexParser.cs" />
-    <Compile Include="Logic\BibliographyParser\DefaultFieldChecker.cs" />
-    <Compile Include="Logic\BibliographyParser\DefaultItemChecker.cs" />
-    <Compile Include="Logic\BibliographyParser\FieldValidator.cs" />
-    <Compile Include="Logic\BibliographyParser\IBibliographyParser.cs" />
-    <Compile Include="Logic\BibliographyParser\IFieldChecker.cs" />
-    <Compile Include="Logic\BibliographyParser\IItemChecker.cs" />
-    <Compile Include="Logic\BibliographyParser\ItemValidator.cs" />
+    <Compile Include="Data\StageDTO.cs" />
+    <Compile Include="Data\StudyDTO.cs" />
+    <Compile Include="Data\TeamDTO.cs" />
+    <Compile Include="Data\UserDTO.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -145,7 +127,6 @@
     <None Include="StudyConfigurationUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Logic\BibliographyParser\ReadMe.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

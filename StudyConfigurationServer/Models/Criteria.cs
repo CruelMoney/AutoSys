@@ -1,22 +1,23 @@
-﻿using Storage.Repository;
+﻿using System.Collections.Generic;
+using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
 {
     public class Criteria : IEntity
-    {    
+    {
         public enum CriteriaRule
         {
             Contains,
             Equals,
             LargerThan,
             SmallerThan,
-            BeforeYear,
-            AfterYear,
+            BeforeDate,
+            AfterDate,
             IsYear,
             Exists
         }
 
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// A name for the criteria.
@@ -36,7 +37,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// For <see cref="DataField.DataType.Enumeration"/> and <see cref="DataField.DataType.Flags"/> data types, a collection of the predefined values.
         /// </summary>
-        public string[] TypeInfo { get; set; }
+        public virtual ICollection<StoredString> TypeInfo { get; set; }
 
         /// <summary>
         /// The data the rule is checked against. 
@@ -44,12 +45,12 @@ namespace StudyConfigurationServer.Models
         /// For all but <see cref="DataField.DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).
         /// For DataField it can contain several flags that is checked in regards to the rule. 
         /// </summary>
-        public string[] DataMatch { get; set; }
+        public virtual ICollection<StoredString> DataMatch { get; set; }
 
         /// <summary>
         /// A rule for when the criteria is met / true. 
         /// </summary>
         public CriteriaRule Rule { get; set; }
-        
+
     }
 }

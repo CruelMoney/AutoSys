@@ -15,19 +15,19 @@ using Windows.UI.Xaml.Navigation;
 using StudyConfigurationUI.Data;
 using System.Diagnostics;
 using System.Reflection;
+using Windows.System;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace StudyConfigurationUI
 {
 
     public sealed partial class ManagePhasePage : Page
     {
-        private Logic.Logic _viewModel;
-        private Stage _stageToWorkOn;
-        private List<User> _users;
-        private List<UserStudies> _reviewers;
-        private List<UserStudies> _validators;
+        private Logic.Logic _logic;
+        private StageDTO _stageToWorkOn;
+        private List<UserDTO> _users;
+        private List<UserDTO> _reviewers;
+        private List<UserDTO> _validators;
         public ManagePhasePage()
         {
             this.InitializeComponent();
@@ -35,21 +35,21 @@ namespace StudyConfigurationUI
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
-            _viewModel = new Logic.Logic();
-            var studyArgs = args.Parameter as Study;
+            _logic = new Logic.Logic();
+            var studyArgs = args.Parameter as Logic.Logic;
             if (studyArgs == null)
             {
-                throw new ArgumentException("this page needs to recieve a study as parameter", nameof(args));
+                throw new ArgumentException("this page needs to recieve a studyDTO as parameter", nameof(args));
             }
             
-            _viewModel._StudyToWorkOn = studyArgs;
-            SetUpFromStudy(_viewModel._StudyToWorkOn);
+            _logic= studyArgs;
+            SetUpFromStudy(_logic._StudyToWorkOn);
             SetUpCriteria();
         }
 
         private void SetUpCriteria()
         {
-            foreach (Enum en in Enum.GetValues(typeof(DataField.DataType)))
+            foreach (Enum en in Enum.GetValues(typeof(DataFieldDTO.DataType)))
             {
                 CriteriaDataType.Items.Add(en);
             }
@@ -58,17 +58,16 @@ namespace StudyConfigurationUI
 
         public void SaveCriteria()
         {
-            _stageToWorkOn.Criteria = new List<Criteria>();
-            var criteriaToAdd = new Criteria
+            
+            var criteriaToAdd = new CriteriaDTO
             {
                 Name = CriteriaName.Text,
                 Description = CriteriaDescription.Text,
-                Stage = _stageToWorkOn,
-                DataType = (DataField.DataType) CriteriaDataType.SelectionBoxItem,
-                Rule = (Criteria.CriteriaRule) CriteriaRule.SelectionBoxItem
+                DataType = (DataFieldDTO.DataType) CriteriaDataType.SelectionBoxItem,
+                Rule = (CriteriaDTO.CriteriaRule) CriteriaRule.SelectionBoxItem
             };
-            if (criteriaToAdd.DataType == DataField.DataType.Enumeration ||
-                criteriaToAdd.DataType == DataField.DataType.Flags)
+            if (criteriaToAdd.DataType == DataFieldDTO.DataType.Enumeration ||
+                criteriaToAdd.DataType == DataFieldDTO.DataType.Flags)
             {
                 criteriaToAdd.TypeInfo = dataMatchDescription.Text.Split(',');
             }
@@ -79,7 +78,7 @@ namespace StudyConfigurationUI
                     dataMatchDescription.Text
                 };
             }
-            _stageToWorkOn.Criteria.Add(criteriaToAdd);
+            _stageToWorkOn.Criteria = criteriaToAdd;
         }
 
         
@@ -87,30 +86,30 @@ namespace StudyConfigurationUI
         public void SelectionChanged(object sender, Object e)
         {
             CriteriaRule.Items.Clear();
-            var selected = CriteriaDataType.SelectionBoxItem as DataField.DataType?;
+            var selected = CriteriaDataType.SelectionBoxItem as DataFieldDTO.DataType?;
             
             switch (selected)
             {
-                case DataField.DataType.String:
-                    foreach (Enum en in Enum.GetValues(typeof(Criteria.CriteriaRule)))
+                case DataFieldDTO.DataType.String:
+                    foreach (Enum en in Enum.GetValues(typeof(CriteriaDTO.CriteriaRule)))
                     {
                         CriteriaRule.Items.Add(en);
                     }
                     break;
 
-                case DataField.DataType.Boolean:
-                    CriteriaRule.Items.Add(Criteria.CriteriaRule.Equals);
+                case DataFieldDTO.DataType.Boolean:
+                    CriteriaRule.Items.Add(CriteriaDTO.CriteriaRule.Equals);
                     break;
 
-                case DataField.DataType.Enumeration:
-                    CriteriaRule.Items.Add(Criteria.CriteriaRule.Equals);
+                case DataFieldDTO.DataType.Enumeration:
+                    CriteriaRule.Items.Add(CriteriaDTO.CriteriaRule.Equals);
                     break;
 
-                case DataField.DataType.Flags:
-                    CriteriaRule.Items.Add(Criteria.CriteriaRule.Equals);
-                    CriteriaRule.Items.Add(Criteria.CriteriaRule.Contains);
+                case DataFieldDTO.DataType.Flags:
+                    CriteriaRule.Items.Add(CriteriaDTO.CriteriaRule.Equals);
+                    CriteriaRule.Items.Add(CriteriaDTO.CriteriaRule.Contains);
                     break;
-                case DataField.DataType.Resource:
+                case DataFieldDTO.DataType.Resource:
                     break;
                 case null:
                     break;
@@ -119,72 +118,62 @@ namespace StudyConfigurationUI
             }
         }
 
-        private void SetUpFromStudy(Study study)
+        private void SetUpFromStudy(StudyDTO study)
         {
-            _stageToWorkOn = new Stage();
-            _stageToWorkOn.Study = _viewModel._StudyToWorkOn;
-            _stageToWorkOn.Users = new List<UserStudies>();
-            _stageToWorkOn.VisibleFields = new List<Item.FieldType>();
-            _users = new List<User>();
-            _users.AddRange(_viewModel._StudyToWorkOn.Team.Users);
-            _reviewers = new List<UserStudies>();
-            _validators = new List<UserStudies>();
+            _stageToWorkOn = new StageDTO();
+            _stageToWorkOn.StudyID = _logic._StudyToWorkOn.Id;
+            _users = new List<UserDTO>();
+            _validators = new List<UserDTO>();
+            _reviewers = new List<UserDTO>();
+            _users.AddRange(_logic._Users);
             SetUpBoxes();
         }
 
 
         private void MakeReviewer_OnClick(object sender, RoutedEventArgs e)
         {
-            var takenUser = UserListBox.SelectedItem as User;
+            var takenUser = UserListBox.SelectedItem as UserDTO;
             if (takenUser == null)
             {
                 return;
             }
-            UserStudies userToMakeReviewer = new UserStudies
-            {
-                Stage = _stageToWorkOn, User = takenUser, Id = takenUser.Id, StudyRole = UserStudies.Role.Reviewer
-            };
-            _reviewers.Add(userToMakeReviewer);
+            _reviewers.Add(takenUser);
             _users.Remove(takenUser);
             SetUpBoxes();
         }
 
         private void MakeValidator_OnClick(object sender, RoutedEventArgs e)
         {
-            var takenUser = UserListBox.SelectedItem as User;
+            var takenUser = UserListBox.SelectedItem as UserDTO;
             if (takenUser == null)
             {
                 return;
             }
-            UserStudies userToMakeValidator = new UserStudies
-            {
-                Stage = _stageToWorkOn, User = takenUser, Id = takenUser.Id, StudyRole = UserStudies.Role.Validator
-            };
-            _validators.Add(userToMakeValidator);
+            _validators.Add(takenUser);
             _users.Remove(takenUser);
             SetUpBoxes();
         }
 
         private void RemoveValidator_Click(object sender, RoutedEventArgs e)
         {
-            var takenValidator = ValidatorListBox.SelectedItem as UserStudies;
+            var takenValidator = ValidatorListBox.SelectedItem as UserDTO;
             if (takenValidator == null)
             {
                 return;
             }
-            _users.Add(takenValidator.User);
+            _users.Add(takenValidator);
             _validators.Remove(takenValidator);
             SetUpBoxes();
         }
 
         private void RemoveReviewer_Click(object sender, RoutedEventArgs e)
         {
-            var takenReviewer = ReviewerListBox.SelectedItem as UserStudies;
+            var takenReviewer = ReviewerListBox.SelectedItem as UserDTO;
             if (takenReviewer == null)
             {
                 return;
             }
-            _users.Add(takenReviewer.User);
+            _users.Add(takenReviewer);
             _reviewers.Remove(takenReviewer);
             SetUpBoxes();
         }
@@ -196,16 +185,16 @@ namespace StudyConfigurationUI
             UserListBox.DisplayMemberPath = "Name";
             ReviewerListBox.ItemsSource = null;
             ReviewerListBox.ItemsSource = _reviewers;
-            ReviewerListBox.DisplayMemberPath = "User.Name";
+            ReviewerListBox.DisplayMemberPath = "Name";
             ValidatorListBox.ItemsSource = null;
             ValidatorListBox.ItemsSource = _validators;
-            ValidatorListBox.DisplayMemberPath = "User.Name";
+            ValidatorListBox.DisplayMemberPath = "Name";
         }
 
         private void AddReviewersAndValidators()
         {
-            _stageToWorkOn.Users.AddRange(_reviewers);
-            _stageToWorkOn.Users.AddRange(_validators);
+            _stageToWorkOn.ValidatorIDs = _validators.Select(user => user.Id).ToArray();
+            _stageToWorkOn.ReviewerIDs = _reviewers.Select(user => user.Id).ToArray();
         }
 
 
@@ -213,17 +202,17 @@ namespace StudyConfigurationUI
         {
             if (HundredOverlap.IsChecked.Value)
             {
-                _stageToWorkOn.DistributionRule = Stage.Distribution.HundredPercentOverlap;
+                _stageToWorkOn.DistributionRule = StageDTO.Distribution.HundredPercentOverlap;
                 return;
             }
             if (FiftyOverlap.IsChecked.Value)
             {
-                _stageToWorkOn.DistributionRule = Stage.Distribution.FiftyPercentOverlap;
+                _stageToWorkOn.DistributionRule = StageDTO.Distribution.FiftyPercentOverlap;
                 return;
             }
             if (NoOverlap.IsChecked.Value)
             {
-                _stageToWorkOn.DistributionRule = Stage.Distribution.NoOverlap;
+                _stageToWorkOn.DistributionRule = StageDTO.Distribution.NoOverlap;
                 return;
             }
         }
@@ -231,147 +220,149 @@ namespace StudyConfigurationUI
 
         private void AddVisibleFields()
         {
-            _stageToWorkOn.VisibleFields.Clear();
+            List<StageDTO.FieldType> stageFields = new List<StageDTO.FieldType>();
+            stageFields.Clear();
             if (AddressCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Address);
+                stageFields.Add(StageDTO.FieldType.Address);
             }
             if (AnnoteCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Annote);
+                stageFields.Add(StageDTO.FieldType.Annote);
             }
             if (AuthorCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Author);
+                stageFields.Add(StageDTO.FieldType.Author);
             }
             if (BooktitleCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Booktitle);
+                stageFields.Add(StageDTO.FieldType.Booktitle);
             }
             if (ChapterCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Chapter);
+                stageFields.Add(StageDTO.FieldType.Chapter);
             }
             if (CrossrefCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Crossref);
+                stageFields.Add(StageDTO.FieldType.Crossref);
             }
             if (EditionCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Edition);
+                stageFields.Add(StageDTO.FieldType.Edition);
             }
             if (EditorCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Editor);
+                stageFields.Add(StageDTO.FieldType.Editor);
             }
             if (HowPublishedCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.HowPublished);
+                stageFields.Add(StageDTO.FieldType.HowPublished);
             }
             if (InstritutionCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Instritution);
+                stageFields.Add(StageDTO.FieldType.Instritution);
             }
             if (JournalCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Journal);
+                stageFields.Add(StageDTO.FieldType.Journal);
             }
             if (KeyCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Key);
+                stageFields.Add(StageDTO.FieldType.Key);
             }
             if (MonthCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Month);
+                stageFields.Add(StageDTO.FieldType.Month);
             }
             if (NoteCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Note);
+                stageFields.Add(StageDTO.FieldType.Note);
             }
             if (NumberCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Number);
+                stageFields.Add(StageDTO.FieldType.Number);
             }
             if (OrganizationCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Organization);
+                stageFields.Add(StageDTO.FieldType.Organization);
             }
             if (PagesCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Pages);
+                stageFields.Add(StageDTO.FieldType.Pages);
             }
             if (PublisherCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Publisher);
+                stageFields.Add(StageDTO.FieldType.Publisher);
             }
             if (SchoolCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.School);
+                stageFields.Add(StageDTO.FieldType.School);
             }
             if (SeriesCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Series);
+                stageFields.Add(StageDTO.FieldType.Series);
             }
             if (TitleCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Title);
+                stageFields.Add(StageDTO.FieldType.Title);
             }
             if (TypeCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Type);
+                stageFields.Add(StageDTO.FieldType.Type);
             }
             if (VolumeCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Volume);
+                stageFields.Add(StageDTO.FieldType.Volume);
             }
             if (YearCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Year);
+                stageFields.Add(StageDTO.FieldType.Year);
             }
             if (URLCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.URL);
+                stageFields.Add(StageDTO.FieldType.URL);
             }
             if (ISBNCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.ISBN);
+                stageFields.Add(StageDTO.FieldType.ISBN);
             }
             if (ISSNCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.ISSN);
+                stageFields.Add(StageDTO.FieldType.ISSN);
             }
             if (LCCNCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.LCCN);
+                stageFields.Add(StageDTO.FieldType.LCCN);
             }
             if (AbstractCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Abstract);
+                stageFields.Add(StageDTO.FieldType.Abstract);
             }
             if (KeywordsCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Keywords);
+                stageFields.Add(StageDTO.FieldType.Keywords);
             }
             if (PriceCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Price);
+                stageFields.Add(StageDTO.FieldType.Price);
             }
             if (CopyrightCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Copyright);
+                stageFields.Add(StageDTO.FieldType.Copyright);
             }
             if (LanguageCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Language);
+                stageFields.Add(StageDTO.FieldType.Language);
             }
             if (ContentsCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Contents);
+                stageFields.Add(StageDTO.FieldType.Contents);
             }
             if (DoiCheckbox.IsChecked.Value)
             {
-                _stageToWorkOn.VisibleFields.Add(Item.FieldType.Doi);
+                stageFields.Add(StageDTO.FieldType.Doi);
             }
+            _stageToWorkOn.VisibleFields = stageFields.ToArray();
         }
 
 
@@ -385,8 +376,8 @@ namespace StudyConfigurationUI
                 AddReviewersAndValidators();
                 AddDistribution();
                 AddVisibleFields();
-                _viewModel._StudyToWorkOn.Stages.Add(_stageToWorkOn);
-                this.Frame.Navigate(typeof (ManageStudyPage), _viewModel._StudyToWorkOn);
+                _logic._StudyToWorkOn.Stages = (_logic._StudyToWorkOn.Stages ?? Enumerable.Empty<StageDTO>()).Concat(new[] { _stageToWorkOn }).ToArray(); //adds the stage to the array
+                this.Frame.Navigate(typeof (ManageStudyPage), _logic);
             }
             catch (NullReferenceException)
             {
@@ -394,6 +385,11 @@ namespace StudyConfigurationUI
             }
 
 
+        }
+
+        private void CancelAndReturn_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(ManageStudyPage), _logic);
         }
     }
 }

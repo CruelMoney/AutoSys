@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using StudyConfigurationUI.Data;
 using StudyConfigurationUI.Model;
+using StudyConfigurationUI.Logic;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -35,10 +37,13 @@ namespace StudyConfigurationUI
         protected override async void OnNavigatedTo(NavigationEventArgs args)
         {
             _logic = new Logic.Logic();
-            if (args.Parameter.GetType() == typeof (Study))
+            _logic._Origin = this.Frame.BackStack.FirstOrDefault();
+            if (_logic._Origin== null) { throw new InvalidOperationException("The ManageStudyPage should be navigated to from another page."); }
+
+            if (args.Parameter.GetType() == typeof (Logic.Logic))
             {
-                _logic._StudyToWorkOn = args.Parameter as Study;
-                SetUpFromStudy(_logic._StudyToWorkOn);
+                _logic = args.Parameter as Logic.Logic;
+                SetUpFromLogic(_logic);
                 return;
             }
             // Make sure either a team, or study ID is passed, so that a suitable UI to manage the study can be created.
@@ -49,15 +54,26 @@ namespace StudyConfigurationUI
             }
 
             // Based on the parameter passed to this page, either load an existing study, or create a new one.
-            if (studyArgs.StudyId != null)
+            try
             {
-                // TODO: Initialize the UI by loading data for the given study.
+                if (studyArgs.StudyId != null)
+                {
+                    await _logic.SetUpFromStudy((int) studyArgs.StudyId);
+                    _logic._IsNewStudy = false;
+                    SetUpFromLogic(_logic);
+                }
+                else if (studyArgs.TeamId != null)
+                {
+                    await _logic.SetUpFromTeam((int) studyArgs.TeamId);
+                    _logic._IsNewStudy = true;
+                    SetUpFromLogic(_logic);
+                }
             }
-            else if (studyArgs.TeamId != null)
+            catch (Exception)
             {
-                _logic._StudyToWorkOn = new Study();
-                _logic._StudyToWorkOn.Team = await Service.GetTeam((int)studyArgs.TeamId);
-                SetUpFromStudy(_logic._StudyToWorkOn);
+                var dialog = new MessageDialog("Error retrieving from Database") { Title = "Error" };
+                await dialog.ShowAsync();
+                this.Frame.Navigate(_logic._Origin.SourcePageType);
             }
         }
 
@@ -65,50 +81,39 @@ namespace StudyConfigurationUI
         {
                 var file = await _logic.OpenPicker();
                 bibtexOutput.Text = file.Path;
-                _logic._StudyToWorkOn.Items = new List<Item>();
-               await _logic.AddResources(file);
-            
-
-            if (_logic._StudyToWorkOn.Items.Count < 1)
-                {
-                    var dialog = new MessageDialog("No items were added from this file.") { Title = "No Items Added" };
-                    var res = await dialog.ShowAsync();
-                }
-                else
-            {
-                bibtexInputButton.IsEnabled = false;
-                    var dialog = new MessageDialog(_logic._StudyToWorkOn.Items.Count +"Items were added from the selected file") { Title = "Items added" };
-                    var res = await dialog.ShowAsync();
-                }
+                await _logic.AddResources(file);
         }
 
         private void onNewPhase(object sender, RoutedEventArgs e)
         {
-            
-            this.Frame.Navigate(typeof(ManagePhasePage),_logic._StudyToWorkOn);
+            _logic._StudyToWorkOn.Name = nameInput.Text;
+            this.Frame.Navigate(typeof(ManagePhasePage),_logic);
         }
 
         private async void onDeletePhase(Object sender, RoutedEventArgs e)
         {
-            if ((Stage) phaseComboBox.SelectionBoxItem == null) return;
+            if ((StageDTO) phaseComboBox.SelectionBoxItem == null) return;
             var dialog = new MessageDialog("Are you sure?") {Title = "Really?"};
             dialog.Commands.Add(new UICommand { Label = "Yes - Delete", Id = 0 });
             dialog.Commands.Add(new UICommand { Label = "Cancel", Id = 1 });
             var res = await dialog.ShowAsync();
             if ((int)res.Id == 0)
             {
-                _logic._StudyToWorkOn.Stages.Remove((Stage)phaseComboBox.SelectionBoxItem);
+                _logic.RemoveStage((StageDTO)phaseComboBox.SelectionBoxItem);
             }
-            SetUpCombobox(_logic._StudyToWorkOn);
+            SetUpCombobox(_logic._StudyToWorkOn.Stages);
         }   
 
-        private void SetUpFromStudy(Study study)
+        private void SetUpFromLogic(Logic.Logic logic)
         {
-            nameInput.Text = study.Name;
-            SetUpCombobox(study);
-            teamOutput.Text = study.Team.Name;
+            if (logic._StudyToWorkOn.Name != null)
+            {
+                nameInput.Text = logic._StudyToWorkOn.Name;
+            }
+            SetUpCombobox(logic._StudyToWorkOn.Stages);
+            teamOutput.Text = logic._TeamAssociated.Name;
 
-            if (study.Items == null || study.Items.Count < 1)
+            if (logic._StudyToWorkOn.Items == null)
             {
                 bibtexOutput.Text = "No items selected yet";
             }
@@ -117,16 +122,71 @@ namespace StudyConfigurationUI
                 bibtexOutput.Text = "Items have already been selected";
                 bibtexInputButton.IsEnabled = false;
             }
+            if (!_logic._IsNewStudy)
+            {
+                deletePhasebutton.IsEnabled = false;
+            }
         }
 
-        private void SetUpCombobox(Study study)
+        private void SetUpCombobox(StageDTO[] stages)
         {
-            phaseComboBox.Items.Clear();
-            foreach (Stage s in study.Stages)
+            if (stages != null)
             {
-                phaseComboBox.Items.Add(s);
+                phaseComboBox.Items.Clear();
+                foreach (StageDTO s in stages)
+                {
+                    phaseComboBox.Items.Add(s);
+                }
+                phaseComboBox.DisplayMemberPath = "Name";
             }
-            phaseComboBox.DisplayMemberPath = "Name";
+        }
+
+        private async void SaveAndClose(object sender, RoutedEventArgs e)
+        {
+            if (_logic._StudyToWorkOn.Items == null)
+            {
+                var dialog = new MessageDialog("Remember to add items") { Title = "Error" };
+                await dialog.ShowAsync();
+                return;
+            }
+            _logic._StudyToWorkOn.Name = nameInput.Text;
+            if (_logic._IsNewStudy)
+            {
+                await Service.PostStudy(_logic._StudyToWorkOn);
+            }
+            else
+            {
+                await Service.UpdateStudy(_logic._StudyToWorkOn.Id,_logic._StudyToWorkOn);
+            }
+
+            this.Frame.Navigate(_logic._Origin.SourcePageType);
+        }
+
+        private async void DeleteAndReturn(object sender, RoutedEventArgs e)
+        {
+            if (_logic._IsNewStudy)
+            {
+                this.Frame.Navigate(_logic._Origin.SourcePageType);
+            }
+            else
+            {
+                var success= await Service.RemoveStudy(_logic._StudyToWorkOn.Id);
+                if (success)
+                {
+                    var dialog = new MessageDialog("Successfully deleted study the study, will now return")
+                    {
+                        Title = "Success"
+                    };
+                    await dialog.ShowAsync();
+                    this.Frame.Navigate(_logic._Origin.SourcePageType);
+                }
+                else
+                {
+                    var dialog = new MessageDialog("Error deleting from the database, check your connection") { Title = "Error" };
+                    await dialog.ShowAsync();
+                    this.Frame.Navigate(_logic._Origin.SourcePageType);
+                }
+            }
         }
     }
 }

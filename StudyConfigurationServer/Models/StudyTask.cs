@@ -24,16 +24,12 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// A unique identifier for the StudyTask.
         /// </summary>
-       
-        public int Id { get; set; }
+        public int ID { get; set; }
         /// <summary>
         /// The StudyTask is connected to a certain paper
         /// </summary>
-        [Required]
         public virtual Item Paper { get; set; }
-
-        public List<int> UserIDs { get; set; } 
-        
+        public List<User> Users { get; set; } 
         /// <summary>
         /// Defines wether the task can still be edited. Changes to false when all tasks for a stage has been delivered. 
         /// </summary>
@@ -49,6 +45,8 @@ namespace StudyConfigurationServer.Models
         /// </summary>
         public virtual List<DataField> DataFields { get; set; }
 
+        public Stage Stage { get; set; }
+
         public StudyTask SubmitData(TaskSubmissionDTO taskToDeliver)
         {
             var userID = taskToDeliver.UserId;
@@ -58,15 +56,18 @@ namespace StudyConfigurationServer.Models
             //TODO for now we use the dataField name to update the data.
             foreach (var field in newDataFields)
             {
-                var fieldToUpdate = DataFields.First(d=>d.Name.Equals(field.Name));
-                
-                if (fieldToUpdate==null)
+                DataField fieldToUpdate;
+
+                try
                 {
-                    throw new InvalidOperationException("A Corresponding dataField is not found in the task");
+                    fieldToUpdate = DataFields.First(d => d.Name.Equals(field.Name));
+                }
+                catch (Exception)
+                {
+                    throw new ArgumentException("A Corresponding dataField is not found in the task");
                 }
 
                 fieldToUpdate.SubmitData(userID, field.Data);
-
             }
 
             return this;

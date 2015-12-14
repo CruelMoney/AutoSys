@@ -17,7 +17,7 @@ namespace LogicTests1.IntegrationTests
         private UserManager userManager;
         private TeamStorageManager userStorageManager;
         //private UserController userController;
-        private User user = new User() { Id = 1, Name = "Bob" };
+        private User user = new User() { ID = 1, Name = "Bob" };
         private UserDTO userDTO = new UserDTO() { Id = 1, Name = "Bob"};
         private IGenericRepository testRepo;
 

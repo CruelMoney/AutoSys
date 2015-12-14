@@ -24,14 +24,14 @@ namespace Storage.Repository
         {
             _context.Set<T>().Add(entity);
             _context.SaveChanges();
-            return entity.Id;
+            return entity.ID;
         }
 
         public bool Delete<T>(T entity) where T : class, IEntity
         {
             try
             {
-                var found = _context.Set<T>().FindAsync(entity.Id);
+                var found = _context.Set<T>().FindAsync(entity.ID);
             }catch(NullReferenceException)
             {
                 throw new NullReferenceException("Item could not be found in the repository");              
@@ -73,7 +73,7 @@ namespace Storage.Repository
         {
             try
             {
-                var found = _context.Set<T>().Find(entity.Id);
+                var found = _context.Set<T>().Find(entity.ID);
             }
             catch (NullReferenceException)
             {

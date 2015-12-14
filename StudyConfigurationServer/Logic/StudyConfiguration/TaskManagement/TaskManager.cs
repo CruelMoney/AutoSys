@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Ajax.Utilities;
+using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor;
 using StudyConfigurationServer.Models;
+using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
+using FieldType = StudyConfigurationServer.Models.FieldType;
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 {
@@ -14,6 +19,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
     {
         private readonly DistributorSelector _taskDistributor;
         private readonly TaskGenerator _taskGenerator;
+        private readonly TaskRequester _taskRequester;
         private readonly TaskStorageManager _storageManager;
         private readonly CriteriaValidator _criteriaValidator;
         private IDisposable _unsubscriber;
@@ -21,17 +27,19 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         public TaskManager()
         {
             _taskDistributor = new DistributorSelector();
-            _criteriaValidator = new CriteriaValidation.CriteriaValidator();
+            _criteriaValidator = new CriteriaValidator();
             _taskGenerator = new TaskGenerator();
             _storageManager = new TaskStorageManager();
+            _taskRequester = new TaskRequester(_storageManager);
         }
 
-        public TaskManager(TaskStorageManager storageManager)
+        public TaskManager(EntityFrameworkGenericRepository<StudyContext> repo)
         {
             _taskDistributor = new DistributorSelector();
-            _criteriaValidator = new CriteriaValidation.CriteriaValidator();
+            _criteriaValidator = new CriteriaValidator();
             _taskGenerator = new TaskGenerator();
-            _storageManager = storageManager;
+            _storageManager = new TaskStorageManager(repo);
+            _taskRequester = new TaskRequester(_storageManager);
         }
 
         public bool DeliverTask(int taskID, TaskSubmissionDTO task)
@@ -40,8 +48,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 
             if (!taskToUpdate.IsEditable)
             {
-                return false;
-                throw new InvalidOperationException("The task is not editable");
+                throw new ArgumentException("The task is not editable");
             }
             
             taskToUpdate.SubmitData(task);
@@ -57,7 +64,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
         /// <param name="taskID"></param>
         /// <returns>itemIDs to be excluded from study</returns>
         /// TODO what happens if there are no validators for this stage
-        public IEnumerable<int> GenerateValidationTasks(ICollection<int> taskIDs, ICollection<Criteria> criteria, ICollection<User> users, Stage.Distribution distributionRule)
+        public IEnumerable<StudyTask> GenerateValidationTasks(ICollection<int> taskIDs, ICollection<Criteria> criteria, ICollection<User> users, Stage.Distribution distributionRule)
         {
             var validationTasks = new List<StudyTask>();
             
@@ -69,25 +76,17 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                 //If the task contains conflicting data we create the validate task and save it
                 if (task.ContainsConflictingData())
                 {
-                    validationTasks.Add(_taskGenerator.GenerateValidateTasks(task));
-                }
-                //If the task fullfills the criteria we return the itemId to be excluded. 
-                else if (!TaskMeetsCriteria(criteria, task))
-                {
-                    yield return task.Paper.Id;
+                   yield return _taskGenerator.GenerateValidateTasks(task);
                 }
             }
 
             //Distribute the tasks and save them
-            _taskDistributor.Distribute(distributionRule, users, validationTasks).
-                ForEach(t=>_storageManager.CreateTask(t));
-            
-            //If the criteria is fullfilled we dont exclude it and return nothing
+            _taskDistributor.Distribute(distributionRule, users, validationTasks);
 
         }
 
-        
-        public void GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, Stage.Distribution distributionRule, ICollection<Criteria> criteria)
+      
+        public IEnumerable<StudyTask> GenerateReviewTasks(ICollection<Item> items, ICollection<User> users, List<Criteria> criteria, Stage.Distribution distribution)
         {
             var reviewTasks = new List<StudyTask>();
 
@@ -98,61 +97,56 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             }
             
             //Distribute the tasks and save them
-            _taskDistributor.Distribute(distributionRule, users, reviewTasks).
-                ForEach(t => _storageManager.CreateTask(t));
+            var tasks = _taskDistributor.Distribute(distribution, users, reviewTasks).ToList();
+              
+            return tasks;
         }
 
 
         /// <summary>
-        /// Validates the tasks using the criteria
+        /// Generates a validating task and saves it.
+        /// If the task does not contain conflicting and it doesn't fulfill the criteria data we return it's item.
         /// </summary>
-        /// <param name="criteria">The criteria to validate against</param>
-        /// <param name="taskIDs">The tasks to validate</param>
-        /// <returns>null if the criteria is met, the id of the tasks item if the criteria is not met</returns>
-        public IEnumerable<int> CriteriaValidateTasks(ICollection<Criteria> criteria, ICollection<int> taskIDs)
+        /// <param name="taskID"></param>
+        /// <returns>itemIDs to be excluded from study</returns>
+        /// TODO what happens if there are no validators for this stage
+        public IEnumerable<int> GetExcludedItems(ICollection<int> taskIDs, ICollection<Criteria> criteria)
         {
-            foreach (var taskID in taskIDs)
+            foreach (var task in taskIDs.Select(taskID => _storageManager.GetTask(taskID)))
             {
-                //The task can no longer be edited at this point
-                var task = _storageManager.GetTask(taskID);
-                task.IsEditable = false;
-                _storageManager.UpdateTask(task);
-
-                if (!TaskMeetsCriteria(criteria, task))
+                //If the task contains conflicting data we create the validate task and save it
+                if (!task.ContainsConflictingData())
                 {
-                    yield return task.Paper.Id;
+                    //If the task does not meet the criteria we return the itemId to be excluded. 
+                    if (!TaskMeetsCriteria(criteria, task))
+                    {
+                        yield return task.Paper.ID;
+                    }
                 }
             }
-          
         }
 
-
-     
         /// <summary>
         /// Get the taskRequestDTO for a user
         /// </summary>
-        /// <param name="userId">The userId</param>
-        /// <param name="taskId">The taskId</param>
         /// <returns></returns>
-        public TaskRequestDTO GetTask(int userId, int taskId, ICollection<Item.FieldType> visibleFields)
+        public IEnumerable<TaskRequestDTO> GetTasksDTOs(ICollection<FieldType> visibleFields, List<int> taskIDs, int userID, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            StudyTask task;
-            try
-            {
-                task = _storageManager.GetTask(taskId);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var tasks = _taskRequester.GetTasks(taskIDs, userID, count, filter, type);
 
-            return new TaskRequestDTO(task, userId, visibleFields);
+            return from StudyTask task in tasks
+                select new TaskRequestDTO(task, visibleFields, userID);
         }
 
-        public bool StageIsFinished(Stage stage)
+        /// <summary>
+        /// Get all the taskIDs for a user
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<int> GetTasksIDs(List<int> taskIDs, int userID, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            return stage.TaskIDs.All(taskID => _storageManager.GetTask(taskID).IsFinished());
+            return _taskRequester.GetTaskIDs(taskIDs, userID, filter, type);
         }
+
 
         public int CreateTask(StudyTask task)
         {
@@ -190,7 +184,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                 //Finds the corresponding field for the criteria using the name...
                 var correspondingField = task.DataFields.First(f => f.Name.Equals(criterion.Name)).UserData.First();
 
-                if (!_criteriaValidator.CriteriaIsMet(criterion, correspondingField.Data))
+                if (!_criteriaValidator.CriteriaIsMet(criterion, correspondingField.Data.Select(s=>s.Value).ToArray()))
                 {
                     return false;
                 }
@@ -198,13 +192,24 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             return true;
         }
 
-
-     
-        public void OnNext(Study study)
+        public bool TaskIsFinished(int taskID)
         {
-            
-
+            return _storageManager.GetTask(taskID).IsFinished();
         }
+     
+        public TaskRequestDTO GetTaskDTO(int taskId, int? userID=null)
+        {
+            var task = _storageManager.GetAllTasks()
+                .Where(t=>t.ID==taskId)
+                .Include(t=>t.Stage)
+                .FirstOrDefault();
 
+            if (task == null)
+            {
+                throw new NullReferenceException("the task does not exist");
+            }
+
+            return new TaskRequestDTO(task, task.Stage.VisibleFields, userID);
+        }
     }
 }

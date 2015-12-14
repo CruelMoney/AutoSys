@@ -5,6 +5,7 @@ using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
+using System.Data.Entity;
 
 namespace StudyConfigurationServer.Logic.TeamCRUD
 {
@@ -40,9 +41,8 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             var teamToAdd = new Team()
             {
                 Name = teamDtoDto.Name,
-                Id = teamDtoDto.Id,
+                ID = teamDtoDto.Id,
                 Metadata = teamDtoDto.Metadata,
-                UserIDs = teamDtoDto.UserIDs,
                 Users = new List<User>()
             };
 
@@ -60,8 +60,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             try
             {
-                var team = _teamStorageManager.GetTeam(teamID);
-                if (team.StudyIDs != null)
+                var team = _teamStorageManager.GetAllTeams()
+                    .Where(t => t.ID == teamID).
+                    Include(t => t.Studies)
+                    .FirstOrDefault();
+
+                if (team.Studies.Any())
                 {
                     throw new ArgumentException("Can't delete team because it is in a study");
                 }
@@ -78,22 +82,22 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             try
             {
+                
                 var teamToUpdate = _teamStorageManager.GetTeam(teamId);
-                foreach (var userId in newTeamDto.UserIDs)
+                if(teamToUpdate == null) { throw new NullReferenceException("Team Doesn't exist in database");}
+                if (newTeamDto.UserIDs.Length ==0) { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
+                if (!teamToUpdate.Users.Any()) { throw new ArgumentException("Team can't exist without users"); }
+                var teamToUpdateArray = teamToUpdate.Users.Select(u => u.ID).ToArray();
+                var newTeamArray = newTeamDto.UserIDs;
+                for (int i = 0; i < teamToUpdate.Users.Count; i++)
                 {
-                    foreach (var user in teamToUpdate.Users)
+                    if (teamToUpdateArray[i] == newTeamArray[i])
                     {
-                        if (user.Id == userId)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            throw new ArgumentException("You can't add or delete users from a team, only change its name, you dipwit");
-                        }
+                        continue;
                     }
-                  
+                    else { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
                 }
+    
 
                 teamToUpdate.Users.Clear();
                 teamToUpdate.Name = newTeamDto.Name;
@@ -120,6 +124,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
         public IEnumerable<TeamDTO> SearchTeamDTOs(string TeamName)
         {
+            
             try
             {
               return
@@ -127,10 +132,10 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                       where dbTeam.Name.Equals(TeamName)
                       select new TeamDTO()
                       {
-                          Id = dbTeam.Id,
+                          Id = dbTeam.ID,
                           Name = dbTeam.Name,
                           Metadata = dbTeam.Metadata,
-                          UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
+                          UserIDs = dbTeam.Users.Select(u => u.ID).ToArray()
                       }).ToList();
             }
             catch (NullReferenceException)
@@ -146,10 +151,10 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 var dbTeam = _teamStorageManager.GetTeam(teamId);
                 return new TeamDTO()
                 {
-                    Id = dbTeam.Id,
+                    Id = dbTeam.ID,
                     Name = dbTeam.Name,
                     Metadata = dbTeam.Metadata,
-                    UserIDs = dbTeam.Users.Select(u => u.Id).ToArray()
+                    UserIDs = dbTeam.Users.Select(u => u.ID).ToArray()
                 };
             }
             catch (NullReferenceException)
@@ -183,10 +188,10 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                 {
                     list.Add(new TeamDTO()
                     {
-                        Id = team.Id,
+                        Id = team.ID,
                         Name = team.Name,
                         Metadata = team.Metadata,
-                        UserIDs = team.Users.Select(u => u.Id).ToArray()
+                        UserIDs = team.Users.Select(u => u.ID).ToArray()
                     });
                 }
                 return list;

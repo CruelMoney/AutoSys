@@ -93,16 +93,16 @@ namespace StorageTests.Repository
         public void TestEFRepoReadItem()
         {
             //Arrange
-            var expectedItem = new MockEntity() { Id = 1};
+            var expectedItem = new MockEntity() { ID = 1};
             var expectedDbset = new Mock<DbSet<MockEntity>>();
             var context = new Mock<MockContext>();
             var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
 
-            expectedDbset.Setup(m => m.Find(expectedItem.Id)).Returns(expectedItem);
+            expectedDbset.Setup(m => m.Find(expectedItem.ID)).Returns(expectedItem);
             context.Setup(c => c.Set<MockEntity>()).Returns(expectedDbset.Object);
 
             //Action
-            var actual = EFRepo.Read<MockEntity>(expectedItem.Id);
+            var actual = EFRepo.Read<MockEntity>(expectedItem.ID);
 
             //Assert
             Assert.AreEqual(expectedItem, actual);
@@ -114,11 +114,11 @@ namespace StorageTests.Repository
             var DbSet = new Mock<DbSet<MockEntity>>();
             var context = new Mock<MockContext>();
             var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
-            var item = new MockEntity() { Id = 1, Name = "Name"};
+            var item = new MockEntity() { ID = 1, Name = "Name"};
             var entry = new Mock<DbEntityEntry<MockEntity>>();
 
             //entry.Setup(m => m.
-            DbSet.Setup(m => m.Find(item.Id)).Returns(item);
+            DbSet.Setup(m => m.Find(item.ID)).Returns(item);
 
             context.Setup(c => c.Set<MockEntity>()).Returns(DbSet.Object);
             context.Setup(c => c.Entry<MockEntity>(item)).Returns(entry.Object);

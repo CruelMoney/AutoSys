@@ -8,12 +8,25 @@ namespace StudyConfigurationServer.Models.DTO
 {
     public class StageDTO
     {
+        public StageDTO(Stage stage)
+        {
+            Name = stage.Name;
+            Id = stage.ID;
+            Criteria = new CriteriaDTO(stage.Criteria.ElementAt(0));
+            ReviewerIDs = (from u in stage.Users where u.StudyRole == UserStudies.Role.Reviewer select u.ID).ToArray();
+            ValidatorIDs = (from u in stage.Users where u.StudyRole == UserStudies.Role.Validator select u.ID).ToArray();
+            DistributionRule = (Distribution)Enum.Parse(typeof(Stage.Distribution), stage.DistributionRule.ToString());
+            VisibleFields =  stage.VisibleFields.Select(vf => (FieldType) Enum.Parse(typeof (StudyConfigurationServer.Models.FieldType.TypEField), vf.Type.ToString())).ToArray();
+            
+        }
+        public StageDTO()
+        {
+        }
         public string Name { get; set; }
         public int Id { get; set; }
-        //The criteria are defining what fields are going to be editable for this stage
+        //The critderia are defining what fields are going to be editable for this stage
         [Required]
-        public Criteria[] Criteria { get; set; }
-        public int StudyID { get; set; }
+        public CriteriaDTO Criteria { get; set; }
         [Required]
         public int[] ReviewerIDs { get; set; }
         public int[] ValidatorIDs { get; set; }
@@ -40,7 +53,7 @@ namespace StudyConfigurationServer.Models.DTO
             Edition,
             Editor,
             HowPublished,
-            Institution,
+            Instritution,
             Journal,
             Key,
             Month,

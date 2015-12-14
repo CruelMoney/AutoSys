@@ -12,28 +12,42 @@ namespace StudyConfigurationServer.Api
  
     public class StudyConfigurationController : ApiController
     {
-        //private readonly StudyManager _manager = new StudyManager();
-        private readonly TeamManager _teamManager = new TeamManager();
-       /* // GET: api/StudyConfiguration
+        private readonly StudyManager _manager = new StudyManager();
+        // GET: api/StudyConfiguration
         public IEnumerable<Study> Get()
         {
             return _manager.GetAllStudies();
         }
 
         // GET: api/StudyConfiguration/5
-        public Study Get(int id)
+        public StudyDTO Get(int id)
         {
-            return _manager.GetStudy(id);
+          
+                return _manager.GetStudy(id);      
+         
         }
 
         // POST: api/StudyConfiguration
-        public void Post([FromBody]StudyDTO study)
+        public IHttpActionResult Post([FromBody]StudyDTO study)
         {
-            _manager.CreateStudy(study);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                return Ok(_manager.CreateStudy(study));
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest();
+            }
+            
         }
 
         // PUT: api/StudyConfiguration/5
-        public void Put(int id, [FromBody]Study study)
+        public void Put(int id, [FromBody]StudyDTO study)
         {
             _manager.UpdateStudy(id, study);
         }
@@ -43,13 +57,6 @@ namespace StudyConfigurationServer.Api
         public void Delete(int id)
         {
             _manager.RemoveStudy(id);
-        }*/
-
-        [Route("api/StudyConfiguration/{id}/Team")]
-        [HttpGet]
-        public Team GetTeam(int id)
-        {
-            return _teamManager.GetTeam(id);
         }
     }
 }

@@ -4,6 +4,7 @@ using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.DTO;
 using System;
+using System.Data.Entity;
 
 namespace StudyConfigurationServer.Logic.TeamCRUD
 {
@@ -34,8 +35,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             try
             {
-                var user = _storageManager.GetUser(userId);
-                if (user.StudyIds != null)
+                var user = _storageManager.GetAllUsers()
+                    .Where(u => u.ID == userId)
+                    .Include(u => u.Teams.Select(t=>t.Studies))
+                    .FirstOrDefault();
+
+                if (user.Teams.Any(t=>t.Studies.Any()))
                 {
                     throw new ArgumentException("User is part of one or more studies, and can therefore not be deleted");
                 }
@@ -75,7 +80,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                      where dbUser.Name.Equals(userName)
                      select new UserDTO()
                      {
-                         Id = dbUser.Id,
+                         Id = dbUser.ID,
                          Name = dbUser.Name,
                          Metadata = dbUser.Metadata
                      })
@@ -95,7 +100,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
                 return new UserDTO()
                 {
-                    Id = dbUser.Id,
+                    Id = dbUser.ID,
                     Name = dbUser.Name,
                     Metadata = dbUser.Metadata
                 };
@@ -117,7 +122,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                     (from User dbUser in _storageManager.GetAllUsers()
                      select new UserDTO()
                      {
-                         Id = dbUser.Id,
+                         Id = dbUser.ID,
                          Name = dbUser.Name,
                          Metadata = dbUser.Metadata
                      }).ToList();
@@ -125,6 +130,23 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             catch (NullReferenceException)
             {
                 throw new NullReferenceException("There are no users in the database");
+            }
+        }
+
+        public IEnumerable<int> GetStudyIds(int userId)
+        {
+            try
+            {
+                var user = _storageManager.GetAllUsers()
+                    .Where(u => u.ID == userId)
+                    .Include(u => u.Teams.Select(t=>t.Studies))
+                    .FirstOrDefault();
+
+                return user.Teams.SelectMany(t=>t.Studies.Select(s=>s.ID)).ToList();
+            }
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Could not find the user, probably doesn't exist in the database");
             }
         }
     }
