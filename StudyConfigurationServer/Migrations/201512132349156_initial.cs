@@ -3,7 +3,7 @@ namespace StudyConfigurationServer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class ini : DbMigration
     {
         public override void Up()
         {
@@ -140,10 +140,13 @@ namespace StudyConfigurationServer.Migrations
                         Name = c.String(),
                         CurrentStageID = c.Int(nullable: false),
                         IsFinished = c.Boolean(nullable: false),
+                        User_ID = c.Int(),
                         Team_ID = c.Int(),
                     })
                 .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Users", t => t.User_ID)
                 .ForeignKey("dbo.Teams", t => t.Team_ID)
+                .Index(t => t.User_ID)
                 .Index(t => t.Team_ID);
             
             CreateTable(
@@ -218,6 +221,7 @@ namespace StudyConfigurationServer.Migrations
             DropForeignKey("dbo.UserTeams", "User_ID", "dbo.Users");
             DropForeignKey("dbo.UserStudyTasks", "StudyTask_ID", "dbo.StudyTasks");
             DropForeignKey("dbo.UserStudyTasks", "User_ID", "dbo.Users");
+            DropForeignKey("dbo.Studies", "User_ID", "dbo.Users");
             DropForeignKey("dbo.UserStudies", "User_ID", "dbo.Users");
             DropForeignKey("dbo.UserStudies", "Stage_ID", "dbo.Stages");
             DropForeignKey("dbo.Stages", "Study_ID", "dbo.Studies");
@@ -240,6 +244,7 @@ namespace StudyConfigurationServer.Migrations
             DropIndex("dbo.UserStudies", new[] { "User_ID" });
             DropIndex("dbo.UserStudies", new[] { "Stage_ID" });
             DropIndex("dbo.Studies", new[] { "Team_ID" });
+            DropIndex("dbo.Studies", new[] { "User_ID" });
             DropIndex("dbo.Stages", new[] { "Study_ID" });
             DropIndex("dbo.StudyTasks", new[] { "Stage_ID" });
             DropIndex("dbo.StudyTasks", new[] { "Paper_ID" });

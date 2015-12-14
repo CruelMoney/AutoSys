@@ -33,7 +33,7 @@ namespace LogicTests1.IntegrationTests
             _repo = new EntityFrameworkGenericRepository<StudyContext>();
           
 
-            _manager = new StudyManager(_repo);
+            _manager = new StudyManager();
         }
 
         public StudyDTO CreaStudyDto()
@@ -106,7 +106,7 @@ namespace LogicTests1.IntegrationTests
 
             var newStorageManager = new StudyStorageManager();
 
-            var actualStudy = newStorageManager.GetAllStudies()
+            var actualStudy = newStorageManager.GetAll()
                 .Where(s=>s.ID==studyID)
                 .Include(s=>s.Stages.Select(t=>t.Tasks))
                 .FirstOrDefault();

@@ -140,7 +140,8 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
             }
             try
             {
-                var checkYear = Convert.ToDateTime(data.First());
+                DateTime checkYear;
+                DateTime.TryParse(data.First(), out checkYear);
                 var inputYear = Convert.ToDateTime(criteriaData.First());
                 return inputYear.Year > checkYear.Year;
             }
