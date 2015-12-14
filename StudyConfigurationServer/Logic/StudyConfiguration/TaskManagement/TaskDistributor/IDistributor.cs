@@ -5,6 +5,6 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskD
 {
     public interface IDistributor
     {
-        IEnumerable<StudyTask> Distribute(ICollection<User> users, IEnumerable<StudyTask> tasks);
+        IEnumerable<StudyTask> Distribute(IEnumerable<User> users, IEnumerable<StudyTask> tasks);
     }
 }

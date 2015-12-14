@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StudyConfigurationServer.Models;
 
@@ -13,20 +14,25 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                     Paper = item,
                     TaskType = StudyTask.Type.Review,
                     DataFields = new List<DataField>(),
-                    IsEditable = true,
                     Users = new List<User>(),
                 };
 
                 foreach (var criterion in criteria)
                 {
+                    //Trying to parse data from the bib item
+                    var data = new StoredString() {Value = item.FindFieldValue(criterion.Name)};
+                 
                     var dataField = new DataField()
                     {
                         Description = criterion.Description,
                         FieldType = criterion.DataType,
                         Name = criterion.Name,
-                        UserData = new List<UserData>(),
+                        UserData = new List<UserData>() { new UserData() { Data = new List<StoredString>() {data} } },
                     };
 
+                    //Check if the information was found in the bib item, if yes the task is finished. 
+                    task.IsEditable = data.Value==null;
+               
                     if (criterion.DataType == DataField.DataType.Enumeration || criterion.DataType == DataField.DataType.Flags)
                     {
                     foreach (var s in criterion.TypeInfo)

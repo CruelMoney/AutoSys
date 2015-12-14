@@ -56,7 +56,7 @@ namespace StudyConfigurationServer.Api
         [Route("{id}/Task")]
         public IHttpActionResult GetTasks(int id, int userId, int count = 1, TaskRequestDTO.Filter filter = TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type type = TaskRequestDTO.Type.Both)
         {
-            // GET: api/Study/4/StudyTask?userId=5&count=1&filter=Remaining&type=Review
+            // GET: api/Study/4/Task?userId=5&count=1&filter=Remaining&type=Review
 
             try
             {

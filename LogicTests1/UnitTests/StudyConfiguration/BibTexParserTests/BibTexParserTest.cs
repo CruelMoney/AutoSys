@@ -40,7 +40,7 @@ namespace LogicTests1.BibTexParserTests
 
             Assert.AreEqual(1, _bib.Count);
             Assert.AreEqual(Item.ItemType.InProceedings, _item.Type);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _item.FindFieldValue(new FieldType() { Type = FieldType.TypEField.Author }));
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _item.FindFieldValue("Author" ));
     
         }
 
@@ -81,8 +81,8 @@ namespace LogicTests1.BibTexParserTests
             
 
             Assert.AreEqual(2, _bib.Count);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].FindFieldValue(new FieldType() { Type = FieldType.TypEField.Author }));
-            Assert.AreEqual("Pour, G.", _bib[1].FindFieldValue(new FieldType() { Type = FieldType.TypEField.Author }));
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].FindFieldValue( "Author"));
+            Assert.AreEqual("Pour, G.", _bib[1].FindFieldValue("Author"));
 
         }
 
@@ -95,7 +95,7 @@ namespace LogicTests1.BibTexParserTests
 
 
             Assert.AreEqual(1, _bib.Count);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].FindFieldValue(new FieldType() {Type = FieldType.TypEField.Author}));
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].FindFieldValue("Author"));
         }
 
   

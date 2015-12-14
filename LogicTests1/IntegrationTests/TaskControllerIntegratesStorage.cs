@@ -135,7 +135,7 @@ namespace LogicTests1.IntegrationTests
             
 
             //Action
-            var tasks =_manager.GenerateReviewTasks(items, users, criteria, Stage.Distribution.HundredPercentOverlap);
+            var tasks =_manager.GenerateReviewTasks(items, criteria);
           
             //Assert
             foreach (var studyTask in tasks)

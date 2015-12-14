@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using StudyConfigurationServer.Models;
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor
@@ -8,23 +10,67 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskD
     /// </summary>
     public class EqualDistributor : IDistributor
     {
-        public IEnumerable<StudyTask> Distribute(ICollection<User> users, IEnumerable<StudyTask> tasks)
+        public IEnumerable<StudyTask> Distribute(IEnumerable<User> users, IEnumerable<StudyTask> tasks)
         {         
             foreach (var task in tasks)
             {
-                foreach (var user in users)
-                {
+              
+                    task.DataFields.ForEach(d => d.UserData.Clear());
+                    task.Users.AddRange(users);
 
-                    task.Users.Add(user);
-
-                    foreach (var dataField in task.DataFields)
+                    foreach (var user in users)
                     {
-                        dataField.UserData.Add(new UserData() {UserID = user.ID});
+                        foreach (var dataField in task.DataFields)
+                        {
+                            dataField.UserData.Add(new UserData() { UserID = user.ID });
+                        }
+
                     }
-                  
-                   }
-                yield return task;
+                    yield return task;
+                
             }
             }
+    }
+
+    public class NoOverlapDistributor : IDistributor
+    {
+        public IEnumerable<StudyTask> Distribute(IEnumerable<User> users, IEnumerable<StudyTask> tasks)
+        {
+
+            var userList = users.ToList();
+            var sublists = new List<List<StudyTask>>();
+
+            int rangeSize = tasks.Count() / userList.Count();
+            int additionalItems = tasks.Count() % userList.Count();
+            int index = 0;
+
+            while (index < tasks.Count())
+            {
+                int currentRangeSize = rangeSize + ((additionalItems > 0) ? 1 : 0);
+                sublists.Add(tasks.ToList().GetRange(index, currentRangeSize));
+                index += currentRangeSize;
+                additionalItems--;
+            }
+
+            int ui = 0;
+
+            foreach (var sublist in sublists)
+            {
+                foreach (var task in sublist)
+                {
+                        task.DataFields.ForEach(d=>d.UserData.Clear());
+                        task.Users.Add(userList[ui]);
+                        foreach (var dataField in task.DataFields)
+                        {
+                            dataField.UserData.Add(new UserData() { UserID = userList[ui].ID });
+                        }
+
+                    
+                    yield return task;
+                }
+                ui++;
+            }
+            
+        }
     }
 }

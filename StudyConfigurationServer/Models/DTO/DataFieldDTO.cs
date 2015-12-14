@@ -98,7 +98,7 @@ namespace StudyConfigurationServer.Models.DTO
         public DataFieldDTO(FieldType fieldType, Item item)
         {
             Name = fieldType.Type.ToString();
-            Data = new string[] {item.FindFieldValue(fieldType)};
+            Data = new string[] {item.FindFieldValue(fieldType.Type.ToString())};
             FieldType = DataType.String;
         }
 

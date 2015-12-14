@@ -39,6 +39,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
     {
         public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
+           
             if (data.Count() != 1 && criteriaData.Count() != 1)
             {
                 return !criteriaData.Except(data).Any();
@@ -142,7 +143,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
             {
                 var checkDate = Convert.ToDateTime(criteriaData.First());
                 var inputDate = Convert.ToDateTime(data.First());
-                return inputDate < checkDate;
+                return inputDate <= checkDate;
             }
             catch (Exception)
             {
@@ -155,8 +156,6 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
     /// <summary>
     ///     Checks if the given year comes before the year.
     /// </summary>
-    /// <param name="year1"></param>
-    /// <param name="year2"></param>
     /// <returns></returns>
     public class AfterDateRule : IRuleChecker
     {
@@ -168,9 +167,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
             }
             try
             {
-                var inputYear = Convert.ToDateTime(data.First());
-                var checkYear = Convert.ToDateTime(criteriaData.First());
-                return inputYear > checkYear;
+                var checkDate = Convert.ToDateTime(criteriaData.First());
+                var inputDate = Convert.ToDateTime(data.First());
+                return inputDate >= checkDate;
             }
             catch (Exception)
             {

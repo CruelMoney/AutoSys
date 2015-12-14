@@ -162,6 +162,11 @@
     <Compile Include="Logic\StudyOverview\StudyOverviewController.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
+    <Compile Include="Migrations\201512141701454_initial.cs" />
+    <Compile Include="Migrations\201512141701454_initial.Designer.cs">
+      <DependentUpon>201512141701454_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
     <Compile Include="Models\DataField.cs" />
     <Compile Include="Models\Data\StudyContext.cs" />
@@ -218,6 +223,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201512141701454_initial.resx">
+      <DependentUpon>201512141701454_initial.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

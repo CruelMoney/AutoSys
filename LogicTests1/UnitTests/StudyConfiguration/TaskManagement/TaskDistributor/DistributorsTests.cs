@@ -10,16 +10,18 @@ namespace LogicTests1.StudyConfiguration.TaskManagement.TaskDistributor
     public class DistributorsTests
     {
         List<User> users;
+        List<User> users2;
         List<StudyTask> tasks;
         
         [TestInitialize]
         public void Initialize()
         {
-            var user1 = new User() {ID = 1 };
+            var user1 = new User() { ID = 1 };
             var user2 = new User() { ID = 2 };
             var user3 = new User() { ID = 2 };
 
             users = new List<User>() {user1,user2,user3};
+            users2 = new List<User>() {user1};
 
             var dataField1 = new DataField()
             {
@@ -77,6 +79,61 @@ namespace LogicTests1.StudyConfiguration.TaskManagement.TaskDistributor
            
         }
 
-       
+        [TestMethod]
+        public void TestDistributorsEqualOnePerson()
+        {
+            //Arrange
+            var distributor = new EqualDistributor();
+
+            //Action
+            var result = distributor.Distribute(users2, tasks).ToList();
+
+            //Assert
+            Assert.AreEqual(2, result.Count);
+
+            foreach (var task in result)
+            {
+                Assert.AreEqual(1, task.Users.Count);
+
+                foreach (var dataField in task.DataFields)
+                {
+                    Assert.AreEqual(users2[0].ID, dataField.UserData[0].UserID);
+                    Assert.AreEqual(1, dataField.UserData.Count);
+                }
+                Assert.AreEqual(users[0], task.Users[0]);
+            
+            }
+
+        }
+
+
+        [TestMethod]
+        public void TestDistributorsNoOverlap()
+        {
+            //Arrange
+            var distributor = new NoOverlapDistributor();
+
+            //Action
+            var result = distributor.Distribute(users, tasks).ToList();
+
+            //Assert
+            Assert.AreEqual(2, result.Count);
+
+            foreach (var task in result)
+            {
+                Assert.AreEqual(1, task.Users.Count);
+
+                foreach (var dataField in task.DataFields)
+                {
+                    Assert.AreEqual(1, dataField.UserData.Count);
+                }
+              
+            }
+
+        }
+        
+        
+
+
     }
 }

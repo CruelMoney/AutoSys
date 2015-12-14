@@ -79,19 +79,19 @@ namespace StudyConfigurationServer
             var criteria1 = new CriteriaDTO()
             {
                 Name = "Year",
-                Rule = CriteriaDTO.CriteriaRule.BeforeDate,
-                DataMatch = new string[] { "1/12/2000" },
+                Rule = CriteriaDTO.CriteriaRule.LargerThan,
+                DataMatch = new string[] { "2001" },
                 DataType = DataFieldDTO.DataType.String,
                 Description = "Write the year of the study",
             };
 
             var criteria2 = new CriteriaDTO()
             {
-                Name = "Is about...",
-                DataType = DataFieldDTO.DataType.Boolean,
-                Rule = CriteriaDTO.CriteriaRule.Equals,
-                DataMatch = new string[] { "true" },
-                Description = "Check if the item is about snails.",
+                Name = "Titlee",
+                DataType = DataFieldDTO.DataType.String,
+                Rule = CriteriaDTO.CriteriaRule.Contains,
+                DataMatch = new string[] { "software" },
+                Description = "Write the title of the paper",
             };
 
             var stage1 = new StageDTO()
@@ -109,7 +109,7 @@ namespace StudyConfigurationServer
             {
                 Name = "stage2",
                 Criteria = criteria2,
-                DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
+                DistributionRule = StageDTO.Distribution.NoOverlap,
                 ReviewerIDs = new int[] { 3, 2 },
                 ValidatorIDs = new int[] { 4 },
                 VisibleFields = new StageDTO.FieldType[] { StageDTO.FieldType.Title, StageDTO.FieldType.Author, StageDTO.FieldType.Year },
@@ -120,7 +120,7 @@ namespace StudyConfigurationServer
             {
                 Name = "testStudy",
                 Team = teamDTO,
-                Items = Properties.Resources.bibtex_small,
+                Items = Properties.Resources.bibtex,
                 Stages = new StageDTO[] { stage1, stage2 }
             };
 

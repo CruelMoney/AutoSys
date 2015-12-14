@@ -16,7 +16,8 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskD
         {
             _distributors = distributors ?? new Dictionary<Stage.Distribution, IDistributor>()
             {
-                {Stage.Distribution.HundredPercentOverlap, new EqualDistributor() }
+                {Stage.Distribution.HundredPercentOverlap, new EqualDistributor() },
+                {Stage.Distribution.NoOverlap, new NoOverlapDistributor() }
             };
         }
 
@@ -26,7 +27,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskD
         /// <param name="stage">The stage within the tasks are distributed</param>
         /// <param name="users">The users to distribute the tasks to</param>
         /// <param name="tasks">The tasks to distribute</param>
-        public IEnumerable<StudyTask> Distribute(Stage.Distribution distributionRule, ICollection<User> users, IEnumerable<StudyTask> tasks)
+        public IEnumerable<StudyTask> Distribute(Stage.Distribution distributionRule, IEnumerable<User> users, IEnumerable<StudyTask> tasks)
         {
             if (_distributors.ContainsKey(distributionRule))
             {
