@@ -143,6 +143,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
                     .FirstOrDefault();
 
                 return user.Studies.Select(s=>s.ID).ToList();
+                
             }
             catch (NullReferenceException)
             {

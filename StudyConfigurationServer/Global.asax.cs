@@ -38,9 +38,6 @@ namespace StudyConfigurationServer
             studyManager.CreateStudy(CreaStudyDto());
             
 
-      
-
-
         }
 
         internal class MultipleTeamsDB : DropCreateDatabaseAlways<StudyContext>
@@ -54,10 +51,10 @@ namespace StudyConfigurationServer
                 var testUser2 = new User() { ID = 2, Name = "ramos" };
                 var testUser3 = new User() { ID = 3, Name = "kathrin" };
                 var testUser4 = new User() { ID = 4, Name = "emil" };
-                var testUser5 = new User() { ID = 1, Name = "user1" };
-                var testUser6 = new User() { ID = 2, Name = "user2" };
-                var testUser7 = new User() { ID = 3, Name = "user3" };
-                var testUser8 = new User() { ID = 4, Name = "user4" };
+                var testUser5 = new User() { ID = 5, Name = "user1" };
+                var testUser6 = new User() { ID = 6, Name = "user2" };
+                var testUser7 = new User() { ID = 7, Name = "user3" };
+                var testUser8 = new User() { ID = 8, Name = "user4" };
 
                 context.Users.AddRange(new List<User>() { testUser1, testUser2, testUser3, testUser4 });
 
