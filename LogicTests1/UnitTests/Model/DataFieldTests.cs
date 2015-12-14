@@ -74,7 +74,7 @@ namespace LogicTests1.Model
 
 
         [TestMethod]
-        [ExpectedException(typeof(TargetException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestDataFieldSubmitDataInvalidUser()
         {
             //Arrange

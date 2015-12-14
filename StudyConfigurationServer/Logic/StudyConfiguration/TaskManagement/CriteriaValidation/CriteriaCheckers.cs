@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using StudyConfigurationServer.Models;
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
@@ -28,7 +29,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
         {
             var type = criteria.Rule;
             var checkData = data;
-            var criteriaData = criteria.DataMatch;
+            var criteriaData = criteria.DataMatch.Select(s=>s.Value).ToArray();
             if (_checkers.ContainsKey(type))
             {
                 return _checkers[type].IsRuleMet(checkData, criteriaData);

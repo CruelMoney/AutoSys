@@ -31,7 +31,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
                     {
                     foreach (var s in criterion.TypeInfo)
                     {
-                        dataField.TypeInfo.ToList().Add(new StoredString() { Value = s });
+                       dataField.TypeInfo.Add(s);
                     }
                
                     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation;
@@ -35,6 +36,7 @@ namespace LogicTests1.Model
         public void TestCriteriaCheckResourceExists()
         {
             //Arrange
+            testCriteria1.DataMatch = new List<StoredString>();
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
             testCriteria1.DataType = DataField.DataType.Resource;
 
@@ -58,8 +60,8 @@ namespace LogicTests1.Model
                "1", "2", "3"
             };
 
-            testCriteria1.DataMatch = expectedData;
-
+            testCriteria1.DataMatch = expectedData.Select(s=>new StoredString() {Value = s}).ToList();
+       
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, expectedData));
         }
@@ -81,9 +83,8 @@ namespace LogicTests1.Model
                "1", "2", "3","4"
            };
 
-            testCriteria1.DataMatch = checkData;
+           testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
-          
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
         }
@@ -105,9 +106,9 @@ namespace LogicTests1.Model
              "4", "3", "2",  "1"
            };
 
-            testCriteria1.DataMatch = checkData;
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
-          
+
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -130,9 +131,9 @@ namespace LogicTests1.Model
                "1", "2"
            };
 
-            testCriteria1.DataMatch = checkData;
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
-           
+
 
             //Assert
             Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -155,7 +156,7 @@ namespace LogicTests1.Model
                "1", "2", "3"
            };
 
-            testCriteria1.DataMatch = checkData;
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
 
             //Assert
@@ -179,9 +180,9 @@ namespace LogicTests1.Model
                "2","3","1"
            };
 
-            testCriteria1.DataMatch = checkData;
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
-          
+
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -204,7 +205,7 @@ namespace LogicTests1.Model
                "1"
            };
 
-            testCriteria1.DataMatch = checkData;
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
 
             //Assert
@@ -215,10 +216,13 @@ namespace LogicTests1.Model
         public void TestCriteriaCheckFlagsLargerThanTrueSmallerThanFalse()
         {
             //Arrange
+            testCriteria1.DataMatch = new List<StoredString>();
             testCriteria1.Rule = Criteria.CriteriaRule.LargerThan;
             testCriteria1.DataType = DataField.DataType.Flags;
+            testCriteria2.DataMatch = new List<StoredString>();
             testCriteria2.Rule = Criteria.CriteriaRule.SmallerThan;
             testCriteria2.DataType = DataField.DataType.Flags;
+
 
             string[] checkData = new string[1]
             {
@@ -230,8 +234,8 @@ namespace LogicTests1.Model
                "1", "2", "3"
            };
 
-            testCriteria1.DataMatch = checkData;
-            testCriteria2.DataMatch = checkData;
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -257,8 +261,8 @@ namespace LogicTests1.Model
                "1"
            };
 
-            testCriteria1.DataMatch = checkData;
-            testCriteria2.DataMatch = checkData;
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
             //Assert
             Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -270,6 +274,7 @@ namespace LogicTests1.Model
         public void TestCriteriaCheckFlagsExistsTrue()
         {
             //Arrange
+            testCriteria1.DataMatch = new List<StoredString>();
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
             testCriteria1.DataType = DataField.DataType.Flags;
 
@@ -289,6 +294,7 @@ namespace LogicTests1.Model
         public void TestCriteriaCheckFlagsExistsFalse()
         {
             //Arrange
+            testCriteria1.DataMatch = new List<StoredString>();
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
             testCriteria1.DataType = DataField.DataType.Flags;
 
@@ -300,6 +306,7 @@ namespace LogicTests1.Model
         public void TestCriteriaCheckFlagsExistsEmptyString()
         {
             //Arrange
+            testCriteria1.DataMatch = new List<StoredString>();
             testCriteria1.Rule = Criteria.CriteriaRule.Exists;
             testCriteria1.DataType = DataField.DataType.Flags;
 
@@ -321,9 +328,10 @@ namespace LogicTests1.Model
 
 
             var actaulData = new string[1] {"1"};
-            
 
-            testCriteria1.DataMatch = new string[1] {"1"};
+
+            testCriteria1.DataMatch = new List<StoredString>() {new StoredString() {Value = "1"}};
+            
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -338,9 +346,9 @@ namespace LogicTests1.Model
 
 
             var actaulData = new string[1] {"2"};
-           
-        
-            testCriteria1.DataMatch = new string[1] { "1" };
+
+
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "1" } };
 
             //Assert
             Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -355,7 +363,7 @@ namespace LogicTests1.Model
 
             
              var actaulData = new string[1] { "true" };
-            testCriteria1.DataMatch = new string[1] { "true" };
+             testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "true" } };
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -371,7 +379,7 @@ namespace LogicTests1.Model
 
                var actaulData = new string[1] { "true" };
 
-            testCriteria1.DataMatch = new string[1] { "false" };
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "1" } };
 
             //Assert
             Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -387,7 +395,7 @@ namespace LogicTests1.Model
 
             var actaulData = new string[1] {"testing"};
             
-            testCriteria1.DataMatch = new string[1] { "testing" };
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "testing" } };
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -404,7 +412,7 @@ namespace LogicTests1.Model
             var actaulData = new string[1] {"testing the test"};
             
 
-            testCriteria1.DataMatch = new string[1] { "testing" };
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "testing" } };
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));

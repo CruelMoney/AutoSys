@@ -56,12 +56,17 @@ namespace StudyConfigurationServer.Models
             //TODO for now we use the dataField name to update the data.
             foreach (var field in newDataFields)
             {
-                var fieldToUpdate = DataFields.First(d=>d.Name.Equals(field.Name));
-                
-                if (fieldToUpdate==null)
+                DataField fieldToUpdate;
+
+                try
                 {
-                    throw new InvalidOperationException("A Corresponding dataField is not found in the task");
+                    fieldToUpdate = DataFields.First(d => d.Name.Equals(field.Name));
                 }
+                catch (Exception)
+                {
+                    throw new ArgumentException("A Corresponding dataField is not found in the task");
+                }
+
                 fieldToUpdate.SubmitData(userID, field.Data);
             }
 
