@@ -43,7 +43,7 @@ namespace LogicTests1.StudyConfiguration.TaskManagement
                 DataType = expectedDataType,
                 Description = "expectedDescription",
                 Name = "expectedName",
-                TypeInfo = new string[1] {"expectedInfo"}
+                TypeInfo = new List<StoredString>() { new StoredString() { Value = "expectedInfo" } }
             };
 
             var testCriteria2 = new Criteria()
@@ -51,7 +51,7 @@ namespace LogicTests1.StudyConfiguration.TaskManagement
                 DataType = expectedDataType,
                 Description = "expectedDescription2",
                 Name = "expectedName2",
-                TypeInfo = new string[1] { "expectedInfo2" }
+                TypeInfo = new List<StoredString>() { new StoredString() { Value = "expectedInfo2" } }
             };
 
             testStage1 = new Stage() {ID = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, CurrentTaskType = StudyTask.Type.Review};

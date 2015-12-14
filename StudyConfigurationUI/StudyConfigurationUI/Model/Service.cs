@@ -42,7 +42,7 @@ namespace StudyConfigurationUI.Model
             }
         }
 
-        public static async Task UpdateStudy(StudyDTO study)
+        public static async Task UpdateStudy(int id,StudyDTO study)
         {
             using (var client = new HttpClient())
             {
@@ -52,7 +52,7 @@ namespace StudyConfigurationUI.Model
 
                 try
                 {
-                    HttpResponseMessage response = await client.PutAsJsonAsync("api/StudyConfiguration", study);
+                    HttpResponseMessage response = await client.PutAsJsonAsync("api/StudyConfiguration/"+id, study);
                     response.EnsureSuccessStatusCode();    // Throw if not a success code.
                     return;
                 }

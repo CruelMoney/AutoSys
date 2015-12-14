@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
+
 using LogicTests1.IntegrationTests.DBInitializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Api;
@@ -130,12 +131,12 @@ namespace LogicTests1.IntegrationTests.WEBAPI
         public void GetTasksTest()
         {
             //Action
-            var result = _API.GetTasks(1, 1);
+            var result = _API.GetTasks(1, 1, 15);
 
             //Assert
             OkNegotiatedContentResult<IEnumerable<TaskRequestDTO>> negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<TaskRequestDTO>>;
             Assert.IsNotNull(negotiatedResult);
-            Assert.AreEqual(23, negotiatedResult.Content.Count());
+            Assert.AreEqual(15, negotiatedResult.Content.Count());
         }
 
         [TestMethod]
@@ -156,6 +157,7 @@ namespace LogicTests1.IntegrationTests.WEBAPI
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+
         }
 
 
@@ -209,26 +211,131 @@ namespace LogicTests1.IntegrationTests.WEBAPI
         }
 
         [TestMethod]
-        public void GetTaskInvalidStudyTest()
+        public void GetTaskInvalidTask()
         {
             //Action
-            var result = _API.GetTaskIDs(10, 1);
+            var result = _API.GetTask(1,100);
+
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+
+        }
+
+        [TestMethod]
+        public void PostTask()
+        {
+            var expectedData = "updatedData";
+
+            //Arrange
+             var taskSubmission = new TaskSubmissionDTO()
+             {
+                 UserId = 1,
+                 SubmittedFieldsDto =  new DataFieldDTO[]
+                 {
+                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "Year"}, 
+                 }
+             };
+            
+            //Action
+            var result = _API.Post(1, 1, taskSubmission);
+            var taskResult = _API.GetTasks(1, 1, 1, TaskRequestDTO.Filter.Editable); 
+
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
+            OkNegotiatedContentResult<IEnumerable<TaskRequestDTO>> negotiatedResult = taskResult as OkNegotiatedContentResult <IEnumerable<TaskRequestDTO>>;
+            Assert.IsNotNull(negotiatedResult);
+            var resultTask = negotiatedResult.Content.ToList();
+            Assert.AreEqual(1, resultTask.First().Id);
+            Assert.AreEqual(expectedData, resultTask.First().RequestedFieldsDto.First().Data[0]);
+        }
+
+        [TestMethod]
+        public void PostTaskInvalidDataName()
+        {
+            var expectedData = "updatedData";
+
+            //Arrange
+            var taskSubmission = new TaskSubmissionDTO()
+            {
+                UserId = 1,
+                SubmittedFieldsDto = new DataFieldDTO[]
+                {
+                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "InvalidName"},
+                }
+            };
+
+            //Action
+            var result = _API.Post(1, 1, taskSubmission);
+           
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+        
+        }
+
+        [TestMethod]
+        public void PostTaskInvalidTask()
+        {
+            var expectedData = "updatedData";
+
+            //Arrange
+            var taskSubmission = new TaskSubmissionDTO()
+            {
+                UserId = 1,
+                SubmittedFieldsDto = new DataFieldDTO[]
+                {
+                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "Year"},
+                }
+            };
+
+            //Action
+            var result = _API.Post(1, 100, taskSubmission);
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
         }
 
         [TestMethod]
-        public void GetTaskInvalidTaskID()
+        public void PostTaskInvalidUser()
         {
+            var expectedData = "updatedData";
+
+            //Arrange
+            var taskSubmission = new TaskSubmissionDTO()
+            {
+                UserId = 100,
+                SubmittedFieldsDto = new DataFieldDTO[]
+                {
+                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "Year"},
+                }
+            };
+
             //Action
-            var result = _API.GetTaskIDs(1, 100);
+            var result = _API.Post(1, 1, taskSubmission);
+           
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+        }
+
+        [TestMethod]
+        public void PostTaskInvalidStudy()
+        {
+            var expectedData = "updatedData";
+
+            //Arrange
+            var taskSubmission = new TaskSubmissionDTO()
+            {
+                UserId = 100,
+                SubmittedFieldsDto = new DataFieldDTO[]
+                {
+                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "Year"},
+                }
+            };
+
+            //Action
+            var result = _API.Post(100, 1, taskSubmission);
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-
         }
-
-
     }
 }

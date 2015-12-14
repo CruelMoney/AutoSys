@@ -1,4 +1,5 @@
-﻿using Storage.Repository;
+﻿using System.Collections.Generic;
+using Storage.Repository;
 
 namespace StudyConfigurationServer.Models
 {
@@ -36,7 +37,7 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         /// For <see cref="DataField.DataType.Enumeration"/> and <see cref="DataField.DataType.Flags"/> data types, a collection of the predefined values.
         /// </summary>
-        public string[] TypeInfo { get; set; }
+        public ICollection<StoredString> TypeInfo { get; set; }
 
         /// <summary>
         /// The data the rule is checked against. 
@@ -44,7 +45,7 @@ namespace StudyConfigurationServer.Models
         /// For all but <see cref="DataField.DataType.Flags" /> this array contains just one element; the representation of the object for that data type (see <see cref="DataType" />).
         /// For DataField it can contain several flags that is checked in regards to the rule. 
         /// </summary>
-        public string[] DataMatch { get; set; }
+        public ICollection<StoredString> DataMatch { get; set; }
 
         /// <summary>
         /// A rule for when the criteria is met / true. 

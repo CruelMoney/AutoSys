@@ -13,7 +13,6 @@ namespace StudyConfigurationServer.Models.DTO
             Name = stage.Name;
             Id = stage.ID;
             Criteria = new CriteriaDTO(stage.Criteria.ElementAt(0));
-            StudyID = stage.Study.ID;
             ReviewerIDs = (from u in stage.Users where u.StudyRole == UserStudies.Role.Reviewer select u.ID).ToArray();
             ValidatorIDs = (from u in stage.Users where u.StudyRole == UserStudies.Role.Validator select u.ID).ToArray();
             DistributionRule = (Distribution)Enum.Parse(typeof(Stage.Distribution), stage.DistributionRule.ToString());
@@ -28,7 +27,6 @@ namespace StudyConfigurationServer.Models.DTO
         //The critderia are defining what fields are going to be editable for this stage
         [Required]
         public CriteriaDTO Criteria { get; set; }
-        public int StudyID { get; set; }
         [Required]
         public int[] ReviewerIDs { get; set; }
         public int[] ValidatorIDs { get; set; }

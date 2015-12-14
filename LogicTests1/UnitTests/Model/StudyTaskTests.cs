@@ -105,7 +105,7 @@ namespace LogicTests1.Model
 
 
         [TestMethod]
-        [ExpectedException(typeof(TargetException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestTaskSubmitDataInvalidUser()
         {
             //Arrange
@@ -122,7 +122,7 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestTaskSubmitDataInvalidDatafield()
         {
             //Arrange

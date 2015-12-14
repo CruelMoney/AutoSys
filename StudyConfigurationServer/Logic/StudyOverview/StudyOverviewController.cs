@@ -32,7 +32,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             Study study = _studyStorageManager.GetAllStudies()
                 .Where(s => s.ID == id)
-                .Include(s => s.Stages.Select(t => t.Tasks))
+                .Include(st => st.Stages.Select(s => s.Tasks.Select(t=>t.Users)))
                 .FirstOrDefault();
 
             StudyOverviewDTO studyOverview = new StudyOverviewDTO()

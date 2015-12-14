@@ -79,7 +79,7 @@ namespace LogicTests1.IntegrationTests
                 Description = "this is a test Criteria",
                 Rule = Criteria.CriteriaRule.Contains,
                 DataType = DataField.DataType.String,
-                DataMatch = new string[] { "software" }
+                DataMatch = new List<StoredString>() { new StoredString() { Value = "software" }}
 
             };
             var testCriteria2 = new Criteria()
@@ -88,7 +88,7 @@ namespace LogicTests1.IntegrationTests
                 Description = "this is a test Criteria",
                 Rule = Criteria.CriteriaRule.Equals,
                 DataType = DataField.DataType.Boolean,
-                DataMatch = new string[] {"true"}
+                DataMatch = new List<StoredString>() { new StoredString() { Value = "software" } }
             };
 
             criteria = new List<Criteria>() {testCriteria1, testCriteria2};

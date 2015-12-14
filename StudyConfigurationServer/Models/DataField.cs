@@ -81,15 +81,16 @@ namespace StudyConfigurationServer.Models
             }
             catch (Exception)
             {
-                throw new TargetException("User not associated with task");
+                throw new ArgumentException("User not associated with task");
             }
-            dataToUpdate.Data.Clear();
-            foreach (var s in data)
-            {
-                dataToUpdate.Data.Add(new StoredString() { Value = s });
-            }
-         
-        
+           
+                dataToUpdate.Data.Clear();
+                foreach (var s in data)
+                {
+                    dataToUpdate.Data.Add(new StoredString() { Value = s });
+                }
+            
+          
             return this;
         }
 

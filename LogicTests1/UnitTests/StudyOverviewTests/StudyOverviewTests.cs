@@ -14,8 +14,8 @@ namespace LogicTests1.StudyOverviewTests
     [TestClass]
     public class StudyOverviewTests
     {
-       
 
+        StudyOverviewController testController;
         Dictionary<int, Study> _studies;
         Dictionary<int, StudyTask> _tasks;
      
@@ -23,19 +23,16 @@ namespace LogicTests1.StudyOverviewTests
 
         Study _testStudy;
 
-        Mock<IGenericRepository> mockStudyRepo;
         StudyStorageManager testStudyStorageManager;
        
         TaskStorageManager testTaskStorageManager;
-     
-
-        StudyOverviewController testController;
+        Mock<IGenericRepository> mockStudyRepo;
      
 
         [TestInitialize]
         public void InitializeTests()
         {
-         
+          
             var user1 = new User() { ID = 1 };
             var user2 = new User() { ID = 2 };
 

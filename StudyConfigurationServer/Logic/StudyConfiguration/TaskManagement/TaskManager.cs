@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Ajax.Utilities;
 using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
@@ -47,8 +48,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
 
             if (!taskToUpdate.IsEditable)
             {
-                return false;
-                throw new InvalidOperationException("The task is not editable");
+                throw new ArgumentException("The task is not editable");
             }
             
             taskToUpdate.SubmitData(task);
@@ -197,14 +197,19 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement
             return _storageManager.GetTask(taskID).IsFinished();
         }
      
-        public TaskRequestDTO GetTaskDTO(int taskId)
+        public TaskRequestDTO GetTaskDTO(int taskId, int? userID=null)
         {
             var task = _storageManager.GetAllTasks()
                 .Where(t=>t.ID==taskId)
                 .Include(t=>t.Stage)
                 .FirstOrDefault();
 
-            return new TaskRequestDTO(task, task.Stage.VisibleFields);
+            if (task == null)
+            {
+                throw new NullReferenceException("the task does not exist");
+            }
+
+            return new TaskRequestDTO(task, task.Stage.VisibleFields, userID);
         }
     }
 }

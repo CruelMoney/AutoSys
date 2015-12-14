@@ -62,10 +62,18 @@ namespace StudyConfigurationServer.Api
             {
                 return Ok(_studyManager.GetTasks(id, userId, count, filter, type));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return NotFound();
-            } 
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof(ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
+            }
 
 
         }
@@ -101,16 +109,32 @@ namespace StudyConfigurationServer.Api
         }
 
         /// <summary>
-        /// Get a requested StudyTask with a specific ID.
+        /// Get a requested StudyTask with a specific ID. This method will not return the data entered by users because the user is not specified. 
         /// </summary>
-        /// <param name="id">The id of the user</param>
+        /// <param name="id">The id of the study</param>
         /// <param name="taskId"></param>
         /// <returns></returns>
         [Route("{id}/Task/{taskId}")]
         public IHttpActionResult GetTask(int id, int taskId)
         {
             // GET: api/Study/4/StudyTask/5
-           return Ok(_studyManager.GetTask(taskId));
+           
+            try
+            {
+                return Ok(_studyManager.GetTask(taskId));
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+    }
+                if (e.GetType() == typeof(ArgumentException))
+                {
+                    return BadRequest();
+}
+                throw;
+            }
 
         }
 
@@ -127,29 +151,26 @@ namespace StudyConfigurationServer.Api
         public IHttpActionResult Post(int id, int taskId, [FromBody]TaskSubmissionDTO task)
         {
             // POST: api/Study/4/StudyTask/5
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-
-            var updated = false;
-
             try
             {
-                updated = _studyManager.DeliverTask(id, taskId, task);
+                 _studyManager.DeliverTask(id, taskId, task);
             }
             catch (Exception e)
             {
-                if (e.GetType() == typeof(TargetException))
+                if (e.GetType() == typeof(NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof(ArgumentException))
                 {
                     return BadRequest();
                 }
-            }
-            if (!updated)
-            {
-                return NotFound();
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);

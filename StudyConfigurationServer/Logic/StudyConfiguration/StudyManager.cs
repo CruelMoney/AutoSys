@@ -49,34 +49,32 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         }
 
         //TODO check if whole study finished
-        public bool DeliverTask(int studyID, int taskID, TaskSubmissionDTO taskDTO)
-        {
-           
-            bool deliverSucces ;
-
-            try
-            {
-               deliverSucces =  _taskManager.DeliverTask(taskID, taskDTO);
-            }
-            catch (Exception e)
-            {
-               
-               throw;
-            }
-            
-             var currentStudy = _studyStorageManager.GetAllStudies()
+        public void DeliverTask(int studyID, int taskID, TaskSubmissionDTO taskDTO)
+        {         
+            var currentStudy = _studyStorageManager.GetAllStudies()
                 .Where(s => s.ID == studyID)
                 .Include(s => s.Stages.Select(t => t.Tasks))
                 .FirstOrDefault();
+            
+            if (currentStudy == null)
+            {
+                throw new NullReferenceException("Study not found");
+            }
+            if (!currentStudy.Team.Users.Select(u => u.ID).Contains(taskDTO.UserId))
+            {
+                throw new ArgumentException("The user is not part of this study");
+            }
 
-             
+            _taskManager.DeliverTask(taskID, taskDTO);
+
             //Determine if the stage is finished
-            if (currentStudy.CurrentStage().Tasks.Select(t=>t.ID).ToList().TrueForAll(t=>_taskManager.TaskIsFinished(t)))
+            if (currentStudy.CurrentStage().
+                Tasks.Select(t=>t.ID).ToList().
+                TrueForAll(t=>_taskManager.
+                TaskIsFinished(t)))
             {
                MoveToNextPhase(currentStudy);
             }
-
-            return deliverSucces;
         }
 
         private void MoveToNextPhase(Study study)
@@ -192,44 +190,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
             foreach (var stageDto in studyDTO.Stages)
             {
-                var stage = new Stage()
-                {
-                    Name = stageDto.Name,
-                    CurrentTaskType = StudyTask.Type.Review,
-                    DistributionRule = (Stage.Distribution) Enum.Parse(typeof(Stage.Distribution), stageDto.DistributionRule.ToString()),
-                    VisibleFields = new List<FieldType>(),
-                    Users = new List<UserStudies>(),
-                    Criteria = new List<Criteria>(),                   
-                };
-
-                stageDto.VisibleFields.ForEach(
-                    f => stage.VisibleFields.Add(new FieldType (f.ToString())));
-
-                stageDto.ReviewerIDs.ForEach(u=>
-                    stage.Users.Add(new UserStudies()
-                    {
-                        StudyRole = UserStudies.Role.Reviewer,
-                        User = _teamStorage.GetUser(u)
-                    }));
-               
-                stageDto.ValidatorIDs.ForEach(u=>
-                    stage.Users.Add(new UserStudies()
-                    {
-                        StudyRole = UserStudies.Role.Validator,
-                        User = _teamStorage.GetUser(u)
-                    }));
-                
-                
-                  stage.Criteria.Add(new Criteria()
-                  {
-                    Name = stageDto.Criteria.Name,
-                    DataMatch = stageDto.Criteria.DataMatch,
-                    DataType = (DataField.DataType) Enum.Parse(typeof(DataField.DataType), stageDto.Criteria.DataType.ToString()),
-                    Description = stageDto.Criteria.Description,
-                    Rule = (Criteria.CriteriaRule) Enum.Parse(typeof(Criteria.CriteriaRule), stageDto.Criteria.Rule.ToString()),
-                    TypeInfo = stageDto.Criteria.TypeInfo
-                    });
-
+                var stage = CreateStage(stageDto);
 
                 study.Stages.Add(stage);
 
@@ -246,6 +207,54 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             _studyStorageManager.SaveStudy(study);
 
             return study.ID;
+        }
+
+        private Stage CreateStage(StageDTO stageDto)
+        {
+            var stage = new Stage()
+            {
+                Name = stageDto.Name,
+                CurrentTaskType = StudyTask.Type.Review,
+                DistributionRule = (Stage.Distribution)Enum.Parse(typeof(Stage.Distribution), stageDto.DistributionRule.ToString()),
+                VisibleFields = new List<FieldType>(),
+                Users = new List<UserStudies>(),
+                Criteria = new List<Criteria>(),
+            };
+
+            stageDto.VisibleFields.ForEach(
+                f => stage.VisibleFields.Add(new FieldType(f.ToString())));
+
+            stageDto.ReviewerIDs.ForEach(u =>
+                stage.Users.Add(new UserStudies()
+                {
+                    StudyRole = UserStudies.Role.Reviewer,
+                    User = _teamStorage.GetUser(u)
+                }));
+
+            stageDto.ValidatorIDs.ForEach(u =>
+                stage.Users.Add(new UserStudies()
+                {
+                    StudyRole = UserStudies.Role.Validator,
+                    User = _teamStorage.GetUser(u)
+                }));
+
+            var criteria = new Criteria()
+            {
+                Name = stageDto.Criteria.Name,
+                DataMatch = stageDto.Criteria.DataMatch.Select(s => new StoredString() { Value = s }).ToArray(),
+                DataType = (DataField.DataType)Enum.Parse(typeof(DataField.DataType), stageDto.Criteria.DataType.ToString()),
+                Description = stageDto.Criteria.Description,
+                Rule = (Criteria.CriteriaRule)Enum.Parse(typeof(Criteria.CriteriaRule), stageDto.Criteria.Rule.ToString()),
+            };
+
+            if (stageDto.Criteria.TypeInfo != null)
+            {
+                criteria.TypeInfo = stageDto.Criteria.TypeInfo.Select(s => new StoredString() { Value = s }).ToArray();
+            }
+
+            stage.Criteria.Add(criteria);
+
+            return stage;
         }
 
         public bool RemoveStudy(int studyId)
@@ -283,6 +292,10 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             if (study==null)
             {
                 throw new NullReferenceException("Study not found");
+            }
+            if (!study.Team.Users.Select(u => u.ID).Contains(userId))
+            {
+                throw new ArgumentException("The user is not part of this study");
             }
 
             var taskIDs = study.CurrentStage().Tasks.Select(t=>t.ID).ToList();

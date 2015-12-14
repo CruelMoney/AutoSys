@@ -23,6 +23,30 @@ namespace StudyConfigurationServer.Migrations
                 .Index(t => t.Stage_ID);
             
             CreateTable(
+                "dbo.StoredStrings",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Value = c.String(),
+                        Criteria_ID = c.Int(),
+                        Criteria_ID1 = c.Int(),
+                        UserData_ID = c.Int(),
+                        DataField_ID = c.Int(),
+                        Item_ID = c.Int(),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Criteria", t => t.Criteria_ID)
+                .ForeignKey("dbo.Criteria", t => t.Criteria_ID1)
+                .ForeignKey("dbo.UserDatas", t => t.UserData_ID)
+                .ForeignKey("dbo.DataFields", t => t.DataField_ID)
+                .ForeignKey("dbo.Items", t => t.Item_ID)
+                .Index(t => t.Criteria_ID)
+                .Index(t => t.Criteria_ID1)
+                .Index(t => t.UserData_ID)
+                .Index(t => t.DataField_ID)
+                .Index(t => t.Item_ID);
+            
+            CreateTable(
                 "dbo.DataFields",
                 c => new
                     {
@@ -50,24 +74,6 @@ namespace StudyConfigurationServer.Migrations
                 .ForeignKey("dbo.DataFields", t => t.DataField_ID1)
                 .Index(t => t.DataField_ID)
                 .Index(t => t.DataField_ID1);
-            
-            CreateTable(
-                "dbo.StoredStrings",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Value = c.String(),
-                        UserData_ID = c.Int(),
-                        DataField_ID = c.Int(),
-                        Item_ID = c.Int(),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.UserDatas", t => t.UserData_ID)
-                .ForeignKey("dbo.DataFields", t => t.DataField_ID)
-                .ForeignKey("dbo.Items", t => t.Item_ID)
-                .Index(t => t.UserData_ID)
-                .Index(t => t.DataField_ID)
-                .Index(t => t.Item_ID);
             
             CreateTable(
                 "dbo.FieldTypes",
@@ -229,6 +235,8 @@ namespace StudyConfigurationServer.Migrations
             DropForeignKey("dbo.StoredStrings", "DataField_ID", "dbo.DataFields");
             DropForeignKey("dbo.UserDatas", "DataField_ID", "dbo.DataFields");
             DropForeignKey("dbo.StoredStrings", "UserData_ID", "dbo.UserDatas");
+            DropForeignKey("dbo.StoredStrings", "Criteria_ID1", "dbo.Criteria");
+            DropForeignKey("dbo.StoredStrings", "Criteria_ID", "dbo.Criteria");
             DropIndex("dbo.UserTeams", new[] { "Team_ID" });
             DropIndex("dbo.UserTeams", new[] { "User_ID" });
             DropIndex("dbo.UserStudyTasks", new[] { "StudyTask_ID" });
@@ -243,12 +251,14 @@ namespace StudyConfigurationServer.Migrations
             DropIndex("dbo.Items", new[] { "Study_ID" });
             DropIndex("dbo.FieldTypes", new[] { "Stage_ID" });
             DropIndex("dbo.FieldTypes", new[] { "Item_ID" });
-            DropIndex("dbo.StoredStrings", new[] { "Item_ID" });
-            DropIndex("dbo.StoredStrings", new[] { "DataField_ID" });
-            DropIndex("dbo.StoredStrings", new[] { "UserData_ID" });
             DropIndex("dbo.UserDatas", new[] { "DataField_ID1" });
             DropIndex("dbo.UserDatas", new[] { "DataField_ID" });
             DropIndex("dbo.DataFields", new[] { "StudyTask_ID" });
+            DropIndex("dbo.StoredStrings", new[] { "Item_ID" });
+            DropIndex("dbo.StoredStrings", new[] { "DataField_ID" });
+            DropIndex("dbo.StoredStrings", new[] { "UserData_ID" });
+            DropIndex("dbo.StoredStrings", new[] { "Criteria_ID1" });
+            DropIndex("dbo.StoredStrings", new[] { "Criteria_ID" });
             DropIndex("dbo.Criteria", new[] { "Stage_ID" });
             DropTable("dbo.UserTeams");
             DropTable("dbo.UserStudyTasks");
@@ -260,9 +270,9 @@ namespace StudyConfigurationServer.Migrations
             DropTable("dbo.StudyTasks");
             DropTable("dbo.Items");
             DropTable("dbo.FieldTypes");
-            DropTable("dbo.StoredStrings");
             DropTable("dbo.UserDatas");
             DropTable("dbo.DataFields");
+            DropTable("dbo.StoredStrings");
             DropTable("dbo.Criteria");
         }
     }
