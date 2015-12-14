@@ -190,7 +190,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
             foreach (var stageDto in studyDTO.Stages)
             {
-                var stage = createStage(stageDto);
+                var stage = CreateStage(stageDto);
 
                 study.Stages.Add(stage);
 
@@ -209,7 +209,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return study.ID;
         }
 
-        private Stage createStage(StageDTO stageDto)
+        private Stage CreateStage(StageDTO stageDto)
         {
             var stage = new Stage()
             {
@@ -272,17 +272,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return (from Study dbStudy in _studyStorageManager.GetAllStudies() where dbStudy.Name.Equals(studyName) select dbStudy).ToList();
         }
 
-        public Study GetStudy(int studyId)
+        public StudyDTO GetStudy(int studyId)
         {
-            return _studyStorageManager.GetStudy(studyId);
-            /*var StudyToConvert = _studyStorageManager.GetStudy(studyId);
-            return new StudyDTO()
-            {
-                Id = StudyToConvert.Id,
-                IsFinished = StudyToConvert.IsFinished,
-                Name = StudyToConvert.Name,
-                Team = new TeamDTO(StudyToConvert.Team)
-            };*/
+            return new StudyDTO(_studyStorageManager.GetStudy(studyId));
         }
 
         public IEnumerable<Study> GetAllStudies()

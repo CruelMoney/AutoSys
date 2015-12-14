@@ -32,13 +32,8 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             Study study = _studyStorageManager.GetAllStudies()
                 .Where(s => s.ID == id)
-                .Include(s => s.Stages.Select(t => t.Tasks))
+                .Include(st => st.Stages.Select(s => s.Tasks.Select(t=>t.Users)))
                 .FirstOrDefault();
-
-            if (study==null)
-            {
-                throw new NullReferenceException("A study with the id was not found");
-            }
 
             StudyOverviewDTO studyOverview = new StudyOverviewDTO()
             {
@@ -64,7 +59,7 @@ namespace StudyConfigurationServer.Logic.StudyOverview
            
             foreach (var stage in study.Stages)
             {
-                if (stage.ID == study.CurrentStage().ID)
+                if (stage.ID == study.CurrentStageID)
                 {
                     currentStage = stage;
                     break;
@@ -95,13 +90,10 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach(var task in stage.Tasks)
             {
-                var loadedTask = _taskStorage.GetAllTasks()
-                    .Where(t => t.ID == task.ID)
-                    .Include(t=>t.Users).FirstOrDefault();
-
-                foreach (var user in loadedTask.Users)
+             
+                foreach (var user in task.Users)
                 {
-                    if (loadedTask.IsFinished(user.ID))
+                    if (task.IsFinished(user.ID))
                     {
                         completedTasks.AddOrUpdate(user.ID, 1, (id, count) => count + 1);
                     }
@@ -116,13 +108,10 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach (var task in stage.Tasks)
             {
-                var loadedTask = _taskStorage.GetAllTasks()
-                    .Where(t => t.ID == task.ID)
-                    .Include(t => t.Users).FirstOrDefault();
-
-                foreach (var user in loadedTask.Users)
+             
+                foreach (var user in task.Users)
                 {
-                    if (!loadedTask.IsFinished(user.ID))
+                    if (!task.IsFinished(user.ID))
                     {
                         inCompletedTasks.AddOrUpdate(user.ID, 1, (id, count) => count + 1);
                     }

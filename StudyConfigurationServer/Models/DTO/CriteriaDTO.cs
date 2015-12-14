@@ -15,7 +15,7 @@ namespace StudyConfigurationServer.Models.DTO
             Description = criteria.Description;
             TypeInfo = criteria.TypeInfo.Select(s => s.Value).ToArray();
             DataMatch = criteria.DataMatch.Select(s => s.Value).ToArray();
-            Rule = (CriteriaRule)Enum.Parse(typeof(Criteria.CriteriaRule), criteria.DataType.ToString()); ;
+            Rule = (CriteriaRule)Enum.Parse(typeof(Criteria.CriteriaRule), criteria.Rule.ToString()); ;
 
         }
         public enum CriteriaRule

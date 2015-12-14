@@ -83,6 +83,27 @@ namespace StudyConfigurationUI.Model
             }
         }
 
+        public static async Task<Boolean> RemoveStudy(int StudyId)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:6735/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                try
+                {
+                    HttpResponseMessage response = await client.DeleteAsync("api/StudyConfiguration/" + StudyId);
+                    response.EnsureSuccessStatusCode();    // Throw if not a success code.
+                    return true;
+                }
+                catch (HttpRequestException e)
+                {
+                    return false;
+                }
+            }
+        }
+
         public static async Task<UserDTO[]> GetUsers(int[] IDs)
         {
             using (var client = new HttpClient())

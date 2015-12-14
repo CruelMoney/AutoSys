@@ -7,6 +7,18 @@ namespace StudyConfigurationServer.Models.DTO
 {
     public class StudyDTO
     {
+
+        public StudyDTO() { }
+
+        public StudyDTO(Study study)
+        {
+            Id = study.ID;
+            Name = study.Name;
+            Stages = study.Stages.Select(s => new StageDTO(s)).ToArray();
+            Team = new TeamDTO(study.Team);
+            Items = new byte[] {};
+            IsFinished = study.IsFinished;
+        }
         public int Id { get; set; }
         /// <summary>
         /// The official Name of the study.

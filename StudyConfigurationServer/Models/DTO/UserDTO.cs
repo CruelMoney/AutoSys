@@ -22,5 +22,18 @@ namespace StudyConfigurationServer.Models.DTO
         /// Metadata can be used to store additional data related to the User, specific to a particular consumer of the API.
         /// </summary>
         public string Metadata { get; set; }
+
+        public UserDTO(User user)
+        {
+            Id = user.ID;
+            Name = user.Name;
+            Metadata = user.Metadata;
+        }
+
+        public UserDTO()
+        {
+            
+        }
     }
+    
 }

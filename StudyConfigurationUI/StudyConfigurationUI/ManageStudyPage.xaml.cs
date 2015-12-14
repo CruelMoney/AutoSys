@@ -54,17 +54,26 @@ namespace StudyConfigurationUI
             }
 
             // Based on the parameter passed to this page, either load an existing study, or create a new one.
-            if (studyArgs.StudyId != null)
+            try
             {
-                await _logic.SetUpFromStudy((int) studyArgs.StudyId);
-                _logic._IsNewStudy = false;
-                SetUpFromLogic(_logic);
+                if (studyArgs.StudyId != null)
+                {
+                    await _logic.SetUpFromStudy((int) studyArgs.StudyId);
+                    _logic._IsNewStudy = false;
+                    SetUpFromLogic(_logic);
+                }
+                else if (studyArgs.TeamId != null)
+                {
+                    await _logic.SetUpFromTeam((int) studyArgs.TeamId);
+                    _logic._IsNewStudy = true;
+                    SetUpFromLogic(_logic);
+                }
             }
-            else if (studyArgs.TeamId != null)
+            catch (Exception)
             {
-                await _logic.SetUpFromTeam((int) studyArgs.TeamId);
-                _logic._IsNewStudy = true;
-                SetUpFromLogic(_logic);
+                var dialog = new MessageDialog("Error retrieving from Database") { Title = "Error" };
+                await dialog.ShowAsync();
+                this.Frame.Navigate(_logic._Origin.SourcePageType);
             }
         }
 
@@ -140,7 +149,34 @@ namespace StudyConfigurationUI
                 await Service.UpdateStudy(_logic._StudyToWorkOn);
             }
             
-            this.Frame.Navigate(_logic._Origin.SourcePageType);
+            
+        }
+
+        private async void DeleteAndReturn(object sender, RoutedEventArgs e)
+        {
+            if (_logic._IsNewStudy)
+            {
+                this.Frame.Navigate(_logic._Origin.SourcePageType);
+            }
+            else
+            {
+                var success= await Service.RemoveStudy(_logic._StudyToWorkOn.Id);
+                if (success)
+                {
+                    var dialog = new MessageDialog("Successfully deleted study the study, will now return")
+                    {
+                        Title = "Success"
+                    };
+                    await dialog.ShowAsync();
+                    this.Frame.Navigate(_logic._Origin.SourcePageType);
+                }
+                else
+                {
+                    var dialog = new MessageDialog("Error deleting from the database, check your connection") { Title = "Error" };
+                    await dialog.ShowAsync();
+                    this.Frame.Navigate(_logic._Origin.SourcePageType);
+                }
+            }
         }
     }
 }
