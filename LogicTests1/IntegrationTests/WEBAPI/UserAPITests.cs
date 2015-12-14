@@ -8,6 +8,9 @@ using StudyConfigurationServer.Logic.TeamCRUD;
 using System.Web.Http.Results;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Formatting;
+using System.Security.Cryptography.X509Certificates;
 using StudyConfigurationServer.Models.DTO;
 using StudyConfigurationServer.Logic.StudyConfiguration;
 
@@ -115,6 +118,9 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             Assert.AreEqual(1, negotiatedResult.Content.Count());
         }
 
+                
+        
+
         [TestMethod]
         public void TestGetUserByExistingId()
         {
@@ -124,6 +130,8 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             Assert.IsNotNull(negotiatedResult);
             Assert.AreEqual("chris", negotiatedResult.Content.Name);
         }
+
+        
 
         [TestMethod]
         public void TestTryGetinvalidUser()
@@ -141,6 +149,75 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             OkNegotiatedContentResult<IEnumerable<int>> negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<int>>;
             Assert.IsNotNull(negotiatedResult);
             Assert.AreEqual(1, negotiatedResult.Content.Count());
-        }      
+        }
+
+        [TestMethod]
+        public void TestPostUser()
+        {
+            var newUser = new UserDTO() {Name = "TestUser" };
+
+            var result = _API.Post(newUser);
+
+            Assert.IsInstanceOfType(result, typeof(CreatedAtRouteNegotiatedContentResult<UserDTO>));
+            CreatedAtRouteNegotiatedContentResult<UserDTO> negotiatedResult= result as CreatedAtRouteNegotiatedContentResult<UserDTO>;
+            Assert.IsNotNull((negotiatedResult));
+            Assert.AreEqual("TestUser", negotiatedResult.Content.Name);
+            Assert.AreEqual(9, negotiatedResult.Content.Id);
+        }
+
+        [TestMethod]
+        public void TestPutValidUser()
+        {
+            var newUser = new UserDTO() {Name = "NewName"};
+
+            var result = _API.Put(1, newUser);
+
+            Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
+            
+
+        }
+
+        [TestMethod]
+        public void TestPutUSerInvalidUser()
+        {
+            var newUser = new UserDTO() {Name = "newName"};
+            var result = _API.Put(50, newUser);
+
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+           
+        }
+
+        [TestMethod]
+        public void TestDeleteUserInAStudy()
+        {
+            var result = _API.Delete(1);
+
+            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+
+        }
+
+        [TestMethod]
+        public void TestDeleteValidUser()
+        {
+            var userToDelete = new UserDTO() {Name = "BadName"};
+
+            _API.Post(userToDelete);
+
+            var result = _API.Delete(9);
+
+            Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
+        }
+
+        [TestMethod]
+        public void TestDeleteInvalidUser()
+        {
+            var result = _API.Delete(50);
+
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
+
+
+
     }
+
 }
