@@ -125,7 +125,7 @@
     <Compile Include="IntegrationTests\TeamManagerIntegrationTest.cs" />
     <Compile Include="IntegrationTests\UserControllerIntegrationTest.cs" />
     <Compile Include="IntegrationTests\UserManagerIntegrationTest.cs" />
-    <Compile Include="UnitTests\Model\CriteriaTests.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\TaskManagement\CriteriaChecker\CriteriaTests.cs" />
     <Compile Include="UnitTests\Model\DataFieldTests.cs" />
     <Compile Include="UnitTests\Model\ItemTests.cs" />
     <Compile Include="UnitTests\Model\StageTests.cs" />
@@ -141,6 +141,8 @@
     <Compile Include="UnitTests\StorageManagement\TaskStorageManagerTests.cs" />
     <Compile Include="UnitTests\StorageManagement\TeamStorageManagerTests.cs" />
     <Compile Include="UnitTests\StorageManagement\UserStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\StudyManager.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\TaskManagement\CriteriaChecker\RuleCheckerTests.cs" />
     <Compile Include="UnitTests\StudyOverviewTests\StudyOverviewTests.cs" />
     <Compile Include="UnitTests\StudyConfiguration\TaskManagement\TaskDistributor\DistributorsTests.cs" />
     <Compile Include="UnitTests\StudyConfiguration\TaskManagement\TaskGeneratorTests.cs" />

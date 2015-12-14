@@ -36,7 +36,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
             }
             else
             {
-                throw new ArgumentException("No RuleChecker exists for this rule");
+                throw new NotImplementedException("No RuleChecker exists for this rule");
             }
         }
 
