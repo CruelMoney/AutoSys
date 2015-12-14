@@ -162,11 +162,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return validationTasks;
         }
 
-    
 
-        public int CreateStudy(StudyDTO studyDTO)
+        public Study ConvertStudy(StudyDTO studyDTO)
         {
-
             var study = new Study()
             {
                 IsFinished = false,
@@ -175,11 +173,11 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 Items = new List<Item>(),
                 Stages = new List<Stage>()
             };
-
             //Parse items
             var parser = new BibTexParser(new ItemValidator());
             var fileString = System.Text.Encoding.Default.GetString(studyDTO.Items);
             study.Items = parser.Parse(fileString);
+
 
             var firstStage = true;
 
@@ -196,8 +194,14 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 }
 
                 firstStage = false;
-
             }
+            return study;
+        }
+
+        public int CreateStudy(StudyDTO studyDTO)
+        {
+            var study = ConvertStudy(studyDTO);
+
             
 
             _studyStorageManager.Save(study);
@@ -260,24 +264,25 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public bool UpdateStudy(int studyId, StudyDTO studyDTO)
         {
-            throw new NotImplementedException();
         
-            /*
+            
             
                 var oldStudy = _studyStorageManager.Get(studyId);
 
                 var updatedStudy = ConvertStudy(studyDTO);
-                updatedStudy.Items = oldStudy.Items;
-
+            oldStudy.Name = updatedStudy.Name;
+            
+            updatedStudy.Items.AddRange(oldStudy.Items) ;
+            updatedStudy.ID = oldStudy.ID;
                 List<Stage> tempList = new List<Stage>();
                 tempList.AddRange(oldStudy.Stages.ToList().GetRange(0, oldStudy.Stages.Count - 1));
-                tempList.AddRange(oldStudy.Stages.ToList().GetRange(oldStudy.Stages.Count - 1, updatedStudy.Stages.Count - 1));
-                updatedStudy.Stages = tempList;
-                _studyStorageManager.Update(updatedStudy);
+                tempList.AddRange(updatedStudy.Stages.ToList().GetRange(oldStudy.Stages.Count - 1, updatedStudy.Stages.Count - 1));
+                oldStudy.Stages = tempList;
+                _studyStorageManager.Update(oldStudy);
                 return true;
             
             
-            */
+            
         }
 
         public IEnumerable<Study> SearchStudies(string studyName)
