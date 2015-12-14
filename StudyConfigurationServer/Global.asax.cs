@@ -38,9 +38,6 @@ namespace StudyConfigurationServer
             studyManager.CreateStudy(CreaStudyDto());
             
 
-      
-
-
         }
 
         internal class MultipleTeamsDB : DropCreateDatabaseAlways<StudyContext>
@@ -83,7 +80,7 @@ namespace StudyConfigurationServer
             {
                 Name = "Year",
                 Rule = CriteriaDTO.CriteriaRule.BeforeDate,
-                DataMatch = new string[] { "2000" },
+                DataMatch = new string[] { "1/12/2000" },
                 DataType = DataFieldDTO.DataType.String,
                 Description = "Write the year of the study",
             };

@@ -19,8 +19,7 @@ namespace StudyConfigurationServer.Models
         /// The DB id for the current stage
         /// </summary>
         public virtual ICollection<Stage> Stages { get; set; } // reference til Stages (one to many)
-
-
+        
         public virtual Team Team { get; set; }
         public virtual List<Item> Items { get; set; } // where to place?
         public bool IsFinished { get; set; }

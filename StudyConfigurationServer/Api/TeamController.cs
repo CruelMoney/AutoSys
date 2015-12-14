@@ -83,7 +83,7 @@ namespace StudyConfigurationServer.Api
         /// </summary>
         /// <param name="id">The ID of the TeamDTO to update.</param>
         /// <param name="user">The new TeamDTO data.</param>
-        public IHttpActionResult Put(int id, [FromBody]TeamDTO teamDto)
+        public IHttpActionResult Put(int id, [FromBody] TeamDTO teamDto)
         {
             // PUT: api/Team/5
             if (!ModelState.IsValid)
@@ -98,7 +98,15 @@ namespace StudyConfigurationServer.Api
             }
             catch (Exception e)
             {
-                return BadRequest();
+                if (e.GetType() == typeof (NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof (ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
             }
         }
 
@@ -115,9 +123,18 @@ namespace StudyConfigurationServer.Api
                 var deleted = _manager.RemoveTeam(id);
                 return StatusCode(HttpStatusCode.NoContent);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest();
+                if (e.GetType() == typeof (NullReferenceException))
+                {
+                    return NotFound();
+                }
+                if (e.GetType() == typeof (ArgumentException))
+                {
+                    return BadRequest();
+                }
+                throw;
+
             }
         }
     }

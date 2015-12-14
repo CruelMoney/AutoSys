@@ -27,7 +27,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return _repo.Create(team);
         }
 
-        public IEnumerable<Team> GetAllTeams()
+        public IQueryable<Team> GetAllTeams()
         {
             try
             {

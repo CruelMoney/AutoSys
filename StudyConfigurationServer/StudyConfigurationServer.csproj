@@ -162,11 +162,6 @@
     <Compile Include="Logic\StudyOverview\StudyOverviewController.cs" />
     <Compile Include="Logic\TeamCRUD\TeamManager.cs" />
     <Compile Include="Logic\TeamCRUD\UserManager.cs" />
-    <Compile Include="Migrations\201512140221039_initial.cs" />
-    <Compile Include="Migrations\201512140221039_initial.Designer.cs">
-      <DependentUpon>201512140221039_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
     <Compile Include="Models\DataField.cs" />
     <Compile Include="Models\Data\StudyContext.cs" />
@@ -174,7 +169,6 @@
       <DependentUpon>StudyContext.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\ConflictingDataDTO.cs" />
-    <Compile Include="Models\DTO\CriteriaDTO.cs" />
     <Compile Include="Models\DTO\DataFieldDTO.cs" />
     <Compile Include="Models\DTO\ResourceDTO.cs" />
     <Compile Include="Models\DTO\StageDTO.cs" />
@@ -223,9 +217,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512140221039_initial.resx">
-      <DependentUpon>201512140221039_initial.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
