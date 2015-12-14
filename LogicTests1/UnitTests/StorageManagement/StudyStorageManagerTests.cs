@@ -75,7 +75,7 @@ namespace LogicTests1.StorageManagement
         [TestMethod()]
         public void TestStorageAddStudy()
         {
-            testStudyStorageManager.SaveStudy(_testStudy);
+            testStudyStorageManager.Save(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
         }
 
@@ -86,8 +86,8 @@ namespace LogicTests1.StorageManagement
         [TestMethod]
         public void TestStorageGetStudy()
         {
-            testStudyStorageManager.SaveStudy(_testStudy);
-            Assert.AreEqual(_testStudy, testStudyStorageManager.GetStudy(1));
+            testStudyStorageManager.Save(_testStudy);
+            Assert.AreEqual(_testStudy, testStudyStorageManager.Get(1));
         }
 
         /// <summary>
@@ -96,10 +96,10 @@ namespace LogicTests1.StorageManagement
 
         public void TestStorageGetAllStudies()
         {
-            testStudyStorageManager.SaveStudy(_testStudy);
+            testStudyStorageManager.Save(_testStudy);
             var _testStudy2 = new Study();
-            testStudyStorageManager.SaveStudy(_testStudy2);
-            Assert.AreEqual(2, testStudyStorageManager.GetAllStudies().Count());
+            testStudyStorageManager.Save(_testStudy2);
+            Assert.AreEqual(2, testStudyStorageManager.GetAll().Count());
         }
 
         /// <summary>
@@ -109,9 +109,9 @@ namespace LogicTests1.StorageManagement
         [TestMethod()]
         public void TestStorageRemoveStudy()
         {
-            testStudyStorageManager.SaveStudy(_testStudy);
+            testStudyStorageManager.Save(_testStudy);
             Assert.AreEqual(1, _studies.Values.ToList().Count);
-            testStudyStorageManager.RemoveStudy(_testStudy.ID);
+            testStudyStorageManager.Remove(_testStudy.ID);
             Assert.AreEqual(0, _studies.Values.ToList().Count);
             
         }
@@ -126,7 +126,7 @@ namespace LogicTests1.StorageManagement
         public void TestStorageNoStudyToRemove()
         {
             Assert.AreEqual(0, _studies.Values.ToList().Count);
-            Assert.IsFalse(testStudyStorageManager.RemoveStudy(_testStudy.ID));
+            Assert.IsFalse(testStudyStorageManager.Remove(_testStudy.ID));
         }
 
         /// <summary>
@@ -137,10 +137,10 @@ namespace LogicTests1.StorageManagement
         public void TestStorageUpdateStudy()
         {
             var stageTestStudy = new Study() { ID = 1, Name = "study"};
-            testStudyStorageManager.SaveStudy(stageTestStudy);
+            testStudyStorageManager.Save(stageTestStudy);
             stageTestStudy.Name = "updatedname";
-            testStudyStorageManager.UpdateStudy(stageTestStudy);
-            Assert.AreEqual("updatedname", testStudyStorageManager.GetStudy(1).Name);
+            testStudyStorageManager.Update(stageTestStudy);
+            Assert.AreEqual("updatedname", testStudyStorageManager.Get(1).Name);
             
         }
     }

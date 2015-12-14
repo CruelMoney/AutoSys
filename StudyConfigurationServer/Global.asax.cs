@@ -73,7 +73,7 @@ namespace StudyConfigurationServer
         {
             var teamDTO = new TeamDTO()
             {
-                Id = 3
+                Id = 1
             };
 
             var criteria1 = new CriteriaDTO()

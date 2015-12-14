@@ -30,8 +30,8 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
         {
             var repo = new EntityFrameworkGenericRepository<StudyContext>();
             _teamStorage = new TeamStorageManager(repo);
-            _taskManager = new TaskManager(repo);
             _studyStorageManager = new StudyStorageManager(repo);
+            _taskManager = new TaskManager();
         }
 
         public StudyManager(StudyStorageManager storageManager, TaskManager taskManager, TeamStorageManager teamStorage)
@@ -41,17 +41,10 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             _teamStorage = teamStorage;
         }
 
-        public StudyManager(EntityFrameworkGenericRepository<StudyContext> repo)
-        {
-            _studyStorageManager = new StudyStorageManager(repo);
-            _taskManager = new TaskManager(repo);
-            _teamStorage = new TeamStorageManager(repo);
-        }
-
-        //TODO check if whole study finished
+       //TODO check if whole study finished
         public void DeliverTask(int studyID, int taskID, TaskSubmissionDTO taskDTO)
         {         
-            var currentStudy = _studyStorageManager.GetAllStudies()
+            var currentStudy = _studyStorageManager.GetAll()
                 .Where(s => s.ID == studyID)
                 .Include(s => s.Stages.Select(t => t.Tasks))
                 .FirstOrDefault();
@@ -120,7 +113,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 StartValidationPhase(study);
             }
 
-            _studyStorageManager.UpdateStudy(study);
+            _studyStorageManager.Update(study);
         }
 
         private void FinishConflictPhase(Study study)
@@ -136,7 +129,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
             StartReviewPhase(study);
 
-            _studyStorageManager.UpdateStudy(study);
+            _studyStorageManager.Update(study);
         }
 
         private IEnumerable<StudyTask> StartReviewPhase(Study study)
@@ -169,8 +162,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
             return validationTasks;
         }
 
-
-        public int CreateStudy(StudyDTO studyDTO)
+        public Study ConvertStudy(StudyDTO studyDTO)
         {
             var study = new Study()
             {
@@ -181,10 +173,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 Stages = new List<Stage>()
             };
 
-            //Parse items
-            var parser = new BibTexParser(new ItemValidator());
-            var fileString = System.Text.Encoding.Default.GetString(studyDTO.Items);
-            study.Items = parser.Parse(fileString);
+            
 
             var firstStage = true;
 
@@ -201,10 +190,21 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
                 }
 
                 firstStage = false;
-                
-            }
 
-            _studyStorageManager.SaveStudy(study);
+            }
+            return study;
+        }
+
+        public int CreateStudy(StudyDTO studyDTO)
+        {
+            var study = ConvertStudy(studyDTO);
+
+            //Parse items
+            var parser = new BibTexParser(new ItemValidator());
+            var fileString = System.Text.Encoding.Default.GetString(studyDTO.Items);
+            study.Items = parser.Parse(fileString);
+
+            _studyStorageManager.Save(study);
 
             return study.ID;
         }
@@ -259,32 +259,46 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public bool RemoveStudy(int studyId)
         {
-            return _studyStorageManager.RemoveStudy(studyId);
+            return _studyStorageManager.Remove(studyId);
         }
 
-        public bool UpdateStudy(int studyId, StudyDTO study)
+        public bool UpdateStudy(int studyId, StudyDTO studyDTO)
         {
-            throw new NotImplementedException();
+            
+                var oldStudy = _studyStorageManager.Get(studyId);
+
+                var updatedStudy = ConvertStudy(studyDTO);
+
+                List<Stage> tempList = new List<Stage>();
+                tempList.AddRange(oldStudy.Stages.ToList().GetRange(0, oldStudy.Stages.Count - 1));
+                tempList.AddRange(oldStudy.Stages.ToList()
+                    .GetRange(oldStudy.Stages.Count - 1, updatedStudy.Stages.Count - 1));
+                updatedStudy.Stages = tempList;
+                _studyStorageManager.Update(updatedStudy);
+                return true;
+            
+            
+
         }
 
         public IEnumerable<Study> SearchStudies(string studyName)
         {
-            return (from Study dbStudy in _studyStorageManager.GetAllStudies() where dbStudy.Name.Equals(studyName) select dbStudy).ToList();
+            return (from Study dbStudy in _studyStorageManager.GetAll() where dbStudy.Name.Equals(studyName) select dbStudy).ToList();
         }
 
         public StudyDTO GetStudy(int studyId)
         {
-            return new StudyDTO(_studyStorageManager.GetStudy(studyId));
+            return new StudyDTO(_studyStorageManager.Get(studyId));
         }
 
         public IEnumerable<Study> GetAllStudies()
         {
-            return (from Study dbStudy in _studyStorageManager.GetAllStudies() select dbStudy);
+            return (from Study dbStudy in _studyStorageManager.GetAll() select dbStudy);
         }
 
         public IEnumerable<TaskRequestDTO> GetTasks(int studyId, int userId, int count, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            var study = _studyStorageManager.GetAllStudies()
+            var study = _studyStorageManager.GetAll()
                 .Where(s => s.ID == studyId)
                 .Include(s => s.Stages.Select(t => t.Tasks))
                 .FirstOrDefault();
@@ -306,7 +320,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration
 
         public IEnumerable<int> GetTasksIDs(int studyId, int userId, TaskRequestDTO.Filter filter, TaskRequestDTO.Type type)
         {
-            var study = _studyStorageManager.GetAllStudies()
+            var study = _studyStorageManager.GetAll()
                 .Where(s => s.ID == studyId)
                 .Include(s => s.Stages.Select(t => t.Tasks))
                 .FirstOrDefault();

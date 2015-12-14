@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.Model
+namespace LogicTests1.UnitTests.StudyConfiguration.TaskManagement.CriteriaChecker
 {
     [TestClass]
-    public class CriteriaTests
+    public class RuleCheckerTests
     {
         CriteriaValidator _criteriaValidator = new CriteriaValidator();
         Criteria testCriteria1;
         Criteria testCriteria2;
-       
+
 
         [TestInitialize]
         public void setup()
@@ -30,7 +31,7 @@ namespace LogicTests1.Model
                 Description = "this is a test Criteria"
             };
         }
-      
+
 
         [TestMethod]
         public void TestCriteriaCheckResourceExists()
@@ -42,7 +43,7 @@ namespace LogicTests1.Model
 
             var data = new string[1];
             data[0] = "data";
-        
+
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, data));
         }
@@ -53,15 +54,15 @@ namespace LogicTests1.Model
             //Arrange
             testCriteria1.Rule = Criteria.CriteriaRule.Contains;
             testCriteria1.DataType = DataField.DataType.Flags;
-            
+
 
             string[] expectedData = new string[3]
             {
                "1", "2", "3"
             };
 
-            testCriteria1.DataMatch = expectedData.Select(s=>new StoredString() {Value = s}).ToList();
-       
+            testCriteria1.DataMatch = expectedData.Select(s => new StoredString() { Value = s }).ToList();
+
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, expectedData));
         }
@@ -83,7 +84,7 @@ namespace LogicTests1.Model
                "1", "2", "3","4"
            };
 
-           testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
+            testCriteria1.DataMatch = checkData.Select(s => new StoredString() { Value = s }).ToList();
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -284,7 +285,7 @@ namespace LogicTests1.Model
             {
                 "1"
             };
-        
+
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -311,8 +312,8 @@ namespace LogicTests1.Model
             testCriteria1.DataType = DataField.DataType.Flags;
 
 
-            var actaulData = new string[1] {""};
-            
+            var actaulData = new string[1] { "" };
+
 
             //Assert
             Assert.IsFalse(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -327,11 +328,11 @@ namespace LogicTests1.Model
             testCriteria1.DataType = DataField.DataType.Enumeration;
 
 
-            var actaulData = new string[1] {"1"};
+            var actaulData = new string[1] { "1" };
 
 
-            testCriteria1.DataMatch = new List<StoredString>() {new StoredString() {Value = "1"}};
-            
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "1" } };
+
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -345,7 +346,7 @@ namespace LogicTests1.Model
             testCriteria1.DataType = DataField.DataType.Enumeration;
 
 
-            var actaulData = new string[1] {"2"};
+            var actaulData = new string[1] { "2" };
 
 
             testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "1" } };
@@ -361,9 +362,9 @@ namespace LogicTests1.Model
             testCriteria1.Rule = Criteria.CriteriaRule.Equals;
             testCriteria1.DataType = DataField.DataType.Boolean;
 
-            
-             var actaulData = new string[1] { "true" };
-             testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "true" } };
+
+            var actaulData = new string[1] { "true" };
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "true" } };
 
             //Assert
             Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
@@ -377,7 +378,7 @@ namespace LogicTests1.Model
             testCriteria1.DataType = DataField.DataType.Boolean;
 
 
-               var actaulData = new string[1] { "true" };
+            var actaulData = new string[1] { "true" };
 
             testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "1" } };
 
@@ -393,8 +394,8 @@ namespace LogicTests1.Model
             testCriteria1.DataType = DataField.DataType.String;
 
 
-            var actaulData = new string[1] {"testing"};
-            
+            var actaulData = new string[1] { "testing" };
+
             testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "testing" } };
 
             //Assert
@@ -409,8 +410,8 @@ namespace LogicTests1.Model
             testCriteria1.DataType = DataField.DataType.String;
 
 
-            var actaulData = new string[1] {"testing the test"};
-            
+            var actaulData = new string[1] { "testing the test" };
+
 
             testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "testing" } };
 
@@ -419,28 +420,18 @@ namespace LogicTests1.Model
         }
 
         [TestMethod]
-        public void TestCriteriaValidatorCallsCheckerCorrectly()
+        public void TestCriteriaBeforeYear()
         {
             //Arrange
-            var criteria = new Criteria();
-            var data = new string[1];
-            var mockCriteriaChecker = new Mock<ICriteriaChecker>();
-            var validator = new CriteriaValidator(
-                new Dictionary<DataField.DataType, ICriteriaChecker>
-                {
-                    {It.IsAny<DataField.DataType>(), mockCriteriaChecker.Object}
-                });
+            testCriteria1.Rule = Criteria.CriteriaRule.BeforeYear;
+            testCriteria1.DataType = DataField.DataType.String;
 
-            mockCriteriaChecker.Setup(m => m.Validate(criteria, data)).Returns(true);
 
-            //Action
-            var result = validator.CriteriaIsMet(criteria, data);
+            var actaulData = new string[1] { "1999" };
+            testCriteria1.DataMatch = new List<StoredString>() { new StoredString() { Value = "2000" } };
 
             //Assert
-            mockCriteriaChecker.Verify(m => m.Validate(criteria, data), Times.Once);
-            Assert.IsTrue(result);
+            Assert.IsTrue(_criteriaValidator.CriteriaIsMet(testCriteria1, actaulData));
         }
-
     }
-
 }

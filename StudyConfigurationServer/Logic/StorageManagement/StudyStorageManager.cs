@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Ajax.Utilities;
 using Storage.Repository;
+using StudyConfigurationServer.Logic.StorageManagement.Interfaces;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
-    public class StudyStorageManager 
+    public class StudyStorageManager : IStudyStorageManager
     {
         readonly IGenericRepository _studyRepo;
       
@@ -26,7 +27,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         }
 
 
-        public int SaveStudy(Study study)
+        public int Save(Study study)
         {
             var returnValue = _studyRepo.Create(study);
 
@@ -34,11 +35,11 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return returnValue;
         }
 
-        public bool RemoveStudy(int studyWithIdToDelete)
+        public bool Remove(int studyWithIdToDelete)
         {
             return _studyRepo.Delete(_studyRepo.Read<Study>(studyWithIdToDelete));
         }
-        public bool UpdateStudy(Study study)
+        public bool Update(Study study)
         {
             var returnValue = _studyRepo.Update(study);
 
@@ -46,23 +47,16 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             return returnValue;
         }
 
-        public IQueryable<Study> GetAllStudies()
+        public IQueryable<Study> GetAll()
         {
             return _studyRepo.Read<Study>();
         }
 
-        public Study GetStudy(int studyId)
+        public Study Get(int studyId)
         {
             return _studyRepo.Read<Study>(studyId);
         }
 
-        public bool UpdateStage(Stage stage)
-        {
-            var returnValue = _studyRepo.Update(stage);
-
-
-            return returnValue;
-        }
 
     }
 
