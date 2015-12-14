@@ -13,7 +13,7 @@ namespace StudyConfigurationServer.Api
     /// Controller to access and modify users.
     /// </summary>
     //TODO should not be public, how to test? whaat?
-    [RoutePrefix("api/User ")]
+    [RoutePrefix("api/User")]
     public class UserController : ApiController, IUserController
     {
         private readonly UserManager _manager = new UserManager();

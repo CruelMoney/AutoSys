@@ -12,7 +12,7 @@ namespace StudyConfigurationServer.Models.DTO
 
         public StudyDTO(Study study)
         {
-            Id = study.Id;
+            Id = study.ID;
             Name = study.Name;
             Stages = study.Stages.Select(s => new StageDTO(s)).ToArray();
             Team = new TeamDTO(study.Team);

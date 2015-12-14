@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
-using FluentAssertions;
 using LogicTests1.IntegrationTests.DBInitializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Api;
@@ -157,7 +156,6 @@ namespace LogicTests1.IntegrationTests.WEBAPI
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
-
         }
 
 

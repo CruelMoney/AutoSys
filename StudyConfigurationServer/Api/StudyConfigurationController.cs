@@ -23,9 +23,7 @@ namespace StudyConfigurationServer.Api
         public StudyDTO Get(int id)
         {
           
-                return _manager.GetStudy(id);
-            
-        
+                return _manager.GetStudy(id);      
          
         }
 

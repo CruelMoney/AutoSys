@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Results;
-using LogicTests1.IntegrationTests.DBInitializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Api;
-using StudyConfigurationServer.Logic.StudyConfiguration;
+using System.Data.Entity;
+using LogicTests1.IntegrationTests.DBInitializers;
 using StudyConfigurationServer.Models.Data;
+using StudyConfigurationServer.Logic.TeamCRUD;
+using System.Web.Http.Results;
+using System.Collections.Generic;
+using System.Linq;
 using StudyConfigurationServer.Models.DTO;
+using StudyConfigurationServer.Logic.StudyConfiguration;
 
 namespace LogicTests1.IntegrationTests.WEBAPI
 {
     [TestClass]
-    public class StudyConfigurationAPITest
+    public class UserAPITests
     {
-        StudyConfigurationController _apiTest;
+        UserController _API;
 
         [TestInitialize]
         public void Initialize()
@@ -29,10 +26,14 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             var context = new StudyContext();
             context.Database.Initialize(true);
 
-            _apiTest = new StudyConfigurationController();
+            var studyManager = new StudyManager();
+
+            studyManager.CreateStudy(CreaStudyDto());
+
+            _API = new UserController();
+           
 
         }
-
 
         public StudyDTO CreaStudyDto()
         {
@@ -92,15 +93,54 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             return studyDTO;
         }
 
-
-
         [TestMethod]
-        public void CreateStudyTest()
+        public void TestGetUsers()
         {
-            throw new NotImplementedException();
-            
+            //action
+            var result = _API.Get();
 
+            //assert
+            OkNegotiatedContentResult<IEnumerable<UserDTO>> negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<UserDTO>>;
+            Assert.IsNotNull(negotiatedResult);
+            Assert.AreEqual(8, negotiatedResult.Content.Count());
         }
 
+        [TestMethod]
+        public void TestGetUserByName()
+        {
+            var result = _API.Get("ramos");
+
+            OkNegotiatedContentResult<IEnumerable<UserDTO>> negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<UserDTO>>;
+            Assert.IsNotNull(negotiatedResult);
+            Assert.AreEqual(1, negotiatedResult.Content.Count());
+        }
+
+        [TestMethod]
+        public void TestGetUserByExistingId()
+        {
+            var result = _API.Get(1);
+
+            OkNegotiatedContentResult<UserDTO> negotiatedResult = result as OkNegotiatedContentResult<UserDTO>;
+            Assert.IsNotNull(negotiatedResult);
+            Assert.AreEqual("chris", negotiatedResult.Content.Name);
+        }
+
+        [TestMethod]
+        public void TestTryGetinvalidUser()
+        {
+            var result = _API.Get(20);
+
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
+
+        [TestMethod]
+        public void GetStudyIDsFromUserId()
+        {
+            var result = _API.GetStudyIDs(1);
+
+            OkNegotiatedContentResult<IEnumerable<int>> negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<int>>;
+            Assert.IsNotNull(negotiatedResult);
+            Assert.AreEqual(1, negotiatedResult.Content.Count());
+        }      
     }
 }
