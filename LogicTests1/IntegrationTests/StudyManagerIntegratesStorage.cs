@@ -1,97 +1,100 @@
-﻿using StudyConfigurationServer.Logic.StorageManagement;
-using System;
-using System.Collections.Generic;
+﻿#region Using
+
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LogicTests1.IntegrationTests.DBInitializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Storage.Repository;
+using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Logic.StudyConfiguration;
-using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement;
 using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
+using StudyConfigurationServerTests.IntegrationTests.DBInitializers;
+using StudyConfigurationServerTests.Properties;
 
-namespace LogicTests1.IntegrationTests
+#endregion
+
+namespace StudyConfigurationServerTests.IntegrationTests
 {
-
     [TestClass]
     public class StudyManagerIntegratesStorageAndTaskManager
     {
-    
-        StudyManager _manager;
-        EntityFrameworkGenericRepository<StudyContext> _repo;
+        private StudyManager _manager;
+        private EntityFrameworkGenericRepository<StudyContext> _repo;
 
         [TestInitialize]
         public void Initialize()
         {
-            Database.SetInitializer(new MultipleTeamsDB());
-            var context = new StudyContext();
-            context.Database.Initialize(true);
-
-            _repo = new EntityFrameworkGenericRepository<StudyContext>();
-          
-
             _manager = new StudyManager();
         }
 
-        public StudyDTO CreaStudyDto()
+        private void InitializeStudyDb()
         {
-            var teamDTO = new TeamDTO()
+            Database.SetInitializer(new StudyDb());
+            var context = new StudyContext();
+            context.Database.Initialize(true);
+        }
+
+        private void InitializeTeamDb()
+        {
+            Database.SetInitializer(new MultipleTeamsDb());
+            var context = new StudyContext();
+            context.Database.Initialize(true);
+        }
+
+        public StudyDto CreaStudyDto()
+        {
+            var teamDto = new TeamDto
             {
                 Id = 1
             };
 
-            var criteria1 = new CriteriaDTO()
+            var criteria1 = new CriteriaDto
             {
-                Name = "Year",
-                Rule = CriteriaDTO.CriteriaRule.AfterDate,
-                DataMatch = new string[] {"2000"},
-                DataType = DataFieldDTO.DataType.String,
-                Description = "Check if the year is before 2000",
+                Name = "Name1",
+                Rule = CriteriaDto.CriteriaRule.SmallerThan,
+                DataMatch = new[] {"2000"},
+                DataType = DataFieldDto.DataType.String,
+                Description = "Check if the year is before 2000"
             };
 
-            var criteria2 = new CriteriaDTO()
+            var criteria2 = new CriteriaDto
             {
                 Name = "Is about...",
-                DataType = DataFieldDTO.DataType.Boolean,
-                Rule = CriteriaDTO.CriteriaRule.Equals,
-                DataMatch = new string[] {"true"},
-                Description = "Check if the item is about snails.",
+                DataType = DataFieldDto.DataType.Boolean,
+                Rule = CriteriaDto.CriteriaRule.Equals,
+                DataMatch = new[] {"true"},
+                Description = "Check if the item is about snails."
             };
 
-            var stage1 = new StageDTO()
+            var stage1 = new StageDto
             {
                 Name = "stage1",
                 Criteria = criteria1,
-                DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
-                ReviewerIDs = new int[] {1, 2},
-                ValidatorIDs = new int[] {3},
-                VisibleFields = new StageDTO.FieldType[] {StageDTO.FieldType.Title, StageDTO.FieldType.Author,},
-
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
+                ReviewerIDs = new[] {1, 2},
+                ValidatorIDs = new[] {3},
+                VisibleFields = new[] {StageDto.FieldType.Title, StageDto.FieldType.Author}
             };
 
-            var stage2 = new StageDTO()
+            var stage2 = new StageDto
             {
                 Name = "stage2",
                 Criteria = criteria2,
-                DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
-                ReviewerIDs = new int[] {3, 2},
-                ValidatorIDs = new int[] {4},
-                VisibleFields = new StageDTO.FieldType[] {StageDTO.FieldType.Title, StageDTO.FieldType.Author,},
-
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
+                ReviewerIDs = new[] {3, 2},
+                ValidatorIDs = new[] {4},
+                VisibleFields = new[] {StageDto.FieldType.Title, StageDto.FieldType.Author}
             };
 
-            var studyDTO = new StudyDTO()
+            var studyDto = new StudyDto
             {
                 Name = "testStudy",
-                Team = teamDTO,
-                Items = Properties.Resources.bibtex,
-                Stages = new StageDTO[] {stage1, stage2}
+                Team = teamDto,
+                Items = Resources.bibtex,
+                Stages = new[] {stage1, stage2}
             };
 
-            return studyDTO;
+            return studyDto;
         }
 
 
@@ -99,20 +102,21 @@ namespace LogicTests1.IntegrationTests
         public void CreateStudyTest()
         {
             //Arrange 
+            InitializeTeamDb();
             var studyDto = CreaStudyDto();
 
             //Action
-            var studyID = _manager.CreateStudy(studyDto);
+            var studyId = _manager.CreateStudy(studyDto);
 
             var newStorageManager = new StudyStorageManager();
 
             var actualStudy = newStorageManager.GetAll()
-                .Where(s=>s.ID==studyID)
-                .Include(s=>s.Stages.Select(t=>t.Tasks))
+                .Where(s => s.ID == studyId)
+                .Include(s => s.Stages.Select(t => t.Tasks))
                 .FirstOrDefault();
 
             var actualCurrentStage = actualStudy.CurrentStage();
-            
+
             //Assert
             Assert.AreEqual("testStudy", actualStudy.Name);
             Assert.AreEqual("stage1", actualCurrentStage.Name);
@@ -121,28 +125,83 @@ namespace LogicTests1.IntegrationTests
             Assert.AreEqual(2, actualStudy.Stages.Count);
             Assert.AreEqual("team1", actualStudy.Team.Name);
             Assert.AreEqual(23, actualCurrentStage.Tasks.Count);
-
-
         }
 
 
         [TestMethod]
-        public void GetStudyTask()
+        public void DeliverTask()
         {
-            //Arrange 
-            var studyDto = CreaStudyDto();
-            var studyID = _manager.CreateStudy(studyDto);
+            //Arrange
+            InitializeStudyDb();
 
-            var newManager = new StudyManager();
-
+            var taskDto = new TaskSubmissionDto
+            {
+                UserId = 1,
+                SubmittedFieldsDto = new[]
+                {
+                    new DataFieldDto {Data = new[] {"updatedData"}, Name = "Year"}
+                }
+            };
             //Action
-            var tasks = newManager.GetTasks(1, 1, 20, TaskRequestDTO.Filter.Remaining, TaskRequestDTO.Type.Review).ToList();
+            _manager.DeliverTask(1, 1, taskDto);
+            var result = _manager.GetTasks(1, 1, 1, TaskRequestDto.Filter.Editable, TaskRequestDto.Type.Review).ToList();
+            var actualTask = result.First();
 
-
+            //Assert
+            Assert.AreEqual(1, actualTask.Id);
+            Assert.AreEqual(true, actualTask.IsDeliverable);
+            Assert.AreEqual("updatedData", actualTask.RequestedFieldsDto[0].Data[0]);
         }
 
+        [TestMethod]
+        public void RemoveStudyTest()
+        {
+            //Arrange
+            InitializeStudyDb();
+
+            //Action
+            _manager.RemoveStudy(1);
+        }
+
+        [TestMethod]
+        public void UpdateStudyTest()
+        {
+            //Arrange
+            InitializeStudyDb();
+            var study = _manager.GetStudy(1);
+
+            var criteria1 = new CriteriaDto
+            {
+                Name = "updatedName",
+                Rule = CriteriaDto.CriteriaRule.SmallerThan,
+                DataMatch = new[] {"2000"},
+                DataType = DataFieldDto.DataType.String,
+                Description = "Check if the year is before 2000"
+            };
+
+            var stage1 = new StageDto
+            {
+                Name = "updatedStage",
+                Criteria = criteria1,
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
+                ReviewerIDs = new[] {1, 2},
+                ValidatorIDs = new[] {3},
+                VisibleFields = new[] {StageDto.FieldType.Title, StageDto.FieldType.Author}
+            };
+
+            //Action
+            study.Name = "updatedName";
+            study.Stages[study.Stages.Length - 1] = stage1;
+
+            _manager.UpdateStudy(1, study);
+
+            var result = _manager.GetStudy(1);
+
+            //Assert
+            Assert.AreEqual(1, result.Id);
+            Assert.AreEqual("updatedName", result.Name);
+            Assert.AreEqual(3, result.Stages.Length);
+            Assert.AreEqual("updatedStage", result.Stages[2].Name);
+        }
     }
-
-
 }
-

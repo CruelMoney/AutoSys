@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using
+
 using System.Linq;
 using Storage.Repository;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 
+#endregion
+
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
     public class TaskStorageManager
     {
-        IGenericRepository _taskRepo;
+        private readonly IGenericRepository _taskRepo;
 
         public TaskStorageManager()
         {
             _taskRepo = new EntityFrameworkGenericRepository<StudyContext>();
         }
-        
+
         public TaskStorageManager(IGenericRepository repo)
         {
             _taskRepo = repo;
         }
-    
+
         public int CreateTask(StudyTask studyTask)
         {
-           return _taskRepo.Create(studyTask);
+            return _taskRepo.Create(studyTask);
         }
 
         public bool RemoveTask(int taskWithIdToDelete)
@@ -45,7 +47,5 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         {
             return _taskRepo.Read<StudyTask>(taskId);
         }
-
-       
     }
 }

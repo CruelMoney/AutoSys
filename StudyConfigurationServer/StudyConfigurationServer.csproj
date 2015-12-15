@@ -118,12 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Logic\StudyConfiguration\TaskManagement\TaskRequester\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Interfaces\IStudyController.cs" />
-    <Compile Include="Api\Interfaces\ITeamController.cs" />
-    <Compile Include="Api\Interfaces\IUserController.cs" />
     <Compile Include="Api\StudyController.cs" />
     <Compile Include="Api\TeamController.cs" />
     <Compile Include="Api\UserController.cs" />
@@ -204,7 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Models\Data\ER DIAGRAM.PNG" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

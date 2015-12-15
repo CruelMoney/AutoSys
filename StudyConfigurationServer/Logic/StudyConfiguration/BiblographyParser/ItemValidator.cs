@@ -1,22 +1,27 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System.Collections.Generic;
 using StudyConfigurationServer.Models;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser
 {
+    // <author>Jacob Cholewa</author>
     /// <summary>
-    /// This class is used for validating bibliographic <see cref="Item"/> objects.
+    ///     This class is used for validating bibliographic <see cref="Item" /> objects.
     /// </summary>
     public class ItemValidator
     {
-        readonly Dictionary<Item.ItemType, IItemChecker> _checkers;
-        readonly IItemChecker _defaultChecker = new DefaultItemChecker();
+        private readonly Dictionary<Item.ItemType, IItemChecker> _checkers;
+        private readonly IItemChecker _defaultChecker = new DefaultItemChecker();
 
         /// <summary>
-        /// Constructs a new ItemValidator.
+        ///     Constructs a new ItemValidator.
         /// </summary>
         /// <param name="checkers">
-        /// A dictionary of Field checkers per item type.
-        /// If a checker for an item type is not specified, <see cref="DefaultFieldChecker"/> is used.
+        ///     A dictionary of Field checkers per item type.
+        ///     If a checker for an item type is not specified, <see cref="DefaultFieldChecker" /> is used.
         /// </param>
         public ItemValidator(Dictionary<Item.ItemType, IItemChecker> checkers = null)
         {
@@ -24,13 +29,15 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser
         }
 
         /// <summary>
-        /// Checks whether or not a given item is valid.
+        ///     Checks whether or not a given item is valid.
         /// </summary>
         /// <param name="item">The item to Validate.</param>
         /// <returns>true if the item is valid; false otherwise.</returns>
         public bool IsItemValid(Item item)
         {
-            return _checkers.ContainsKey(item.Type) ? _checkers[item.Type].Validate(item) : _defaultChecker.Validate(item);
+            return _checkers.ContainsKey(item.Type)
+                ? _checkers[item.Type].Validate(item)
+                : _defaultChecker.Validate(item);
         }
     }
 }

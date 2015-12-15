@@ -1,10 +1,13 @@
-﻿using System;
+﻿#region Using
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
+#endregion
+
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
-
     public class DefaultRuleChecker : IRuleChecker
     {
         public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
@@ -39,7 +42,6 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
     {
         public bool IsRuleMet(ICollection<string> data, ICollection<string> criteriaData)
         {
-           
             if (data.Count() != 1 && criteriaData.Count() != 1)
             {
                 return !criteriaData.Except(data).Any();

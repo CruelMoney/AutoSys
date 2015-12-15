@@ -1,10 +1,13 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+﻿#region Using
+
+using System.Data.Entity;
 using Storage.Repository;
+
+#endregion
 
 namespace StudyConfigurationServer.Models.Data
 {
-    public class StudyContext : DbContext, IDbContext 
+    public class StudyContext : DbContext, IDbContext
     {
         public DbSet<UserStudies> UserStudies { get; set; }
         public DbSet<Study> Studies { get; set; }
@@ -18,9 +21,5 @@ namespace StudyConfigurationServer.Models.Data
         public DbSet<UserData> EnteredData { get; set; }
         public DbSet<FieldType> FieldTypes { get; set; }
         public DbSet<StoredString> Strings { get; set; }
-
-
-       
     }
-    
 }

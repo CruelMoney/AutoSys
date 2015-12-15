@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using
+
 using System.Linq;
-using System.Web;
-using Storage.Repository;
 using StudyConfigurationServer.Models;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StorageManagement.Interfaces
 {
     public interface IStudyStorageManager
     {
-
         int Save(Study t);
         bool Remove(int id);
         bool Update(Study t);

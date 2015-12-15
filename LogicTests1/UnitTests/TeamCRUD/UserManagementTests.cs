@@ -1,16 +1,19 @@
-﻿using System;
+﻿#region Using
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.TeamCRUD
+#endregion
+
+namespace StudyConfigurationServerTests.UnitTests.TeamCRUD
 {
-    [TestClass()]
+    [TestClass]
     public class UserManagementTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void TestUserCreate()
         {
-            User testUser = new User() { ID = 1, Name = "Test Name"};
+            var testUser = new User {ID = 1, Name = "Test Name"};
             Assert.AreEqual("Test Name", testUser.Name);
         }
     }

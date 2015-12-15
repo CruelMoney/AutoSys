@@ -1,47 +1,53 @@
-﻿using System;
+﻿#region Using
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using StudyConfigurationServer.Models;
 
+#endregion
+
 namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bibTex
 
 {
+    // <author>Jacob Cholewa</author>
     /// <summary>
-    /// Parses text containing bibliographic data in BibTex format into a collection of bibliography <see cref="Item"/> objects.
+    ///     Parses text containing bibliographic data in BibTex format into a collection of bibliography <see cref="Item" />
+    ///     objects.
     /// </summary>
     public class BibTexParser : IBibliographyParser
     {
-        readonly ItemValidator _validator;
+        private readonly ItemValidator _validator;
 
         /// <summary>
-        /// Regex for matching BibTex items.
+        ///     Regex for matching BibTex items.
         /// </summary>
-        readonly Regex _entryRegex = new Regex(@"(?:@(\w+)\{([\w]+),((?:\W*[a-zA-Z]+\W?=\W?\{.*\},?)*)\W*\},?)");
+        private readonly Regex _entryRegex = new Regex(@"(?:@(\w+)\{([\w]+),((?:\W*[a-zA-Z]+\W?=\W?\{.*\},?)*)\W*\},?)");
 
         /// <summary>
-        /// Regex for matching fields within a BibTex item.
+        ///     Regex for matching fields within a BibTex item.
         /// </summary>
-        readonly Regex _fieldRegex = new Regex(@"([a-zA-Z]+)\W?=\W?\{(.*)\},?");
+        private readonly Regex _fieldRegex = new Regex(@"([a-zA-Z]+)\W?=\W?\{(.*)\},?");
 
         /// <summary>
-        /// Constructs a new BibTex Parser.
+        ///     Constructs a new BibTex Parser.
         /// </summary>
-        /// <param name="validator">An <see cref="ItemValidator"/> for validating if an item fulfills given requirements.</param>
+        /// <param name="validator">An <see cref="ItemValidator" /> for validating if an item fulfills given requirements.</param>
         public BibTexParser(ItemValidator validator)
         {
             _validator = validator;
         }
 
         /// <summary>
-        /// Takes a BibTex file as string as parses it to a Dictionary containing the Bibliography
+        ///     Takes a BibTex file as string as parses it to a Dictionary containing the Bibliography
         /// </summary>
         /// <param name="data">A BibTex file as a string</param>
         /// <returns>A dictionary of the Bibliography</returns>
         public List<Item> Parse(string data)
         {
             // Computing regex matches from the data.
-            MatchCollection matchCollection = _entryRegex.Matches(data);
+            var matchCollection = _entryRegex.Matches(data);
 
             // Collection to store the BibTex items.
             var items = new List<Item>();
@@ -52,22 +58,23 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bi
                 try
                 {
                     // Get the BibTex item and associated Field values.
-                    string key = match.Groups[2].Value;
-                    Item.ItemType type = (Item.ItemType)Enum.Parse(typeof(Item.ItemType), match.Groups[1].Value, true);
-                    Dictionary<FieldType, string> fields = ParseItem(match.Groups[3].Value);
+                    var key = match.Groups[2].Value;
+                    var type = (Item.ItemType) Enum.Parse(typeof (Item.ItemType), match.Groups[1].Value, true);
+                    var fields = ParseItem(match.Groups[3].Value);
                     var item = new Item(type, fields);
 
                     // Validate the item.
                     if (!_validator.IsItemValid(item))
                     {
-                        throw new InvalidDataException(String.Format("The item with key {0} is not valid", key));
+                        throw new InvalidDataException(string.Format("The item with key {0} is not valid", key));
                     }
 
                     items.Add(item);
                 }
                 catch (ArgumentException e)
                 {
-                    throw new InvalidDataException(String.Format("The item type {0} is not known by the parser", match.Groups[1].Value), e);
+                    throw new InvalidDataException(
+                        string.Format("The item type {0} is not known by the parser", match.Groups[1].Value), e);
                 }
             }
 
@@ -94,8 +101,9 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bi
                     items.Add(key, value);
                 }
                 catch (ArgumentException e)
-                {   
-                    throw new InvalidDataException(String.Format("The Field type {0} is not known by the parser", match.Groups[1].Value), e);
+                {
+                    throw new InvalidDataException(
+                        string.Format("The Field type {0} is not known by the parser", match.Groups[1].Value), e);
                 }
             }
 

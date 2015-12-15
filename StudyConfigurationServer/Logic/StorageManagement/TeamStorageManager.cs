@@ -1,22 +1,26 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System;
+using System.Linq;
 using Storage.Repository;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
-using System.Linq;
-using System;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
-    public class TeamStorageManager 
+    public class TeamStorageManager
     {
-        IGenericRepository _repo;
-        string teamException = "Can't find team(s) in repository";
-        string userException = "Can't find user(s) in repository";
+        private readonly IGenericRepository _repo;
+        private readonly string _teamException = "Can't find team(s) in repository";
+        private readonly string _userException = "Can't find user(s) in repository";
+
         public TeamStorageManager()
         {
             _repo = new EntityFrameworkGenericRepository<StudyContext>();
         }
-        
+
         public TeamStorageManager(IGenericRepository repo)
         {
             _repo = repo;
@@ -35,21 +39,20 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             }
             catch (NullReferenceException)
             {
-                throw new NullReferenceException(teamException);
-            }           
+                throw new NullReferenceException(_teamException);
+            }
         }
 
-        public bool RemoveTeam(int TeamWithIDToDelete)
+        public bool RemoveTeam(int teamWithIdToDelete)
         {
             try
             {
-                return _repo.Delete(_repo.Read<Team>(TeamWithIDToDelete));
+                return _repo.Delete(_repo.Read<Team>(teamWithIdToDelete));
             }
             catch (NullReferenceException)
             {
-                throw new NullReferenceException(teamException);
+                throw new NullReferenceException(_teamException);
             }
-            
         }
 
         public bool UpdateTeam(Team team)
@@ -60,22 +63,20 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             }
             catch (NullReferenceException)
             {
-                throw new NullReferenceException(teamException);
+                throw new NullReferenceException(_teamException);
             }
-            
         }
-           
-        public Team GetTeam(int TeamID)
+
+        public Team GetTeam(int teamId)
         {
             try
             {
-                return _repo.Read<Team>(TeamID);
+                return _repo.Read<Team>(teamId);
             }
             catch (NullReferenceException)
             {
-                throw new NullReferenceException(teamException);
+                throw new NullReferenceException(_teamException);
             }
-            
         }
 
         public int SaveUser(User userToSave)
@@ -91,9 +92,8 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             }
             catch (NullReferenceException)
             {
-                throw new NullReferenceException(userException);
+                throw new NullReferenceException(_userException);
             }
-           
         }
 
         public bool UpdateUser(User user)
@@ -104,7 +104,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             }
             catch (NullReferenceException)
             {
-                throw new NullReferenceException(userException);
+                throw new NullReferenceException(_userException);
             }
         }
 
@@ -116,9 +116,8 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             }
             catch (NullReferenceException)
             {
-                throw new NullReferenceException(userException);
+                throw new NullReferenceException(_userException);
             }
-            
         }
 
         public User GetUser(int userId)
@@ -129,12 +128,8 @@ namespace StudyConfigurationServer.Logic.StorageManagement
             }
             catch (NullReferenceException)
             {
-                throw new NullReferenceException(userException);
+                throw new NullReferenceException(_userException);
             }
-            
         }
-
-
     }
-   
 }

@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System.Collections.Generic;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
     public interface IRuleChecker
     {
         /// <summary>
-        /// Checks whether the given data meets the rule.
+        ///     Checks whether the given data meets the rule.
         /// </summary>
         /// <param name="data"></param>
         /// <param name="criteriaData"></param>

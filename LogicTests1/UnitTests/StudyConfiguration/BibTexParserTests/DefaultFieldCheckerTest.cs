@@ -1,47 +1,47 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿#region Using
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
 
-namespace LogicTests1.BibTexParserTests
+#endregion
+
+namespace StudyConfigurationServerTests.UnitTests.StudyConfiguration.BibTexParserTests
 {
     [TestClass]
     public class DefaultFieldCheckerTest
     {
-        DefaultFieldChecker _DefaultFieldChecker;
-
-        private const string _valid = "test";
-        private const string _valid2 = "test spacing";
-        private const string _valid3 = "t-szw!th§m()b*|s";
-        private const string _valid4 = "1234";
-        private const string _invalid = "test\ntest";
-        private const string _invalid2 = "test \n test";
-        private const string _invalid3 = "test test\n ";
-        private const string _invalid4 = "\ntest test";
+        private const string Valid = "test";
+        private const string Valid2 = "test spacing";
+        private const string Valid3 = "t-szw!th§m()b*|s";
+        private const string Valid4 = "1234";
+        private const string Invalid = "test\ntest";
+        private const string Invalid2 = "test \n test";
+        private const string Invalid3 = "test test\n ";
+        private const string Invalid4 = "\ntest test";
+        private DefaultFieldChecker _defaultFieldChecker;
 
         [TestInitialize]
-        public void initialize()
+        public void Initialize()
         {
-            _DefaultFieldChecker = new DefaultFieldChecker();
-            
+            _defaultFieldChecker = new DefaultFieldChecker();
         }
 
         [TestMethod]
         public void TestDefaultFieldValid()
         {
-
-            Assert.IsTrue(_DefaultFieldChecker.Validate(_valid));
-            Assert.IsTrue(_DefaultFieldChecker.Validate(_valid2));
-            Assert.IsTrue(_DefaultFieldChecker.Validate(_valid3));
-            Assert.IsTrue(_DefaultFieldChecker.Validate(_valid4));
-
+            Assert.IsTrue(_defaultFieldChecker.Validate(Valid));
+            Assert.IsTrue(_defaultFieldChecker.Validate(Valid2));
+            Assert.IsTrue(_defaultFieldChecker.Validate(Valid3));
+            Assert.IsTrue(_defaultFieldChecker.Validate(Valid4));
         }
 
         [TestMethod]
         public void TestDefaultFieldInvalid()
-        { 
-            Assert.IsFalse(_DefaultFieldChecker.Validate(_invalid));
-            Assert.IsFalse(_DefaultFieldChecker.Validate(_invalid2));
-            Assert.IsFalse(_DefaultFieldChecker.Validate(_invalid3));
-            Assert.IsFalse(_DefaultFieldChecker.Validate(_invalid4));
+        {
+            Assert.IsFalse(_defaultFieldChecker.Validate(Invalid));
+            Assert.IsFalse(_defaultFieldChecker.Validate(Invalid2));
+            Assert.IsFalse(_defaultFieldChecker.Validate(Invalid3));
+            Assert.IsFalse(_defaultFieldChecker.Validate(Invalid4));
         }
     }
 }

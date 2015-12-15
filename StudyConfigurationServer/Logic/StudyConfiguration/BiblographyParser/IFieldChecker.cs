@@ -1,12 +1,13 @@
 ﻿namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser
 {
+    // <author>Jacob Cholewa</author>
     /// <summary>
-    /// Interface for Field checkers.
+    ///     Interface for Field checkers.
     /// </summary>
     public interface IFieldChecker
     {
         /// <summary>
-        /// Checks whether a specified Field is valid.
+        ///     Checks whether a specified Field is valid.
         /// </summary>
         /// <param name="field">The Field to Validate.</param>
         /// <returns>true when the specified Field is valid; false otherwise.</returns>

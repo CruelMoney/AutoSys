@@ -1,7 +1,11 @@
+#region Using
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using StudyConfigurationServer.Models;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
@@ -12,7 +16,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
 
         public DefaultCriteriaChecker(Dictionary<Criteria.CriteriaRule, IRuleChecker> checkers = null)
         {
-            _checkers = checkers ?? new Dictionary<Criteria.CriteriaRule, IRuleChecker>()
+            _checkers = checkers ?? new Dictionary<Criteria.CriteriaRule, IRuleChecker>
             {
                 {Criteria.CriteriaRule.Exists, new DataExistsRule()},
                 {Criteria.CriteriaRule.Contains, new DataContainsRule()},
@@ -21,7 +25,7 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
                 {Criteria.CriteriaRule.BeforeDate, new BeforeDateRule()},
                 {Criteria.CriteriaRule.IsYear, new IsYear()},
                 {Criteria.CriteriaRule.LargerThan, new LargerThanRule()},
-                {Criteria.CriteriaRule.SmallerThan, new SmallerThanRule()},
+                {Criteria.CriteriaRule.SmallerThan, new SmallerThanRule()}
             };
         }
 
@@ -29,16 +33,12 @@ namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.Crite
         {
             var type = criteria.Rule;
             var checkData = data;
-            var criteriaData = criteria.DataMatch.Select(s=>s.Value).ToArray();
+            var criteriaData = criteria.DataMatch.Select(s => s.Value).ToArray();
             if (_checkers.ContainsKey(type))
             {
                 return _checkers[type].IsRuleMet(checkData, criteriaData);
             }
-            else
-            {
-                throw new NotImplementedException("No RuleChecker exists for this rule");
-            }
+            throw new NotImplementedException("No RuleChecker exists for this rule");
         }
-
     }
 }

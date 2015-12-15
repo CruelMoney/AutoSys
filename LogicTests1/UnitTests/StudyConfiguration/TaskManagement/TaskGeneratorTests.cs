@@ -1,136 +1,254 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.StudyConfiguration.TaskManagement
+#endregion
+
+namespace StudyConfigurationServerTests.UnitTests.StudyConfiguration.TaskManagement
 {
-    [TestClass()]
+    [TestClass]
     public class TaskGeneratorTests
     {
-        Stage testStage1;
-        List<Item> items;
-        TaskGenerator _taskGenerator;
-        Item testItem1;
-        Item testItem2;
-        Item testItem3;
-        DataField.DataType expectedDataType = It.IsAny<DataField.DataType>();
-        StudyTask conflictingTask;
-        User user1;
-        User user2;
-        UserData expectedUserData1;
-        UserData expectedUserData2;
+        private StudyTask _conflictingTask;
+        private UserData _expectedUserData1;
+        private UserData _expectedUserData2;
+        private List<Item> _items;
+        private TaskGenerator _taskGenerator;
+        private Stage _testStage1;
+        private User _user1;
+        private User _user2;
 
 
         [TestInitialize]
         public void SetupStudy()
         {
             _taskGenerator = new TaskGenerator();
+        }
 
-             testItem1 = new Item(Item.ItemType.Book, new Dictionary<FieldType, string>());
-             testItem2 = new Item(Item.ItemType.Article, new Dictionary<FieldType, string>());
-             testItem3 = new Item(Item.ItemType.PhDThesis, new Dictionary<FieldType, string>());
-
-             items = new List<Item>() {testItem1,testItem2,testItem3};
-          
-             var user1 = new User() {ID = 1};
-             var user2 = new User() { ID = 2 };
-
-            var testCriteria = new Criteria()
+        [TestMethod]
+        public void TestGenerateReviewTask()
+        {
+            //Arrange
+            var item1Data = new Dictionary<FieldType, string>
             {
-                DataType = expectedDataType,
+                {new FieldType {Type = FieldType.TypEField.Title}, "title1"}
+            };
+
+            var testItem1 = new Item(Item.ItemType.Book, item1Data);
+
+            var testCriteria = new Criteria
+            {
+                DataType = DataField.DataType.String,
                 Description = "expectedDescription",
                 Name = "expectedName",
-                TypeInfo = new List<StoredString>() { new StoredString() { Value = "expectedInfo" } }
+                DataMatch = new List<StoredString> {new StoredString("expectedDataMatch")},
+                Rule = Criteria.CriteriaRule.Equals
             };
 
-            var testCriteria2 = new Criteria()
+            var criteria = new List<Criteria> {testCriteria};
+
+            //Action
+            var result = _taskGenerator.GenerateReviewTask(testItem1, criteria);
+
+            //Assert 
+            Assert.AreEqual(testItem1, result.Paper);
+            Assert.AreEqual("expectedName", result.DataFields[0].Name);
+            Assert.AreEqual("expectedDescription", result.DataFields[0].Description);
+            Assert.AreEqual(DataField.DataType.String, result.DataFields[0].FieldType);
+            Assert.AreEqual(true, result.IsEditable);
+        }
+
+
+        [TestMethod]
+        public void TestGenerateReviewTaskWithTypeInfo()
+        {
+            //Arrange
+            var item1Data = new Dictionary<FieldType, string>
             {
-                DataType = expectedDataType,
+                {new FieldType {Type = FieldType.TypEField.Title}, "title1"}
+            };
+
+            var testItem1 = new Item(Item.ItemType.Book, item1Data);
+
+            var testCriteria = new Criteria
+            {
+                DataType = DataField.DataType.Enumeration,
+                Description = "expectedDescription",
+                Name = "expectedName",
+                DataMatch = new List<StoredString> {new StoredString("expectedDataMatch")},
+                Rule = Criteria.CriteriaRule.Equals,
+                TypeInfo = new List<StoredString> {new StoredString("typeinfo1"), new StoredString("typeinfo2")}
+            };
+
+            var criteria = new List<Criteria> {testCriteria};
+
+            //Action
+            var result = _taskGenerator.GenerateReviewTask(testItem1, criteria);
+
+            //Assert 
+            Assert.AreEqual(testItem1, result.Paper);
+            Assert.AreEqual("expectedName", result.DataFields[0].Name);
+            Assert.AreEqual("expectedDescription", result.DataFields[0].Description);
+            Assert.AreEqual(DataField.DataType.Enumeration, result.DataFields[0].FieldType);
+            Assert.AreEqual(true, result.IsEditable);
+            Assert.AreEqual("typeinfo1", result.DataFields[0].TypeInfo.ToList()[0].Value);
+            Assert.AreEqual("typeinfo2", result.DataFields[0].TypeInfo.ToList()[1].Value);
+        }
+
+        [TestMethod]
+        public void TestGenerateReviewTaskMultipleCriteria()
+        {
+            //Arrange
+            var item1Data = new Dictionary<FieldType, string>
+            {
+                {new FieldType {Type = FieldType.TypEField.Title}, "title1"}
+            };
+
+            var testItem1 = new Item(Item.ItemType.Book, item1Data);
+
+            var testCriteria = new Criteria
+            {
+                DataType = DataField.DataType.String,
+                Description = "expectedDescription",
+                Name = "expectedName",
+                DataMatch = new List<StoredString> {new StoredString("expectedDataMatch")},
+                Rule = Criteria.CriteriaRule.Equals
+            };
+
+            var testCriteria2 = new Criteria
+            {
+                DataType = DataField.DataType.Boolean,
                 Description = "expectedDescription2",
                 Name = "expectedName2",
-                TypeInfo = new List<StoredString>() { new StoredString() { Value = "expectedInfo2" } }
+                DataMatch = new List<StoredString> {new StoredString("true")},
+                Rule = Criteria.CriteriaRule.Equals
             };
 
-            testStage1 = new Stage() {ID = 1, Name = "stage1", Criteria = new List<Criteria>(){testCriteria}, CurrentTaskType = StudyTask.Type.Review};
-            var testStage2 = new Stage() { ID = 2, Name = "stage2" };
+            var criteria = new List<Criteria> {testCriteria, testCriteria2};
 
-            
-            expectedUserData1 = new UserData() {Data = new List<StoredString>() { new StoredString() { Value = "conflictingData1" }}, UserID = 1};
-            expectedUserData2 = new UserData() {Data = new List<StoredString>() { new StoredString() { Value = "conflictingData2" }}, UserID = 2};
+            //Action
+            var result = _taskGenerator.GenerateReviewTask(testItem1, criteria);
 
-            conflictingTask = new StudyTask()
+            //Assert 
+            Assert.AreEqual(testItem1, result.Paper);
+            Assert.AreEqual("expectedName", result.DataFields[0].Name);
+            Assert.AreEqual("expectedDescription", result.DataFields[0].Description);
+            Assert.AreEqual(DataField.DataType.String, result.DataFields[0].FieldType);
+            Assert.AreEqual(true, result.IsEditable);
+            Assert.AreEqual(testItem1, result.Paper);
+            Assert.AreEqual("expectedName2", result.DataFields[1].Name);
+            Assert.AreEqual("expectedDescription2", result.DataFields[1].Description);
+            Assert.AreEqual(DataField.DataType.Boolean, result.DataFields[1].FieldType);
+            Assert.AreEqual(true, result.IsEditable);
+        }
+
+        [TestMethod]
+        public void TestGenerateReviewTaskWithItemData()
+        {
+            //Arrange
+            var item1Data = new Dictionary<FieldType, string>
             {
-                DataFields = new List<DataField>()
+                {new FieldType {Type = FieldType.TypEField.Title}, "title1"}
+            };
+
+            var testItem1 = new Item(Item.ItemType.Book, item1Data);
+
+            var testCriteria = new Criteria
+            {
+                DataType = DataField.DataType.String,
+                Description = "expectedDescription",
+                Name = "Title",
+                DataMatch = new List<StoredString> {new StoredString("expectedDataMatch")},
+                Rule = Criteria.CriteriaRule.Equals
+            };
+
+            var criteria = new List<Criteria> {testCriteria};
+
+            //Action
+            var result = _taskGenerator.GenerateReviewTask(testItem1, criteria);
+
+            //Assert 
+            Assert.AreEqual(testItem1, result.Paper);
+            Assert.AreEqual("Title", result.DataFields[0].Name);
+            Assert.AreEqual("expectedDescription", result.DataFields[0].Description);
+            Assert.AreEqual(DataField.DataType.String, result.DataFields[0].FieldType);
+            Assert.AreEqual(false, result.IsEditable);
+            Assert.AreEqual("title1", result.DataFields[0].UserData[0].Data[0].Value);
+        }
+
+        [TestMethod]
+        public void TestGenerateValidateTask()
+        {
+            //Arrange
+            var item1Data = new Dictionary<FieldType, string>
+            {
+                {new FieldType {Type = FieldType.TypEField.Title}, "title1"}
+            };
+
+            var testItem1 = new Item(Item.ItemType.Book, item1Data);
+
+            _expectedUserData1 = new UserData
+            {
+                Data = new List<StoredString> {new StoredString {Value = "conflictingData1"}},
+                UserId = 1
+            };
+            _expectedUserData2 = new UserData
+            {
+                Data = new List<StoredString> {new StoredString {Value = "conflictingData2"}},
+                UserId = 2
+            };
+
+            _conflictingTask = new StudyTask
+            {
+                DataFields = new List<DataField>
                 {
-                    new DataField()
+                    new DataField
                     {
-                        UserData = new List<UserData>()
+                        UserData = new List<UserData>
                         {
-                           expectedUserData1, expectedUserData2
+                            _expectedUserData1,
+                            _expectedUserData2
                         },
-                        Description = "dataFieldDescription1",
-                        FieldType = expectedDataType,
-                        Name = "dataFieldName1"
+                        Description = "conflictingFieldDescription",
+                        FieldType = DataField.DataType.String,
+                        Name = "conflictingField"
                     }
                 },
                 Paper = testItem1,
                 TaskType = StudyTask.Type.Review,
-                Users = new List<User>() { user1 ,user2}
+                Users = new List<User> {_user1, _user2}
             };
 
-        }
 
-        [TestMethod]
-        public void TestGenerateReviewTasks()
-        {
-            //Arrange
-            
-            //Action
-            var result = items.Select(item => _taskGenerator.GenerateReviewTask(item, testStage1.Criteria)).ToList();
-            
-            //Assert 
-            Assert.AreEqual(3, result.Count());
-
-            //Assert tasks
-            for (int i=0; i < result.Count; i++)
+            var testCriteria = new Criteria
             {
-                Assert.AreEqual(items[i], result[i].Paper);
-                Assert.AreEqual(testStage1.CurrentTaskType, result[i].TaskType);
-            
-                Assert.AreEqual(1, result[i].DataFields.Count);
-                Assert.AreEqual("expectedDescription", result[i].DataFields[0].Description);
-                Assert.AreEqual(expectedDataType, result[i].DataFields[0].FieldType);
-                Assert.AreEqual("expectedName", result[i].DataFields[0].Name);
-                Assert.AreEqual(0, result[i].DataFields[0].UserData.Count);
-            }
+                DataType = DataField.DataType.String,
+                Description = "expectedDescription",
+                Name = "Title",
+                DataMatch = new List<StoredString> {new StoredString("expectedDataMatch")},
+                Rule = Criteria.CriteriaRule.Equals
+            };
 
-            }
-
-        [TestMethod]
-        public void TestGenerateValidateTasks()
-        {
-            //Arrange
+            var criteria = new List<Criteria> {testCriteria};
 
             //Action
-            var result = _taskGenerator.GenerateValidateTasks(conflictingTask);
+            var result = _taskGenerator.GenerateValidateTasks(_conflictingTask);
 
             //Assert 
-            Assert.AreEqual(items[0], result.Paper);
-            Assert.AreEqual(StudyTask.Type.Conflict, result.TaskType);
-            Assert.AreEqual(1, result.DataFields.Count);
-            Assert.AreEqual("dataFieldDescription1", result.DataFields[0].Description);
-            Assert.AreEqual(expectedDataType, result.DataFields[0].FieldType);
-            Assert.AreEqual("dataFieldName1", result.DataFields[0].Name);
-
-            //Assert userdata
-            Assert.AreEqual(2, result.DataFields[0].ConflictingData.Count);
-            Assert.AreEqual(expectedUserData1, result.DataFields[0].ConflictingData[0]);
-            Assert.AreEqual(expectedUserData2, result.DataFields[0].ConflictingData[1]);
+            Assert.AreEqual(testItem1, result.Paper);
+            Assert.AreEqual("conflictingField", result.DataFields[0].Name);
+            Assert.AreEqual("conflictingFieldDescription", result.DataFields[0].Description);
+            Assert.AreEqual(DataField.DataType.String, result.DataFields[0].FieldType);
+            Assert.AreEqual(true, result.IsEditable);
+            Assert.AreEqual(0, result.DataFields[0].UserData.Count);
+            Assert.AreEqual("conflictingData1", result.DataFields[0].ConflictingData[0].Data[0].Value);
+            Assert.AreEqual("conflictingData2", result.DataFields[0].ConflictingData[1].Data[0].Value);
+            Assert.AreEqual(1, result.DataFields[0].ConflictingData[0].UserId);
+            Assert.AreEqual(2, result.DataFields[0].ConflictingData[1].UserId);
         }
-
-      
     }
 }

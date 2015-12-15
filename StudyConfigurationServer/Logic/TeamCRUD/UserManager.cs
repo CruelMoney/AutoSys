@@ -1,16 +1,21 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.DTO;
-using System;
-using System.Data.Entity;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.TeamCRUD
 {
     public class UserManager
     {
         private readonly TeamStorageManager _storageManager;
+
         public UserManager()
         {
             _storageManager = new TeamStorageManager();
@@ -20,14 +25,15 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
         {
             _storageManager = storageManager;
         }
-        public int CreateUser(UserDTO userDto)
+
+        public int CreateUser(UserDto userDto)
         {
             var userToAdd = new User
             {
                 Name = userDto.Name,
                 Metadata = userDto.Metadata
             };
-            
+
             return _storageManager.SaveUser(userToAdd);
         }
 
@@ -37,10 +43,10 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 var user = _storageManager.GetAllUsers()
                     .Where(u => u.ID == userId)
-                    .Include(u => u.Teams.Select(t=>t.Studies))
+                    .Include(u => u.Teams.Select(t => t.Studies))
                     .FirstOrDefault();
 
-                if (user.Teams.Any(t=>t.Studies.Any()))
+                if (user.Teams.Any(t => t.Studies.Any()))
                 {
                     throw new ArgumentException("User is part of one or more studies, and can therefore not be deleted");
                 }
@@ -50,10 +56,9 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 throw new NullReferenceException("User could not be found, probably doesn't exist in database");
             }
-                        
         }
 
-        public bool UpdateUser(int userId, UserDTO newUserDto)
+        public bool UpdateUser(int userId, UserDto newUserDto)
         {
             try
             {
@@ -61,7 +66,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
                 userToUpdate.Name = newUserDto.Name;
                 userToUpdate.Metadata = newUserDto.Metadata;
-              
+
                 return _storageManager.UpdateUser(userToUpdate);
             }
             catch (NullReferenceException)
@@ -70,20 +75,20 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             }
         }
 
-        public IEnumerable<UserDTO> SearchUserDTOs(string userName)
+        public IEnumerable<UserDto> SearchUserDtOs(string userName)
         {
             try
             {
                 var users = _storageManager.GetAllUsers();
                 return
                     (from User dbUser in _storageManager.GetAllUsers()
-                     where dbUser.Name.Equals(userName)
-                     select new UserDTO()
-                     {
-                         Id = dbUser.ID,
-                         Name = dbUser.Name,
-                         Metadata = dbUser.Metadata
-                     })
+                        where dbUser.Name.Equals(userName)
+                        select new UserDto
+                        {
+                            Id = dbUser.ID,
+                            Name = dbUser.Name,
+                            Metadata = dbUser.Metadata
+                        })
                         .ToList();
             }
             catch (NullReferenceException)
@@ -92,13 +97,13 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             }
         }
 
-        public UserDTO GetUserDTO(int userId)
+        public UserDto GetUserDto(int userId)
         {
             try
             {
                 var dbUser = _storageManager.GetUser(userId);
 
-                return new UserDTO()
+                return new UserDto
                 {
                     Id = dbUser.ID,
                     Name = dbUser.Name,
@@ -111,7 +116,7 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             }
         }
 
-        public IEnumerable<UserDTO> GetAllUserDTOs()
+        public IEnumerable<UserDto> GetAllUserDtOs()
         {
             try
             {
@@ -120,12 +125,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
 
                 return
                     (from User dbUser in _storageManager.GetAllUsers()
-                     select new UserDTO()
-                     {
-                         Id = dbUser.ID,
-                         Name = dbUser.Name,
-                         Metadata = dbUser.Metadata
-                     }).ToList();
+                        select new UserDto
+                        {
+                            Id = dbUser.ID,
+                            Name = dbUser.Name,
+                            Metadata = dbUser.Metadata
+                        }).ToList();
             }
             catch (NullReferenceException)
             {
@@ -139,10 +144,10 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 var user = _storageManager.GetAllUsers()
                     .Where(u => u.ID == userId)
-                    .Include(u => u.Teams.Select(t=>t.Studies))
+                    .Include(u => u.Teams.Select(t => t.Studies))
                     .FirstOrDefault();
 
-                return user.Teams.SelectMany(t=>t.Studies.Select(s=>s.ID)).ToList();
+                return user.Teams.SelectMany(t => t.Studies.Select(s => s.ID)).ToList();
             }
             catch (NullReferenceException)
             {
@@ -150,4 +155,4 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             }
         }
     }
-} 
+}

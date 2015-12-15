@@ -1,15 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿#region Using
+
 using Storage.Repository;
+
+#endregion
 
 namespace StudyConfigurationServer.Models
 {
     public class StoredString : IEntity
     {
-        public int ID { get; set; }
+        public StoredString(string s)
+        {
+            Value = s;
+        }
+
+        public StoredString()
+        {
+        }
 
         public string Value { get; set; }
+        public int ID { get; set; }
     }
 }

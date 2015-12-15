@@ -1,25 +1,28 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.WebPages;
 using Microsoft.Ajax.Utilities;
 using Storage.Repository;
+
+#endregion
 
 namespace StudyConfigurationServer.Models
 {
     /// <summary>
-    /// This class represents the data entered by a User for a specific StudyTask. 
+    ///     This class represents the data entered by a User for a specific StudyTask.
     /// </summary>
-    public  class UserData : IEntity
+    public class UserData : IEntity
     {
         /// <summary>
-        /// The User that is associated with this StudyTask and it's data
+        ///     The User that is associated with this StudyTask and it's data
         /// </summary>
-        public int UserID { get; set; }
-      
+        public int UserId { get; set; }
+
         /// <summary>
-        /// The Data entered
+        ///     The Data entered
         /// </summary>
-        public virtual List<StoredString> Data { get; set; } 
+        public virtual List<StoredString> Data { get; set; }
 
         public int ID { get; set; }
 

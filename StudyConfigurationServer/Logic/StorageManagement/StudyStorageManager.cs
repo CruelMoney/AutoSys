@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using
+
 using System.Linq;
-using Microsoft.Ajax.Utilities;
 using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement.Interfaces;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 
+#endregion
+
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
     public class StudyStorageManager : IStudyStorageManager
     {
-        readonly IGenericRepository _studyRepo;
-      
+        private readonly IGenericRepository _studyRepo;
+
 
         public StudyStorageManager()
         {
             _studyRepo = new EntityFrameworkGenericRepository<StudyContext>();
-          
         }
 
-       public StudyStorageManager(IGenericRepository repo)
+        public StudyStorageManager(IGenericRepository repo)
         {
             _studyRepo = repo;
-           
         }
 
 
@@ -31,7 +30,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         {
             var returnValue = _studyRepo.Create(study);
 
-    
+
             return returnValue;
         }
 
@@ -39,6 +38,7 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         {
             return _studyRepo.Delete(_studyRepo.Read<Study>(studyWithIdToDelete));
         }
+
         public bool Update(Study study)
         {
             var returnValue = _studyRepo.Update(study);
@@ -56,9 +56,5 @@ namespace StudyConfigurationServer.Logic.StorageManagement
         {
             return _studyRepo.Read<Study>(studyId);
         }
-
-
     }
-
-
 }

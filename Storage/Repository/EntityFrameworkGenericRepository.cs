@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using
+
+using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Storage.Repository
 {
@@ -32,11 +34,11 @@ namespace Storage.Repository
             try
             {
                 var found = _context.Set<T>().FindAsync(entity.ID);
-            }catch(NullReferenceException)
-            {
-                throw new NullReferenceException("Item could not be found in the repository");              
             }
-            
+            catch (NullReferenceException)
+            {
+                throw new NullReferenceException("Item could not be found in the repository");
+            }
 
             _context.Set<T>().Remove(entity);
             _context.SaveChanges();
@@ -53,7 +55,6 @@ namespace Storage.Repository
             {
                 throw new NullReferenceException("Item could not be found in the repository");
             }
-            
         }
 
         public T Read<T>(int id) where T : class, IEntity
@@ -66,7 +67,6 @@ namespace Storage.Repository
             {
                 throw new NullReferenceException("Item could not be found in the repository");
             }
-            
         }
 
         public bool Update<T>(T entity) where T : class, IEntity
@@ -79,9 +79,9 @@ namespace Storage.Repository
             {
                 throw new NullReferenceException("item could not be found in the repository");
             }
-            
 
-            _context.Set<T>().Attach(entity);       
+
+            _context.Set<T>().Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
 
@@ -93,6 +93,5 @@ namespace Storage.Repository
             _context.Dispose();
         }
     }
-
 }
 

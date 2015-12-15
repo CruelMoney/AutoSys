@@ -1,7 +1,12 @@
-﻿using System.Data.Entity;
-using Storage.Repository;
+﻿#region Using
 
-namespace StudyConfigurationServer.Models.Data
+using System.Data.Entity;
+using Storage.Repository;
+using StudyConfigurationServer.Models;
+
+#endregion
+
+namespace StudyConfigurationServerTests.IntegrationTests
 {
     public class IntegrationTestContext : DbContext, IDbContext
     {

@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.BibTexParserTests
+#endregion
+
+namespace StudyConfigurationServerTests.UnitTests.StudyConfiguration.BibTexParserTests
 {
     [TestClass]
     public class ItemValidatorTest
     {
-        Item _item;
-        ItemValidator _iv;
-        Dictionary<Item.ItemType, IItemChecker> _checkerDict;
-        Dictionary<FieldType, string> _fieldDict;
-        IItemChecker _checker;
+        private IItemChecker _checker;
+        private Dictionary<Item.ItemType, IItemChecker> _checkerDict;
+        private Dictionary<FieldType, string> _fieldDict;
+        private Item _item;
+        private ItemValidator _iv;
 
         [TestInitialize]
         public void Initialize()
@@ -21,15 +25,15 @@ namespace LogicTests1.BibTexParserTests
             _checker = new DefaultItemChecker();
             _checkerDict = new Dictionary<Item.ItemType, IItemChecker>();
             _checkerDict.Add(Item.ItemType.Book, new DefaultItemChecker());
-            _iv = new ItemValidator(_checkerDict); 
-        } 
+            _iv = new ItemValidator(_checkerDict);
+        }
 
 
         [TestMethod]
         public void TestItemsAllValid()
-        { 
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Booktitle }, "Hello World");
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Author }, "Christopher");
+        {
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Booktitle}, "Hello World");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Author}, "Christopher");
 
             _item = new Item(Item.ItemType.Book, _fieldDict);
 
@@ -39,8 +43,8 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void TestItemsSomeValid()
         {
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Booktitle}, "Hello\n World");
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Author}, "Christopher");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Booktitle}, "Hello\n World");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Author}, "Christopher");
 
             _item = new Item(Item.ItemType.Book, _fieldDict);
 
@@ -50,8 +54,8 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void TestItemsAllInvalid()
         {
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Booktitle}, "Hello\n World");
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Author}, "Christ\nopher");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Booktitle}, "Hello\n World");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Author}, "Christ\nopher");
 
             _item = new Item(Item.ItemType.Book, _fieldDict);
 
@@ -61,8 +65,8 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void TestItemsValidWithoutDefinedChecker()
         {
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Title}, "Hello World");
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Author}, "Christopher");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Title}, "Hello World");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Author}, "Christopher");
 
             _item = new Item(Item.ItemType.PhDThesis, _fieldDict);
 
@@ -72,14 +76,12 @@ namespace LogicTests1.BibTexParserTests
         [TestMethod]
         public void TestItemsInvalidWithoutDefinedChecker()
         {
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Title}, "Hello\n World");
-            _fieldDict.Add(new FieldType() { Type = FieldType.TypEField.Author}, "Christopher");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Title}, "Hello\n World");
+            _fieldDict.Add(new FieldType {Type = FieldType.TypEField.Author}, "Christopher");
 
             _item = new Item(Item.ItemType.PhDThesis, _fieldDict);
 
             Assert.IsFalse(_iv.IsItemValid(_item));
         }
-
-
     }
 }

@@ -1,5 +1,9 @@
-﻿using System.Data.Entity;
+﻿#region Using
+
+using System.Data.Entity;
 using Storage.Repository;
+
+#endregion
 
 namespace StorageTests.Repository
 {

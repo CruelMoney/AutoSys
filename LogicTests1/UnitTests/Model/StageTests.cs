@@ -1,60 +1,61 @@
-﻿using System;
+﻿#region Using
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.Model
+#endregion
+
+namespace StudyConfigurationServerTests.UnitTests.Model
 {
     [TestClass]
     public class StageTests
     {
-        Stage testStage;
-        StudyTask completeTask;
-        StudyTask incompleteTask;
-        StudyTask incompleteTask2;
-        StudyTask incompleteTask3;
-        StudyTask incompleteTask4;
-
+        private StudyTask _completeTask;
+        private StudyTask _incompleteTask;
+        private StudyTask _incompleteTask2;
+        private StudyTask _incompleteTask3;
+        private StudyTask _incompleteTask4;
+        private Stage _testStage;
 
 
         [TestInitialize]
         public void Initialize()
         {
-            testStage = new Stage() {Tasks = new List<StudyTask>()};
-            var user1 = new User() {ID = 1, Name = "user1"};
-            var user2 = new User() {ID = 2, Name = "user2"};
-            var userData1 = new UserData() { Data = new List<StoredString>() { new StoredString() { Value = "done" }}, UserID = 1 };
-            var userData2 = new UserData() { Data = new List<StoredString>() { new StoredString()} , UserID = 2};
-            var completeDataField = new DataField() {Name = "testField", UserData = new List<UserData>() {userData1}};
-            var incompletedataField = new DataField() { Name = "testField", UserData = new List<UserData>() { userData2 } }; ;
+            _testStage = new Stage {Tasks = new List<StudyTask>()};
+            var user1 = new User {ID = 1, Name = "user1"};
+            var user2 = new User {ID = 2, Name = "user2"};
+            var userData1 = new UserData {Data = new List<StoredString> {new StoredString {Value = "done"}}, UserId = 1};
+            var userData2 = new UserData {Data = new List<StoredString> {new StoredString()}, UserId = 2};
+            var completeDataField = new DataField {Name = "testField", UserData = new List<UserData> {userData1}};
+            var incompletedataField = new DataField {Name = "testField", UserData = new List<UserData> {userData2}};
+            ;
 
-            completeTask = new StudyTask()
+            _completeTask = new StudyTask
             {
-                DataFields = new List<DataField>() { completeDataField }
+                DataFields = new List<DataField> {completeDataField}
             };
 
-            incompleteTask = new StudyTask()
+            _incompleteTask = new StudyTask
             {
-                DataFields = new List<DataField>() { incompletedataField }
+                DataFields = new List<DataField> {incompletedataField}
             };
 
-            incompleteTask2 = new StudyTask()
+            _incompleteTask2 = new StudyTask
             {
-                DataFields = new List<DataField>() { incompletedataField, completeDataField }
+                DataFields = new List<DataField> {incompletedataField, completeDataField}
             };
 
-            incompleteTask3 = new StudyTask()
+            _incompleteTask3 = new StudyTask
             {
-                DataFields = new List<DataField>() { completeDataField, incompletedataField }
+                DataFields = new List<DataField> {completeDataField, incompletedataField}
             };
-            incompleteTask4 = new StudyTask()
+            _incompleteTask4 = new StudyTask
             {
-                DataFields = new List<DataField>() { completeDataField, incompletedataField, completeDataField }
+                DataFields = new List<DataField> {completeDataField, incompletedataField, completeDataField}
             };
         }
+
         /*
         [TestMethod]
         public void TestStageFinished()

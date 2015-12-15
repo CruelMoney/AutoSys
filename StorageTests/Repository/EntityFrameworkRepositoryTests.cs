@@ -1,23 +1,25 @@
-﻿using System.Data.Entity;
+﻿#region Using
+
+using System.Data.Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Storage.Repository;
-using System.Data.Entity.Infrastructure;
+
+#endregion
 
 namespace StorageTests.Repository
 {
     [TestClass]
     public class EntityFrameworkGenericRepositoryTests
     {
-
-        private Mock defaultDBContext()
+        private Mock DefaultDbContext()
         {
             return new Mock<MockContext>();
         }
 
 
         [TestMethod]
-        public void TestEFRepoDefaultConstructorRuns()
+        public void TestEfRepoDefaultConstructorRuns()
         {
             //Act
             var efDatabase = new EntityFrameworkGenericRepository<MockContext>();
@@ -27,109 +29,84 @@ namespace StorageTests.Repository
         }
 
         [TestMethod]
-        public void TestEFRepoSecondConstructorRuns()
+        public void TestEfRepoSecondConstructorRuns()
         {
-            var efDatabase = new EntityFrameworkGenericRepository<MockContext>((MockContext)defaultDBContext().Object);
+            var efDatabase = new EntityFrameworkGenericRepository<MockContext>((MockContext) DefaultDbContext().Object);
 
             //Assert
             Assert.IsNotNull(efDatabase);
         }
 
-        
 
         [TestMethod]
-        public void TestEFRepoCreate()
+        public void TestEfRepoCreate()
         {
             //Arrange
             var dbset = new Mock<DbSet<MockEntity>>();
             var context = new Mock<MockContext>();
-            var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
+            var efRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
             var expectedItem = new MockEntity();
 
             context.Setup(c => c.Set<MockEntity>()).Returns(dbset.Object);
 
-            EFRepo.Create(expectedItem);
+            efRepo.Create(expectedItem);
 
             context.Verify(c => c.SaveChanges(), Times.Once);
             dbset.Verify(m => m.Add(expectedItem), Times.Once);
         }
 
         [TestMethod]
-        public void TestEFRepoDelete()
+        public void TestEfRepoDelete()
         {
             //Arrange
             var dbset = new Mock<DbSet<MockEntity>>();
             var context = new Mock<MockContext>();
-            var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
+            var efRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
             var expectedItem = new MockEntity();
 
             context.Setup(c => c.Set<MockEntity>()).Returns(dbset.Object);
-            
-            EFRepo.Delete(expectedItem);
+
+            efRepo.Delete(expectedItem);
 
             context.Verify(c => c.SaveChanges(), Times.Once);
             dbset.Verify(m => m.Remove(expectedItem), Times.Once);
         }
 
         [TestMethod]
-        public void TestEFRepoRead()
+        public void TestEfRepoRead()
         {
             //Arrange
             var expectedDbset = new Mock<DbSet<MockEntity>>();
             var context = new Mock<MockContext>();
-            var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
+            var efRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
             var expectedItem = new MockEntity();
 
             context.Setup(c => c.Set<MockEntity>()).Returns(expectedDbset.Object);
 
             //Action
-            var actual = EFRepo.Read<MockEntity>();
+            var actual = efRepo.Read<MockEntity>();
 
             //Assert
             Assert.AreEqual(expectedDbset.Object, actual);
         }
 
         [TestMethod]
-        public void TestEFRepoReadItem()
+        public void TestEfRepoReadItem()
         {
             //Arrange
-            var expectedItem = new MockEntity() { ID = 1};
+            var expectedItem = new MockEntity {ID = 1};
             var expectedDbset = new Mock<DbSet<MockEntity>>();
             var context = new Mock<MockContext>();
-            var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
+            var efRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
 
             expectedDbset.Setup(m => m.Find(expectedItem.ID)).Returns(expectedItem);
             context.Setup(c => c.Set<MockEntity>()).Returns(expectedDbset.Object);
 
             //Action
-            var actual = EFRepo.Read<MockEntity>(expectedItem.ID);
+            var actual = efRepo.Read<MockEntity>(expectedItem.ID);
 
             //Assert
             Assert.AreEqual(expectedItem, actual);
         }
-
-        [TestMethod]
-        public void TestEFRepoUpdateItem()
-        {
-            var DbSet = new Mock<DbSet<MockEntity>>();
-            var context = new Mock<MockContext>();
-            var EFRepo = new EntityFrameworkGenericRepository<MockContext>(context.Object);
-            var item = new MockEntity() { ID = 1, Name = "Name"};
-            var entry = new Mock<DbEntityEntry<MockEntity>>();
-
-            //entry.Setup(m => m.
-            DbSet.Setup(m => m.Find(item.ID)).Returns(item);
-
-            context.Setup(c => c.Set<MockEntity>()).Returns(DbSet.Object);
-            context.Setup(c => c.Entry<MockEntity>(item)).Returns(entry.Object);
-           
-           
-            EFRepo.Update(item);
-
-            context.Verify(c => c.SaveChanges(), Times.Once);
-            DbSet.Verify(m => m.Attach(item), Times.Once);
-            
-        }
-
     }
 }

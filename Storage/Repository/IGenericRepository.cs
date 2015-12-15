@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using
+
+using System;
 using System.Linq;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace Storage.Repository
 {

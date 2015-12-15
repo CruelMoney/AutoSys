@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using StudyConfigurationServer.Logic.StorageManagement;
-using StudyConfigurationServer.Models.DTO;
-using StudyConfigurationServer.Logic.StudyConfiguration;
-using StudyConfigurationServer.Models;
+﻿#region Using
+
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using StudyConfigurationServer.Logic.StorageManagement;
+using StudyConfigurationServer.Models;
+using StudyConfigurationServer.Models.DTO;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StudyOverview
 {
     public class StudyOverviewController
     {
-        private StudyStorageManager _studyStorageManager;
+        private readonly StudyStorageManager _studyStorageManager;
         private TaskStorageManager _taskStorage;
 
         public StudyOverviewController(StudyStorageManager studyStorageManager, TaskStorageManager taskStorageManager)
@@ -28,35 +29,32 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             _taskStorage = new TaskStorageManager();
         }
 
-        public StudyOverviewDTO GetOverview(int id)
+        public StudyOverviewDto GetOverview(int id)
         {
-            Study study = _studyStorageManager.GetAll()
+            var study = _studyStorageManager.GetAll()
                 .Where(s => s.ID == id)
-                .Include(st => st.Stages.Select(s => s.Tasks.Select(t=>t.Users)))
+                .Include(st => st.Stages.Select(s => s.Tasks.Select(t => t.Users)))
                 .FirstOrDefault();
 
-            StudyOverviewDTO studyOverview = new StudyOverviewDTO()
+            var studyOverview = new StudyOverviewDto
             {
-
                 Name = study.Name,
                 UserIds = GetUserIDs(study),
                 Phases = GetStages(study)
-
             };
             return studyOverview;
-            
         }
 
         public int[] GetUserIDs(Study study)
         {
-            return study.Team.Users.Select(u=>u.ID).ToArray();    
+            return study.Team.Users.Select(u => u.ID).ToArray();
         }
 
 
         public Stage GetCurrentStage(Study study)
         {
             Stage currentStage = null;
-           
+
             foreach (var stage in study.Stages)
             {
                 if (stage.IsCurrentStage)
@@ -68,15 +66,14 @@ namespace StudyConfigurationServer.Logic.StudyOverview
             return currentStage;
         }
 
-        public StageOverviewDTO[] GetStages(Study study)
+        public StageOverviewDto[] GetStages(Study study)
         {
-            
             var numbOfStages = study.Stages.Count();
-            var stageOverview = new StageOverviewDTO[numbOfStages];
-      
-            for(int i = 0; i < numbOfStages; i++)
+            var stageOverview = new StageOverviewDto[numbOfStages];
+
+            for (var i = 0; i < numbOfStages; i++)
             {
-                stageOverview[i] = new StageOverviewDTO();
+                stageOverview[i] = new StageOverviewDto();
                 stageOverview[i].Name = study.Stages.ToArray()[i].Name;
                 stageOverview[i].CompletedTasks = GetCompletedTasks(study.Stages.ToArray()[i]);
                 stageOverview[i].IncompleteTasks = GetIncompleteTasks(study.Stages.ToArray()[i]);
@@ -88,9 +85,8 @@ namespace StudyConfigurationServer.Logic.StudyOverview
         {
             var completedTasks = new ConcurrentDictionary<int, int>();
 
-            foreach(var task in stage.Tasks)
+            foreach (var task in stage.Tasks)
             {
-             
                 foreach (var user in task.Users)
                 {
                     if (task.IsFinished(user.ID))
@@ -98,8 +94,8 @@ namespace StudyConfigurationServer.Logic.StudyOverview
                         completedTasks.AddOrUpdate(user.ID, 1, (id, count) => count + 1);
                     }
                 }
-            }           
-            return completedTasks.ToDictionary(k=> k.Key, k=> k.Value);
+            }
+            return completedTasks.ToDictionary(k => k.Key, k => k.Value);
         }
 
         public Dictionary<int, int> GetIncompleteTasks(Stage stage)
@@ -108,7 +104,6 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             foreach (var task in stage.Tasks)
             {
-             
                 foreach (var user in task.Users)
                 {
                     if (!task.IsFinished(user.ID))
@@ -120,7 +115,5 @@ namespace StudyConfigurationServer.Logic.StudyOverview
 
             return inCompletedTasks.ToDictionary(k => k.Key, k => k.Value);
         }
-
-
     }
 }

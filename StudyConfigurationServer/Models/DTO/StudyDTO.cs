@@ -1,34 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using
+
 using System.Linq;
-using System.Web;
+
+#endregion
 
 namespace StudyConfigurationServer.Models.DTO
 {
-    public class StudyDTO
+    public class StudyDto
     {
+        public StudyDto(){}
 
-        public StudyDTO() { }
-
-        public StudyDTO(Study study)
+        public StudyDto(Study study)
         {
             Id = study.ID;
             Name = study.Name;
-            Stages = study.Stages.Select(s => new StageDTO(s)).ToArray();
-            Team = new TeamDTO(study.Team);
+            Stages = study.Stages.Select(s => new StageDto(s)).ToArray();
+            Team = new TeamDto(study.Team);
             Items = new byte[] {};
             IsFinished = study.IsFinished;
         }
+
         public int Id { get; set; }
+
         /// <summary>
-        /// The official Name of the study.
+        ///     The official Name of the study.
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
-        /// The DB id for the current stage
+        ///     The DB id for the current stage
         /// </summary>
-        public StageDTO[] Stages { get; set; } // reference til Stages (one to many)
-        public TeamDTO Team { get; set; }
+        public StageDto[] Stages { get; set; } // reference til Stages (one to many)
+        public TeamDto Team { get; set; }
         public byte[] Items { get; set; } // where to place?
         public bool IsFinished { get; set; }
     }

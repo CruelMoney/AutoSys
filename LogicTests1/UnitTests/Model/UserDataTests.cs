@@ -1,48 +1,58 @@
-﻿using System;
+﻿#region Using
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.Model
+#endregion
+
+namespace StudyConfigurationServerTests.UnitTests.Model
 {
     [TestClass]
     public class UserDataTests
     {
-        UserData completedData;
-        UserData completedData2;
-        UserData incompleteData1;
-        UserData incompleteData2;
+        private UserData _completedData;
+        private UserData _completedData2;
+        private UserData _incompleteData1;
+        private UserData _incompleteData2;
 
         [TestInitialize]
         public void Initialize()
         {
-            var completeData = new List<StoredString>() { new StoredString() { Value = "testData" }};
-            var completeData2 = new List<StoredString>() { new StoredString() { Value = ""}, new StoredString() { Value = ""}, new StoredString() { Value = "dataTest"}, new StoredString() { Value = "" }};
+            var completeData = new List<StoredString> {new StoredString {Value = "testData"}};
+            var completeData2 = new List<StoredString>
+            {
+                new StoredString {Value = ""},
+                new StoredString {Value = ""},
+                new StoredString {Value = "dataTest"},
+                new StoredString {Value = ""}
+            };
             var nullData = new List<StoredString>();
-            var emptyStringsData = new List<StoredString>() { new StoredString() { Value = ""}, new StoredString() { Value = ""}, new StoredString() { Value = ""} };
+            var emptyStringsData = new List<StoredString>
+            {
+                new StoredString {Value = ""},
+                new StoredString {Value = ""},
+                new StoredString {Value = ""}
+            };
 
-            completedData = new UserData() { Data = completeData };
-            completedData2 = new UserData() { Data = completeData2 };
-            incompleteData1 = new UserData() { Data = nullData };
-            incompleteData2 = new UserData() { Data = emptyStringsData };
+            _completedData = new UserData {Data = completeData};
+            _completedData2 = new UserData {Data = completeData2};
+            _incompleteData1 = new UserData {Data = nullData};
+            _incompleteData2 = new UserData {Data = emptyStringsData};
         }
 
         [TestMethod]
         public void TestUserDataEnteredTrue()
         {
-            Assert.IsTrue(completedData.ContainsData());
-            Assert.IsTrue(completedData2.ContainsData());
+            Assert.IsTrue(_completedData.ContainsData());
+            Assert.IsTrue(_completedData2.ContainsData());
         }
 
         [TestMethod]
         public void TestUserDataTaskUnFinished()
         {
-            Assert.IsFalse(incompleteData1.ContainsData());
-            Assert.IsFalse(incompleteData2.ContainsData());
+            Assert.IsFalse(_incompleteData1.ContainsData());
+            Assert.IsFalse(_incompleteData2.ContainsData());
         }
-
     }
 }

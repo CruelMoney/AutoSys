@@ -1,103 +1,106 @@
-﻿using System.IO;
+﻿#region Using
 
+using System.IO;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser;
 using StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser.bibTex;
 using StudyConfigurationServer.Models;
+using StudyConfigurationServerTests.Properties;
 
-namespace LogicTests1.BibTexParserTests
+#endregion
+
+namespace StudyConfigurationServerTests.UnitTests.StudyConfiguration.BibTexParserTests
 {
     [TestClass]
     public class BibTexParserTest
     {
-        private const string _validItem = "@INPROCEEDINGS{839269, author = {Hilburn, T.B.and Bagert, D.J.},}";
-        private const string _invalidItemType = "@INVALIDITEMTYPE{839269, author = {Hilburn, T.B.and Bagert, D.J.},}";
-        private const string _invalidItemKey = "@INPROCEEDINGS{invalid author = {Hilburn, T.B.and Bagert, D.J.},}";
-        private const string _invalidFieldType = "@INPROCEEDINGS{839269, invalidField = {Hilburn, T.B.and Bagert, D.J.},}";
-        private const string _invalidItemSyntax = "@INPROCEEDINGS{1158672, author={Pour, G.}";
-        private const string _validItem2 = "@INPROCEEDINGS{1158672, author={Pour, G.},}";
-       
+        private const string ValidItem = "@INPROCEEDINGS{839269, author = {Hilburn, T.B.and Bagert, D.J.},}";
+        private const string InvalidItemType = "@INVALIDITEMTYPE{839269, author = {Hilburn, T.B.and Bagert, D.J.},}";
+        private const string InvalidItemKey = "@INPROCEEDINGS{invalid author = {Hilburn, T.B.and Bagert, D.J.},}";
+
+        private const string InvalidFieldType =
+            "@INPROCEEDINGS{839269, invalidField = {Hilburn, T.B.and Bagert, D.J.},}";
+
+        private const string InvalidItemSyntax = "@INPROCEEDINGS{1158672, author={Pour, G.}";
+        private const string ValidItem2 = "@INPROCEEDINGS{1158672, author={Pour, G.},}";
+
         [TestMethod]
         public void TestParseBibtex()
         {
-            var _file = Properties.Resources.bibtex;
-                
-            var _fileString = System.Text.Encoding.Default.GetString(_file);
+            var file = Resources.bibtex;
 
-            var _parser = new BibTexParser(new ItemValidator());
-            var _bib = _parser.Parse(_fileString);
+            var fileString = Encoding.Default.GetString(file);
 
-            Assert.AreEqual(23, _bib.Count);
+            var parser = new BibTexParser(new ItemValidator());
+            var bib = parser.Parse(fileString);
+
+            Assert.AreEqual(23, bib.Count);
         }
 
         [TestMethod]
         public void TestParseValidItem()
         {
-            var _parser = new BibTexParser(new ItemValidator());
-            var _bib = _parser.Parse(_validItem);
-            
-            var _item = _bib[0];
+            var parser = new BibTexParser(new ItemValidator());
+            var bib = parser.Parse(ValidItem);
 
-            Assert.AreEqual(1, _bib.Count);
-            Assert.AreEqual(Item.ItemType.InProceedings, _item.Type);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _item.FindFieldValue("Author" ));
-    
+            var item = bib[0];
+
+            Assert.AreEqual(1, bib.Count);
+            Assert.AreEqual(Item.ItemType.InProceedings, item.Type);
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", item.FindFieldValue("Author"));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDataException))]
+        [ExpectedException(typeof (InvalidDataException))]
         public void TestParseInValidItemType()
         {
-            var _parser = new BibTexParser(new ItemValidator());
-            var _bib = _parser.Parse(_invalidItemType);
+            var parser = new BibTexParser(new ItemValidator());
+            var bib = parser.Parse(InvalidItemType);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDataException))]
+        [ExpectedException(typeof (InvalidDataException))]
         public void TestParseInValidFieldType()
         {
-            var _parser = new BibTexParser(new ItemValidator());
-            var _bib = _parser.Parse(_invalidFieldType);
+            var parser = new BibTexParser(new ItemValidator());
+            var bib = parser.Parse(InvalidFieldType);
         }
 
-  
+
         [TestMethod]
         public void TestParseInValidItemSyntax()
         {
-            var _parser = new BibTexParser(new ItemValidator());
-            var _bib = _parser.Parse(_invalidItemSyntax);
+            var parser = new BibTexParser(new ItemValidator());
+            var bib = parser.Parse(InvalidItemSyntax);
 
-            Assert.AreEqual(0, _bib.Count);
+            Assert.AreEqual(0, bib.Count);
         }
-
 
 
         [TestMethod]
         public void TestParseMultipleItems()
         {
-            var _parser = new BibTexParser(new ItemValidator());
-            var _bib = _parser.Parse(_validItem);
-            _bib.AddRange(_parser.Parse(_validItem2));
-            
+            var parser = new BibTexParser(new ItemValidator());
+            var bib = parser.Parse(ValidItem);
+            bib.AddRange(parser.Parse(ValidItem2));
 
-            Assert.AreEqual(2, _bib.Count);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].FindFieldValue( "Author"));
-            Assert.AreEqual("Pour, G.", _bib[1].FindFieldValue("Author"));
 
+            Assert.AreEqual(2, bib.Count);
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", bib[0].FindFieldValue("Author"));
+            Assert.AreEqual("Pour, G.", bib[1].FindFieldValue("Author"));
         }
 
         [TestMethod]
         public void TestParseValidAndInvalid()
         {
-            var _parser = new BibTexParser(new ItemValidator());
-            var _bib = _parser.Parse(_validItem);
-            _bib.AddRange(_parser.Parse(_invalidItemKey));
+            var parser = new BibTexParser(new ItemValidator());
+            var bib = parser.Parse(ValidItem);
+            bib.AddRange(parser.Parse(InvalidItemKey));
 
 
-            Assert.AreEqual(1, _bib.Count);
-            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", _bib[0].FindFieldValue("Author"));
+            Assert.AreEqual(1, bib.Count);
+            Assert.AreEqual("Hilburn, T.B.and Bagert, D.J.", bib[0].FindFieldValue("Author"));
         }
-
-  
     }
 }

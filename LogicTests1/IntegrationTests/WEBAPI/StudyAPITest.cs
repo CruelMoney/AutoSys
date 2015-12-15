@@ -1,118 +1,105 @@
-﻿using System;
+﻿#region Using
+
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
 using System.Web.Http.Results;
-using FluentAssertions;
-using LogicTests1.IntegrationTests.DBInitializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudyConfigurationServer.Api;
-using StudyConfigurationServer.Logic.StudyConfiguration;
 using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
+using StudyConfigurationServerTests.IntegrationTests.DBInitializers;
+using StudyConfigurationServerTests.Properties;
 
-namespace LogicTests1.IntegrationTests.WEBAPI
+#endregion
+
+namespace StudyConfigurationServerTests.IntegrationTests.WEBAPI
 {
     [TestClass]
-    public class StudyAPITest
+    public class StudyApiTest
     {
-        StudyController _API;
+        private StudyController _api;
 
         [TestInitialize]
         public void Initialize()
         {
-            Database.SetInitializer(new MultipleTeamsDB());
+            Database.SetInitializer(new StudyDb());
 
             var context = new StudyContext();
             context.Database.Initialize(true);
 
-
-            var studyManager = new StudyManager();
-
-            studyManager.CreateStudy(CreaStudyDto());
-
-            _API = new StudyController();
-
+            _api = new StudyController();
         }
 
 
-        public StudyDTO CreaStudyDto()
+        public StudyDto CreaStudyDto()
         {
-            var teamDTO = new TeamDTO()
+            var teamDto = new TeamDto
             {
                 Id = 1
             };
 
-            var criteria1 = new CriteriaDTO()
+            var criteria1 = new CriteriaDto
             {
                 Name = "Year",
-                Rule = CriteriaDTO.CriteriaRule.LargerThan,
-                DataMatch = new string[] { "2000" },
-                DataType = DataFieldDTO.DataType.String,
-                Description = "Write the year of the study",
+                Rule = CriteriaDto.CriteriaRule.LargerThan,
+                DataMatch = new[] {"2000"},
+                DataType = DataFieldDto.DataType.String,
+                Description = "Write the year of the study"
             };
 
-            var criteria2 = new CriteriaDTO()
+            var criteria2 = new CriteriaDto
             {
                 Name = "Is about...",
-                DataType = DataFieldDTO.DataType.Boolean,
-                Rule = CriteriaDTO.CriteriaRule.Equals,
-                DataMatch = new string[] { "true" },
-                Description = "Check if the item is about snails.",
+                DataType = DataFieldDto.DataType.Boolean,
+                Rule = CriteriaDto.CriteriaRule.Equals,
+                DataMatch = new[] {"true"},
+                Description = "Check if the item is about snails."
             };
 
-            var stage1 = new StageDTO()
+            var stage1 = new StageDto
             {
                 Name = "stage1",
                 Criteria = criteria1,
-                DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
-                ReviewerIDs = new int[] { 1, 2 },
-                ValidatorIDs = new int[] { 3 },
-                VisibleFields = new StageDTO.FieldType[] { StageDTO.FieldType.Title, StageDTO.FieldType.Author, StageDTO.FieldType.Year },
-
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
+                ReviewerIDs = new[] {1, 2},
+                ValidatorIDs = new[] {3},
+                VisibleFields = new[] {StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year}
             };
 
-            var stage2 = new StageDTO()
+            var stage2 = new StageDto
             {
                 Name = "stage2",
                 Criteria = criteria2,
-                DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
-                ReviewerIDs = new int[] { 3, 2 },
-                ValidatorIDs = new int[] { 4 },
-                VisibleFields = new StageDTO.FieldType[] { StageDTO.FieldType.Title, StageDTO.FieldType.Author, StageDTO.FieldType.Year },
-
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
+                ReviewerIDs = new[] {3, 2},
+                ValidatorIDs = new[] {4},
+                VisibleFields = new[] {StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year}
             };
 
-            var studyDTO = new StudyDTO()
+            var studyDto = new StudyDto
             {
                 Name = "testStudy",
-                Team = teamDTO,
-                Items = Properties.Resources.bibtex,
-                Stages = new StageDTO[] { stage1, stage2 }
+                Team = teamDto,
+                Items = Resources.bibtex,
+                Stages = new[] {stage1, stage2}
             };
 
-            return studyDTO;
+            return studyDto;
         }
-
-
-
 
 
         [TestMethod]
         public void GetOverviewTest()
         {
             //Action
-            var result = _API.GetOverview(1);
+            var result = _api.GetOverview(1);
 
             //Assert
-            OkNegotiatedContentResult<StudyOverviewDTO> negotiatedResult = result as OkNegotiatedContentResult<StudyOverviewDTO>;
+            var negotiatedResult = result as OkNegotiatedContentResult<StudyOverviewDto>;
             Assert.IsNotNull(negotiatedResult);
             Assert.AreEqual(2, negotiatedResult.Content.Phases.Length);
-            Assert.AreEqual("testStudy", negotiatedResult.Content.Name);
+            Assert.AreEqual("Test Study", negotiatedResult.Content.Name);
             Assert.AreEqual(4, negotiatedResult.Content.UserIds.Length);
         }
 
@@ -120,10 +107,10 @@ namespace LogicTests1.IntegrationTests.WEBAPI
         public void GetOverviewInvalidStudyTest()
         {
             //Action
-            var result = _API.GetOverview(10);
+            var result = _api.GetOverview(10);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            Assert.IsInstanceOfType(result, typeof (NotFoundResult));
         }
 
 
@@ -131,32 +118,32 @@ namespace LogicTests1.IntegrationTests.WEBAPI
         public void GetTasksTest()
         {
             //Action
-            var result = _API.GetTasks(1, 1, 15);
+            var result = _api.GetTasks(1, 1, 1);
 
             //Assert
-            OkNegotiatedContentResult<IEnumerable<TaskRequestDTO>> negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<TaskRequestDTO>>;
+            var negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<TaskRequestDto>>;
             Assert.IsNotNull(negotiatedResult);
-            Assert.AreEqual(15, negotiatedResult.Content.Count());
+            Assert.AreEqual(1, negotiatedResult.Content.Count());
         }
 
         [TestMethod]
         public void GetTasksInvalidStudyTest()
         {
             //Action
-            var result = _API.GetTasks(10, 1);
+            var result = _api.GetTasks(10, 1);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            Assert.IsInstanceOfType(result, typeof (NotFoundResult));
         }
 
         [TestMethod]
         public void GetTasksInvalidUserTest()
         {
             //Action
-            var result = _API.GetTasks(1, 100);
+            var result = _api.GetTasks(1, 100);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result, typeof (BadRequestResult));
         }
 
 
@@ -164,43 +151,42 @@ namespace LogicTests1.IntegrationTests.WEBAPI
         public void GetTaskIDsTest()
         {
             //Action
-            var result = _API.GetTaskIDs(1, 1);
+            var result = _api.GetTaskIDs(1, 1);
 
             //Assert
-            OkNegotiatedContentResult<IEnumerable<int>> negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<int>>;
+            var negotiatedResult = result as OkNegotiatedContentResult<IEnumerable<int>>;
             Assert.IsNotNull(negotiatedResult);
-            Assert.AreEqual(23, negotiatedResult.Content.Count());
+            Assert.AreEqual(2, negotiatedResult.Content.Count());
         }
 
         [TestMethod]
         public void GetTaskIDsInvalidStudyTest()
         {
             //Action
-            var result = _API.GetTaskIDs(10, 1);
+            var result = _api.GetTaskIDs(10, 1);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            Assert.IsInstanceOfType(result, typeof (NotFoundResult));
         }
 
         [TestMethod]
         public void GetTaskIDsInvalidUserTest()
         {
             //Action
-            var result = _API.GetTaskIDs(1, 100);
+            var result = _api.GetTaskIDs(1, 100);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
-
+            Assert.IsInstanceOfType(result, typeof (BadRequestResult));
         }
 
         [TestMethod]
         public void GetTaskTest()
         {
             //Action
-            var result = _API.GetTask(1, 1);
+            var result = _api.GetTask(1, 1);
 
             //Assert
-            OkNegotiatedContentResult<TaskRequestDTO> negotiatedResult = result as OkNegotiatedContentResult<TaskRequestDTO>;
+            var negotiatedResult = result as OkNegotiatedContentResult<TaskRequestDto>;
             Assert.IsNotNull(negotiatedResult);
             Assert.AreEqual(1, negotiatedResult.Content.Id);
             Assert.IsNotNull(negotiatedResult.Content.IsDeliverable);
@@ -213,11 +199,10 @@ namespace LogicTests1.IntegrationTests.WEBAPI
         public void GetTaskInvalidTask()
         {
             //Action
-            var result = _API.GetTask(1,100);
+            var result = _api.GetTask(1, 100);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-
+            Assert.IsInstanceOfType(result, typeof (NotFoundResult));
         }
 
         [TestMethod]
@@ -225,23 +210,23 @@ namespace LogicTests1.IntegrationTests.WEBAPI
         {
             var expectedData = "updatedData";
 
-             //Arrange
-             var taskSubmission = new TaskSubmissionDTO()
-             {
-                 UserId = 1,
-                 SubmittedFieldsDto =  new DataFieldDTO[]
-                 {
-                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "Year"}, 
-                 }
-             };
-            
+            //Arrange
+            var taskSubmission = new TaskSubmissionDto
+            {
+                UserId = 1,
+                SubmittedFieldsDto = new[]
+                {
+                    new DataFieldDto {Data = new[] {expectedData}, Name = "Year"}
+                }
+            };
+
             //Action
-            var result = _API.Post(1, 1, taskSubmission);
-            var taskResult = _API.GetTasks(1, 1, 1, TaskRequestDTO.Filter.Editable); 
+            var result = _api.Post(1, 1, taskSubmission);
+            var taskResult = _api.GetTasks(1, 1, 1, TaskRequestDto.Filter.Editable);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
-            OkNegotiatedContentResult<IEnumerable<TaskRequestDTO>> negotiatedResult = taskResult as OkNegotiatedContentResult <IEnumerable<TaskRequestDTO>>;
+            Assert.IsInstanceOfType(result, typeof (StatusCodeResult));
+            var negotiatedResult = taskResult as OkNegotiatedContentResult<IEnumerable<TaskRequestDto>>;
             Assert.IsNotNull(negotiatedResult);
             var resultTask = negotiatedResult.Content.ToList();
             Assert.AreEqual(1, resultTask.First().Id);
@@ -254,21 +239,20 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             var expectedData = "updatedData";
 
             //Arrange
-            var taskSubmission = new TaskSubmissionDTO()
+            var taskSubmission = new TaskSubmissionDto
             {
                 UserId = 1,
-                SubmittedFieldsDto = new DataFieldDTO[]
+                SubmittedFieldsDto = new[]
                 {
-                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "InvalidName"},
+                    new DataFieldDto {Data = new[] {expectedData}, Name = "InvalidName"}
                 }
             };
 
             //Action
-            var result = _API.Post(1, 1, taskSubmission);
-           
+            var result = _api.Post(1, 1, taskSubmission);
+
             //Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
-        
+            Assert.IsInstanceOfType(result, typeof (BadRequestResult));
         }
 
         [TestMethod]
@@ -277,20 +261,20 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             var expectedData = "updatedData";
 
             //Arrange
-            var taskSubmission = new TaskSubmissionDTO()
+            var taskSubmission = new TaskSubmissionDto
             {
                 UserId = 1,
-                SubmittedFieldsDto = new DataFieldDTO[]
+                SubmittedFieldsDto = new[]
                 {
-                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "Year"},
+                    new DataFieldDto {Data = new[] {expectedData}, Name = "Year"}
                 }
             };
 
             //Action
-            var result = _API.Post(1, 100, taskSubmission);
+            var result = _api.Post(1, 100, taskSubmission);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            Assert.IsInstanceOfType(result, typeof (NotFoundResult));
         }
 
         [TestMethod]
@@ -299,20 +283,20 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             var expectedData = "updatedData";
 
             //Arrange
-            var taskSubmission = new TaskSubmissionDTO()
+            var taskSubmission = new TaskSubmissionDto
             {
                 UserId = 100,
-                SubmittedFieldsDto = new DataFieldDTO[]
+                SubmittedFieldsDto = new[]
                 {
-                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "Year"},
-        }
+                    new DataFieldDto {Data = new[] {expectedData}, Name = "Year"}
+                }
             };
 
             //Action
-            var result = _API.Post(1, 1, taskSubmission);
+            var result = _api.Post(1, 1, taskSubmission);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result, typeof (BadRequestResult));
         }
 
         [TestMethod]
@@ -321,20 +305,20 @@ namespace LogicTests1.IntegrationTests.WEBAPI
             var expectedData = "updatedData";
 
             //Arrange
-            var taskSubmission = new TaskSubmissionDTO()
+            var taskSubmission = new TaskSubmissionDto
             {
                 UserId = 100,
-                SubmittedFieldsDto = new DataFieldDTO[]
+                SubmittedFieldsDto = new[]
                 {
-                     new DataFieldDTO() {Data = new string[] { expectedData}, Name = "Year"},
+                    new DataFieldDto {Data = new[] {expectedData}, Name = "Year"}
                 }
             };
 
             //Action
-            var result = _API.Post(100, 1, taskSubmission);
+            var result = _api.Post(100, 1, taskSubmission);
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            Assert.IsInstanceOfType(result, typeof (NotFoundResult));
         }
     }
 }

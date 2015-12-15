@@ -19,7 +19,7 @@ namespace StudyConfigurationServer
     public class WebApiApplication : System.Web.HttpApplication
     {
 
-        TaskSubmissionDTO task;
+        TaskSubmissionDto _task;
 
 
         protected void Application_Start()
@@ -29,18 +29,16 @@ namespace StudyConfigurationServer
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            Database.SetInitializer(new MultipleTeamsDB());
+            Database.SetInitializer(new MultipleTeamsDb());
             var context = new StudyContext();
             context.Database.Initialize(true);
 
             var studyManager = new StudyManager();
 
             studyManager.CreateStudy(CreaStudyDto());
-            
-
         }
 
-        internal class MultipleTeamsDB : DropCreateDatabaseAlways<StudyContext>
+        internal class MultipleTeamsDb : DropCreateDatabaseAlways<StudyContext>
         {
             protected override void Seed(StudyContext context)
             {
@@ -69,62 +67,62 @@ namespace StudyConfigurationServer
         }
 
 
-        public StudyDTO CreaStudyDto()
+        public StudyDto CreaStudyDto()
         {
-            var teamDTO = new TeamDTO()
+            var teamDto = new TeamDto()
             {
                 Id = 1
             };
 
-            var criteria1 = new CriteriaDTO()
+            var criteria1 = new CriteriaDto()
             {
                 Name = "Year",
-                Rule = CriteriaDTO.CriteriaRule.LargerThan,
+                Rule = CriteriaDto.CriteriaRule.LargerThan,
                 DataMatch = new string[] { "2001" },
-                DataType = DataFieldDTO.DataType.String,
+                DataType = DataFieldDto.DataType.String,
                 Description = "Write the year of the study",
             };
 
-            var criteria2 = new CriteriaDTO()
+            var criteria2 = new CriteriaDto()
             {
                 Name = "Titlee",
-                DataType = DataFieldDTO.DataType.String,
-                Rule = CriteriaDTO.CriteriaRule.Contains,
+                DataType = DataFieldDto.DataType.String,
+                Rule = CriteriaDto.CriteriaRule.Contains,
                 DataMatch = new string[] { "software" },
                 Description = "Write the title of the paper",
             };
 
-            var stage1 = new StageDTO()
+            var stage1 = new StageDto()
             {
                 Name = "stage1",
                 Criteria = criteria1,
-                DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
                 ReviewerIDs = new int[] { 1, 2 },
                 ValidatorIDs = new int[] { 3 },
-                VisibleFields = new StageDTO.FieldType[] { StageDTO.FieldType.Title, StageDTO.FieldType.Author, StageDTO.FieldType.Year},
+                VisibleFields = new StageDto.FieldType[] { StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year},
 
             };
 
-            var stage2 = new StageDTO()
+            var stage2 = new StageDto()
             {
                 Name = "stage2",
                 Criteria = criteria2,
-                DistributionRule = StageDTO.Distribution.NoOverlap,
+                DistributionRule = StageDto.Distribution.NoOverlap,
                 ReviewerIDs = new int[] { 3, 2 },
                 ValidatorIDs = new int[] { 4 },
-                VisibleFields = new StageDTO.FieldType[] { StageDTO.FieldType.Title, StageDTO.FieldType.Author, StageDTO.FieldType.Year },
+                VisibleFields = new StageDto.FieldType[] { StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year },
 
             };
 
-            var studyDTO = new StudyDTO()
+            var studyDto = new StudyDto()
             {
                 Name = "testStudy",
-                Team = teamDTO,
+                Team = teamDto,
                 Items = Properties.Resources.bibtex,
-                Stages = new StageDTO[] { stage1, stage2 }
+                Stages = new StageDto[] { stage1, stage2 }
             };
 
-            return studyDTO;
+            return studyDto;
         }
     
 

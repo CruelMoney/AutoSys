@@ -1,11 +1,15 @@
+#region Using
+
 using StudyConfigurationServer.Models;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation
 {
     public interface ICriteriaValidator
     {
         /// <summary>
-        /// Checks whether a specified criteria is met.
+        ///     Checks whether a specified criteria is met.
         /// </summary>
         /// <param name="criteria">The item to Validate.</param>
         /// <param name="data"></param>

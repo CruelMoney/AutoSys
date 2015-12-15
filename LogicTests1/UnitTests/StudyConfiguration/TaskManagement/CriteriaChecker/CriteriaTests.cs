@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿#region Using
+
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.CriteriaValidation;
 using StudyConfigurationServer.Models;
 
-namespace LogicTests1.UnitTests.StudyConfiguration.TaskManagement.CriteriaChecker
+#endregion
+
+namespace StudyConfigurationServerTests.UnitTests.StudyConfiguration.TaskManagement.CriteriaChecker
 {
     [TestClass]
     public class CriteriaTests
     {
-        
         [TestMethod]
         public void TestCriteriaValidatorCallsCheckerCorrectly()
         {
@@ -33,7 +35,5 @@ namespace LogicTests1.UnitTests.StudyConfiguration.TaskManagement.CriteriaChecke
             mockCriteriaChecker.Verify(m => m.Validate(criteria, data), Times.Once);
             Assert.IsTrue(result);
         }
-
     }
-
 }

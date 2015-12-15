@@ -1,13 +1,18 @@
-﻿using System.Text.RegularExpressions;
+﻿#region Using
+
+using System.Text.RegularExpressions;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser
 {
+    // <author>Jacob Cholewa</author>
     /// <summary>
-    /// Default <see cref="IFieldChecker"/> implementation. Matches all strings that do not contain newlines.
+    ///     Default <see cref="IFieldChecker" /> implementation. Matches all strings that do not contain newlines.
     /// </summary>
     public class DefaultFieldChecker : IFieldChecker
     {
-        readonly Regex _r = new Regex("^.*$");
+        private readonly Regex _r = new Regex("^.*$");
 
         public bool Validate(string s)
         {

@@ -1,27 +1,32 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System.Collections.Generic;
 using StudyConfigurationServer.Models;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.BiblographyParser
 {
+    // <author>Jacob Cholewa</author>
     /// <summary>
-    /// Class which validates fields associated to bibliographic items.
+    ///     Class which validates fields associated to bibliographic items.
     /// </summary>
     public class FieldValidator
     {
-        readonly Dictionary<FieldType, IFieldChecker> _checkers;
-        readonly IFieldChecker _defaultChecker = new DefaultFieldChecker();
+        private readonly Dictionary<FieldType, IFieldChecker> _checkers;
+        private readonly IFieldChecker _defaultChecker = new DefaultFieldChecker();
 
         /// <summary>
-        /// Constructs a new <see cref="FieldValidator"/>.
+        ///     Constructs a new <see cref="FieldValidator" />.
         /// </summary>
-        /// <param name="checkers">A dictionary of Field checkers. If not specified, <see cref="DefaultFieldChecker"/> is used.</param>
+        /// <param name="checkers">A dictionary of Field checkers. If not specified, <see cref="DefaultFieldChecker" /> is used.</param>
         public FieldValidator(Dictionary<FieldType, IFieldChecker> checkers = null)
         {
             _checkers = checkers ?? new Dictionary<FieldType, IFieldChecker>();
         }
 
         /// <summary>
-        /// Checks whether or not a given Field is valid.
+        ///     Checks whether or not a given Field is valid.
         /// </summary>
         /// <param name="field">The Field data to Validate.</param>
         /// <param name="type">The Field type.</param>

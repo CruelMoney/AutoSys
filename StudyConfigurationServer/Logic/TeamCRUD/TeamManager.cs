@@ -1,11 +1,14 @@
-﻿using System;
+﻿#region Using
+
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using StudyConfigurationServer.Logic.StorageManagement;
 using StudyConfigurationServer.Models;
-using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
-using System.Data.Entity;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.TeamCRUD
 {
@@ -13,99 +16,104 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
     {
         private readonly TeamStorageManager _teamStorageManager;
 
-        
 
         public TeamManager(TeamStorageManager storageManager)
         {
             _teamStorageManager = storageManager;
-          
-
-
         }
 
         public TeamManager()
         {
-           _teamStorageManager = new TeamStorageManager();
-           
+            _teamStorageManager = new TeamStorageManager();
         }
 
-        public int CreateTeam(TeamDTO teamDtoDto)
+        public int CreateTeam(TeamDto teamDto)
         {
-            foreach(var userId in teamDtoDto.UserIDs)
+
+            var teamToAdd = new Team
+            {
+                Name = teamDto.Name,
+                ID = teamDto.Id,
+                Metadata = teamDto.Metadata,
+                Users = new List<User>()
+            };
+
+            foreach (var userId in teamDto.UserIDs)
             {
                 if (_teamStorageManager.GetUser(userId) == null)
                 {
                     throw new NullReferenceException("User doesn't exist in database");
                 }
             }
-            var teamToAdd = new Team()
+           
+            foreach (var userId in teamDto.UserIDs)
             {
-                Name = teamDtoDto.Name,
-                ID = teamDtoDto.Id,
-                Metadata = teamDtoDto.Metadata,
-                Users = new List<User>()
-            };
-
-            foreach (var userID in teamDtoDto.UserIDs)
-            {
-                
-                teamToAdd.Users.Add(_teamStorageManager.GetUser(userID));
-            
+                teamToAdd.Users.Add(_teamStorageManager.GetUser(userId));
             }
 
             return _teamStorageManager.CreateTeam(teamToAdd);
         }
 
-        public Boolean RemoveTeam(int teamID)
+        public bool RemoveTeam(int teamId)
         {
             try
             {
                 var team = _teamStorageManager.GetAllTeams()
-                    .Where(t => t.ID == teamID).
-                    Include(t => t.Studies)
+                    .Where(t => t.ID == teamId)
+                    .Include(t => t.Studies)
                     .FirstOrDefault();
 
                 if (team.Studies.Any())
                 {
                     throw new ArgumentException("Can't delete team because it is in a study");
                 }
-                return _teamStorageManager.RemoveTeam(teamID);
-
+                return _teamStorageManager.RemoveTeam(teamId);
             }
             catch (NullReferenceException)
             {
                 throw new NullReferenceException("Can't find team in database");
-            }       
+            }
         }
 
-        public bool UpdateTeam(int teamId, TeamDTO newTeamDto)
+        public bool UpdateTeam(int teamId, TeamDto newTeamDto)
         {
             try
-            {               
+            {
                 var teamToUpdate = _teamStorageManager.GetTeam(teamId);
-                if(teamToUpdate == null) { throw new NullReferenceException("Team Doesn't exist in database");}
-                if (newTeamDto.UserIDs.Length ==0) { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
-                if (!teamToUpdate.Users.Any()) { throw new ArgumentException("Team can't exist without users"); }
+                if (teamToUpdate == null)
+                {
+                    throw new NullReferenceException("Team Doesn't exist in database");
+                }
+                if (newTeamDto.UserIDs.Length == 0)
+                {
+                    throw new ArgumentException("You can't add or delete users from a team, only change its name");
+                }
+                if (!teamToUpdate.Users.Any())
+                {
+                    throw new ArgumentException("Team can't exist without users");
+                }
                 var teamToUpdateArray = teamToUpdate.Users.Select(u => u.ID).ToArray();
                 var newTeamArray = newTeamDto.UserIDs;
-                for (int i = 0; i < teamToUpdate.Users.Count; i++)
+                for (var i = 0; i < teamToUpdate.Users.Count; i++)
                 {
                     if (teamToUpdateArray[i] == newTeamArray[i])
                     {
-                        continue;
                     }
-                    else { throw new ArgumentException("You can't add or delete users from a team, only change its name"); }
+                    else
+                    {
+                        throw new ArgumentException("You can't add or delete users from a team, only change its name");
+                    }
                 }
-    
+
 
                 teamToUpdate.Users.Clear();
                 teamToUpdate.Name = newTeamDto.Name;
 
-                foreach (var userID in newTeamDto.UserIDs)
+                foreach (var userId in newTeamDto.UserIDs)
                 {
                     try
                     {
-                        teamToUpdate.Users.Add(_teamStorageManager.GetUser(userID));
+                        teamToUpdate.Users.Add(_teamStorageManager.GetUser(userId));
                     }
                     catch (NullReferenceException)
                     {
@@ -118,24 +126,22 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 throw new NullReferenceException("team does not exist");
             }
-                       
         }
 
-        public IEnumerable<TeamDTO> SearchTeamDTOs(string TeamName)
+        public IEnumerable<TeamDto> SearchTeamDtOs(string teamName)
         {
-            
             try
             {
-              return
-                     (from Team dbTeam in _teamStorageManager.GetAllTeams()
-                      where dbTeam.Name.Equals(TeamName)
-                      select new TeamDTO()
-                      {
-                          Id = dbTeam.ID,
-                          Name = dbTeam.Name,
-                          Metadata = dbTeam.Metadata,
-                          UserIDs = dbTeam.Users.Select(u => u.ID).ToArray()
-                      }).ToList();
+                return
+                    (from Team dbTeam in _teamStorageManager.GetAllTeams()
+                        where dbTeam.Name.Equals(teamName)
+                        select new TeamDto
+                        {
+                            Id = dbTeam.ID,
+                            Name = dbTeam.Name,
+                            Metadata = dbTeam.Metadata,
+                            UserIDs = dbTeam.Users.Select(u => u.ID).ToArray()
+                        }).ToList();
             }
             catch (NullReferenceException)
             {
@@ -143,12 +149,12 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             }
         }
 
-        public TeamDTO GetTeamDTO(int teamId)
+        public TeamDto GetTeamDto(int teamId)
         {
             try
             {
                 var dbTeam = _teamStorageManager.GetTeam(teamId);
-                return new TeamDTO()
+                return new TeamDto
                 {
                     Id = dbTeam.ID,
                     Name = dbTeam.Name,
@@ -172,20 +178,18 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 throw new NullReferenceException("Team could not be found, probably does not exist in database");
             }
-            
         }
 
-        
 
-        public IEnumerable<TeamDTO> GetAllTeamDTOs()
+        public IEnumerable<TeamDto> GetAllTeamDtOs()
         {
             try
             {
                 var dbTeams = _teamStorageManager.GetAllTeams();
-                var list = new List<TeamDTO>();
+                var list = new List<TeamDto>();
                 foreach (var team in dbTeams)
                 {
-                    list.Add(new TeamDTO()
+                    list.Add(new TeamDto
                     {
                         Id = team.ID,
                         Name = team.Name,
@@ -199,8 +203,6 @@ namespace StudyConfigurationServer.Logic.TeamCRUD
             {
                 throw new NullReferenceException("teams could not be found, probably doesn't exist in database");
             }
-           
         }
     }
 }
-

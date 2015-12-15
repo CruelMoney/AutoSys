@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿#region Using
+
+using System.Collections.Generic;
 using StudyConfigurationServer.Models;
+
+#endregion
 
 namespace StudyConfigurationServer.Logic.StudyConfiguration.TaskManagement.TaskDistributor
 {
