@@ -86,7 +86,7 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
         /// Generate review task with given criteria for every item
         /// </summary>
         /// <param name="items">IEnumerable of items to generate review tasks for.</param>
-        /// <param name="criteria"></param>
+        /// <param name="criteria">List of criteria that the review tasks must meet</param>
         /// <returns></returns>
         public IEnumerable<StudyTask> GenerateReviewTasks(IEnumerable<Item> items, List<Criteria> criteria)
         {
@@ -97,6 +97,13 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             }
         }
 
+        /// <summary>
+        /// Distribute the tasks among the users of a stage
+        /// </summary>
+        /// <param name="users">Users to receive tasks</param>
+        /// <param name="distributionRule">Distribution rule to follow (EqualOverlap, NoOverlap)</param>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
         public IEnumerable<StudyTask> Distribute(IEnumerable<User> users, Stage.Distribution distributionRule,
             IEnumerable<StudyTask> tasks)
         {
@@ -105,6 +112,13 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
                 tasks.Where(t => t.IsEditable));
         }
         
+        /// <summary>
+        /// Get excluded items of a study.
+        /// If tasks does not meet criteria, they are excluded.
+        /// </summary>
+        /// <param name="tasks"></param>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
        public IEnumerable<Item> GetExcludedItems(ICollection<StudyTask> tasks, ICollection<Criteria> criteria)
         {
             foreach (var task in tasks)
@@ -119,9 +133,20 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
                     }
                 }
             }
+               
         }
 
-         public IEnumerable<TaskRequestDto> GetTasksDtOs(ICollection<FieldType> visibleFields, List<int> taskIDs,
+        /// <summary>
+        /// Convert tasks to taskDtos
+        /// </summary>
+        /// <param name="visibleFields"></param>
+        /// <param name="taskIDs"></param>
+        /// <param name="userId"></param>
+        /// <param name="count"></param>
+        /// <param name="filter"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public IEnumerable<TaskRequestDto> GetTasksDtOs(ICollection<FieldType> visibleFields, List<int> taskIDs,
             int userId, int count, TaskRequestDto.Filter filter, TaskRequestDto.Type type)
         {
             var tasks = _taskRequester.GetTasks(taskIDs, userId, count, filter, type);
@@ -130,13 +155,25 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
                 select new TaskRequestDto(task, visibleFields, userId);
         }
 
-      public IEnumerable<int> GetTasksIDs(List<int> taskIDs, int userId, TaskRequestDto.Filter filter,
-            TaskRequestDto.Type type)
+        /// <summary>
+        /// Retrieve ids of tasks, for a given user
+        /// </summary>
+        /// <param name="taskIDs">List of Ids for tasks to be retrieved</param>
+        /// <param name="userId">Id of user to retrieve tasks for</param>
+        /// <param name="filter">Filter what kinds of tasks to list(remaining, editible, done)></param>
+        /// <param name="type">Choose whether review or conflict tasks to be returned or both</param>
+        /// <returns></returns>
+        public IEnumerable<int> GetTasksIDs(List<int> taskIDs, int userId, TaskRequestDto.Filter filter,
+                TaskRequestDto.Type type)
         {
             return _taskRequester.GetTaskIDs(taskIDs, userId, filter, type);
         }
 
-
+        /// <summary>
+        /// Create a task
+        /// </summary>
+        /// <param name="task">StudyTask to be created</param>
+        /// <returns></returns>
         public int CreateTask(StudyTask task)
         {
             return _storageManager.CreateTask(task);
@@ -175,11 +212,22 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             return true;
         }
 
+        /// <summary>
+        /// Checks if a task is finished
+        /// </summary>
+        /// <param name="taskId">Id of the task to check</param>
+        /// <returns></returns>
         public bool TaskIsFinished(int taskId)
         {
             return _storageManager.GetTask(taskId).IsFinished();
         }
 
+        /// <summary>
+        /// Retrieve a task from the repository and convert it to a dto
+        /// </summary>
+        /// <param name="taskId">Id of task to retrieve</param>
+        /// <param name="userId">Id of user who has this task</param>
+        /// <returns></returns>
         public TaskRequestDto GetTaskDto(int taskId, int? userId = null)
         {
             var task = _storageManager.GetAllTasks()

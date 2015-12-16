@@ -213,7 +213,7 @@ namespace StudyConfigurationServer.Logic.StudyExecution
         /// <param name="userId">Id of the user to retrieve tasks for</param>
         /// <param name="count">The amount of tasks to return</param>
         /// <param name="filter">Filter what kinds of tasks to list (remaining, editible, done)</param>
-        /// <param name="type">Chose whether review or conflict tasks to be returned or both</param>
+        /// <param name="type">Choose whether review or conflict tasks to be returned or both</param>
         /// <returns></returns>
         public IEnumerable<TaskRequestDto> GetTasks(int studyId, int userId, int count, TaskRequestDto.Filter filter,
             TaskRequestDto.Type type)
@@ -244,7 +244,7 @@ namespace StudyConfigurationServer.Logic.StudyExecution
         /// <param name="studyId">Id of the study to retrieve tasks for</param>
         /// <param name="userId">Id of the user to retrieve tasks for</param>
         /// <param name="filter">Filter what kinds of tasks to list (remaining, editible, done)</param>
-        /// <param name="type">Chose whether review or conflict tasks to be returned or both</param>
+        /// <param name="type">Choose whether review or conflict tasks to be returned or both</param>
         /// <returns></returns>
         public IEnumerable<int> GetTasksIDs(int studyId, int userId, TaskRequestDto.Filter filter,
             TaskRequestDto.Type type)

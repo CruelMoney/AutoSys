@@ -12,6 +12,9 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
 {
+    /// <summary>
+    /// Class responsible for retrieing tasks.
+    /// </summary>
     public class TaskRequester
     {
         private readonly ITaskStorageManager _storageManager;
@@ -52,6 +55,15 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             }
         }
 
+        /// <summary>
+        /// Retrieve all tasks based on their task.type (conflict, review or both)
+        /// </summary>
+        /// <param name="taskIDs">list of ids of tasks to retrieve</param>
+        /// <param name="userId">Id of user who has the tasks to retrieve</param>
+        /// <param name="count">number of tasks to return</param>
+        /// <param name="filter">the given filter </param>
+        /// <param name="type">the given type</param>
+        /// <returns></returns>
         public IEnumerable<StudyTask> GetTasks(List<int> taskIDs, int userId, int count, TaskRequestDto.Filter filter,
             TaskRequestDto.Type type)
         {
@@ -73,6 +85,13 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             }
         }
 
+        /// <summary>
+        /// Retrieve tasks based on a filter
+        /// </summary>
+        /// <param name="taskIDs">List of Ids of tasks to retrieve</param>
+        /// <param name="userId">Id of user who has the tasks to retrieve</param>
+        /// <param name="filter">a given filter for which tasks to retrieve</param>
+        /// <returns></returns>
         public IEnumerable<StudyTask> GetTasksFiltered(List<int> taskIDs, int userId, TaskRequestDto.Filter filter)
         {
             switch (filter)
@@ -88,6 +107,12 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             }
         }
 
+        /// <summary>
+        /// Retrieve all finished tasks
+        /// </summary>
+        /// <param name="taskIDs">list of taskIds to retrieve</param>
+        /// <param name="userId">Id of user who has the given tasks</param>
+        /// <returns></returns>
         private IEnumerable<StudyTask> GetFinishedTasks(List<int> taskIDs, int userId)
         {
             var tasks = _storageManager.GetAllTasks()
@@ -100,6 +125,12 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             return tasks;
         }
 
+        /// <summary>
+        /// Retrieve all remaining tasks
+        /// </summary>
+        /// <param name="taskIDs">list of taskIds of tasks to retrieve</param>
+        /// <param name="userId">Id of user who has the given tasks</param>
+        /// <returns></returns>
         private IEnumerable<StudyTask> GetRemainingTasks(List<int> taskIDs, int userId)
         {
             var tasks = _storageManager.GetAllTasks()
@@ -112,6 +143,12 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             return tasks;
         }
 
+        /// <summary>
+        /// Retrieve all editable studytasks
+        /// </summary>
+        /// <param name="taskIDs">list of taskIds to retrieve</param>
+        /// <param name="userId">Id of a user who has these tasks</param>
+        /// <returns></returns>
         private IEnumerable<StudyTask> GetEditableTasks(List<int> taskIDs, int userId)
         {
             var tasks = _storageManager.GetAllTasks()
