@@ -18,10 +18,8 @@ namespace StudyConfigurationServer
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
-
         TaskSubmissionDto _task;
-
-
+        
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
