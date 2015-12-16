@@ -12,7 +12,7 @@ namespace StudyConfigurationServer.Models
             LargerThan,
             SmallerThan,
             BeforeDate,
-            AfterDate,
+            AfterDate,  
             IsYear,
             Exists
         }
