@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.CriteriaValidation
+namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.TaskValidation
 {
     public interface IRuleChecker
     {

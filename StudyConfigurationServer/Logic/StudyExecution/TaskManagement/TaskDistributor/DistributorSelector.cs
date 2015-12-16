@@ -8,6 +8,9 @@ using StudyConfigurationServer.Models;
 
 namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.TaskDistributor
 {
+    /// <summary>
+    /// Chooses a distributer based on the distributionRule enum. 
+    /// </summary>
     public class DistributorSelector : IDistributorSelector
     {
         private readonly IDistributor _defaultDistributor = new EqualDistributor();
@@ -24,6 +27,13 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.TaskDistr
             };
         }
 
+        /// <summary>
+        /// Distribute using the matched distributor. 
+        /// </summary>
+        /// <param name="distributionRule">The rule for distribution.</param>
+        /// <param name="users">The users to distribute to</param>
+        /// <param name="tasks">The tasks to distribute</param>
+        /// <returns></returns>
        public IEnumerable<StudyTask> Distribute(Stage.Distribution distributionRule, IEnumerable<User> users,
             IEnumerable<StudyTask> tasks)
         {

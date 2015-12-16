@@ -7,8 +7,17 @@ using StudyConfigurationServer.Models;
 
 namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
 {
+    /// <summary>
+    /// Class responsible for generating tasks
+    /// </summary>
     public class TaskGenerator
     {
+        /// <summary>
+        /// Generate review tasks for every item
+        /// </summary>
+        /// <param name="item">item to generate a task for</param>
+        /// <param name="criteria">lsit of criteria for a task to meet</param>
+        /// <returns></returns>
         public StudyTask GenerateReviewTask(Item item, List<Criteria> criteria)
         {
             var task = new StudyTask
@@ -51,6 +60,11 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             return task;
         }
 
+        /// <summary>
+        /// Generate validation task for every conflicting task
+        /// </summary>
+        /// <param name="conflictingTask">study task in conflict</param>
+        /// <returns></returns>
         public StudyTask GenerateValidateTasks(StudyTask conflictingTask)
         {
             var task = new StudyTask
@@ -64,15 +78,26 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
 
             foreach (var dataField in conflictingTask.DataFields)
             {
-                task.DataFields.Add(new DataField
+                var newDataField = new DataField
                 {
                     Description = dataField.Description,
                     FieldType = dataField.FieldType,
                     Name = dataField.Name,
                     UserData = new List<UserData>(),
-                    ConflictingData = dataField.UserData
-                });
+                    ConflictingData = new List<UserData>()
+                };
+                
+                foreach (var userData in dataField.UserData)
+                {
+                    newDataField.ConflictingData.Add(userData);
+                }
+
+                task.DataFields.Add(newDataField);
+
+                var datacount = dataField.UserData.ToArray();
             }
+
+            
 
             return task;
         }

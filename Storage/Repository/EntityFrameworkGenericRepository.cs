@@ -27,6 +27,12 @@ namespace Storage.Repository
             _context = context;
         }
 
+        /// <summary>
+        /// Add an entity to the repository and return the Id
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">The object to store</param>
+        /// <returns></returns>
         public int Create<T>(T entity) where T : class, IEntity
         {
             _context.Set<T>().Add(entity);
@@ -34,6 +40,12 @@ namespace Storage.Repository
             return entity.ID;
         }
 
+        /// <summary>
+        /// Delete an entity from the repository
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">The object to be deleted</param>
+        /// <returns></returns>
         public bool Delete<T>(T entity) where T : class, IEntity
         {
             try
@@ -50,6 +62,11 @@ namespace Storage.Repository
             return true;
         }
 
+        /// <summary>
+        /// Retrieve all isntances of a given object in the repository
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public IQueryable<T> Read<T>() where T : class, IEntity
         {
             try
@@ -62,6 +79,12 @@ namespace Storage.Repository
             }
         }
 
+        /// <summary>
+        /// Retrieve a single object with a given Id
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id">Id of the object to be returned</param>
+        /// <returns></returns>
         public T Read<T>(int id) where T : class, IEntity
         {
             try
@@ -74,6 +97,12 @@ namespace Storage.Repository
             }
         }
 
+        /// <summary>
+        /// Update an object in the repository
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">Object to be updated</param>
+        /// <returns></returns>
         public bool Update<T>(T entity) where T : class, IEntity
         {
             try

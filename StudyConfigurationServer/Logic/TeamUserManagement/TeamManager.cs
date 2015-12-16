@@ -12,6 +12,9 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.TeamUserManagement
 {
+    /// <summary>
+    /// A manager class responsible for team logic
+    /// </summary>
     public class TeamManager : ITeamManager
     {
         private readonly TeamStorageManager _teamStorageManager;
@@ -27,6 +30,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             _teamStorageManager = new TeamStorageManager();
         }
 
+        /// <summary>
+        /// Convert a TeamDTO and store it in the repositoy
+        /// </summary>
+        /// <param name="teamDto"> DTO of the team to be created</param>
+        /// <returns></returns>
         public int CreateTeam(TeamDto teamDto)
         {
 
@@ -58,6 +66,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             return _teamStorageManager.CreateTeam(teamToAdd);
         }
 
+        /// <summary>
+        /// Remove a team from the repository
+        /// </summary>
+        /// <param name="teamId"> Id of the team to be removed</param>
+        /// <returns></returns>
         public bool RemoveTeam(int teamId)
         {
             try
@@ -79,6 +92,13 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Update a team in the repository  with a new teamDTO
+        /// Convert the teamDTO to a team
+        /// </summary>
+        /// <param name="teamId">Id of the team to be updated</param>
+        /// <param name="newTeamDto"> DTO of what the team needs to be updated with</param>
+        /// <returns></returns>
         public bool UpdateTeam(int teamId, TeamDto newTeamDto)
         {
             try
@@ -132,6 +152,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Search for one or more teams with a given team name
+        /// </summary>
+        /// <param name="teamName">String to search for</param>
+        /// <returns></returns>
         public IEnumerable<TeamDto> SearchTeamDtOs(string teamName)
         {
             try{
@@ -157,6 +182,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Retrieve a single team from the repository with a given Id
+        /// </summary>
+        /// <param name="teamId">Id of the team to be returned</param>
+        /// <returns></returns>
         public TeamDto GetTeamDto(int teamId)
         {
             try
@@ -176,6 +206,10 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Retrieve all teams from the repository
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<TeamDto> GetAllTeamDtOs()
         {
             try

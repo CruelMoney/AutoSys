@@ -53,6 +53,7 @@ var studies = name.Equals(string.Empty) ? _manager.GetAllStudies() : _manager.Se
         public StudyDto Get(int id)
         {
             return _manager.GetStudy(id);
+         
         }
 
         /// <summary>

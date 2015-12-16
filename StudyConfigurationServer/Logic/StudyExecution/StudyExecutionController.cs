@@ -11,6 +11,9 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.StudyExecution
 {
+    /// <summary>
+    /// Class responsible for handling the logic within a given study
+    /// </summary>
     public class StudyExecutionController : IStudyExecutionController
     {
         private readonly IStudyStorageManager _studyStorageManager;
@@ -30,12 +33,21 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             _taskManager = taskManager;
         }
 
+        /// <summary>
+        /// Start the study by starting a review stage
+        /// </summary>
+        /// <param name="study">Study to start</param>
         public void ExecuteStudy(Study study)
         {
             StartReviewPhase(study);
         }
 
-        //TODO check if whole study finished
+        /// <summary>
+        /// Deliver a task
+        /// </summary>
+        /// <param name="studyId">Id of the study to deliver a task to</param>
+        /// <param name="taskId">Id of the task to deliver</param>
+        /// <param name="taskDto">TaskDTO containing the properties of the task be delivered</param>
         public void DeliverTask(int studyId, int taskId, TaskSubmissionDto taskDto)
         {
             var currentStudy = _studyStorageManager.GetAll()
@@ -62,6 +74,10 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             }
         }
 
+        /// <summary>
+        /// Make a stage transition, based on the current task.Type
+        /// </summary>
+        /// <param name="study">Study to switch stage in</param>
         private void MoveToNextPhase(Study study)
         {
             var currentStage = study.CurrentStage();
@@ -81,6 +97,10 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             _studyStorageManager.Update(study);
         }
 
+        /// <summary>
+        /// Conclude a review stage. If no more validation tasks, finish the conflictStage
+        /// </summary>
+        /// <param name="study"></param>
         private void FinishReviewPhase(Study study)
         {
             var currentStage = study.CurrentStage();
@@ -95,6 +115,11 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             }
         }
 
+        /// <summary>
+        /// Finish a conflict stage. By validating the tasks and remove the excluded items from the study.
+        /// Start a new review stage if the study is not finished
+        /// </summary>
+        /// <param name="study"></param>
         private void FinishConflictPhase(Study study)
         {
             var currentStage = study.CurrentStage();
@@ -118,6 +143,13 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             }
         }
 
+        /// <summary>
+        /// Start a review stage by generating review tasks.
+        /// The tasks that can be automatically filled out by the TaskManager will be validated by the TaskManager. 
+        /// Remove the excluded items from the study. If then no tasks are left, we finish the conflict phase to go directly to the next stage. 
+        /// </summary>
+        /// <param name="study">study to begin review stage on</param>
+        /// <returns></returns>
         private IEnumerable<StudyTask> StartReviewPhase(Study study)
         {
             //Find the current stage
@@ -151,6 +183,11 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             return tasks;
         }
 
+        /// <summary>
+        /// Start a conflict stage. Validation tasks based on the existing conflicting tasks.
+        /// </summary>
+        /// <param name="study">Study to start conflict stage on</param>
+        /// <returns></returns>
         private IEnumerable<StudyTask> StartConflictPhase(Study study)
         {
             var stage = study.CurrentStage();
@@ -170,6 +207,15 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             return distributedTasks;
         }
         
+        /// <summary>
+        /// Get tasks from a given study for a given user. 
+        /// </summary>
+        /// <param name="studyId">Id of the study to retrievetasks from</param>
+        /// <param name="userId">Id of the user to retrieve tasks for</param>
+        /// <param name="count">The amount of tasks to return</param>
+        /// <param name="filter">Filter what kinds of tasks to list (remaining, editible, done)</param>
+        /// <param name="type">Choose whether review or conflict tasks to be returned or both</param>
+        /// <returns></returns>
         public IEnumerable<TaskRequestDto> GetTasks(int studyId, int userId, int count, TaskRequestDto.Filter filter,
             TaskRequestDto.Type type)
         {
@@ -193,6 +239,14 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             return _taskManager.GetTasksDtOs(visibleFields, taskIDs, userId, count, filter, type);
         }
 
+        /// <summary>
+        /// Return the ids of all tasks for a given user
+        /// </summary>
+        /// <param name="studyId">Id of the study to retrieve tasks for</param>
+        /// <param name="userId">Id of the user to retrieve tasks for</param>
+        /// <param name="filter">Filter what kinds of tasks to list (remaining, editible, done)</param>
+        /// <param name="type">Choose whether review or conflict tasks to be returned or both</param>
+        /// <returns></returns>
         public IEnumerable<int> GetTasksIDs(int studyId, int userId, TaskRequestDto.Filter filter,
             TaskRequestDto.Type type)
         {
@@ -215,7 +269,11 @@ namespace StudyConfigurationServer.Logic.StudyExecution
             return _taskManager.GetTasksIDs(taskIDs, userId, filter, type);
         }
 
-
+        /// <summary>
+        /// Retrieve a single task with a given Id
+        /// </summary>
+        /// <param name="taskId">Id of the task to be returned</param>
+        /// <returns></returns>
         public TaskRequestDto GetTask(int taskId)
         {
             return _taskManager.GetTaskDto(taskId);
