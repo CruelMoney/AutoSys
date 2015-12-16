@@ -22,7 +22,10 @@ namespace StudyConfigurationUILibrary
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// When Navigating to the page, sets up the page. The args paramater can contain either a study id or a team id to set up the page from.
+        /// </summary>
+        /// <param name="args"></param>
         protected override async void OnNavigatedTo(NavigationEventArgs args)
         {
             _logic = new Logic.Logic();
@@ -69,20 +72,32 @@ namespace StudyConfigurationUILibrary
                 Frame.Navigate(_logic._Origin.SourcePageType);
             }
         }
-
+        /// <summary>
+        /// Opens up the item selector for adding a file to the study. Only uses .csv , .txt , .bib files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BibtexInputButton_OnClick(object sender, RoutedEventArgs e)
         {
             var file = await _logic.OpenPicker();
             bibtexOutput.Text = file.Path;
             await _logic.AddResources(file);
         }
-
+        /// <summary>
+        /// Method to navigate to the new phase page. Passes the logic object along.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onNewPhase(object sender, RoutedEventArgs e)
         {
             _logic._StudyToWorkOn.Name = nameInput.Text;
             Frame.Navigate(typeof (ManagePhasePage), _logic);
         }
-
+        /// <summary>
+        /// Deletes the selected phase from the study.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void onDeletePhase(object sender, RoutedEventArgs e)
         {
             if ((StageDTO) phaseComboBox.SelectionBoxItem == null) return;
@@ -96,7 +111,10 @@ namespace StudyConfigurationUILibrary
             }
             SetUpCombobox(_logic._StudyToWorkOn.Stages);
         }
-
+        /// <summary>
+        /// Sets up the page from a passed logic object. Checks if items already have been added. and grays out the add item part if it has.
+        /// </summary>
+        /// <param name="logic"></param>
         private void SetUpFromLogic(Logic.Logic logic)
         {
             if (logic._StudyToWorkOn.Name != null)
@@ -120,7 +138,10 @@ namespace StudyConfigurationUILibrary
                 deletePhasebutton.IsEnabled = false;
             }
         }
-
+        /// <summary>
+        /// Sets up the dropdown combobox for the phases. 
+        /// </summary>
+        /// <param name="stages"></param>
         private void SetUpCombobox(StageDTO[] stages)
         {
             if (stages != null)
@@ -133,7 +154,11 @@ namespace StudyConfigurationUILibrary
                 phaseComboBox.DisplayMemberPath = "Name";
             }
         }
-
+        /// <summary>
+        /// Saves study and sends it through the service object to the API
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void SaveAndClose(object sender, RoutedEventArgs e)
         {
             if (_logic._StudyToWorkOn.Items == null)
@@ -154,7 +179,11 @@ namespace StudyConfigurationUILibrary
 
             Frame.Navigate(_logic._Origin.SourcePageType);
         }
-
+        /// <summary>
+        /// Deletes the selected object through the service object and api. doesnt work.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void DeleteAndReturn(object sender, RoutedEventArgs e)
         {
             if (_logic._IsNewStudy)

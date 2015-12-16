@@ -19,7 +19,11 @@ namespace StudyConfigurationUILibrary.Logic
         public PageStackEntry _Origin { get; set; }
         public bool _IsNewStudy { get; set; }
 
-
+        /// <summary>
+        /// Sets up the logic object from a given team id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task SetUpFromTeam(int id)
         {
             _TeamAssociated = await Service.GetTeam(id);
@@ -30,7 +34,11 @@ namespace StudyConfigurationUILibrary.Logic
             _Users = new List<UserDTO>();
             _Users.AddRange(await GetUserNames(_TeamAssociated.UserIDs));
         }
-
+        /// <summary>
+        /// Sets up the logic object from a given study id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task SetUpFromStudy(int id)
         {
             _StudyToWorkOn = await Service.GetStudy(id);
@@ -38,12 +46,19 @@ namespace StudyConfigurationUILibrary.Logic
             _Users = new List<UserDTO>();
             _Users.AddRange(await GetUserNames(_TeamAssociated.UserIDs));
         }
-
+        /// <summary>
+        /// Get all users names
+        /// </summary>
+        /// <param name="IDs"></param>
+        /// <returns></returns>
         private async Task<UserDTO[]> GetUserNames(int[] IDs)
         {
             return await Service.GetUsers(IDs);
         }
-
+        /// <summary>
+        /// Open the file selector and return the selected object.
+        /// </summary>
+        /// <returns></returns>
         public async Task<StorageFile> OpenPicker()
         {
             var picker = new FileOpenPicker();
@@ -55,7 +70,11 @@ namespace StudyConfigurationUILibrary.Logic
             picker.FileTypeFilter.Add(".txt");
             return await picker.PickSingleFileAsync();
         }
-
+        /// <summary>
+        /// Adds the bytearray from the selected file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public async Task AddResources(StorageFile file)
         {
             try
@@ -67,7 +86,10 @@ namespace StudyConfigurationUILibrary.Logic
             {
             }
         }
-
+        /// <summary>
+        /// Remove a selected phase from the logic.
+        /// </summary>
+        /// <param name="stageToRemove"></param>
         public void RemoveStage(StageDTO stageToRemove)
         {
             var stages = _StudyToWorkOn.Stages;
