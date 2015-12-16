@@ -20,21 +20,26 @@ namespace StudyConfigurationUILibrary
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Navigating to this page with a logic object. 
+        /// </summary>
+        /// <param name="args"></param>
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             _logic = new Logic.Logic();
             var studyArgs = args.Parameter as Logic.Logic;
             if (studyArgs == null)
             {
-                throw new ArgumentException("this page needs to recieve a studyDTO as parameter", nameof(args));
+                throw new ArgumentException("this page needs to recieve a logic as parameter", nameof(args));
             }
 
             _logic = studyArgs;
             SetUpFromStudy(_logic._StudyToWorkOn);
             SetUpCriteria();
         }
-
+        /// <summary>
+        /// Populates teh criteria datatype dropdown
+        /// </summary>
         private void SetUpCriteria()
         {
             foreach (Enum en in Enum.GetValues(typeof (DataFieldDTO.DataType)))
@@ -42,7 +47,9 @@ namespace StudyConfigurationUILibrary
                 CriteriaDataType.Items.Add(en);
             }
         }
-
+        /// <summary>
+        /// Takes all the input from the criteria and adds it to the criteria object stored in the study in the logic.
+        /// </summary>
         public void SaveCriteria()
         {
             var criteriaToAdd = new CriteriaDTO
@@ -67,7 +74,11 @@ namespace StudyConfigurationUILibrary
             _stageToWorkOn.Criteria = criteriaToAdd;
         }
 
-
+        /// <summary>
+        /// Adds the proper datafield for the criteria rule when changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void SelectionChanged(object sender, object e)
         {
             CriteriaRule.Items.Clear();
@@ -102,7 +113,10 @@ namespace StudyConfigurationUILibrary
                     return;
             }
         }
-
+        /// <summary>
+        /// Sets up the page from the logic object.
+        /// </summary>
+        /// <param name="study"></param>
         private void SetUpFromStudy(StudyDTO study)
         {
             _stageToWorkOn = new StageDTO();
@@ -114,7 +128,11 @@ namespace StudyConfigurationUILibrary
             SetUpBoxes();
         }
 
-
+        /// <summary>
+        /// When a user is highlighted, make him a reviewer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MakeReviewer_OnClick(object sender, RoutedEventArgs e)
         {
             var takenUser = UserListBox.SelectedItem as UserDTO;
@@ -126,7 +144,11 @@ namespace StudyConfigurationUILibrary
             _users.Remove(takenUser);
             SetUpBoxes();
         }
-
+        /// <summary>
+        /// when a user is highlighted, make him a validator
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MakeValidator_OnClick(object sender, RoutedEventArgs e)
         {
             var takenUser = UserListBox.SelectedItem as UserDTO;
@@ -138,7 +160,11 @@ namespace StudyConfigurationUILibrary
             _users.Remove(takenUser);
             SetUpBoxes();
         }
-
+        /// <summary>
+        /// remove a selected validator
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveValidator_Click(object sender, RoutedEventArgs e)
         {
             var takenValidator = ValidatorListBox.SelectedItem as UserDTO;
@@ -150,7 +176,11 @@ namespace StudyConfigurationUILibrary
             _validators.Remove(takenValidator);
             SetUpBoxes();
         }
-
+        /// <summary>
+        /// Remove a selected reviewer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveReviewer_Click(object sender, RoutedEventArgs e)
         {
             var takenReviewer = ReviewerListBox.SelectedItem as UserDTO;
@@ -162,7 +192,9 @@ namespace StudyConfigurationUILibrary
             _reviewers.Remove(takenReviewer);
             SetUpBoxes();
         }
-
+        /// <summary>
+        /// refresh the user boxes.
+        /// </summary>
         private void SetUpBoxes()
         {
             UserListBox.ItemsSource = null;
@@ -175,14 +207,18 @@ namespace StudyConfigurationUILibrary
             ValidatorListBox.ItemsSource = _validators;
             ValidatorListBox.DisplayMemberPath = "Name";
         }
-
+        /// <summary>
+        /// add reviewers and validators to the logic object.
+        /// </summary>
         private void AddReviewersAndValidators()
         {
             _stageToWorkOn.ValidatorIDs = _validators.Select(user => user.Id).ToArray();
             _stageToWorkOn.ReviewerIDs = _reviewers.Select(user => user.Id).ToArray();
         }
 
-
+        /// <summary>
+        /// Adds teh distribution rule
+        /// </summary>
         private void AddDistribution()
         {
             if (HundredOverlap.IsChecked.Value)
@@ -201,7 +237,9 @@ namespace StudyConfigurationUILibrary
             }
         }
 
-
+        /// <summary>
+        /// runs through the visible fields and if the box is checked adds it to the logic object.
+        /// </summary>
         private void AddVisibleFields()
         {
             var stageFields = new List<StageDTO.FieldType>();
@@ -349,7 +387,11 @@ namespace StudyConfigurationUILibrary
             _stageToWorkOn.VisibleFields = stageFields.ToArray();
         }
 
-
+        /// <summary>
+        /// Save the information to the page and save it to the logic object.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveAndReturn_OnClick(object sender, RoutedEventArgs e)
         {
             try
@@ -369,7 +411,11 @@ namespace StudyConfigurationUILibrary
                 ErrorBox.Text = " ERROR : Make sure that all fields are filled out.";
             }
         }
-
+        /// <summary>
+        /// Discards everything and just navigates back.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelAndReturn_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof (ManageStudyPage), _logic);

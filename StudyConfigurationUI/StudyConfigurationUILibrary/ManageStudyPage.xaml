@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Height="716" Width="736">
+    mc:Ignorable="d" Height="1049.965" Width="1760.664">
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}" Margin="0,0,316,84">
         <StackPanel x:Name="contentPanel" Margin="8,0,-2,0">

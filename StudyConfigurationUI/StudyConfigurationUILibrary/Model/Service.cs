@@ -9,6 +9,11 @@ namespace StudyConfigurationUIibrary.Model
 {
     internal class Service
     {
+        /// <summary>
+        /// Takes a studydto and sends it to the studyconfigurationcontroller and posts it. api
+        /// </summary>
+        /// <param name="study"></param>
+        /// <returns></returns>
         public static async Task PostStudy(StudyDTO study)
         {
             using (var client = new HttpClient())
@@ -27,7 +32,12 @@ namespace StudyConfigurationUIibrary.Model
                 }
             }
         }
-
+        /// <summary>
+        /// Updates a study with a given ID through the studyconfigurationcontroller api
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="study"></param>
+        /// <returns></returns>
         public static async Task UpdateStudy(int id, StudyDTO study)
         {
             using (var client = new HttpClient())
@@ -46,7 +56,11 @@ namespace StudyConfigurationUIibrary.Model
                 }
             }
         }
-
+        /// <summary>
+        /// Gets a study through the studyconfigurationcontroller api.
+        /// </summary>
+        /// <param name="StudyId"></param>
+        /// <returns></returns>
         public static async Task<StudyDTO> GetStudy(int StudyId)
         {
             using (var client = new HttpClient())
@@ -67,7 +81,11 @@ namespace StudyConfigurationUIibrary.Model
                 }
             }
         }
-
+        /// <summary>
+        /// Remove a study from the databae through the studyconfigurationcontroller api
+        /// </summary>
+        /// <param name="StudyId"></param>
+        /// <returns></returns>
         public static async Task<bool> RemoveStudy(int StudyId)
         {
             using (var client = new HttpClient())
@@ -88,7 +106,11 @@ namespace StudyConfigurationUIibrary.Model
                 }
             }
         }
-
+        /// <summary>
+        /// Get all users from the UserController api
+        /// </summary>
+        /// <param name="IDs"></param>
+        /// <returns></returns>
         public static async Task<UserDTO[]> GetUsers(int[] IDs)
         {
             using (var client = new HttpClient())
@@ -114,7 +136,11 @@ namespace StudyConfigurationUIibrary.Model
                 }
             }
         }
-
+        /// <summary>
+        /// Get a team from the TeamController api
+        /// </summary>
+        /// <param name="TeamId"></param>
+        /// <returns></returns>
         public static async Task<TeamDTO> GetTeam(int TeamId)
         {
             using (var client = new HttpClient())
@@ -135,7 +161,11 @@ namespace StudyConfigurationUIibrary.Model
                 }
             }
         }
-
+        /// <summary>
+        /// Get a single user through the usercontroller api
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public static async Task<UserDTO> GetUser(int UserId)
         {
             using (var client = new HttpClient())
@@ -157,16 +187,6 @@ namespace StudyConfigurationUIibrary.Model
             }
         }
 
-        /*public static async Task PostStudy(Study study)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://localhost:6735/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.PostAsJsonAsync("api/StudyConfiguration", study);
-                Debug.WriteLine(response.StatusCode.ToString());
-            }
-        }*/
+        
     }
 }
