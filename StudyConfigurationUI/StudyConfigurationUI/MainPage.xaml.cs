@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using StudyConfigurationUI.Data;
-using StudyConfigurationUI.Model;
+using StudyConfigurationUILibrary;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,16 +27,6 @@ namespace StudyConfigurationUI
         {
             var args = ManageStudyPageArgs.CreateForExistingStudy(1);
             this.Frame.Navigate(typeof(ManageStudyPage), args);
-        }
-
-        private async void PostStudy(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private async void callAPI(object sender, RoutedEventArgs e)
-        {
-
         }
 
     }

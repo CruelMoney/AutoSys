@@ -1,13 +1,6 @@
-﻿#region Using
-
-using System.Collections.Generic;
-using Storage.Repository;
-
-#endregion
-
-namespace StudyConfigurationServer.Models
+﻿namespace StudyConfigurationUILibrary.Data
 {
-    public class Criteria : IEntity
+    public class CriteriaDTO
     {
         public enum CriteriaRule
         {
@@ -16,10 +9,12 @@ namespace StudyConfigurationServer.Models
             LargerThan,
             SmallerThan,
             BeforeDate,
-            AfterDate,  
+            AfterDate,
             IsYear,
             Exists
         }
+
+        public int Id { get; set; }
 
         /// <summary>
         ///     A name for the criteria.
@@ -34,13 +29,13 @@ namespace StudyConfigurationServer.Models
         /// <summary>
         ///     The type of data this criteria holds.
         /// </summary>
-        public DataField.DataType DataType { get; set; }
+        public DataFieldDTO.DataType DataType { get; set; }
 
         /// <summary>
         ///     For <see cref="DataField.DataType.Enumeration" /> and <see cref="DataField.DataType.Flags" /> data types, a
         ///     collection of the predefined values.
         /// </summary>
-        public virtual ICollection<StoredString> TypeInfo { get; set; }
+        public string[] TypeInfo { get; set; }
 
         /// <summary>
         ///     The data the rule is checked against.
@@ -49,13 +44,11 @@ namespace StudyConfigurationServer.Models
         ///     object for that data type (see <see cref="DataType" />).
         ///     For DataField it can contain several flags that is checked in regards to the rule.
         /// </summary>
-        public virtual ICollection<StoredString> DataMatch { get; set; }
+        public string[] DataMatch { get; set; }
 
         /// <summary>
         ///     A rule for when the criteria is met / true.
         /// </summary>
         public CriteriaRule Rule { get; set; }
-
-        public int ID { get; set; }
     }
 }
