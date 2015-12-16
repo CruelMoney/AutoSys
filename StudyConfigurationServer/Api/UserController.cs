@@ -3,7 +3,7 @@
 using System;
 using System.Net;
 using System.Web.Http;
-using StudyConfigurationServer.Logic.TeamCRUD;
+using StudyConfigurationServer.Logic.TeamUserManagement;
 using StudyConfigurationServer.Models.DTO;
 
 #endregion
@@ -17,7 +17,7 @@ namespace StudyConfigurationServer.Api
     [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
-        private readonly UserManager _manager = new UserManager();
+        private readonly IUserManager _manager = new UserManager();
 
         /// <summary>
         ///     Get all users.

@@ -8,6 +8,11 @@ using System.Linq;
 
 namespace Storage.Repository
 {
+    //Author Jacob Cholewa
+    /// <summary>
+    /// Implementation of Entity framework
+    /// </summary>
+    /// <typeparam name="TContext"></typeparam>
     public class EntityFrameworkGenericRepository<TContext> : IGenericRepository where TContext : IDbContext, new()
     {
         private readonly TContext _context;

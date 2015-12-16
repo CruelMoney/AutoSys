@@ -9,7 +9,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
-using StudyConfigurationServer.Logic.StudyConfiguration;
+using StudyConfigurationServer.Logic.StudyManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
@@ -44,7 +44,6 @@ namespace StudyConfigurationServer
             {
 
                 //Here it is possible to initialize the db with a custom context
-
                 var testUser1 = new User() { ID = 1, Name = "chris", };
                 var testUser2 = new User() { ID = 2, Name = "ramos" };
                 var testUser3 = new User() { ID = 3, Name = "kathrin" };
@@ -85,11 +84,11 @@ namespace StudyConfigurationServer
 
             var criteria2 = new CriteriaDto()
             {
-                Name = "Titlee",
-                DataType = DataFieldDto.DataType.String,
-                Rule = CriteriaDto.CriteriaRule.Contains,
-                DataMatch = new string[] { "software" },
-                Description = "Write the title of the paper",
+                Name = "About Snails",
+                DataType = DataFieldDto.DataType.Boolean,
+                Rule = CriteriaDto.CriteriaRule.Equals,
+                DataMatch = new string[] { "true" },
+                Description = "Write true if the study is about snails, and false if it is not.",
             };
 
             var stage1 = new StageDto()
@@ -99,7 +98,7 @@ namespace StudyConfigurationServer
                 DistributionRule = StageDto.Distribution.HundredPercentOverlap,
                 ReviewerIDs = new int[] { 1, 2 },
                 ValidatorIDs = new int[] { 3 },
-                VisibleFields = new StageDto.FieldType[] { StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year},
+                VisibleFields = new StageDto.FieldType[] { StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year },
 
             };
 
@@ -107,18 +106,17 @@ namespace StudyConfigurationServer
             {
                 Name = "stage2",
                 Criteria = criteria2,
-                DistributionRule = StageDto.Distribution.NoOverlap,
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
                 ReviewerIDs = new int[] { 3, 2 },
-                ValidatorIDs = new int[] { 4 },
-                VisibleFields = new StageDto.FieldType[] { StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year },
-
+                ValidatorIDs = new int[] { 4, 1 },
+                VisibleFields = new StageDto.FieldType[] { StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year }
             };
 
             var studyDto = new StudyDto()
             {
                 Name = "testStudy",
                 Team = teamDto,
-                Items = Properties.Resources.bibtex,
+                Items = Properties.Resources.bibtex_small,
                 Stages = new StageDto[] { stage1, stage2 }
             };
 

@@ -10,7 +10,7 @@ using StudyConfigurationServer.Models.Data;
 
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
-    public class TeamStorageManager
+    public class TeamStorageManager : ITeamStorageManager
     {
         private readonly IGenericRepository _repo;
         private readonly string _teamException = "Can't find team(s) in repository";

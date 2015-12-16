@@ -2,7 +2,6 @@
 
 using System.Linq;
 using Storage.Repository;
-using StudyConfigurationServer.Logic.StorageManagement.Interfaces;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 

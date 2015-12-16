@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Storage", "Storage\Storage.csproj", "{38ABD49B-AD3C-41FB-9820-3779D5FB4D41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyConfigurationTests", "LogicTests1\StudyConfigurationTests.csproj", "{EEFFA94E-766A-468E-9A9F-5943605A4C60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyConfigurationTests", "StudyConfigurationTests\StudyConfigurationTests.csproj", "{EEFFA94E-766A-468E-9A9F-5943605A4C60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageTests", "StorageTests\StorageTests.csproj", "{9145E7B4-CF47-4EE7-BB58-268E7FA360FC}"
 EndProject

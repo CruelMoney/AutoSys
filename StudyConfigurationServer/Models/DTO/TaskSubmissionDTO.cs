@@ -21,6 +21,6 @@ namespace StudyConfigurationServer.Models.DTO
         ///     A list of the filled out data fields for this StudyTask. Only <see cref="DataFieldDto.Data" /> should be modified.
         /// </summary>
         [Required]
-        public DataFieldDto[] SubmittedFieldsDto { get; set; }
+        public DataFieldDto[] SubmittedFields { get; set; }
     }
 }

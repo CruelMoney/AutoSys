@@ -3,7 +3,7 @@
 using System;
 using System.Net;
 using System.Web.Http;
-using StudyConfigurationServer.Logic.TeamCRUD;
+using StudyConfigurationServer.Logic.TeamUserManagement;
 using StudyConfigurationServer.Models.DTO;
 
 #endregion
@@ -15,7 +15,7 @@ namespace StudyConfigurationServer.Api
     /// </summary>
     public class TeamController : ApiController
     {
-        private readonly TeamManager _manager = new TeamManager();
+        private readonly ITeamManager _manager = new TeamManager();
 
         /// <summary>
         ///     Get all teams.
@@ -81,7 +81,7 @@ namespace StudyConfigurationServer.Api
         ///     The list of users part of the TeamDTO can not be modified once it has been created.
         /// </summary>
         /// <param name="id">The ID of the TeamDTO to update.</param>
-        /// <param name="user">The new TeamDTO data.</param>
+        /// <param name="teamDto">The new TeamDTO data.</param>
         public IHttpActionResult Put(int id, [FromBody] TeamDto teamDto)
         {
             // PUT: api/Team/5

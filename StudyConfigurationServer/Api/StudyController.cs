@@ -3,8 +3,8 @@
 using System;
 using System.Net;
 using System.Web.Http;
-using StudyConfigurationServer.Logic.StudyConfiguration;
-using StudyConfigurationServer.Logic.StudyOverview;
+using StudyConfigurationServer.Logic.StudyExecution;
+using StudyConfigurationServer.Logic.StudyManagement;
 using StudyConfigurationServer.Models.DTO;
 
 #endregion
@@ -17,8 +17,8 @@ namespace StudyConfigurationServer.Api
     [RoutePrefix("api/Study")]
     public class StudyController : ApiController
     {
-        private readonly StudyOverviewController _controller = new StudyOverviewController();
-        private readonly StudyManager _studyManager = new StudyManager();
+        private readonly IStudyExecutionController _controller = new StudyExecutionController();
+        private readonly IStudyManager _studyManager = new StudyManager();
 
         /// <summary>
         ///     Retrieve an overview of the specified study.
@@ -30,7 +30,7 @@ namespace StudyConfigurationServer.Api
             // GET: api/Study/5/Overview
             try
             {
-                return Ok(_controller.GetOverview(id));
+                return Ok(_studyManager.GetStudyOverview(id));
             }
             catch (Exception e)
             {
@@ -63,7 +63,7 @@ namespace StudyConfigurationServer.Api
 
             try
             {
-                return Ok(_studyManager.GetTasks(id, userId, count, filter, type));
+                return Ok(_controller.GetTasks(id, userId, count, filter, type));
             }
             catch (Exception e)
             {
@@ -96,7 +96,7 @@ namespace StudyConfigurationServer.Api
             // GET: api/Study/4/TaskIDs?userId=5&filter=Editable
             try
             {
-                return Ok(_studyManager.GetTasksIDs(id, userId, filter, type));
+                return Ok(_controller.GetTasksIDs(id, userId, filter, type));
             }
             catch (Exception e)
             {
@@ -113,8 +113,8 @@ namespace StudyConfigurationServer.Api
         }
 
         /// <summary>
-        ///     Get a requested StudyTask with a specific ID. This method will not return the data entered by users because the
-        ///     user is not specified.
+        ///     Get a requested StudyTask with a specific ID. The task will not contain any data entered. 
+        ///     For getting data use the GetTasks call which includes the user id. 
         /// </summary>
         /// <param name="id">The id of the study</param>
         /// <param name="taskId"></param>
@@ -126,7 +126,7 @@ namespace StudyConfigurationServer.Api
 
             try
             {
-                return Ok(_studyManager.GetTask(taskId));
+                return Ok(_controller.GetTask(taskId));
             }
             catch (Exception e)
             {
@@ -163,7 +163,7 @@ namespace StudyConfigurationServer.Api
 
             try
             {
-                _studyManager.DeliverTask(id, taskId, task);
+                _controller.DeliverTask(id, taskId, task);
             }
             catch (Exception e)
             {

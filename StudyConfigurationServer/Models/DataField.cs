@@ -59,7 +59,7 @@ namespace StudyConfigurationServer.Models
         public DataType FieldType { get; set; }
 
         /// <summary>
-        ///     For <see cref="DataField.DataType.Enumeration" /> and <see cref="DataField.DataType.Flags" /> data types, a
+        ///     For <see cref="DataType.Enumeration" /> and <see cref="DataField.DataType.Flags" /> data types, a
         ///     collection of the predefined values.
         /// </summary>
         public ICollection<StoredString> TypeInfo { get; set; }

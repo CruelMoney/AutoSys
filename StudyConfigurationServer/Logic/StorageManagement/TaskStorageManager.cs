@@ -9,7 +9,7 @@ using StudyConfigurationServer.Models.Data;
 
 namespace StudyConfigurationServer.Logic.StorageManagement
 {
-    public class TaskStorageManager
+    public class TaskStorageManager : ITaskStorageManager
     {
         private readonly IGenericRepository _taskRepo;
 

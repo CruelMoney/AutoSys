@@ -55,7 +55,7 @@ namespace StudyConfigurationServer.Models
         {
             var userId = taskToDeliver.UserId;
 
-            var newDataFields = taskToDeliver.SubmittedFieldsDto.ToList();
+            var newDataFields = taskToDeliver.SubmittedFields.ToList();
 
             //TODO for now we use the dataField name to update the data.
             foreach (var field in newDataFields)

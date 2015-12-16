@@ -27,6 +27,6 @@ namespace StudyConfigurationServer.Models.DTO
         ///     An overview of the state of the different Stages in the study.
         /// </summary>
         [Required]
-        public StageOverviewDto[] Phases { get; set; }
+        public StageOverviewDto[] Stages { get; set; }
     }
 }

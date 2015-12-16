@@ -68,8 +68,8 @@ namespace StudyConfigurationServer.Models.DTO
             IsDeliverable = task.IsEditable;
             TaskType = (Type) Enum.Parse(typeof (Type), task.TaskType.ToString());
             Id = task.ID;
-            RequestedFieldsDto = editableFields.ToArray();
-            VisibleFieldsDto = visibleFields.ToArray();
+            RequestedFields = editableFields.ToArray();
+            VisibleFields = visibleFields.ToArray();
 
             if (task.TaskType == StudyTask.Type.Conflict)
             {
@@ -94,7 +94,7 @@ namespace StudyConfigurationServer.Models.DTO
                     }
                 }
 
-                ConflictingDataDto = conflictinData;
+                ConflictingData = conflictinData;
             }
         }
 
@@ -120,18 +120,18 @@ namespace StudyConfigurationServer.Models.DTO
         ///     A list of data fields which are to be shown to the User, but are not editable.
         /// </summary>
         [Required]
-        public DataFieldDto[] VisibleFieldsDto { get; set; }
+        public DataFieldDto[] VisibleFields { get; set; }
 
         /// <summary>
         ///     A list of requested data fields which need to be filled out as part of the StudyTask.
         /// </summary>
         [Required]
-        public DataFieldDto[] RequestedFieldsDto { get; set; }
+        public DataFieldDto[] RequestedFields { get; set; }
 
         /// <summary>
         ///     In case this is a <see cref="Type.Conflict" /> StudyTask, represents for each of the
-        ///     <see cref="RequestedFieldsDto" /> the list of <see cref="ConflictingDataDto" /> provided by separate users.
+        ///     <see cref="RequestedFields" /> the list of <see cref="ConflictingData" /> provided by separate users.
         /// </summary>
-        public ConflictingDataDto[][] ConflictingDataDto { get; set; }
+        public ConflictingDataDto[][] ConflictingData { get; set; }
     }
 }
