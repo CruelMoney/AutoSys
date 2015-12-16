@@ -104,7 +104,7 @@ namespace StudyConfigurationServer.Logic.StudyManagement
         }
 
         /// <summary>
-        /// Retrieve a dictionary of users and the amount of completed tasks they have done
+        /// Retrieve a dictionary of users and their amount of completed tasks in the given stage
         /// </summary>
         /// <param name="stage"></param>
         /// <returns></returns>
@@ -125,6 +125,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             return completedTasks.ToDictionary(k => k.Key, k => k.Value);
         }
 
+        /// <summary>
+        /// returns a dictionary of users and their incompleted tasks for the given stage
+        /// </summary>
+        /// <param name="stage"></param>
+        /// <returns></returns>
         private Dictionary<int, int> GetIncompleteTasks(Stage stage)
         {
             var inCompletedTasks = new ConcurrentDictionary<int, int>();

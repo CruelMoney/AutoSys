@@ -15,6 +15,9 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
 {
+    /// <summary>
+    /// A manager class responsible for task logic
+    /// </summary>
     public class TaskManager : ITaskManager
     {
         private readonly ICriteriaValidator _criteriaValidator;
@@ -41,6 +44,12 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             _taskRequester = new TaskRequester(_storageManager);
         }
 
+        /// <summary>
+        /// Deliver a task by submitting the data for that task
+        /// </summary>
+        /// <param name="taskId">Id of the task to deliver</param>
+        /// <param name="task">The taskDTO with properties to be delivered</param>
+        /// <returns></returns>
         public bool DeliverTask(int taskId, TaskSubmissionDto task)
         {
             var taskToUpdate = _storageManager.GetTask(taskId);
@@ -56,6 +65,11 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             return true;
         }
 
+        /// <summary>
+        /// Generate validation tasks for every review task
+        /// </summary>
+        /// <param name="reviewTasks">IEnumrable of studyTasks to generate validation task for</param>
+        /// <returns></returns>
         public IEnumerable<StudyTask> GenerateValidationTasks(IEnumerable<StudyTask> reviewTasks)
         {
             foreach (var task in reviewTasks)
@@ -68,6 +82,12 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
             }
         }
         
+        /// <summary>
+        /// Generate review task with given criteria for every item
+        /// </summary>
+        /// <param name="items">IEnumerable of items to generate review tasks for.</param>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
         public IEnumerable<StudyTask> GenerateReviewTasks(IEnumerable<Item> items, List<Criteria> criteria)
         {
             //Generate the tasks for the currentstage

@@ -19,6 +19,9 @@ using FieldType = StudyConfigurationServer.Models.FieldType;
 
 namespace StudyConfigurationServer.Logic.StudyManagement
 {
+    /// <summary>
+    /// A A manager responsible for study logic regarding create, retrieve, delete and update
+    /// </summary>
     public class StudyManager : IStudyManager
     {
         private readonly IStudyStorageManager _studyStorageManager;
@@ -43,7 +46,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             _studyOverview = studyOverview;
         }
         
-
+        /// <summary>
+        /// Convert a studyDTO to a study object
+        /// </summary>
+        /// <param name="studyDto">DTO to be converted</param>
+        /// <returns></returns>
         private Study ConvertStudy(StudyDto studyDto)
         {
             var study = new Study
@@ -78,6 +85,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             return study;
         }
 
+        /// <summary>
+        /// Create a study and store it in the repository
+        /// </summary>
+        /// <param name="studyDto"></param>
+        /// <returns></returns>
         public int CreateStudy(StudyDto studyDto)
         {
             var study = ConvertStudy(studyDto);
@@ -88,6 +100,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             return study.ID;
         }
 
+        /// <summary>
+        /// Create a stage for a study
+        /// </summary>
+        /// <param name="stageDto">The stageDTO to be created</param>
+        /// <returns></returns>
         private Stage CreateStage(StageDto stageDto)
         {
             var stage = new Stage
@@ -140,6 +157,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             return stage;
         }
 
+        /// <summary>
+        /// Remove a study with a given Id
+        /// </summary>
+        /// <param name="studyId">Id of study to be deleted</param>
+        /// <returns></returns>
         public bool RemoveStudy(int studyId)
         {
             return _studyStorageManager.Remove(studyId);
@@ -167,6 +189,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             return true;
         }
 
+        /// <summary>
+        /// Search for one or more studies with a given name
+        /// </summary>
+        /// <param name="studyName">String to search for</param>
+        /// <returns></returns>
         public IEnumerable<StudyDto> SearchStudies(string studyName)
         {
             return from Study dbStudy in _studyStorageManager.GetAll()
@@ -174,17 +201,31 @@ namespace StudyConfigurationServer.Logic.StudyManagement
                 select new StudyDto(dbStudy);
         }
 
+        /// <summary>
+        /// Retrieve a single study with a given studyId
+        /// </summary>
+        /// <param name="studyId">Id of study to retrieve</param>
+        /// <returns></returns>
         public StudyDto GetStudy(int studyId)
         {
             return new StudyDto(_studyStorageManager.Get(studyId));
         }
 
+        /// <summary>
+        /// Retrieve all studies in the repository
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<StudyDto> GetAllStudies()
         {
             return from Study dbStudy in _studyStorageManager.GetAll()
                 select new StudyDto(dbStudy);
         }
 
+        /// <summary>
+        /// Get a studyOverview
+        /// </summary>
+        /// <param name="id">Id of the study to get an overview of</param>
+        /// <returns></returns>
         public StudyOverviewDto GetStudyOverview(int id)
         {
             return _studyOverview.GetOverview(id);

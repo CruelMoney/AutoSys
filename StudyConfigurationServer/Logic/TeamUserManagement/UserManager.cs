@@ -12,6 +12,9 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.TeamUserManagement
 {
+    /// <summary>
+    /// A manager Class responsible for User Logic
+    /// </summary>
     public class UserManager : IUserManager
     {
         private readonly TeamStorageManager _storageManager;
@@ -26,6 +29,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             _storageManager = storageManager;
         }
 
+        /// <summary>
+        /// Convert a UserDTO to a User and store it in the repository
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <returns></returns>
         public int CreateUser(UserDto userDto)
         {
             var userToAdd = new User
@@ -37,6 +45,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             return _storageManager.SaveUser(userToAdd);
         }
 
+        /// <summary>
+        /// Delete a user from the repository
+        /// </summary>
+        /// <param name="userId"> id of the user to be deleted.</param>
+        /// <returns></returns>
         public bool RemoveUser(int userId)
         {
             try
@@ -58,6 +71,13 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Update a user, with a new userDTO.
+        /// Convert the UserDTO to a User
+        /// </summary>
+        /// <param name="userId">Id of the user to be updated</param>
+        /// <param name="newUserDto"> DTO of what the user needs to be updated with</param>
+        /// <returns></returns>
         public bool UpdateUser(int userId, UserDto newUserDto)
         {
             try
@@ -75,6 +95,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Search for on or more users with a given name in the repository
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public IEnumerable<UserDto> SearchUserDtOs(string userName)
         {
             try
@@ -97,6 +122,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Retrieve a single user
+        /// </summary>
+        /// <param name="userId"> Id of the user to be returned</param>
+        /// <returns></returns>
         public UserDto GetUserDto(int userId)
         {
             try
@@ -116,6 +146,10 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Retrieve all userIs as a list
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<UserDto> GetAllUserDtOs()
         {
             try
@@ -138,6 +172,11 @@ namespace StudyConfigurationServer.Logic.TeamUserManagement
             }
         }
 
+        /// <summary>
+        /// Retrieve a list of all studyIds a given user is part of
+        /// </summary>
+        /// <param name="userId">Id of the user to get a studyId list of</param>
+        /// <returns></returns>
         public IEnumerable<int> GetStudyIds(int userId)
         {
             try

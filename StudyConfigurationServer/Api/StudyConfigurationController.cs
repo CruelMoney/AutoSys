@@ -53,6 +53,7 @@ namespace StudyConfigurationServer.Api
         public StudyDto Get(int id)
         {
             return _manager.GetStudy(id);
+         
         }
 
         /// <summary>
