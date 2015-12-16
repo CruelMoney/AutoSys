@@ -21,11 +21,11 @@ namespace StudyConfigurationServer.Api
         public IEnumerable<StudyDto> Get(string name = "")
         {
             // GET: api/Team
-            // GET: api/Team?name=untouchables
+            // GET: api/Team?name=les
 
             try
             {
-                var studies = name.Equals(string.Empty) ? _manager.GetAllStudies() : _manager.SearchStudies(name);
+var studies = name.Equals(string.Empty) ? _manager.GetAllStudies() : _manager.SearchStudies(name);
                 return studies;
             }
             catch (NullReferenceException)
@@ -40,7 +40,7 @@ namespace StudyConfigurationServer.Api
         /// <returns></returns>
         // GET: api/StudyConfiguration
         public IEnumerable<StudyDto> Get()
-        {
+{
             return _manager.GetAllStudies();
         }
 
