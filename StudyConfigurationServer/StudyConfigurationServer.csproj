@@ -185,9 +185,9 @@
     <Compile Include="Logic\TeamUserManagement\IUserManager.cs" />
     <Compile Include="Logic\TeamUserManagement\TeamManager.cs" />
     <Compile Include="Logic\TeamUserManagement\UserManager.cs" />
-    <Compile Include="Migrations\201512151114083_initial.cs" />
-    <Compile Include="Migrations\201512151114083_initial.Designer.cs">
-      <DependentUpon>201512151114083_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201512161005063_initial.cs" />
+    <Compile Include="Migrations\201512161005063_initial.Designer.cs">
+      <DependentUpon>201512161005063_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Criteria.cs" />
@@ -245,8 +245,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512151114083_initial.resx">
-      <DependentUpon>201512151114083_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512161005063_initial.resx">
+      <DependentUpon>201512161005063_initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

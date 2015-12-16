@@ -12,6 +12,9 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.StudyManagement
 {
+    /// <summary>
+    /// Class responsible for retrieving info about a study and creating a studyOverview
+    /// </summary>
     public class StudyOverview
     {
         private readonly StudyStorageManager _studyStorageManager;
@@ -29,6 +32,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             _taskStorage = new TaskStorageManager();
         }
 
+        /// <summary>
+        /// Return a studyOverviewDTO
+        /// </summary>
+        /// <param name="id"> study id</param>
+        /// <returns></returns>
         public StudyOverviewDto GetOverview(int id)
         {
             var study = _studyStorageManager.GetAll()
@@ -45,12 +53,21 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             return studyOverview;
         }
 
+        /// <summary>
+        /// Retrieve all userIds working on the study
+        /// </summary>
+        /// <param name="study"></param>
+        /// <returns></returns>
         private int[] GetUserIDs(Study study)
         {
             return study.Team.Users.Select(u => u.ID).ToArray();
         }
 
-
+        /// <summary>
+        /// Retrieve the current stage of the study
+        /// </summary>
+        /// <param name="study"></param>
+        /// <returns></returns>
         private Stage GetCurrentStage(Study study)
         {
             Stage currentStage = null;
@@ -66,6 +83,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             return currentStage;
         }
 
+        /// <summary>
+        /// Retrieve an array of stageOverviews
+        /// </summary>
+        /// <param name="study"></param>
+        /// <returns></returns>
         private StageOverviewDto[] GetStages(Study study)
         {
             var numbOfStages = study.Stages.Count();
@@ -81,6 +103,11 @@ namespace StudyConfigurationServer.Logic.StudyManagement
             return stageOverview;
         }
 
+        /// <summary>
+        /// Retrieve a dictionary of users and the amount of completed tasks they have done
+        /// </summary>
+        /// <param name="stage"></param>
+        /// <returns></returns>
         private Dictionary<int, int> GetCompletedTasks(Stage stage)
         {
             var completedTasks = new ConcurrentDictionary<int, int>();
