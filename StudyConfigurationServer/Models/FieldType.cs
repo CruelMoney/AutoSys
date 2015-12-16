@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿#region Using
+
+using System;
 using Storage.Repository;
+
+#endregion
 
 namespace StudyConfigurationServer.Models
 {
-    public class FieldType :IEntity
+    public class FieldType : IEntity
     {
         public enum TypEField
         {
@@ -34,10 +35,10 @@ namespace StudyConfigurationServer.Models
             Type,
             Volume,
             Year,
-            URL,
-            ISBN,
-            ISSN,
-            LCCN,
+            Url,
+            Isbn,
+            Issn,
+            Lccn,
             Abstract,
             Keywords,
             Price,
@@ -47,11 +48,6 @@ namespace StudyConfigurationServer.Models
             Doi
         }
 
-
-        public int ID { get; set; }
-
-        public TypEField Type { get; set; }
-
         public FieldType(string fieldType)
         {
             Type = (TypEField) Enum.Parse(typeof (TypEField), fieldType, true);
@@ -59,7 +55,11 @@ namespace StudyConfigurationServer.Models
 
         public FieldType()
         {
-           
         }
+
+        public TypEField Type { get; set; }
+
+
+        public int ID { get; set; }
     }
 }

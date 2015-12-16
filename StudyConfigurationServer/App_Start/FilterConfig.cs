@@ -1,5 +1,8 @@
-﻿using System.Web;
+﻿#region Using
+
 using System.Web.Mvc;
+
+#endregion
 
 namespace StudyConfigurationServer
 {

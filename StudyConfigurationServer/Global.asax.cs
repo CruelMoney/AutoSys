@@ -9,7 +9,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
-using StudyConfigurationServer.Logic.StudyConfiguration;
+using StudyConfigurationServer.Logic.StudyManagement;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.Data;
 using StudyConfigurationServer.Models.DTO;
@@ -19,7 +19,7 @@ namespace StudyConfigurationServer
     public class WebApiApplication : System.Web.HttpApplication
     {
 
-        TaskSubmissionDTO task;
+        TaskSubmissionDto _task;
 
 
         protected void Application_Start()
@@ -29,24 +29,21 @@ namespace StudyConfigurationServer
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            Database.SetInitializer(new MultipleTeamsDB());
+            Database.SetInitializer(new MultipleTeamsDb());
             var context = new StudyContext();
             context.Database.Initialize(true);
 
             var studyManager = new StudyManager();
 
             studyManager.CreateStudy(CreaStudyDto());
-            
-
         }
 
-        internal class MultipleTeamsDB : DropCreateDatabaseAlways<StudyContext>
+        internal class MultipleTeamsDb : DropCreateDatabaseAlways<StudyContext>
         {
             protected override void Seed(StudyContext context)
             {
 
                 //Here it is possible to initialize the db with a custom context
-
                 var testUser1 = new User() { ID = 1, Name = "chris", };
                 var testUser2 = new User() { ID = 2, Name = "ramos" };
                 var testUser3 = new User() { ID = 3, Name = "kathrin" };
@@ -69,62 +66,61 @@ namespace StudyConfigurationServer
         }
 
 
-        public StudyDTO CreaStudyDto()
+        public StudyDto CreaStudyDto()
         {
-            var teamDTO = new TeamDTO()
+            var teamDto = new TeamDto()
             {
                 Id = 1
             };
 
-            var criteria1 = new CriteriaDTO()
+            var criteria1 = new CriteriaDto()
             {
                 Name = "Year",
-                Rule = CriteriaDTO.CriteriaRule.BeforeDate,
-                DataMatch = new string[] { "1/12/2000" },
-                DataType = DataFieldDTO.DataType.String,
+                Rule = CriteriaDto.CriteriaRule.LargerThan,
+                DataMatch = new string[] { "2001" },
+                DataType = DataFieldDto.DataType.String,
                 Description = "Write the year of the study",
             };
 
-            var criteria2 = new CriteriaDTO()
+            var criteria2 = new CriteriaDto()
             {
-                Name = "Is about...",
-                DataType = DataFieldDTO.DataType.Boolean,
-                Rule = CriteriaDTO.CriteriaRule.Equals,
+                Name = "About Snails",
+                DataType = DataFieldDto.DataType.Boolean,
+                Rule = CriteriaDto.CriteriaRule.Equals,
                 DataMatch = new string[] { "true" },
-                Description = "Check if the item is about snails.",
+                Description = "Write true if the study is about snails, and false if it is not.",
             };
 
-            var stage1 = new StageDTO()
+            var stage1 = new StageDto()
             {
                 Name = "stage1",
                 Criteria = criteria1,
-                DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
                 ReviewerIDs = new int[] { 1, 2 },
                 ValidatorIDs = new int[] { 3 },
-                VisibleFields = new StageDTO.FieldType[] { StageDTO.FieldType.Title, StageDTO.FieldType.Author, StageDTO.FieldType.Year},
+                VisibleFields = new StageDto.FieldType[] { StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year },
 
             };
 
-            var stage2 = new StageDTO()
+            var stage2 = new StageDto()
             {
                 Name = "stage2",
                 Criteria = criteria2,
-                DistributionRule = StageDTO.Distribution.HundredPercentOverlap,
+                DistributionRule = StageDto.Distribution.HundredPercentOverlap,
                 ReviewerIDs = new int[] { 3, 2 },
-                ValidatorIDs = new int[] { 4 },
-                VisibleFields = new StageDTO.FieldType[] { StageDTO.FieldType.Title, StageDTO.FieldType.Author, StageDTO.FieldType.Year },
-
+                ValidatorIDs = new int[] { 4, 1 },
+                VisibleFields = new StageDto.FieldType[] { StageDto.FieldType.Title, StageDto.FieldType.Author, StageDto.FieldType.Year }
             };
 
-            var studyDTO = new StudyDTO()
+            var studyDto = new StudyDto()
             {
                 Name = "testStudy",
-                Team = teamDTO,
+                Team = teamDto,
                 Items = Properties.Resources.bibtex_small,
-                Stages = new StageDTO[] { stage1, stage2 }
+                Stages = new StageDto[] { stage1, stage2 }
             };
 
-            return studyDTO;
+            return studyDto;
         }
     
 

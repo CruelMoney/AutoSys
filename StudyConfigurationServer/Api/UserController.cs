@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Using
+
+using System;
 using System.Net;
 using System.Web.Http;
-using StudyConfigurationServer.Api.Interfaces;
-using StudyConfigurationServer.Logic.TeamCRUD;
+using StudyConfigurationServer.Logic.TeamUserManagement;
 using StudyConfigurationServer.Models.DTO;
+
+#endregion
 
 namespace StudyConfigurationServer.Api
 {
-
     /// <summary>
-    /// Controller to access and modify users.
+    ///     Controller to access and modify users.
     /// </summary>
     //TODO should not be public, how to test? whaat?
     [RoutePrefix("api/User")]
-    public class UserController : ApiController, IUserController
+    public class UserController : ApiController
     {
-        private readonly UserManager _manager = new UserManager();
+        private readonly IUserManager _manager = new UserManager();
 
         /// <summary>
-        /// Get all users.
+        ///     Get all users.
         /// </summary>
         /// <param name="name">Search for users which match the specified name.</param>
         public IHttpActionResult Get(string name = "")
@@ -29,18 +30,17 @@ namespace StudyConfigurationServer.Api
 
             try
             {
-                var users = name.Equals(string.Empty) ? _manager.GetAllUserDTOs() : _manager.SearchUserDTOs(name);
+                var users = name.Equals(string.Empty) ? _manager.GetAllUserDtOs() : _manager.SearchUserDtOs(name);
                 return Ok(users);
             }
             catch (NullReferenceException)
             {
                 return NotFound();
             }
-
         }
 
         /// <summary>
-        /// Get the UserDTO with the specific ID.
+        ///     Get the UserDTO with the specific ID.
         /// </summary>
         /// <param name="id">The ID of the UserDTO to retrieve.</param>
         public IHttpActionResult Get(int id)
@@ -48,17 +48,16 @@ namespace StudyConfigurationServer.Api
             // GET: api/User/5
             try
             {
-                return Ok(_manager.GetUserDTO(id));
-        }
+                return Ok(_manager.GetUserDto(id));
+            }
             catch (NullReferenceException)
             {
                 return NotFound();
             }
-
         }
 
         /// <summary>
-        /// Get all study IDs of studies a given UserDTO is part of.
+        ///     Get all study IDs of studies a given UserDTO is part of.
         /// </summary>
         /// <param name="id">The ID of the UserDTO to get study IDs for.</param>
         /// <returns></returns>
@@ -68,22 +67,20 @@ namespace StudyConfigurationServer.Api
             // GET: api/UserDTO/5/StudyIDs
             try
             {
-                
                 return Ok(_manager.GetStudyIds(id));
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
                 return NotFound();
             }
         }
 
         /// <summary>
-        /// Create a new UserDTO.
+        ///     Create a new UserDTO.
         /// </summary>
         /// <param name="userDto">The new UserDTO to create.</param>
-        public IHttpActionResult Post([FromBody]UserDTO userDto)
+        public IHttpActionResult Post([FromBody] UserDto userDto)
         {
-            
             // POST: api/User
             if (!ModelState.IsValid)
             {
@@ -91,17 +88,16 @@ namespace StudyConfigurationServer.Api
             }
 
             userDto.Id = _manager.CreateUser(userDto);
-            
-            return CreatedAtRoute("DefaultApi", new { id = userDto.Id }, userDto);
-           
+
+            return CreatedAtRoute("DefaultApi", new {id = userDto.Id}, userDto);
         }
 
         /// <summary>
-        /// Update the UserDTO with the specified ID.
+        ///     Update the UserDTO with the specified ID.
         /// </summary>
         /// <param name="id">The ID of the UserDTO to update.</param>
         /// <param name="userDto">The new UserDTO data.</param>
-        public IHttpActionResult Put(int id, [FromBody]UserDTO userDto)
+        public IHttpActionResult Put(int id, [FromBody] UserDto userDto)
         {
             // PUT: api/User/5
 
@@ -122,8 +118,8 @@ namespace StudyConfigurationServer.Api
         }
 
         /// <summary>
-        /// Delete the UserDTO with the specified ID.
-        /// A UserDTO can not be deleted when the UserDTO is participating in a study.
+        ///     Delete the UserDTO with the specified ID.
+        ///     A UserDTO can not be deleted when the UserDTO is participating in a study.
         /// </summary>
         /// <param name="id">The ID of the UserDTO to delete.</param>
         public IHttpActionResult Delete(int id)
@@ -131,10 +127,10 @@ namespace StudyConfigurationServer.Api
             // DELETE: api/User/5
             try
             {
-            var deleted = _manager.RemoveUser(id);
+                var deleted = _manager.RemoveUser(id);
                 return StatusCode(HttpStatusCode.NoContent);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 if (e.GetType() == typeof (NullReferenceException))
                 {
@@ -145,8 +141,6 @@ namespace StudyConfigurationServer.Api
                     return BadRequest();
                 }
                 throw;
-
-
             }
         }
     }

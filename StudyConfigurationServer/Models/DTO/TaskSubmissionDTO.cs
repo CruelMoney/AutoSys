@@ -1,22 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#region Using
+
+using System.ComponentModel.DataAnnotations;
+
+#endregion
 
 namespace StudyConfigurationServer.Models.DTO
 {
     /// <summary>
-    /// A submission by a User for a requested StudyTask.
+    ///     A submission by a User for a requested StudyTask.
     /// </summary>
-    public class TaskSubmissionDTO
+    public class TaskSubmissionDto
     {
         /// <summary>
-        /// The User who is submitting this StudyTask.
+        ///     The User who is submitting this StudyTask.
         /// </summary>
         [Required]
         public int UserId { get; set; }
 
         /// <summary>
-        /// A list of the filled out data fields for this StudyTask. Only <see cref="DataFieldDTO.Data" /> should be modified.
+        ///     A list of the filled out data fields for this StudyTask. Only <see cref="DataFieldDto.Data" /> should be modified.
         /// </summary>
         [Required]
-        public DataFieldDTO[] SubmittedFieldsDto { get; set; }
+        public DataFieldDto[] SubmittedFields { get; set; }
     }
 }

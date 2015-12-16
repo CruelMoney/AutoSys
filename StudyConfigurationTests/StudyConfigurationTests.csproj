@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{351F13FD-969B-4E5B-899D-90D4E8C84736}</ProjectGuid>
+    <ProjectGuid>{EEFFA94E-766A-468E-9A9F-5943605A4C60}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StudyConfigurationTests</RootNamespace>
-    <AssemblyName>StudyConfigurationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>StudyConfigurationServerTests</RootNamespace>
+    <AssemblyName>StudyConfigurationServerTests</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,7 +36,64 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Lski.HtmlActionResult, Version=1.1.0.26605, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lski.HtmlActionResult.1.1.0\lib\Lski.HtmlActionResult.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.6.4.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.6.4\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -45,14 +103,75 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="IntegrationTests\DBInitializers\StudyDB.cs" />
+    <Compile Include="IntegrationTests\StudyExecutionControllerIntegrateStorage.cs" />
+    <Compile Include="IntegrationTests\TeamManagerIntegrateStorage.cs" />
+    <Compile Include="IntegrationTests\WEBAPI\StudyAPITest.cs" />
+    <Compile Include="IntegrationTests\WEBAPI\TeamAPITests.cs" />
+    <Compile Include="IntegrationTests\WEBAPI\UserAPITests.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\BibTexParserTest.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\DefaultFieldCheckerTest.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\DefaultItemCheckerTest.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\FieldValidatorTest.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\BibTexParserTests\ItemValidatorTest.cs" />
+    <Compile Include="IntegrationTests\DBInitializers\EmptyDBInitializer.cs" />
+    <Compile Include="IntegrationTests\DBInitializers\MultipleTeamsDB.cs" />
+    <Compile Include="IntegrationTests\IntegrationTestContext.cs" />
+    <Compile Include="IntegrationTests\StudyManagerIntegratesStorage.cs" />
+    <Compile Include="IntegrationTests\UserManagerIntegrateStorage.cs" />
+    <Compile Include="UnitTests\StudyExecution\TaskManagement\CriteriaChecker\CriteriaTests.cs" />
+    <Compile Include="UnitTests\Model\DataFieldTests.cs" />
+    <Compile Include="UnitTests\Model\StageTests.cs" />
+    <Compile Include="UnitTests\Model\StudyTaskTests.cs" />
+    <Compile Include="UnitTests\Model\UserDataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UnitTests\StorageManagement\StudyStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StorageManagement\TaskStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StorageManagement\TeamStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StorageManagement\UserStorageManagerTests.cs" />
+    <Compile Include="UnitTests\StudyConfiguration\StudyManager.cs" />
+    <Compile Include="UnitTests\StudyExecution\TaskManagement\CriteriaChecker\RuleCheckerTests.cs" />
+    <Compile Include="UnitTests\StudyExecution\TaskManagement\TaskManagerTests.cs" />
+    <Compile Include="UnitTests\StudyOverviewTests\StudyOverviewTests.cs" />
+    <Compile Include="UnitTests\StudyExecution\TaskManagement\TaskDistributor\DistributorsTests.cs" />
+    <Compile Include="UnitTests\StudyExecution\TaskManagement\TaskGeneratorTests.cs" />
+    <Compile Include="UnitTests\TeamCRUD\TeamManagementTests.cs" />
+    <Compile Include="UnitTests\TeamCRUD\UserManagementTests.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Storage\Storage.csproj">
+      <Project>{38abd49b-ad3c-41fb-9820-3779d5fb4d41}</Project>
+      <Name>Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StudyConfigurationServer\StudyConfigurationServer.csproj">
+      <Project>{AAB99EEC-5346-4381-B959-092520759192}</Project>
+      <Name>StudyConfigurationServer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="UnitTests\StudyConfiguration\BibTexParserTests\Resources\bibtex.bib" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
