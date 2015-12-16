@@ -7,8 +7,11 @@ using StudyConfigurationServer.Models;
 
 #endregion
 
-namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.CriteriaValidation
+namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.TaskValidation
 {
+    /// <summary>
+    /// The default criteriaChecker for Choosing a ruleChecker based on a rule enum.
+    /// </summary>
     public class DefaultCriteriaChecker : ICriteriaChecker
     {
         private readonly Dictionary<Criteria.CriteriaRule, IRuleChecker> _checkers;
@@ -29,6 +32,12 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.CriteriaV
             };
         }
 
+        /// <summary>
+        /// Validate the data using the criterions rules corresponding ruleChekcer.  
+        /// </summary>
+        /// <param name="criteria"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public bool Validate(Criteria criteria, string[] data)
         {
             var type = criteria.Rule;

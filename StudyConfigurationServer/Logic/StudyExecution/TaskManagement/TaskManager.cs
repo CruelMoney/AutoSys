@@ -6,8 +6,8 @@ using System.Data.Entity;
 using System.Linq;
 using Storage.Repository;
 using StudyConfigurationServer.Logic.StorageManagement;
-using StudyConfigurationServer.Logic.StudyExecution.TaskManagement.CriteriaValidation;
 using StudyConfigurationServer.Logic.StudyExecution.TaskManagement.TaskDistributor;
+using StudyConfigurationServer.Logic.StudyExecution.TaskManagement.TaskValidation;
 using StudyConfigurationServer.Models;
 using StudyConfigurationServer.Models.DTO;
 

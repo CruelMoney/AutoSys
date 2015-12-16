@@ -74,27 +74,29 @@ namespace StudyConfigurationServer.Models.DTO
             if (task.TaskType == StudyTask.Type.Conflict)
             {
                 //Creating the conflicting Data
-                var conflictinData = new ConflictingDataDto[task.DataFields.Count][];
-
+                var conflictingData = new ConflictingDataDto[task.DataFields.Count][];
+                
                 //For each dataField
-                for (var d = 0; d < task.DataFields.Count; d++)
-                {
-                    //Create new conflicting data
-                    conflictinData[d] = new ConflictingDataDto[task.Users.Count];
-
-                    //Add each users data and id to the conflicting data
-                    for (var u = 0; u < task.Users.Count; u++)
+                    for (var d = 0; d < task.DataFields.Count; d++)
                     {
-                        var userData = task.DataFields[d].ConflictingData[u];
-                        conflictinData[d][u] = new ConflictingDataDto
-                        {
-                            Data = userData.Data.Select(s => s.Value).ToArray(),
-                            UserId = userData.UserId
-                        };
-                    }
-                }
+                        //Create new conflicting data
+                        conflictingData[d] = new ConflictingDataDto[task.Users.Count];
 
-                ConflictingData = conflictinData;
+                        //Add each users data and id to the conflicting data
+                        for (var u = 0; u < task.DataFields[d].UserData.Count; u++)
+                        {
+                            var userData = task.DataFields[d].ConflictingData[u];
+                            conflictingData[d][u] = new ConflictingDataDto
+                            {
+                                Data = userData.Data.Select(s => s.Value).ToArray(),
+                                UserId = userData.UserId
+                            };
+                        }
+                    
+                }
+               
+
+                ConflictingData = conflictingData;
             }
         }
 

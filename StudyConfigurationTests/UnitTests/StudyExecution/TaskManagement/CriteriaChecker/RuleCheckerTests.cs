@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StudyConfigurationServer.Logic.StudyExecution.TaskManagement.CriteriaValidation;
+using StudyConfigurationServer.Logic.StudyExecution.TaskManagement.TaskValidation;
 using StudyConfigurationServer.Models;
 
 #endregion

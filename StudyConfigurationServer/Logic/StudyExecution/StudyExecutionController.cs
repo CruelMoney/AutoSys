@@ -116,8 +116,7 @@ namespace StudyConfigurationServer.Logic.StudyExecution
         }
 
         /// <summary>
-        /// Finish a conflict stage.
-        /// If any tasks left, remove the excluded items from the study
+        /// Finish a conflict stage. By validating the tasks and remove the excluded items from the study.
         /// Start a new review stage if the study is not finished
         /// </summary>
         /// <param name="study"></param>
@@ -145,7 +144,9 @@ namespace StudyConfigurationServer.Logic.StudyExecution
         }
 
         /// <summary>
-        /// Start a review stage
+        /// Start a review stage by generating review tasks.
+        /// The tasks that can be automatically filled out by the TaskManager will be validated by the TaskManager. 
+        /// Remove the excluded items from the study. If then no tasks are left, we finish the conflict phase to go directly to the next stage. 
         /// </summary>
         /// <param name="study">study to begin review stage on</param>
         /// <returns></returns>
@@ -183,7 +184,7 @@ namespace StudyConfigurationServer.Logic.StudyExecution
         }
 
         /// <summary>
-        /// Start a conflict stage
+        /// Start a conflict stage. Validation tasks based on the existing conflicting tasks.
         /// </summary>
         /// <param name="study">Study to start conflict stage on</param>
         /// <returns></returns>
@@ -207,7 +208,7 @@ namespace StudyConfigurationServer.Logic.StudyExecution
         }
         
         /// <summary>
-        /// Get tasks from a given study for a given user
+        /// Get tasks from a given study for a given user. 
         /// </summary>
         /// <param name="studyId">Id of the study to retrievetasks from</param>
         /// <param name="userId">Id of the user to retrieve tasks for</param>

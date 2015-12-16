@@ -64,15 +64,26 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
 
             foreach (var dataField in conflictingTask.DataFields)
             {
-                task.DataFields.Add(new DataField
+                var newDataField = new DataField
                 {
                     Description = dataField.Description,
                     FieldType = dataField.FieldType,
                     Name = dataField.Name,
                     UserData = new List<UserData>(),
-                    ConflictingData = dataField.UserData
-                });
+                    ConflictingData = new List<UserData>()
+                };
+                
+                foreach (var userData in dataField.UserData)
+                {
+                    newDataField.ConflictingData.Add(userData);
+                }
+
+                task.DataFields.Add(newDataField);
+
+                var datacount = dataField.UserData.ToArray();
             }
+
+            
 
             return task;
         }

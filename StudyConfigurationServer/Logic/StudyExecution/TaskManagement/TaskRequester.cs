@@ -12,6 +12,9 @@ using StudyConfigurationServer.Models.DTO;
 
 namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement
 {
+    /// <summary>
+    /// Strategy for getting tasks from the database based on filters and user.
+    /// </summary>
     public class TaskRequester
     {
         private readonly ITaskStorageManager _storageManager;

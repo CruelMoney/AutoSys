@@ -6,8 +6,14 @@ using StudyConfigurationServer.Models;
 
 #endregion
 
-namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.CriteriaValidation
+namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.TaskValidation
 {
+    /// <summary>
+    /// A CriteriaValidator for validating data based on a criteria.
+    /// The Class will choose a criteriaChecker based on the criterions fieldType.
+    /// This allows for different RuleCheckers for different fieldTypes. 
+    /// Example: a enummeration have a different criteriaChecker than a string, thus having different ruleChekcers for fieldTypes. 
+    /// </summary>
     public class CriteriaValidator : ICriteriaValidator
     {
         private readonly Dictionary<DataField.DataType, ICriteriaChecker> _checkers;
@@ -23,7 +29,7 @@ namespace StudyConfigurationServer.Logic.StudyExecution.TaskManagement.CriteriaV
         }
 
         /// <summary>
-        ///     Checks whether or not a given criteria is met.
+        ///     Choosing a criteriaChecker based on the criterions datatype. 
         /// </summary>
         /// <param name="criteria"></param>
         /// <param name="data"></param>
