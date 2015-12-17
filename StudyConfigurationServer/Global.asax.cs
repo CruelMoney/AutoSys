@@ -86,7 +86,7 @@ namespace StudyConfigurationServer
                 DataType = DataFieldDto.DataType.Boolean,
                 Rule = CriteriaDto.CriteriaRule.Equals,
                 DataMatch = new string[] { "true" },
-                Description = "Write true if the study is about snails, and false if it is not.",
+                Description = "Write true the study is about snails, and false if it is not.",
             };
 
             var stage1 = new StageDto()

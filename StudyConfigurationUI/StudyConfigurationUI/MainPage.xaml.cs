@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using StudyConfigurationUILibrary;
@@ -19,13 +20,15 @@ namespace StudyConfigurationUI
 
         private void OnOpenStudy(object sender, RoutedEventArgs e)
         {
-            var args = ManageStudyPageArgs.CreateForExistingTeam(1);
+            int teamsid = Int32.Parse(teamid.Text);
+            var args = ManageStudyPageArgs.CreateForExistingTeam(teamsid);
             this.Frame.Navigate(typeof(ManageStudyPage), args);
         }
 
         private void OnOpenStudyWithStudy(object sender, RoutedEventArgs e)
         {
-            var args = ManageStudyPageArgs.CreateForExistingStudy(1);
+            int studysid = Int32.Parse(studyid.Text);
+            var args = ManageStudyPageArgs.CreateForExistingStudy(studysid);
             this.Frame.Navigate(typeof(ManageStudyPage), args);
         }
 

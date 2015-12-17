@@ -9,8 +9,10 @@
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}">
         <StackPanel x:Name="contentPanel" Margin="8,32,0,0">
-            <Button Click="OnOpenStudy">Open Existing Study</Button>
-            <Button Click="OnOpenStudyWithStudy">LavetStudy</Button>
+            <Button Click="OnOpenStudy" Margin="20,20,0,0">Create Study For Team</Button>
+            <TextBox x:Name="teamid" Margin="20,0,1000,20"></TextBox>
+            <Button Click="OnOpenStudyWithStudy" Margin="20,20,0,0">Open existing study by iD</Button>
+            <TextBox x:Name="studyid"  Margin="20,0,1006,20"></TextBox>
 
         </StackPanel>
     </Grid>
